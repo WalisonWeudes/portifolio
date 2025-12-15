@@ -40,19 +40,21 @@
     <section class="sessao-universidade" aria-labelledby="uni-title">
       <div class="container-universidade" role="group" aria-label="Foto e texto sobre universidade">
         <div class="texto-universidade" role="article">
+          <img src="../public/imagens/ufpi_picos.jpg" alt="Foto da Universidade" />
+          <img src="../public/imagens/UFPI-Picos.jpg" alt="Foto da Universidade" style="margin-top: 40px;" />
           <h3 id="uni-title">Formação Universitária</h3>
-          <p>
-            Estudei na Universidade X, onde aprofundei conhecimentos em desenvolvimento
-            web, arquitetura de software e design centrado no usuário. Durante a graduação
-            participei de projetos práticos que integravam front‑end, back‑end e pesquisa
-            em usabilidade.
-          </p>
-          <p>
-            Essas experiências me deram base técnica e habilidades de trabalho em equipe,
-            que aplico hoje em projetos full‑stack e em soluções de UX/UI voltadas à
-            experiência real dos usuários.
-          </p>
-        </div>
+              <p>
+                Estudei na Universidade X, onde aprofundei conhecimentos em desenvolvimento
+                web, arquitetura de software e design centrado no usuário. Durante a graduação
+                participei de projetos práticos que integravam front‑end, back‑end e pesquisa
+                em usabilidade.
+              </p>
+              <p>
+                Essas experiências me deram base técnica e habilidades de trabalho em equipe,
+                que aplico hoje em projetos full‑stack e em soluções de UX/UI voltadas à
+                experiência real dos usuários.
+              </p>
+            </div>
       </div>
     </section>
   </div>

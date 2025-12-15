@@ -254,21 +254,39 @@ body {
 .container-universidade {
     max-width: 1200px;
     margin: 0 auto;
+    margin-top: -5rem;
+}
+.container-universidade img{
+    max-width: clamp(200px, 30vw, 420px);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    transform: translateZ(0);
+    will-change: transform;
+    pointer-events: none;
+    contain: paint;
+    backface-visibility: hidden;
 }
 
 .texto-universidade {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 1rem;
-    padding: 3rem;
-    backdrop-filter: blur(20px);
     max-width: 620px;
     margin: auto;
     margin-right: -1%;
     
 }
 
-.texto-universidade h3 {
+.texto-universidade h4 {
     font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--accent-1);
+    margin-bottom: 1.5rem;
+    font-weight: 1000;
+}
+
+.texto-universidade h3 {
+    font-size: clamp(4rem, 8vw, 5rem);
     color: var(--accent-1);
     margin-bottom: 1.5rem;
     font-weight: 800;
