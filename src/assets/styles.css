@@ -17,6 +17,9 @@
     /* Utilitários */
     --stroke-color: #4686ec;
     --text-dark: #222;
+
+    /* Safe area (mobile) */
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* ===== RESET E BASE ===== */
@@ -28,27 +31,26 @@
 
 html,
 body {
-    height: 100%;
     margin: 0;
     overflow-x: hidden;
     overflow-y: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: 'ChettaVissto', 'Poppins', system-ui, sans-serif;
-    font-weight: 700;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 /* ===== HERO SECTION ===== */
 .hero {
-    position: relative;
+    margin: 0;
     min-height: 100vh;
     background: var(--hero-gradient);
-    padding-bottom: 60px;
+    padding-bottom: 0px;
+    background-color: var(--color-background);
 }
 
 /* ===== CONTAINER DE ELEMENTOS ===== */
@@ -59,13 +61,12 @@ body {
     min-height: 100vh;
     margin: 0 auto;
     padding: 2rem;
-      background-image: linear-gradient(rgba(11, 11, 11, 0.45), rgba(11, 11, 11, 0.55)), 
+    background-image: linear-gradient(rgba(11, 11, 11, 0.45), rgba(11, 11, 11, 0.55)), 
                       url('../../public/imagens/walling-OvLXbURo9Wo-unsplash.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
     background-attachment: fixed;
-    
 }
 
 /* ===== LOGOS (TRANSPARENTE E NORMAL) ===== */
@@ -148,7 +149,6 @@ body {
     z-index: 3;
     margin: 0;
     max-width: 620px;
-   
 }
 
 /* ===== IMAGEM CENTRAL ===== */
@@ -209,6 +209,8 @@ body {
     background: #4686ec;
     overflow: hidden;
     z-index: 1000;
+    padding-bottom: var(--safe-bottom);
+    box-sizing: content-box;
 }
 
 .texto-carrocel {
@@ -245,56 +247,69 @@ body {
 
 /* ===== SEÇÃO UNIVERSIDADE ===== */
 .sessao-universidade {
-    position: relative;
-    padding: 5rem 2rem;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
+  position: relative;
+  padding: 5rem 2rem;
+  background: var(--color-background);
+  backdrop-filter: blur(10px);
 }
 
 .container-universidade {
     max-width: 1200px;
     margin: 0 auto;
-    margin-top: -5rem;
+
+  /* animação */
+  opacity: 0;
+  transform: translateY(40px);  
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
+
+.container-universidade.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .container-universidade img{
     max-width: clamp(200px, 30vw, 420px);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     position: absolute;
-    top: 20%;
-    left: 5%;
+    top: 10%;
+    left: 1%;
     transform: translateZ(0);
     will-change: transform;
     pointer-events: none;
     contain: paint;
     backface-visibility: hidden;
+        box-shadow: #4686ec 0px 0px 10px 0px;
+
 }
 
 .texto-universidade {
     max-width: 620px;
     margin: auto;
     margin-right: -1%;
-    
+    line-height: 1.25;
 }
 
 .texto-universidade h4 {
     font-size: clamp(2rem, 4vw, 3rem);
     color: var(--accent-1);
     margin-bottom: 1.5rem;
+     line-height: 1.25;
     font-weight: 1000;
 }
 
 .texto-universidade h3 {
     font-size: clamp(4rem, 8vw, 5rem);
     color: var(--accent-1);
+     line-height: 1.0;
     margin-bottom: 1.5rem;
     font-weight: 800;
 }
 
 .texto-universidade p {
     font-size: clamp(1rem, 2vw, 1.2rem);
-    line-height: 1.8;
+    line-height: 1.25;
     color: var(--color-muted);
     margin-bottom: 1.5rem;
     font-weight: 400;
@@ -304,12 +319,223 @@ body {
     margin-bottom: 0;
 }
 
+.sessao-habilidades {
+    position: relative;
+    padding: 5rem 2rem;
+    background: var(--color-background);
+    backdrop-filter: blur(10px);
+}
+.sessao-habilidades h3 {
+    font-size: clamp(4rem, 8vw, 5rem);
+    color: var(--accent-1);
+     line-height: 1.0;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+}
+
+.timeline {
+  list-style: none;
+  position: relative;
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 0;
+  
+
+  opacity: 0;
+  transform: translateY(40px);  
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.timeline.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* linha central */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 100%;
+  border-left: 2px dashed rgba(255,255,255,0.3);
+  transform: translateX(-50%);
+}
+
+.timeline li {
+  position: relative;
+  width: 45%;
+  padding: 1.5rem 2rem;
+  margin: 3rem 0;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  font-weight: 700;
+  color: var(--color-muted);
+      box-shadow: #4686ec 0px 0px 10px 0px;
+
+
+  opacity: 0;
+  transform: translateY(40px);  
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.timeline li.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* esquerda */
+.timeline li:nth-child(odd) {
+  left: 0;
+  text-align: right;
+}
+
+/* direita */
+.timeline li:nth-child(even) {
+  left: 55%;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  top: 43%;
+  width: 14px;
+  height: 14px;
+  background: #7df9ff;
+  border-radius: 50%;
+}
+
+/* conector */
+.timeline li::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  border-top: 2px dashed rgba(255,255,255,0.4);
+}
+
+/* esquerda */
+.timeline li:nth-child(odd)::before {
+  right: -7px;
+}
+.timeline li:nth-child(odd)::after {
+  right: -40px;
+}
+
+/* direita */
+.timeline li:nth-child(even)::before {
+  left: -7px;
+}
+.timeline li:nth-child(even)::after {
+  left: -40px;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.container-Atividades {
+    max-width: 1200px;
+    margin: 0 auto;
+
+  /* animação */
+  opacity: 0;
+  transform: translateY(40px);  
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.container-Atividades.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.container-Atividades h3 {
+  font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--accent-1);
+    margin-bottom: 1.5rem;
+     line-height: 1.25;
+    font-weight: 1000;
+}
+
+.container-Atividades li {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.25;
+    color: var(--color-muted);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+    padding: 1.5rem 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    list-style: none;
+    border-radius: 10px;
+    box-shadow: #4686ec 0px 0px 10px 0px;
+}
+
+.barra-final {
+    width: 100%;
+    height: 150px;
+    background: var(--color-hero-top);
+}
+
+.botao-flutuante {
+    position: fixed;
+    bottom: calc(20px + var(--safe-bottom));
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--accent-1);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 1001;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+}
+
+.gif {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    /* Troque para usar uma div com background (substitua <img class="gif"> por <div class="gif">) */
+    /* imagem estática por padrão (primeiro frame) */
+    background-image: url('../../public/imagens/gif-preview.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 60%;
+    height: 60%;
+    display: block;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    pointer-events: auto;
+    
+    }
+    /* fecha bloco .gif acima (o arquivo já tem a '}' depois do placeholder),
+        então abaixo definimos o estado hover que carregará o GIF animado */
+    /* OBS: mantenha estas linhas como bloco separado se necessário */
+    
+    .gif:hover {
+      background-image: url('../../public/imagens/seu-animado.gif');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    
+
 /* ===== RESPONSIVIDADE ===== */
 
 /* TABLET (até 1024px) */
 @media (max-width: 1024px) {
     .imagem-container {
         padding: 1.5rem;
+        background-attachment: scroll;
     }
     
     .titulo-superior,
@@ -333,7 +559,7 @@ body {
 /* MOBILE (até 768px) */
 @media (max-width: 768px) {
     .hero {
-        padding-bottom: 50px;
+        padding-bottom: 0px;
     }
     
     .imagem-container {
@@ -343,6 +569,8 @@ body {
         justify-content: center;
         text-align: center;
         padding: 2rem 1rem;
+        background-position: center top;
+        background-attachment: scroll; /* remove fixed for better mobile perf */
     }
     
     .titulo-superior {
@@ -351,6 +579,8 @@ body {
         top: auto;
         transform: none;
         margin-bottom: 1rem;
+        white-space: normal;
+        text-align: center;
     }
     
     .texton-logo-trans,
@@ -360,6 +590,7 @@ body {
         top: auto;
         transform: none;
         font-size: clamp(2.5rem, 12vw, 5rem);
+        white-space: normal;
     }
     
     .texton-logo-trans {
@@ -406,6 +637,29 @@ body {
     .texto-universidade {
         padding: 2rem 1.5rem;
     }
+
+    /* Timeline stacked for narrower screens */
+    .timeline {
+      padding-left: 0;
+    }
+    .timeline::before {
+      left: 20px;
+      transform: none;
+      border-left: 2px dashed rgba(255,255,255,0.15);
+    }
+    .timeline li {
+      width: calc(100% - 40px);
+      left: 20px;
+      margin: 1.25rem 0;
+      text-align: left;
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+    }
+    .timeline li::after { display: none; } /* hide connectors */
+    .timeline li::before {
+      left: -32px;
+      top: 18px;
+    }
 }
 
 /* MOBILE PEQUENO (até 480px) */
@@ -450,4 +704,35 @@ body {
     .texto-universidade {
         padding: 1.5rem 1rem;
     }
+
+    /* Place the universitdade image inline in mobile */
+    .container-universidade img{
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        margin: 0 auto 1.25rem;
+        max-width: 80%;
+        display: block;
+    }
+}
+
+/* EXTRA SMALL (até 360px) - ajustes finais */
+@media (max-width: 360px) {
+    .texton-logo-trans,
+    .texton-logo-normal {
+        font-size: clamp(1.6rem, 18vw, 3.25rem);
+    }
+
+    .titulo-inferior {
+        font-size: clamp(0.9rem, 4vw, 1.25rem);
+    }
+}
+
+/* Accessibility: allow reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .texto-carrocel, .luminoxidade, .imagem-container, .texto-universidade img, .container-universidade img {
+    animation: none !important;
+    transition: none !important;
+  }
 }
