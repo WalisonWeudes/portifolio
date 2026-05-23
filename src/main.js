@@ -5,65 +5,24 @@ import './assets/styles.css'
 createApp(App).mount('#app')
 
 nextTick(() => {
-    const sessoes = document.querySelectorAll('.container-universidade')
-    
+  const revealItems = document.querySelectorAll('.reveal')
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active')
-            }
-        })
-    }, { threshold: 0.5 })
+  if (!('IntersectionObserver' in window)) {
+    revealItems.forEach((item) => item.classList.add('is-visible'))
+    return
+  }
 
-    sessoes.forEach(sessao => observer.observe(sessao))
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { rootMargin: '0px 0px -12% 0px', threshold: 0.18 },
+  )
+
+  revealItems.forEach((item) => observer.observe(item))
 })
-
-
-nextTick(() => {
-    const sessoes = document.querySelectorAll('.timeline')
-    
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active')
-            }
-        })
-    }, { threshold: 0.1 })
-
-    sessoes.forEach(sessao => observer.observe(sessao))
-})
-
-
-nextTick(() => {
-    const sessoes = document.querySelectorAll('.timeline li')
-    
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active')
-            }
-        })
-    }, { threshold: 1.0 })
-
-    sessoes.forEach(sessao => observer.observe(sessao))
-})
-
-
-nextTick(() => {
-    const sessoes = document.querySelectorAll('.container-Atividades')
-    
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active')
-            }
-        })
-    }, { threshold: 0.5 })
-
-    sessoes.forEach(sessao => observer.observe(sessao))
-})
-
