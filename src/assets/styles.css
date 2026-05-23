@@ -114,6 +114,7 @@ a {
   min-height: 58px;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   padding: 8px 10px;
   border: 2px solid var(--line);
   border-radius: 999px;
@@ -125,10 +126,18 @@ a {
 
 .topbar__links {
   display: flex;
-  width: 100%;
-  flex-wrap: wrap;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
   justify-content: center;
   gap: 6px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+}
+
+.topbar__links::-webkit-scrollbar {
+  display: none;
 }
 
 .theme-toggle {
@@ -159,6 +168,7 @@ a {
 }
 
 .topbar__links a {
+  flex: 0 0 auto;
   padding: 10px 12px;
   border-radius: 999px;
   color: var(--muted);
@@ -1143,17 +1153,28 @@ a {
 @media (max-width: 700px) {
   .topbar {
     top: 10px;
-    width: calc(100% - 20px);
+    width: calc(100% - 18px);
+    min-height: 52px;
+    padding: 6px;
+    border-radius: 28px;
   }
 
   .topbar__links {
-    width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-left: 2px;
   }
 
   .topbar__links a {
-    padding: 8px 9px;
-    font-size: 0.82rem;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .theme-toggle {
+    flex-basis: 38px;
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
   }
 
   .hero__content {
@@ -1273,8 +1294,8 @@ a {
 
 @media (max-width: 420px) {
   .topbar__links a {
-    flex: 1 1 calc(50% - 6px);
-    text-align: center;
+    padding: 7px 9px;
+    font-size: 0.76rem;
   }
 
   .hero__content {
