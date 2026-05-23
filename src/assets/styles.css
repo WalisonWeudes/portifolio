@@ -1198,15 +1198,7 @@ a {
   }
 
   .hero__visual {
-    left: 50%;
-    bottom: calc(var(--marquee-height) - 2px);
-    width: min(330px, 82vw);
-    min-height: auto;
-    padding-bottom: 0;
-  }
-
-  .hero__visual img {
-    margin-bottom: 0;
+    display: none;
   }
 
   .hero__badge {
@@ -1300,11 +1292,7 @@ a {
 
   .hero__content {
     padding-top: 214px;
-    padding-bottom: 245px;
-  }
-
-  .hero__visual {
-    width: min(280px, 82vw);
+    padding-bottom: 120px;
   }
 
   .hero__description,
