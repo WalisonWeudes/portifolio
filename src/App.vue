@@ -1,14 +1,14 @@
 <template>
   <main class="site-shell" :data-theme="theme">
-    <nav class="topbar" aria-label="Navegacao principal">
+    <nav class="topbar" aria-label="Navegação principal">
       <div class="topbar__links">
-        <a href="#inicio">Inicio</a>
-        <a href="#formacao">Formacao</a>
+        <a href="#inicio">Início</a>
+        <a href="#formacao">Formação</a>
         <a href="#habilidades">Skills</a>
         <a href="#projetos">Projetos</a>
         <a href="#figma">UI/UX</a>
-        <a href="#ilustracoes">Ilustracoes</a>
-        <a href="#atividades">Experiencias</a>
+        <a href="#ilustracoes">Ilustrações</a>
+        <a href="#atividades">Experiências</a>
         <a href="#contato">Contato</a>
       </div>
       <button
@@ -28,18 +28,18 @@
       <div id="inicio" class="hero__content">
         <div class="hero__text">
           <p class="eyebrow">Meu</p>
-          <h1 id="hero-title" class="hero__title" data-text="Portfolio">Portfolio</h1>
+          <h1 id="hero-title" class="hero__title" data-text="Portfólio">Portfólio</h1>
           <p class="hero__role">Full Stack Developer e UX/UI Designer</p>
           <p class="hero__description">
-            Ola! Eu sou Walison Weudes. Atuo em desenvolvimento Full Stack, UI/UX Design e design
-            grafico, criando aplicacoes web e mobile, APIs, interfaces, prototipos e solucoes digitais
-            com foco em clareza, performance e experiencia do usuario.
+            Olá! Eu sou Walison Weudes. Atuo em desenvolvimento Full Stack, UI/UX Design e design
+            gráfico, criando aplicações web e mobile, APIs, interfaces, protótipos e soluções digitais
+            com foco em clareza, performance e experiência do usuário.
           </p>
 
-          <div class="hero__actions" aria-label="Acoes principais">
+          <div class="hero__actions" aria-label="Ações principais">
             <a class="button button--primary" href="#habilidades">
               <span aria-hidden="true">#</span>
-              Ver competencias
+              Ver competências
             </a>
             <a class="button button--ghost" href="#contato">
               <span aria-hidden="true">@</span>
@@ -48,9 +48,9 @@
           </div>
         </div>
 
-        <div class="hero__visual" aria-label="Identidade visual do portfolio">
+        <div class="hero__visual" aria-label="Identidade visual do portfólio">
           <div class="glow"></div>
-          <img src="/imagens/teste.png" alt="Logotipo do portfolio" />
+          <img src="/imagens/teste.png" alt="Logotipo do portfólio" />
           <div class="hero__badge">
             <strong>Full Stack</strong>
             <span>Web, mobile, APIs e interfaces</span>
@@ -63,12 +63,12 @@
           <span>Projetos modernos</span>
           <span>Interfaces responsivas</span>
           <span>APIs REST</span>
-          <span>Codigo limpo</span>
+          <span>Código limpo</span>
           <span>Deploy em VPS</span>
           <span>Projetos modernos</span>
           <span>Interfaces responsivas</span>
           <span>APIs REST</span>
-          <span>Codigo limpo</span>
+          <span>Código limpo</span>
           <span>Deploy em VPS</span>
         </div>
       </div>
@@ -76,22 +76,22 @@
 
     <section id="formacao" class="section section--split reveal" aria-labelledby="formacao-title">
       <div class="section__media">
-        <img src="/imagens/ufpi_picos.jpg" alt="Campus da Universidade Federal do Piaui em Picos" />
+        <img src="/imagens/ufpi_picos.jpg" alt="Campus da Universidade Federal do Piauí em Picos" />
         <img src="/imagens/UFPI-Picos.jpg" alt="Vista externa da UFPI Picos" />
       </div>
 
       <div class="section__content">
-        <p class="section__kicker">Formacao</p>
-        <h2 id="formacao-title">Formacao em andamento com pratica real.</h2>
+        <p class="section__kicker">Formação</p>
+        <h2 id="formacao-title">Formação em andamento com prática real.</h2>
         <p>
-          Atualmente curso Bacharelado em Sistemas de Informacao na Universidade Federal do Piaui
-          (UFPI), no Campus Senador Helvidio Nunes de Barros, em Picos. Ao longo da graduacao, venho
-          desenvolvendo uma base tecnica em desenvolvimento web, arquitetura de software, bancos de
-          dados e design centrado no usuario.
+          Atualmente curso Bacharelado em Sistemas de Informação na Universidade Federal do Piauí
+          (UFPI), no Campus Senador Helvídio Nunes de Barros, em Picos. Ao longo da graduação, venho
+          desenvolvendo uma base técnica em desenvolvimento web, arquitetura de software, bancos de
+          dados e design centrado no usuário.
         </p>
         <p>
-          A participacao em projetos academicos e praticos tem fortalecido minha atuacao em front-end,
-          back-end, pesquisa de usabilidade, comunicacao e resolucao de problemas reais.
+          A participação em projetos acadêmicos e práticos tem fortalecido minha atuação em front-end,
+          back-end, pesquisa de usabilidade, comunicação e resolução de problemas reais.
         </p>
       </div>
     </section>
@@ -99,7 +99,7 @@
     <section id="habilidades" class="section reveal" aria-labelledby="skills-title">
       <div class="section__header">
         <p class="section__kicker">Stack</p>
-        <h2 id="skills-title">Competencias e tecnologias</h2>
+        <h2 id="skills-title">Competências e tecnologias</h2>
       </div>
 
       <ul class="skills-grid">
@@ -116,7 +116,7 @@
     <section id="projetos" class="section reveal" aria-labelledby="projects-title">
       <div class="section__header">
         <p class="section__kicker">Projetos</p>
-        <h2 id="projects-title">Solucoes academicas e sistemas reais</h2>
+        <h2 id="projects-title">Soluções acadêmicas e sistemas reais</h2>
       </div>
 
       <div class="projects-grid">
@@ -134,7 +134,7 @@
     <section id="figma" class="section reveal" aria-labelledby="figma-title">
       <div class="section__header">
         <p class="section__kicker">Figma</p>
-        <h2 id="figma-title">Projetos de interface com arquivos editaveis</h2>
+        <h2 id="figma-title">Projetos de interface com arquivos editáveis</h2>
       </div>
 
       <div class="figma-grid">
@@ -180,7 +180,7 @@
     <section id="ilustracoes" class="section reveal" aria-labelledby="illustrations-title">
       <div class="section__header">
         <p class="section__kicker">Desenhos</p>
-        <h2 id="illustrations-title">Ilustracoes e estudos visuais</h2>
+        <h2 id="illustrations-title">Ilustrações e estudos visuais</h2>
       </div>
 
       <div class="illustration-grid">
@@ -190,7 +190,7 @@
           class="illustration-card"
           role="button"
           tabindex="0"
-          :aria-label="`Abrir ilustracao ${illustration.title}`"
+          :aria-label="`Abrir ilustração ${illustration.title}`"
           @click="selectedIllustration = illustration"
           @keydown.enter="selectedIllustration = illustration"
           @keydown.space.prevent="selectedIllustration = illustration"
@@ -209,7 +209,7 @@
       class="lightbox"
       role="dialog"
       aria-modal="true"
-      :aria-label="`Ilustracao ${selectedIllustration.title}`"
+      :aria-label="`Ilustração ${selectedIllustration.title}`"
       @click.self="selectedIllustration = null"
     >
       <button class="lightbox__close" type="button" aria-label="Fechar imagem" @click="selectedIllustration = null">
@@ -221,8 +221,8 @@
 
     <section id="atividades" class="section reveal" aria-labelledby="activities-title">
       <div class="section__header">
-        <p class="section__kicker">Experiencias</p>
-        <h2 id="activities-title">Experiencia pratica</h2>
+        <p class="section__kicker">Experiências</p>
+        <h2 id="activities-title">Experiência prática</h2>
       </div>
 
       <ol class="activity-list">
@@ -239,13 +239,13 @@
     <section id="contato" class="contact reveal" aria-labelledby="contact-title">
       <div>
         <p class="section__kicker">Contato</p>
-        <h2 id="contact-title">Vamos construir algo com boa experiencia e bom codigo.</h2>
+        <h2 id="contact-title">Vamos construir algo com boa experiência e bom código.</h2>
         <div class="contact__items">
-          <a href="mailto:weudesw0@gmaul.com">weudesw0@gmaul.com</a>
+          <a href="mailto:weudesw0@gmail.com">weudesw0@gmail.com</a>
           <a href="tel:+5589994684730">+55 89 99468-4730</a>
         </div>
       </div>
-      <a class="button button--primary" href="mailto:weudesw0@gmaul.com">
+      <a class="button button--primary" href="mailto:weudesw0@gmail.com">
         <span aria-hidden="true">@</span>
         Enviar mensagem
       </a>
@@ -346,81 +346,81 @@ const skills = [
   {
     icon: '{}',
     title: 'Back-end',
-    items: 'Node.js, FastAPI, APIs REST, integracoes e regras de negocio',
+    items: 'Node.js, FastAPI, APIs REST, integrações e regras de negócio',
   },
   {
     icon: 'SQL',
     title: 'Banco de dados',
-    items: 'PostgreSQL, modelagem de banco de dados e integracao com APIs',
+    items: 'PostgreSQL, modelagem de banco de dados e integração com APIs',
   },
   {
     icon: 'Mob',
     title: 'Mobile',
-    items: 'Flutter, aplicacoes mobile e comunicacao com servicos externos',
+    items: 'Flutter, aplicações mobile e comunicação com serviços externos',
   },
   {
     icon: 'UI',
     title: 'UX/UI Design',
-    items: 'Figma, prototipagem, organizacao visual de telas e fluxos de navegacao',
+    items: 'Figma, prototipagem, organização visual de telas e fluxos de navegação',
   },
   {
     icon: 'Ops',
     title: 'Ferramentas e deploy',
-    items: 'Git, GitHub, Docker, Firebase, VS Code, documentacao tecnica e deploy em VPS',
+    items: 'Git, GitHub, Docker, Firebase, VS Code, documentação técnica e deploy em VPS',
   },
 ]
 
 const projects = [
   {
     status: 'TCC em desenvolvimento',
-    title: 'Sistema de Deteccao de Dislexia',
+    title: 'Sistema de Detecção de Dislexia',
     description:
-      'Projeto academico voltado a analise de atividades e escrita manuscrita para identificar possiveis indicios de dislexia.',
+      'Projeto acadêmico voltado à análise de atividades e escrita manuscrita para identificar possíveis indícios de dislexia.',
     tags: ['OCR', 'Processamento de texto', 'Modelos preditivos'],
   },
   {
     status: 'UFPI',
     title: 'PREMAUT',
     description:
-      'Sistema com atuacao em frontend, backend, arquitetura, interfaces web, fluxos de navegacao e melhoria da experiencia do usuario.',
+      'Sistema com atuação em frontend, backend, arquitetura, interfaces web, fluxos de navegação e melhoria da experiência do usuário.',
     tags: ['Full Stack', 'UI/UX', 'Arquitetura'],
   },
   {
     status: 'UFPI',
     title: 'TB-Koch',
     description:
-      'Aplicacao web e mobile com APIs, integracoes externas, configuracao de VPS, dominio, deploy e comunicacao entre aplicacao e API.',
+      'Aplicação web e mobile com APIs, integrações externas, configuração de VPS, domínio, deploy e comunicação entre aplicação e API.',
     tags: ['Web', 'Mobile', 'APIs REST', 'VPS'],
   },
 ]
 
 const figmaProjects = [
   {
-    type: 'Identidade e servico',
+    type: 'Identidade e serviço',
     title: 'Barbearia',
     description:
-      'Interface para negocio local com foco em apresentacao de servicos, agendamento e comunicacao direta com o cliente.',
+      'Interface para negócio local com foco em apresentação de serviços, agendamento e comunicação direta com o cliente.',
     file: '/arquivos/barbearia.fig',
   },
   {
     type: 'Dashboard',
     title: 'Financeiro',
     description:
-      'Projeto de interface para organizacao financeira, leitura rapida de indicadores, registros e acompanhamento de movimentacoes.',
+      'Projeto de interface para organização financeira, leitura rápida de indicadores, registros e acompanhamento de movimentações.',
     file: '/arquivos/Finaceiro.fig',
   },
   {
-    type: 'Educacao e evento',
+    type: 'Educação e evento',
     title: 'Mini Cursos Geek',
     description:
-      'Experiencia visual para divulgacao de minicursos, com linguagem jovem, hierarquia clara e foco em inscricao.',
+      'Experiência visual para divulgação de minicursos, com linguagem jovem, hierarquia clara e foco em inscrição.',
     file: '/arquivos/mini%20cursos%20geek.fig',
   },
   {
-    type: 'Sistema academico',
+    type: 'Sistema acadêmico',
     title: 'PREMAUT',
     description:
-      'Prototipo de sistema com telas organizadas para fluxos de navegacao, uso academico e operacao de dados.',
+      'Protótipo de sistema com telas organizadas para fluxos de navegação, uso acadêmico e operação de dados.',
     file: '/arquivos/PREMAUT.fig',
   },
 ]
@@ -430,25 +430,25 @@ const illustrations = [
     title: 'Carmilla',
     type: 'Personagem',
     image: '/desenhos/carmilla.png',
-    alt: 'Ilustracao Carmilla',
+    alt: 'Ilustração Carmilla',
   },
   {
     title: 'Doroki',
     type: 'Personagem',
     image: '/desenhos/doroki.png',
-    alt: 'Ilustracao Doroki',
+    alt: 'Ilustração Doroki',
   },
   {
     title: 'Juarezd',
     type: 'Estudo visual',
     image: '/desenhos/juarezd.png',
-    alt: 'Ilustracao Juarezd',
+    alt: 'Ilustração Juarezd',
   },
   {
     title: 'O arreio de ouro',
-    type: 'Composicao',
+    type: 'Composição',
     image: '/desenhos/O%20arreio%20de%20ouro.png',
-    alt: 'Ilustracao O arreio de ouro',
+    alt: 'Ilustração O arreio de ouro',
   },
   {
     title: 'Personagens',
@@ -460,7 +460,7 @@ const illustrations = [
     title: 'Soul',
     type: 'Arte digital',
     image: '/desenhos/soul.png',
-    alt: 'Ilustracao Soul',
+    alt: 'Ilustração Soul',
   },
 ]
 
@@ -468,32 +468,32 @@ const activities = [
   {
     title: 'Projeto PREMAUT - UFPI',
     description:
-      'Desde marco de 2026, atuo como Desenvolvedor Full Stack e UI/UX Designer, participando da arquitetura, implementacao de funcionalidades e organizacao visual das telas.',
+      'Desde março de 2026, atuo como Desenvolvedor Full Stack e UI/UX Designer, participando da arquitetura, implementação de funcionalidades e organização visual das telas.',
   },
   {
     title: 'Projeto TB-Koch - UFPI',
     description:
-      'Desde outubro de 2025, contribuo com desenvolvimento e manutencao do sistema, incluindo frontend, backend, mobile, APIs, deploy, dominio e ambiente em VPS.',
+      'Desde outubro de 2025, contribuo com desenvolvimento e manutenção do sistema, incluindo frontend, backend, mobile, APIs, deploy, domínio e ambiente em VPS.',
   },
   {
     title: 'UI/UX Designer',
     description:
-      'Criacao de telas web e mobile, organizacao visual de componentes, identidade visual e definicao de fluxos de navegacao.',
+      'Criação de telas web e mobile, organização visual de componentes, identidade visual e definição de fluxos de navegação.',
   },
   {
     title: 'JUÁ - Designer',
     description:
-      'Desde outubro de 2025, atuo na empresa junior JUA com pecas visuais, ilustracoes, estampas, materiais para redes sociais e projetos UI/UX.',
+      'Desde outubro de 2025, atuo na empresa júnior JUÁ com peças visuais, ilustrações, estampas, materiais para redes sociais e projetos UI/UX.',
   },
   {
     title: 'Monitoria e minicursos',
     description:
-      'Apoio a alunos em programacao web e minicursos sobre desenvolvimento web, UI/UX e boas praticas de programacao.',
+      'Apoio alunos em programação web e minicursos sobre desenvolvimento web, UI/UX e boas práticas de programação.',
   },
   {
-    title: 'Iniciacao tecnologica',
+    title: 'Iniciação tecnológica',
     description:
-      'Atuacao em projetos de tecnologia com desenvolvimento pratico, integracoes, organizacao de codigo e solucoes de TI.',
+      'Atuação em projetos de tecnologia com desenvolvimento prático, integrações, organização de código e soluções de TI.',
   },
 ]
 </script>
