@@ -1,5 +1,14 @@
 <template>
   <main class="site-shell" :data-theme="theme">
+    <ClickSpark
+      spark-color="#123cff"
+      :spark-size="12"
+      :spark-radius="22"
+      :spark-count="8"
+      :duration="420"
+      easing="ease-out"
+      :extra-scale="1.15"
+    >
     <nav class="topbar" aria-label="Navegação principal">
       <div class="topbar__links">
         <a href="#inicio">Início</a>
@@ -275,11 +284,13 @@
         <img src="/imagens/icons8-link.gif" alt="" />
       </button>
     </div>
+    </ClickSpark>
   </main>
 </template>
 
 <script setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue'
+import ClickSpark from './components/ClickSpark.vue'
 
 const theme = ref('light')
 const socialOpen = ref(false)
