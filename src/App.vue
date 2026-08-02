@@ -10,6 +10,9 @@
       :extra-scale="1.15"
     >
     <nav class="topbar" aria-label="Navegação principal">
+      <a class="topbar__logo" href="#inicio" aria-label="Ir para o início">
+        <img src="/imagens/foto%20page.png" alt="" />
+      </a>
       <div class="topbar__links">
         <a href="#inicio">Início</a>
         <a href="#formacao">Formação</a>
@@ -37,8 +40,12 @@
       <div id="inicio" class="hero__content">
         <div class="hero__text">
           <p class="eyebrow">Meu</p>
-          <h1 id="hero-title" class="hero__title" data-text="Portfólio">Portfólio</h1>
-          <p class="hero__role">Full Stack Developer e UX/UI Designer</p>
+          <h1 id="hero-title" class="hero__title">
+            <img
+              :src="theme === 'dark' ? '/imagens/Portfólio branco.svg' : '/imagens/Portfólio.svg'"
+              alt="Portfólio"
+            />
+          </h1>
           <p class="hero__description">
             Olá! Eu sou Walison Weudes. Atuo em desenvolvimento Full Stack, UI/UX Design e design
             gráfico, criando aplicações web e mobile, APIs, interfaces, protótipos e soluções digitais
@@ -58,7 +65,6 @@
         </div>
 
         <div class="hero__visual" aria-label="Identidade visual do portfólio">
-          <div class="glow"></div>
           <img src="/imagens/teste.png" alt="Logotipo do portfólio" />
           <div class="hero__badge">
             <strong>Full Stack</strong>
@@ -67,20 +73,7 @@
         </div>
       </div>
 
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee__track">
-          <span>Projetos modernos</span>
-          <span>Interfaces responsivas</span>
-          <span>APIs REST</span>
-          <span>Código limpo</span>
-          <span>Deploy em VPS</span>
-          <span>Projetos modernos</span>
-          <span>Interfaces responsivas</span>
-          <span>APIs REST</span>
-          <span>Código limpo</span>
-          <span>Deploy em VPS</span>
-        </div>
-      </div>
+      <div class="marquee" aria-hidden="true"></div>
     </section>
 
     <section id="formacao" class="section section--split reveal" aria-labelledby="formacao-title">
@@ -246,44 +239,33 @@
     </section>
 
     <section id="contato" class="contact reveal" aria-labelledby="contact-title">
-      <div>
+      <div class="contact__intro">
         <p class="section__kicker">Contato</p>
         <h2 id="contact-title">Vamos construir algo com boa experiência e bom código.</h2>
         <div class="contact__items">
           <a href="mailto:weudesw0@gmail.com">weudesw0@gmail.com</a>
-          <a href="tel:+5589994684730">+55 89 99468-4730</a>
+          <a v-for="social in socials" :key="social.label" :href="social.href" target="_blank" rel="noreferrer">
+            {{ social.name }}
+          </a>
         </div>
       </div>
-      <a class="button button--primary" href="mailto:weudesw0@gmail.com">
-        <span aria-hidden="true">@</span>
-        Enviar mensagem
-      </a>
+      <form class="contact__form" @submit.prevent="sendEmail">
+        <label for="contact-email">Seu e-mail</label>
+        <input id="contact-email" v-model.trim="contactForm.email" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required />
+
+        <label for="contact-subject">Assunto</label>
+        <input id="contact-subject" v-model.trim="contactForm.subject" name="subject" type="text" placeholder="Sobre o que deseja conversar?" required />
+
+        <label for="contact-message">Descrição</label>
+        <textarea id="contact-message" v-model.trim="contactForm.message" name="message" rows="5" placeholder="Conte um pouco mais sobre o assunto..." required></textarea>
+
+        <button class="button button--primary" type="submit">
+          <span aria-hidden="true">@</span>
+          Enviar mensagem
+        </button>
+      </form>
     </section>
 
-    <div class="floating-social" :class="{ 'is-open': socialOpen }">
-      <a
-        v-for="social in socials"
-        :key="social.label"
-        class="floating-social__item"
-        :class="`floating-social__item--${social.key}`"
-        :href="social.href"
-        :aria-label="social.label"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <span aria-hidden="true">{{ social.icon }}</span>
-      </a>
-
-      <button
-        class="floating-link"
-        type="button"
-        :aria-expanded="socialOpen"
-        aria-label="Abrir links sociais"
-        @click="socialOpen = !socialOpen"
-      >
-        <img src="/imagens/icons8-link.gif" alt="" />
-      </button>
-    </div>
     </ClickSpark>
   </main>
 </template>
@@ -293,28 +275,38 @@ import { onMounted, onUnmounted, ref, watch } from 'vue'
 import ClickSpark from './components/ClickSpark.vue'
 
 const theme = ref('light')
-const socialOpen = ref(false)
 const selectedIllustration = ref(null)
+const contactForm = ref({ email: '', subject: '', message: '' })
 
 const toggleTheme = () => {
   theme.value = theme.value === 'dark' ? 'light' : 'dark'
 }
 
+const sendEmail = () => {
+  const body = `E-mail para retorno: ${contactForm.value.email}\n\n${contactForm.value.message}`
+  const subject = encodeURIComponent(contactForm.value.subject)
+
+  window.location.href = `mailto:weudesw0@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`
+}
+
 const socials = [
   {
     key: 'github',
+    name: 'GitHub',
     label: 'Abrir GitHub',
     icon: 'GH',
     href: 'https://github.com/WalisonWeudes',
   },
   {
     key: 'instagram',
+    name: 'Instagram',
     label: 'Abrir Instagram',
     icon: 'IG',
     href: 'https://www.instagram.com/walison_w0?igsh=a2c1cmpydnBpbG42',
   },
   {
     key: 'linkedin',
+    name: 'LinkedIn',
     label: 'Abrir LinkedIn',
     icon: 'in',
     href: 'https://www.linkedin.com/in/walisonweudes',
