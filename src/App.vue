@@ -36,7 +36,7 @@
           <p class="eyebrow">Meu</p>
           <h1 id="hero-title" class="hero__title">
             <img
-              src="/imagens/Portfólio branco.svg"
+              src="/imagens/Portifólio branco.svg"
               alt="Portfólio"
               fetchpriority="high"
             />
