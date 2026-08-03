@@ -1902,6 +1902,22 @@ body {
   }
 }
 
+@supports (content-visibility: auto) {
+  .section,
+  .contact {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 720px;
+  }
+}
+
+.skill-card,
+.project-card,
+.figma-card,
+.illustration-card,
+.activity-list li {
+  contain: layout paint;
+}
+
 /* Let the reusable Miles texture remain visible behind the page content. */
 .site-shell,
 .site-shell[data-theme='dark'] {

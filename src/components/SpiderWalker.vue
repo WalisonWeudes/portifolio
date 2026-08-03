@@ -1,7 +1,7 @@
 <template>
   <div class="spider-layer" aria-hidden="true">
     <canvas ref="canvasRef" class="spider-webs"></canvas>
-    <img ref="spiderRef" class="spider" :src="currentSpiderFrame" alt="" />
+    <img ref="spiderRef" class="spider" src="/imagens/aranha-frames/frame-00.png" alt="" />
   </div>
 </template>
 
@@ -14,7 +14,6 @@ const spiderFrames = Array.from(
   { length: 60 },
   (_, index) => `/imagens/aranha-frames/frame-${String(index).padStart(2, '0')}.png`,
 )
-const currentSpiderFrame = ref(spiderFrames[0])
 
 const completedWebs = []
 let animationFrame
@@ -28,6 +27,12 @@ let journeyStartedAt = 0
 let pauseUntil = 0
 let reducedMotionQuery
 let boundaryObserver
+let visibilityObserver
+let lastRenderAt = 0
+let currentFrameIndex = 0
+let isIntersecting = true
+let isDocumentVisible = true
+let suspendedAt = 0
 
 const journeyDuration = 14000
 const edgePadding = 18
@@ -147,6 +152,11 @@ const drawFinishedWeb = (web, now) => {
 
 const animate = (timestamp) => {
   if (!context || reducedMotionQuery?.matches) return
+  if (timestamp - lastRenderAt < 32) {
+    animationFrame = requestAnimationFrame(animate)
+    return
+  }
+  lastRenderAt = timestamp
   if (!startPoint) beginJourney(null, timestamp)
 
   context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0)
@@ -157,7 +167,11 @@ const animate = (timestamp) => {
   }
 
   if (timestamp >= pauseUntil) {
-    currentSpiderFrame.value = spiderFrames[Math.floor((timestamp - pauseUntil) / 140) % spiderFrames.length]
+    const nextFrameIndex = Math.floor((timestamp - pauseUntil) / 140) % spiderFrames.length
+    if (nextFrameIndex !== currentFrameIndex) {
+      currentFrameIndex = nextFrameIndex
+      spiderRef.value.src = spiderFrames[currentFrameIndex]
+    }
     const elapsed = timestamp - journeyStartedAt
     const progress = Math.min(1, elapsed / journeyDuration)
     const eased = progress < 0.5
@@ -185,6 +199,32 @@ const animate = (timestamp) => {
   animationFrame = requestAnimationFrame(animate)
 }
 
+const updateAnimationState = () => {
+  const shouldAnimate = isIntersecting && isDocumentVisible && !reducedMotionQuery?.matches
+
+  if (!shouldAnimate) {
+    if (!suspendedAt) suspendedAt = performance.now()
+    cancelAnimationFrame(animationFrame)
+    animationFrame = null
+    return
+  }
+
+  if (suspendedAt) {
+    const pausedFor = performance.now() - suspendedAt
+    journeyStartedAt += pausedFor
+    pauseUntil += pausedFor
+    completedWebs.forEach((web) => { web.finishedAt += pausedFor })
+    suspendedAt = 0
+  }
+
+  if (!animationFrame) animationFrame = requestAnimationFrame(animate)
+}
+
+const handleVisibilityChange = () => {
+  isDocumentVisible = !document.hidden
+  updateAnimationState()
+}
+
 onMounted(() => {
   reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
   spiderFrames.forEach((source) => {
@@ -198,13 +238,25 @@ onMounted(() => {
   })
   if (canvasRef.value?.parentElement) boundaryObserver.observe(canvasRef.value.parentElement)
 
-  if (!reducedMotionQuery.matches) animationFrame = requestAnimationFrame(animate)
+  visibilityObserver = new IntersectionObserver(
+    ([entry]) => {
+      isIntersecting = entry.isIntersecting
+      updateAnimationState()
+    },
+    { threshold: 0.01 },
+  )
+  if (canvasRef.value?.parentElement) visibilityObserver.observe(canvasRef.value.parentElement)
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+
+  updateAnimationState()
 })
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(animationFrame)
   clearTimeout(resizeTimer)
   boundaryObserver?.disconnect()
+  visibilityObserver?.disconnect()
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
 })
 </script>
 

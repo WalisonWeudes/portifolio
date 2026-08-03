@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import './ClickSpark.css'
 
 const props = defineProps({
@@ -41,9 +41,7 @@ const props = defineProps({
 })
 
 const canvasRef = ref(null)
-const sparks = ref([])
-let resizeObserver
-let resizeTimeout
+let sparks = []
 let animationId
 
 const easeFunc = computed(() => {
@@ -61,10 +59,10 @@ const easeFunc = computed(() => {
 
 const resizeCanvas = () => {
   const canvas = canvasRef.value
-  const parent = canvas?.parentElement
-  if (!canvas || !parent) return
+  if (!canvas) return
 
-  const { width, height } = parent.getBoundingClientRect()
+  const width = window.innerWidth
+  const height = window.innerHeight
   const ratio = window.devicePixelRatio || 1
   const canvasWidth = Math.round(width * ratio)
   const canvasHeight = Math.round(height * ratio)
@@ -87,7 +85,7 @@ const draw = (timestamp) => {
   ctx.save()
   ctx.scale(ratio, ratio)
 
-  sparks.value = sparks.value.filter((spark) => {
+  sparks = sparks.filter((spark) => {
     const elapsed = timestamp - spark.startTime
     if (elapsed >= props.duration) {
       return false
@@ -114,7 +112,11 @@ const draw = (timestamp) => {
   })
 
   ctx.restore()
-  animationId = requestAnimationFrame(draw)
+  if (sparks.length) {
+    animationId = requestAnimationFrame(draw)
+  } else {
+    animationId = null
+  }
 }
 
 const handleClick = (event) => {
@@ -133,32 +135,19 @@ const handleClick = (event) => {
     startTime: now,
   }))
 
-  sparks.value.push(...newSparks)
+  sparks.push(...newSparks)
+  if (!animationId) animationId = requestAnimationFrame(draw)
 }
 
 onMounted(() => {
   const canvas = canvasRef.value
-  const parent = canvas?.parentElement
-  if (!canvas || !parent) return
-
-  resizeObserver = new ResizeObserver(() => {
-    clearTimeout(resizeTimeout)
-    resizeTimeout = window.setTimeout(resizeCanvas, 100)
-  })
-
-  resizeObserver.observe(parent)
+  if (!canvas) return
   resizeCanvas()
-  animationId = requestAnimationFrame(draw)
+  window.addEventListener('resize', resizeCanvas, { passive: true })
 })
 
 onBeforeUnmount(() => {
-  resizeObserver?.disconnect()
-  clearTimeout(resizeTimeout)
+  window.removeEventListener('resize', resizeCanvas)
   cancelAnimationFrame(animationId)
 })
-
-watch(
-  () => [props.sparkSize, props.sparkRadius, props.sparkCount, props.duration, props.extraScale],
-  () => resizeCanvas(),
-)
 </script>

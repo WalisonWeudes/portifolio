@@ -110,7 +110,7 @@ defineProps({
 
 .texture-details {
   position: absolute;
-  inset: 0;
+  inset: -60px;
   z-index: -1;
   pointer-events: none;
   background-image:
@@ -126,6 +126,7 @@ defineProps({
   mix-blend-mode: screen;
   opacity: 0.26;
   filter: blur(1.2px);
+  will-change: transform, opacity;
 }
 
 .texture-content {
@@ -146,11 +147,11 @@ defineProps({
 
 @keyframes moveTexture {
   from {
-    background-position: 0 0, 0 0, 0 0;
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    background-position: 35px 21px, 48px 24px, 0 0;
+    transform: translate3d(35px, 21px, 0);
   }
 }
 
@@ -165,6 +166,12 @@ defineProps({
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .is-animated .texture-details {
+    animation: none;
+  }
+}
+
+@media (max-width: 940px) {
   .is-animated .texture-details {
     animation: none;
   }

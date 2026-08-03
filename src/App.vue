@@ -12,7 +12,7 @@
     >
     <nav class="topbar" aria-label="Navegação principal">
       <a class="topbar__logo" href="#inicio" aria-label="Ir para o início">
-        <img src="/imagens/foto%20page.png" alt="" />
+        <img src="/imagens/foto%20page.png" alt="" decoding="async" />
       </a>
       <div class="topbar__links">
         <a href="#inicio">Início</a>
@@ -38,6 +38,7 @@
             <img
               src="/imagens/Portfólio branco.svg"
               alt="Portfólio"
+              fetchpriority="high"
             />
           </h1>
           <p class="hero__description">
@@ -59,7 +60,7 @@
         </div>
 
         <div class="hero__visual" aria-label="Identidade visual do portfólio">
-          <img src="/imagens/foro%20porti.png" alt="Logotipo do portfólio" />
+          <img src="/imagens/foro%20porti.png" alt="Logotipo do portfólio" fetchpriority="high" decoding="async" />
           <div class="hero__badge">
             <strong>Full Stack</strong>
             <span>Web, mobile, APIs e interfaces</span>
@@ -72,8 +73,8 @@
 
     <section id="formacao" class="section section--split reveal" aria-labelledby="formacao-title">
       <div class="section__media">
-        <img src="/imagens/ufpi_picos.jpg" alt="Campus da Universidade Federal do Piauí em Picos" />
-        <img src="/imagens/UFPI-Picos.jpg" alt="Vista externa da UFPI Picos" />
+        <img src="/imagens/ufpi_picos.jpg" alt="Campus da Universidade Federal do Piauí em Picos" loading="lazy" decoding="async" />
+        <img src="/imagens/UFPI-Picos.jpg" alt="Vista externa da UFPI Picos" loading="lazy" decoding="async" />
       </div>
 
       <div class="section__content">
@@ -191,7 +192,7 @@
           @keydown.enter="selectedIllustration = illustration"
           @keydown.space.prevent="selectedIllustration = illustration"
         >
-          <img :src="illustration.image" :alt="illustration.alt" loading="lazy" />
+          <img :src="illustration.image" :alt="illustration.alt" loading="lazy" decoding="async" />
           <div>
             <span>{{ illustration.type }}</span>
             <h3>{{ illustration.title }}</h3>
