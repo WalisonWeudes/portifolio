@@ -1,7 +1,8 @@
 <template>
-  <main class="site-shell" :data-theme="theme">
+  <MilesTexture :animated="true" :texture-size="58" :animation-speed="20">
+  <main class="site-shell" data-theme="dark">
     <ClickSpark
-      spark-color="#123cff"
+      spark-color="#F30405"
       :spark-size="12"
       :spark-radius="22"
       :spark-count="8"
@@ -23,18 +24,11 @@
         <a href="#atividades">Experiências</a>
         <a href="#contato">Contato</a>
       </div>
-      <button
-        class="theme-toggle"
-        type="button"
-        :aria-label="theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'"
-        :title="theme === 'dark' ? 'Tema claro' : 'Tema escuro'"
-        @click="toggleTheme"
-      >
-        <span aria-hidden="true">{{ theme === 'dark' ? '☾' : '☀' }}</span>
-      </button>
     </nav>
 
     <section class="hero" aria-labelledby="hero-title">
+      <SpiderWalker />
+      <SpiderWalker />
       <div class="hero__overlay"></div>
 
       <div id="inicio" class="hero__content">
@@ -42,7 +36,7 @@
           <p class="eyebrow">Meu</p>
           <h1 id="hero-title" class="hero__title">
             <img
-              :src="theme === 'dark' ? '/imagens/Portfólio branco.svg' : '/imagens/Portfólio.svg'"
+              src="/imagens/Portfólio branco.svg"
               alt="Portfólio"
             />
           </h1>
@@ -65,7 +59,7 @@
         </div>
 
         <div class="hero__visual" aria-label="Identidade visual do portfólio">
-          <img src="/imagens/teste.png" alt="Logotipo do portfólio" />
+          <img src="/imagens/foro%20porti.png" alt="Logotipo do portfólio" />
           <div class="hero__badge">
             <strong>Full Stack</strong>
             <span>Web, mobile, APIs e interfaces</span>
@@ -268,19 +262,17 @@
 
     </ClickSpark>
   </main>
+  </MilesTexture>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import ClickSpark from './components/ClickSpark.vue'
+import MilesTexture from './components/MilesTexture.vue'
+import SpiderWalker from './components/SpiderWalker.vue'
 
-const theme = ref('light')
 const selectedIllustration = ref(null)
 const contactForm = ref({ email: '', subject: '', message: '' })
-
-const toggleTheme = () => {
-  theme.value = theme.value === 'dark' ? 'light' : 'dark'
-}
 
 const sendEmail = () => {
   const body = `E-mail para retorno: ${contactForm.value.email}\n\n${contactForm.value.message}`
@@ -314,10 +306,6 @@ const socials = [
 ]
 
 onMounted(() => {
-  const savedTheme = window.localStorage.getItem('portfolio-theme')
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-
-  theme.value = savedTheme || (prefersDark ? 'dark' : 'light')
   window.addEventListener('keydown', closeLightboxOnEscape)
 })
 
@@ -330,15 +318,6 @@ const closeLightboxOnEscape = (event) => {
     selectedIllustration.value = null
   }
 }
-
-watch(
-  theme,
-  (value) => {
-    document.documentElement.dataset.theme = value
-    window.localStorage.setItem('portfolio-theme', value)
-  },
-  { immediate: true },
-)
 
 const skills = [
   {
