@@ -1918,6 +1918,17 @@ body {
   contain: layout paint;
 }
 
+@media (max-width: 700px) {
+  .hero__visual {
+    position: relative;
+    left: 50%;
+    width: min(560px, 125vw);
+    margin-left: 0;
+    margin-right: 0;
+    transform: translateX(-50%);
+  }
+}
+
 /* Let the reusable Miles texture remain visible behind the page content. */
 .site-shell,
 .site-shell[data-theme='dark'] {
