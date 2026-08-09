@@ -61,3 +61,21 @@ button,input,textarea{font:inherit}button,a{color:inherit}a{text-decoration:none
 @media (hover:none){.case__open{opacity:1;transform:none}.case__preview::after{opacity:.5}}
 @media (max-width:900px){.topbar{grid-template-columns:1fr auto}.topbar__role,.topbar__links{display:none}.menu-toggle{display:block}}
 @media (max-width:430px){.hero h1{font-size:12.8vw;line-height:.8;letter-spacing:-.035em}.hero__intro{width:calc(100vw - 2 * var(--gutter));max-width:none;margin-right:0}.hero__intro p{max-width:100%}}
+@media (max-width:760px){
+  .hero__portrait{right:0;width:min(66vw,22rem)}
+  .portrait-mark{right:.25rem}
+  .section-heading h2,.compact-heading h2,.about h2,.illustrations h2,.contact h2{max-width:100%;font-size:10.5vw;line-height:.88;overflow-wrap:normal;word-break:normal}
+  .section-heading h2 em,.about h2 em{display:inline-block;max-width:100%}
+  .case__meta{flex-wrap:wrap}
+  .case__info,.case--3 .case__info,.figma-list,.experience-list,.stack__groups{min-width:0;max-width:100%}
+  .case__info h3{max-width:100%;font-size:12vw;overflow-wrap:anywhere}
+  .figma-row{min-width:0}.figma-row>div{min-width:0}.figma-row h3{overflow-wrap:anywhere}
+  .experience-list li>*{min-width:0}.experience-list h3,.experience-list p{overflow-wrap:anywhere}
+  .contact__links>a{max-width:100%;overflow-wrap:anywhere}
+}
+@media (max-width:430px){
+  .hero__portrait{right:0;width:62vw}.hero__headline{padding-top:27vh}
+  .section-heading h2,.compact-heading h2,.about h2,.illustrations h2,.contact h2{font-size:11.5vw}
+  .figma-row{grid-template-columns:1.7rem minmax(0,1fr) 1.2rem}
+  .experience-list li{grid-template-columns:minmax(0,1fr) auto}
+}
