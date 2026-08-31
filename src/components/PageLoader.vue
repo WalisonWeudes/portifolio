@@ -7,7 +7,7 @@
       <div class="retro-container">
         <!-- Terminal Header with Glitch Tag -->
         <div class="terminal-top">
-          <span class="anomaly-tag">[ SYSTEM ANOMALY DETECTED ]</span>
+          <span class="anomaly-tag">[ ANOMALIA DE SISTEMA DETECTADA ]</span>
           <h1 class="retro-title">CARREGANDO<span class="blinking-dots">{{ dots }}</span></h1>
         </div>
 
@@ -61,12 +61,12 @@ const emit = defineEmits(['loaded'])
 const items = ref([
   { name: 'PROJETO DISLEXIA (TCC UFPI)', progress: 0, isCorrupted: false },
   { name: 'PREMAUT — UFPI', progress: 0, isCorrupted: false },
-  { name: 'TB-KOCH (WEB & MOBILE)', progress: 0, isCorrupted: false },
+  { name: 'TB-KOCH (WEB E MOBILE)', progress: 0, isCorrupted: false },
   { name: 'ARQUIVOS FIGMA (BARBEARIA, FINANCEIRO)', progress: 0, isCorrupted: false },
-  { name: 'SOBRE & UFPI PICOS', progress: 0, isCorrupted: false },
-  { name: 'HABILIDADES & STACK TECNOLÓGICA', progress: 0, isCorrupted: false },
-  { name: 'ILUSTRAÇÕES & CHARACTER DESIGN', progress: 0, isCorrupted: false },
-  { name: 'MOTOR DE ARANHAS & TEIAS', progress: 0, isCorrupted: false },
+  { name: 'SOBRE E UFPI PICOS', progress: 0, isCorrupted: false },
+  { name: 'HABILIDADES E TECNOLOGIAS', progress: 0, isCorrupted: false },
+  { name: 'ILUSTRAÇÕES E DESIGN DE PERSONAGENS', progress: 0, isCorrupted: false },
+  { name: 'MOTOR DE ARANHAS E TEIAS', progress: 0, isCorrupted: false },
 ])
 
 const asciiBar = computed(() => {
