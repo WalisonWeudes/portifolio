@@ -1,4 +1,5 @@
 <template>
+  <PageLoader />
   <main class="site-shell">
     <SpiderWalker />
     <header class="topbar" :class="{ 'is-scrolled': isScrolled }">
@@ -28,7 +29,7 @@
       <div class="hero__content">
         <div class="hero__headline reveal">
           <p class="eyebrow">Design, código e direção visual.</p>
-          <h1 id="hero-title"><span>DESIGNER <em>&</em></span><span>FRONT-END</span><span>DEVELOPER</span></h1>
+          <GlitchHeroTitle />
           <div class="hero__intro">
             <p>Eu projeto interfaces e desenvolvo produtos digitais do conceito ao código.</p>
             <a class="text-link" href="#projetos">Ver projetos <span>↗</span></a>
@@ -126,6 +127,8 @@
 
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import GlitchHeroTitle from './components/GlitchHeroTitle.vue'
+import PageLoader from './components/PageLoader.vue'
 import SpiderWalker from './components/SpiderWalker.vue'
 
 const currentYear = new Date().getFullYear()
@@ -134,6 +137,38 @@ const contactForm = ref({ email: '', subject: '', message: '' })
 const menuOpen = ref(false)
 const isScrolled = ref(false)
 let revealObserver
+let subtleGlitchTimer
+
+const titleFontPool = [
+  "Chetta, Impact, 'Arial Narrow', sans-serif",
+  "Odeto, 'Courier New', monospace",
+  "Georgia, 'Times New Roman', serif",
+  "'Courier New', Monaco, monospace",
+  "Impact, 'Arial Black', sans-serif",
+  "Inter, 'Segoe UI', sans-serif",
+]
+
+const triggerSubtleGlitch = (el) => {
+  if (!el || el.classList.contains('subtle-title-glitch-active')) return
+  el.classList.add('subtle-title-glitch-active')
+
+  const originalFont = el.style.fontFamily || ''
+
+  let count = 0
+  const fontShiftInterval = setInterval(() => {
+    el.style.fontFamily = titleFontPool[Math.floor(Math.random() * titleFontPool.length)]
+    count += 1
+    if (count >= 3) {
+      clearInterval(fontShiftInterval)
+      el.style.fontFamily = originalFont
+    }
+  }, 65)
+
+  setTimeout(() => {
+    el.classList.remove('subtle-title-glitch-active')
+    el.style.fontFamily = originalFont
+  }, 240)
+}
 
 const sendEmail = () => {
   const body = `E-mail para retorno: ${contactForm.value.email}\n\n${contactForm.value.message}`
@@ -148,8 +183,30 @@ onMounted(() => {
   const items = document.querySelectorAll('.reveal, .reveal-image')
   if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) items.forEach((item) => item.classList.add('is-visible'))
   else { revealObserver = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target) } }), { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }); items.forEach((item) => revealObserver.observe(item)) }
+
+  const sectionTitles = document.querySelectorAll('.section-heading h2, .compact-heading h2, .about h2, .illustrations h2, .contact h2, .case__info h3, .figma-row h3, .stack__group h3, .experience-list h3')
+  sectionTitles.forEach((title) => {
+    title.addEventListener('mouseenter', () => triggerSubtleGlitch(title))
+  })
+
+  const scheduleSubtleGlitch = () => {
+    const delay = 7000 + Math.random() * 8000
+    subtleGlitchTimer = setTimeout(() => {
+      if (sectionTitles.length > 0) {
+        const randomTitle = sectionTitles[Math.floor(Math.random() * sectionTitles.length)]
+        triggerSubtleGlitch(randomTitle)
+      }
+      scheduleSubtleGlitch()
+    }, delay)
+  }
+  scheduleSubtleGlitch()
 })
-onBeforeUnmount(() => { window.removeEventListener('keydown', closeOnEscape); window.removeEventListener('scroll', onScroll); revealObserver?.disconnect() })
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', closeOnEscape)
+  window.removeEventListener('scroll', onScroll)
+  revealObserver?.disconnect()
+  if (subtleGlitchTimer) clearTimeout(subtleGlitchTimer)
+})
 
 const navItems = [{ number: '01', label: 'Work', href: '#projetos' }, { number: '02', label: 'Sobre', href: '#sobre' }, { number: '03', label: 'Experiência', href: '#experiencia' }, { number: '04', label: 'Stack', href: '#habilidades' }, { number: '05', label: 'Contato', href: '#contato' }]
 const socials = [{ name: 'GitHub', href: 'https://github.com/WalisonWeudes' }, { name: 'Instagram', href: 'https://www.instagram.com/walison_w0?igsh=a2c1cmpydnBpbG42' }, { name: 'LinkedIn', href: 'https://www.linkedin.com/in/walisonweudes' }]

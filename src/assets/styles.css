@@ -79,3 +79,34 @@ button,input,textarea{font:inherit}button,a{color:inherit}a{text-decoration:none
   .figma-row{grid-template-columns:1.7rem minmax(0,1fr) 1.2rem}
   .experience-list li{grid-template-columns:minmax(0,1fr) auto}
 }
+
+/* Subtle glitch effect for section titles and project names */
+.section-heading h2,
+.compact-heading h2,
+.about h2,
+.illustrations h2,
+.contact h2,
+.case__info h3,
+.stack__group h3,
+.figma-row h3,
+.experience-list h3 {
+  position: relative;
+  transition: font-family 0.12s ease, text-shadow 0.25s ease, transform 0.25s ease;
+  cursor: default;
+}
+
+.subtle-title-glitch-active {
+  animation: subtleGlitchAnim 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow:
+    -1.5px 0 rgba(230, 36, 41, 0.75),
+    1.5px 0 rgba(49, 87, 255, 0.75);
+}
+
+@keyframes subtleGlitchAnim {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-1.5px, 1px) skewX(0.5deg); }
+  50% { transform: translate(1.5px, -1px) skewX(-0.5deg); }
+  75% { transform: translate(-1px, 0.5px); }
+  100% { transform: translate(0, 0); }
+}
+
