@@ -1,0 +1,247 @@
+/* Interações: progresso de scroll, cursor, links ativos, tilt, parallax e performance */
+
+/* Renderização preguiçosa das seções fora da tela (menos jank no scroll) */
+.section,
+.contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+/* Barra de progresso do scroll */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--red), var(--blue));
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* Link ativo da navegação */
+.topbar__links a.is-active {
+  color: var(--red);
+}
+.topbar__links a.is-active::after {
+  transform: scaleX(1);
+}
+
+/* Cursor em anel (somente mouse) */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid rgba(245, 245, 242, 0.7);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: difference;
+  transition:
+    width 0.3s var(--ease),
+    height 0.3s var(--ease),
+    margin 0.3s var(--ease),
+    opacity 0.3s ease,
+    background 0.3s ease;
+}
+.cursor-ring.is-visible {
+  opacity: 1;
+}
+.cursor-ring.is-hover {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  background: rgba(245, 245, 242, 0.12);
+}
+.cursor-ring.is-down {
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+}
+
+/* Tilt dos cards de projeto + magnético nos links */
+.case__visual {
+  transition: transform 0.5s var(--ease);
+  will-change: transform;
+}
+.text-link {
+  transition: transform 0.4s var(--ease);
+}
+
+/* Parallax suave no hero (variáveis --mx/--my definidas por JS) */
+.hero__portrait-frame {
+  transform: translate3d(calc(var(--mx, 0) * -12px), calc(var(--my, 0) * -8px), 0);
+}
+.hero__background {
+  translate: calc(var(--mx, 0) * 14px) calc(var(--my, 0) * 8px);
+}
+
+/* Lightbox: navegação */
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin-top: -1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    transform 0.3s var(--ease);
+}
+.lightbox__nav:hover {
+  background: var(--red);
+  transform: scale(1.08);
+}
+.lightbox__nav--prev {
+  left: var(--gutter);
+}
+.lightbox__nav--next {
+  right: var(--gutter);
+}
+.lightbox__count {
+  position: absolute;
+  top: 1.7rem;
+  left: var(--gutter);
+  margin: 0;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-ring {
+    display: none;
+  }
+  .hero__portrait-frame,
+  .hero__background {
+    transform: none;
+    translate: none;
+  }
+}
+
+/* ---------- Entrada do site (após o loader) ---------- */
+.topbar {
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    padding 0.35s ease,
+    transform 1s var(--ease) 0.3s,
+    opacity 1s var(--ease) 0.3s;
+}
+html:not(.is-ready) .topbar,
+html:not(.is-ready) .dock {
+  opacity: 0;
+  transform: translateY(-1.25rem);
+}
+html:not(.is-ready) .dock {
+  transform: translateY(1.25rem);
+}
+.dock {
+  transition:
+    transform 1s var(--ease) 0.6s,
+    opacity 1s var(--ease) 0.6s;
+}
+
+.hero .eyebrow,
+.hero__intro,
+.hero__meta,
+.scroll-cue,
+.hero__portrait {
+  transition:
+    opacity 1.1s var(--ease),
+    transform 1.3s var(--ease);
+}
+.hero .eyebrow {
+  transition-delay: 0.25s;
+}
+.hero__intro {
+  transition-delay: 0.75s;
+}
+.hero__portrait {
+  transition-delay: 0.5s;
+}
+.hero__meta,
+.scroll-cue {
+  transition-delay: 0.95s;
+}
+html:not(.is-ready) .hero .eyebrow,
+html:not(.is-ready) .hero__intro,
+html:not(.is-ready) .hero__meta,
+html:not(.is-ready) .scroll-cue {
+  opacity: 0;
+  transform: translateY(1.5rem);
+}
+html:not(.is-ready) .hero__portrait {
+  opacity: 0;
+  transform: translateY(2rem) scale(0.97);
+}
+
+/* Título: revelado de cima para baixo */
+.hero h1.glitch-hero-title {
+  clip-path: inset(-25% -25% -25% -25%);
+  transition:
+    transform 0.15s var(--ease),
+    clip-path 1.2s var(--ease) 0.35s;
+}
+html:not(.is-ready) .hero h1.glitch-hero-title {
+  clip-path: inset(0 0 100% 0);
+}
+
+.spider-layer {
+  transition: opacity 1.4s ease 0.9s;
+}
+html:not(.is-ready) .spider-layer {
+  opacity: 0;
+}
+
+/* Seletor de idioma */
+.topbar__right {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: clamp(1rem, 2.2vw, 2.5rem);
+}
+.lang-switch {
+  display: inline-flex;
+  padding: 0.15rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+}
+.lang-switch button {
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+.lang-switch button.is-active {
+  background: var(--red);
+  color: #fff;
+}
+
+/* Cursor preso na teia: o cursor real some e o da teia é desenhado no canvas */
+html.is-trapped,
+html.is-trapped * {
+  cursor: none !important;
+}
+html.is-trapped .cursor-ring {
+  opacity: 0 !important;
+}

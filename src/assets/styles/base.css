@@ -1,0 +1,228 @@
+/* Fontes, tokens de design, reset e estrutura global (topbar, menu mobile) */
+@font-face {
+  font-family: Chetta;
+  src: url("../fontes/ChettaVissto.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Odeto;
+  src: url("../fontes/OdetoIdleGaming.woff") format("woff");
+  font-display: swap;
+}
+:root {
+  --bg: #08090d;
+  --surface: #0d0f14;
+  --surface-2: #14161c;
+  --text: #f5f5f2;
+  --muted: #a4a6ad;
+  --red: #e62429;
+  --red-dark: #a90f19;
+  --blue: #3157ff;
+  --line: rgba(245, 245, 242, 0.18);
+  --line-strong: rgba(245, 245, 242, 0.36);
+  --container: 1600px;
+  --gutter: clamp(1.25rem, 4vw, 4.5rem);
+  --section: clamp(6rem, 11vw, 12rem);
+  --radius: 6px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --display: Chetta, Impact, "Arial Narrow", sans-serif;
+  --body: Inter, "Segoe UI", Arial, sans-serif;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: clamp(1rem, 0.25vw + 0.94rem, 1.15rem);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+button,
+input,
+textarea {
+  font: inherit;
+}
+button,
+a {
+  color: inherit;
+}
+a {
+  text-decoration: none;
+}
+button {
+  border: 0;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+::selection {
+  background: var(--red);
+  color: #fff;
+}
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 5px;
+}
+.site-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background: var(--bg);
+}
+.site-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(245, 245, 242, 0.1) 1px, transparent 1.3px);
+  background-size: 8px 8px;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 5%,
+    #000 12%,
+    transparent 27%,
+    transparent 72%,
+    #000 82%,
+    transparent 96%
+  );
+  opacity: 0.15;
+}
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+  padding: 1.15rem var(--gutter);
+  border-bottom: 1px solid transparent;
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    padding 0.35s ease;
+}
+.topbar.is-scrolled {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  background: rgba(8, 9, 13, 0.84);
+  border-color: var(--line);
+  backdrop-filter: blur(10px);
+}
+.brand {
+  font-family: var(--display);
+  font-size: 1.75rem;
+  line-height: 1;
+  letter-spacing: -0.08em;
+}
+.brand span {
+  color: var(--red);
+  margin-left: -0.15em;
+}
+.topbar__role {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.67rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.topbar__links {
+  justify-self: end;
+  display: flex;
+  gap: clamp(1rem, 2.2vw, 2.5rem);
+}
+.topbar__links a {
+  position: relative;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+.topbar__links a::after,
+.contact a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -0.3rem;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease);
+}
+.topbar__links a:hover::after,
+.contact a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.menu-toggle {
+  display: none;
+  background: transparent;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.65rem;
+  cursor: pointer;
+}
+.menu-toggle span {
+  display: block;
+  height: 1px;
+  background: currentColor;
+  margin: 0.4rem 0;
+}
+.mobile-menu {
+  visibility: hidden;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  padding: 7rem var(--gutter) 2rem;
+  background: var(--red-dark);
+  clip-path: inset(0 0 100% 0);
+  transition:
+    clip-path 0.55s var(--ease),
+    visibility 0.55s;
+}
+.mobile-menu.is-open {
+  visibility: visible;
+  clip-path: inset(0);
+}
+.mobile-menu > p {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.mobile-menu nav {
+  display: grid;
+  margin: auto 0;
+}
+.mobile-menu nav a {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  font-family: var(--display);
+  font-size: clamp(3rem, 13vw, 5.5rem);
+  line-height: 1;
+}
+.mobile-menu nav span {
+  font-family: var(--body);
+  font-size: 0.65rem;
+}
+.mobile-menu > a {
+  align-self: flex-start;
+  font-size: 0.85rem;
+}

@@ -1,0 +1,19 @@
+/* Glitch sutil nos títulos: apenas no hover, curto e sem deslocamento de layout */
+.section-heading h2,
+.compact-heading h2,
+.about h2,
+.illustrations h2,
+.contact h2,
+.case__info h3,
+.stack__group h3,
+.figma-row h3,
+.experience-list h3 {
+  transition: text-shadow 0.3s ease;
+  cursor: default;
+}
+
+.subtle-title-glitch-active {
+  text-shadow:
+    -1.5px 0 rgba(230, 36, 41, 0.6),
+    1.5px 0 rgba(49, 87, 255, 0.6);
+}
