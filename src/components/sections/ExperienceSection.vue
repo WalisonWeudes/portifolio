@@ -5,6 +5,7 @@
       <h2 id="experience-title">{{ t('experience.title1') }}<br /><em>{{ t('experience.title2') }}</em></h2>
       <p>{{ t('experience.desc') }}</p>
     </header>
+    <StatsStrip />
     <ol class="experience-list">
       <li v-for="(activity, index) in activities" :key="index" class="reveal">
         <time>{{ tr(activity.year) }}</time>
@@ -17,6 +18,7 @@
 </template>
 
 <script setup>
+import StatsStrip from '../StatsStrip.vue'
 import { activities } from '../../data/content'
 import { t, tr } from '../../i18n'
 </script>

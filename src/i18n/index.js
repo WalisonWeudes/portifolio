@@ -66,11 +66,11 @@ const dict = {
     'about.title1': 'DESIGN,',
     'about.title2': 'TECNOLOGIA',
     'about.title3': 'E CRIATIVIDADE.',
-    'about.lead': 'Sou Walison Weudes. Trabalho entre desenvolvimento Full Stack, UI/UX e design gráfico.',
+    'about.lead': 'Sou Walison Weudes, desenvolvedor Full Stack com foco em front-end e UI/UX.',
     'about.p1':
-      'Curso Sistemas de Informação na Universidade Federal do Piauí, no Campus Senador Helvídio Nunes de Barros. A graduação e os projetos práticos formam minha base em desenvolvimento web, arquitetura de software, bancos de dados e design centrado no usuário.',
+      'Curso Sistemas de Informação na Universidade Federal do Piauí, no Campus Senador Helvídio Nunes de Barros. Hoje atuo na ISESMT, em sistemas SaaS de saúde e segurança do trabalho, e nos projetos PREMAUT e TB-Koch, na UFPI.',
     'about.p2':
-      'Minha atuação passa por aplicações web e mobile, APIs, protótipos e interfaces, sempre buscando clareza no uso e consistência na implementação.',
+      'Vou do protótipo no Figma ao código em React, Next.js e TypeScript, passando por back-end, APIs e qualidade de software (QA), sempre buscando clareza no uso e consistência na implementação.',
     'about.mainAlt': 'Campus da Universidade Federal do Piauí em Picos',
     'about.detailAlt': 'Vista externa da UFPI em Picos',
     'about.badge': 'UFPI — PICOS',
@@ -78,7 +78,8 @@ const dict = {
     'experience.label': 'Experiência',
     'experience.title1': 'PRÁTICA',
     'experience.title2': 'EM CAMPO.',
-    'experience.desc': 'Projetos, design e ensino desenvolvidos durante a formação.',
+    'experience.desc': 'Trabalho profissional, projetos acadêmicos e design.',
+    'stats.label': 'Números da experiência',
 
     'stack.label': '04 — Stack',
     'stack.title1': 'FERRAMENTAS',
@@ -157,11 +158,11 @@ const dict = {
     'about.title1': 'DESIGN,',
     'about.title2': 'TECHNOLOGY',
     'about.title3': 'AND CREATIVITY.',
-    'about.lead': "I'm Walison Weudes. I work across Full Stack development, UI/UX and graphic design.",
+    'about.lead': "I'm Walison Weudes, a Full Stack developer focused on front-end and UI/UX.",
     'about.p1':
-      "I'm studying Information Systems at the Federal University of Piauí, Senador Helvídio Nunes de Barros Campus. My degree and hands-on projects are the foundation of my work in web development, software architecture, databases and user-centered design.",
+      "I'm studying Information Systems at the Federal University of Piauí, Senador Helvídio Nunes de Barros Campus. Today I work at ISESMT on occupational health and safety SaaS systems, and on the PREMAUT and TB-Koch projects at UFPI.",
     'about.p2':
-      'My work spans web and mobile applications, APIs, prototypes and interfaces, always aiming for clarity of use and consistency in implementation.',
+      'I go from the Figma prototype to code in React, Next.js and TypeScript, through back-end, APIs and software quality (QA), always aiming for clarity of use and consistency in implementation.',
     'about.mainAlt': 'Federal University of Piauí campus in Picos',
     'about.detailAlt': 'Outside view of UFPI in Picos',
     'about.badge': 'UFPI — PICOS',
@@ -169,7 +170,8 @@ const dict = {
     'experience.label': 'Experience',
     'experience.title1': 'HANDS-ON',
     'experience.title2': 'EXPERIENCE.',
-    'experience.desc': 'Projects, design and teaching developed during my studies.',
+    'experience.desc': 'Professional work, academic projects and design.',
+    'stats.label': 'Experience in numbers',
 
     'stack.label': '04 — Stack',
     'stack.title1': 'TOOLS',

@@ -245,3 +245,51 @@ html.is-trapped * {
 html.is-trapped .cursor-ring {
   opacity: 0 !important;
 }
+
+/* Números da experiência */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0;
+  margin: 0 auto clamp(3rem, 6vw, 6rem);
+  list-style: none;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.stats__item {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.75rem clamp(0.75rem, 2vw, 2rem);
+  border-right: 1px solid var(--line);
+}
+.stats__item:last-child {
+  border-right: 0;
+}
+.stats__value {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 5vw, 5.5rem);
+  font-weight: 400;
+  line-height: 0.9;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.stats__item:nth-child(odd) .stats__value {
+  color: var(--red);
+}
+.stats__label {
+  color: var(--muted);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+@media (max-width: 760px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stats__item:nth-child(2) {
+    border-right: 0;
+  }
+  .stats__item:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
+}

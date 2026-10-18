@@ -27,7 +27,7 @@
   </section>
 
   <div class="marquee" aria-hidden="true">
-    <div>DESIGN ✦ DEVELOPMENT ✦ UI/UX ✦ FRONT-END ✦ DESIGN ✦ DEVELOPMENT ✦ UI/UX ✦ FRONT-END ✦</div>
+    <div>DESIGN ✦ FULL STACK ✦ UI/UX ✦ FRONT-END ✦ QA ✦ DESIGN ✦ FULL STACK ✦ UI/UX ✦ FRONT-END ✦ QA ✦</div>
   </div>
 </template>
 

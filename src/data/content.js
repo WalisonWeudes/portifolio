@@ -50,8 +50,8 @@ export const projects = [
     category: L('Full Stack / UI/UX'),
     year: '2026',
     description: L(
-      'Sistema desenvolvido entre arquitetura, interfaces web, fluxos de navegação e experiência do usuário.',
-      'System built across architecture, web interfaces, navigation flows and user experience.',
+      'Frontend e backend do sistema: arquitetura, funcionalidades, interfaces web e fluxos de navegação.',
+      'Frontend and backend of the system: architecture, features, web interfaces and navigation flows.',
     ),
     tags: [L('Full Stack'), L('UI/UX'), L('Arquitetura', 'Architecture')],
     url: 'https://premaut.ufpi.br/',
@@ -63,8 +63,8 @@ export const projects = [
     category: L('Web / Mobile'),
     year: '2025—26',
     description: L(
-      'Aplicação web e mobile com APIs, integrações externas, VPS, domínio e deploy.',
-      'Web and mobile application with APIs, external integrations, VPS, domain and deployment.',
+      'Aplicações web, mobile e APIs, com integração a serviços externos, VPS, domínio, deploy e identidade visual.',
+      'Web, mobile and API applications with external service integrations, VPS, domain, deployment and visual identity.',
     ),
     tags: [L('Web'), L('Mobile'), L('APIs REST'), L('VPS')],
     url: 'https://tbkoch.com/#/',
@@ -100,50 +100,76 @@ export const figmaProjects = [
 ]
 
 export const skillGroups = [
-  { number: '01', title: L('Front-end'), items: ['React', 'Vue', 'Quasar', 'TypeScript', 'JavaScript', 'HTML / CSS'] },
+  {
+    number: '01',
+    title: L('Front-end'),
+    items: ['React', 'Next.js', 'TypeScript', 'Vue.js', 'Tailwind CSS', 'HTML / CSS'],
+  },
   {
     number: '02',
-    title: L('Back-end'),
-    items: ['Node.js', 'FastAPI', 'APIs REST', 'PostgreSQL', L('Modelagem de dados', 'Data modeling')],
+    title: L('Back-end e dados', 'Back-end and data'),
+    items: ['Node.js / Express', 'FastAPI', 'APIs REST', 'PostgreSQL', 'MySQL', 'Firebase'],
   },
   {
     number: '03',
     title: L('Design'),
-    items: ['Figma', 'UI Design', 'UX Design', L('Prototipagem', 'Prototyping'), L('Design gráfico', 'Graphic design')],
+    items: [
+      'Figma',
+      'UI / UX',
+      L('Prototipagem', 'Prototyping'),
+      L('Design responsivo', 'Responsive design'),
+      L('Identidade visual', 'Visual identity'),
+    ],
   },
   {
     number: '04',
-    title: L('Outros', 'Other'),
-    items: ['Flutter', 'Git / GitHub', 'Docker', 'Firebase', L('Deploy em VPS', 'VPS deployment')],
+    title: L('Mobile, DevOps e QA', 'Mobile, DevOps and QA'),
+    items: [
+      'Flutter',
+      'Docker',
+      'Git / GitHub',
+      L('Deploy em VPS', 'VPS deployment'),
+      L('Testes automatizados', 'Automated testing'),
+      'Jira',
+    ],
   },
 ]
 
 export const activities = [
   {
-    year: '2026',
+    year: L('2026—ATUAL', '2026—NOW'),
+    title: L('ISESMT'),
+    role: L('Desenvolvedor Full Stack / QA', 'Full Stack Developer / QA'),
+    description: L(
+      'Três sistemas SaaS de saúde e segurança do trabalho (Gerencia SST, Avalia NR01 e Avalia NR17): telas, laudos em PDF, pagamentos, integrações, segurança entre clientes e testes automatizados.',
+      'Three occupational health and safety SaaS systems (Gerencia SST, Avalia NR01 and Avalia NR17): screens, PDF reports, payments, integrations, tenant data security and automated tests.',
+    ),
+  },
+  {
+    year: L('2026—ATUAL', '2026—NOW'),
     title: L('PREMAUT — UFPI'),
     role: L('Full Stack / UI/UX'),
     description: L(
-      'Arquitetura, implementação de funcionalidades e organização visual das telas.',
-      'Architecture, feature implementation and visual organization of the screens.',
+      'Frontend e backend, arquitetura, implementação de funcionalidades, fluxos de navegação e organização visual das telas.',
+      'Frontend and backend, architecture, feature implementation, navigation flows and visual organization of the screens.',
     ),
   },
   {
-    year: '2025—26',
+    year: L('2025—ATUAL', '2025—NOW'),
     title: L('TB-Koch — UFPI'),
-    role: L('Desenvolvimento', 'Development'),
+    role: L('Full Stack / UI/UX'),
     description: L(
-      'Front-end, back-end, mobile, APIs, deploy, domínio e ambiente em VPS.',
-      'Front-end, back-end, mobile, APIs, deployment, domain and VPS environment.',
+      'Aplicações web, mobile e APIs; integração com serviços externos, VPS, domínio e deploy; telas, identidade visual e componentes de interface.',
+      'Web, mobile and API applications; external service integrations, VPS, domain and deployment; screens, visual identity and interface components.',
     ),
   },
   {
     year: '2025—26',
-    title: L('JUÁ'),
+    title: L('JUÁ Empresa Júnior', 'JUÁ Junior Company'),
     role: L('Designer'),
     description: L(
-      'Peças visuais, ilustrações, estampas, redes sociais e projetos UI/UX.',
-      'Visual pieces, illustrations, prints, social media and UI/UX projects.',
+      'Peças visuais, ilustrações, estampas, materiais para redes sociais e projetos de interface UI/UX.',
+      'Visual pieces, illustrations, prints, social media materials and UI/UX interface projects.',
     ),
   },
   {
@@ -163,6 +189,17 @@ export const activities = [
       'Projetos práticos, integrações, organização de código e soluções de TI.',
       'Hands-on projects, integrations, code organization and IT solutions.',
     ),
+  },
+]
+
+// Números do currículo (ISESMT, ago–out de 2026)
+export const stats = [
+  { value: 889, label: L('commits em 3 meses', 'commits in 3 months') },
+  { value: 149, label: L('tarefas concluídas', 'tasks completed') },
+  { value: 3, label: L('sistemas SaaS em produção', 'SaaS systems in production') },
+  {
+    text: L('150s → 40s', '150s → 40s'),
+    label: L('para abrir um laudo de 138 páginas', 'to open a 138-page report'),
   },
 ]
 
