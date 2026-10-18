@@ -16,7 +16,7 @@
         >{{ t(link.key) }}</a>
       </nav>
       <a class="topbar__cv" :href="RESUME_URL" download="Curriculo Walison Weudes.pdf">
-        <span class="topbar__cv-long">{{ t('resume.download') }}</span><span class="topbar__cv-short">CV</span> ↓
+        <span class="topbar__cv-long">{{ t('resume.download') }}</span><span class="topbar__cv-short">{{ t('resume.short') }}</span> ↓
       </a>
       <div class="lang-switch" role="group" :aria-label="t('lang.switch')">
         <button
