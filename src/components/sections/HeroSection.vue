@@ -13,7 +13,10 @@
         <GlitchHeroTitle />
         <div class="hero__intro">
           <p>{{ t('hero.intro') }}</p>
-          <a class="text-link" href="#projetos">{{ t('hero.cta') }} <span>↗</span></a>
+          <div class="hero__actions">
+            <a class="text-link" href="#projetos">{{ t('hero.cta') }} <span>↗</span></a>
+            <a class="text-link text-link--ghost" :href="RESUME_URL" download="Curriculo Walison Weudes.pdf">{{ t('resume.download') }} <span>↓</span></a>
+          </div>
         </div>
       </div>
       <div class="hero__portrait">
@@ -34,6 +37,7 @@
 <script setup>
 import GlitchHeroTitle from '../GlitchHeroTitle.vue'
 import HeroPortrait from '../HeroPortrait.vue'
+import { RESUME_URL } from '../../data/content'
 import { t } from '../../i18n'
 
 const currentYear = new Date().getFullYear()

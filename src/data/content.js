@@ -2,6 +2,7 @@
 // Textos de interface ficam em src/i18n/index.js.
 
 export const EMAIL = 'weudesw0@gmail.com'
+export const RESUME_URL = '/curriculo-walison-weudes.pdf'
 
 const L = (pt, en = pt) => ({ pt, en })
 

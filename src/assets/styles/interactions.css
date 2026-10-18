@@ -293,3 +293,25 @@ html.is-trapped .cursor-ring {
     border-bottom: 1px solid var(--line);
   }
 }
+
+/* Ações do hero: projetos + currículo */
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 2rem;
+}
+.text-link--ghost {
+  color: var(--muted);
+}
+.text-link--ghost:hover {
+  color: var(--text);
+}
+@media (max-width: 760px) {
+  .hero__intro .hero__actions {
+    margin-top: 1.3rem;
+  }
+  .hero__intro .hero__actions .text-link {
+    margin-top: 0;
+  }
+}

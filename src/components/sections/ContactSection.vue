@@ -11,6 +11,7 @@
       <div class="contact__links reveal">
         <a :href="`mailto:${EMAIL}`">{{ EMAIL }} ↗</a>
         <div>
+          <a :href="RESUME_URL" download="Curriculo Walison Weudes.pdf">{{ t('resume.short') }} ↓</a>
           <a v-for="social in socials" :key="social.name" :href="social.href" target="_blank" rel="noreferrer">
             {{ social.name }} ↗
           </a>
@@ -55,7 +56,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { EMAIL, socials } from '../../data/content'
+import { EMAIL, RESUME_URL, socials } from '../../data/content'
 import { t } from '../../i18n'
 
 const currentYear = new Date().getFullYear()
