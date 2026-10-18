@@ -1,16 +1,6 @@
 <template>
   <div class="spider-layer" aria-hidden="true">
     <canvas ref="canvasRef" class="spider-webs"></canvas>
-    <img
-      v-for="spider in spiderList"
-      :key="spider.id"
-      :ref="(el) => (spider.el = el)"
-      class="spider"
-      :src="spiderFrames[0]"
-      alt=""
-      draggable="false"
-      @click.stop="spawnFrom(spider)"
-    />
   </div>
 </template>
 
@@ -20,18 +10,19 @@
 //  2. Em alguns trajetos, param no meio e tecem uma teia orbicular: raios primeiro,
 //     depois a espiral, do centro para fora.
 //  3. A teia pronta balança de leve ao vento, ganha gotas de orvalho e some devagar.
-// Tudo é animado direto no canvas/DOM (sem reatividade por frame).
+//  4. A aranha é desenhada em código (src/components/spider/rig.js): pernas com
+//     cinemática inversa e marcha alternada, sem sprites.
+// Tudo é animado direto no canvas (sem reatividade por frame).
 import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
-import { spiderFrames } from '../data/content'
 import { t } from '../i18n'
+import { createRig, drawRig, updateRig } from './spider/rig'
+import { drawOrb as drawOrbOn, makeOrb, orbSegments } from './spider/orb'
 
 const MAX_SPIDERS = 8
 const MAX_WEBS = 8
 const WEB_LIFETIME = 42000
 const EDGE_PADDING = 18
 const RAD = 180 / Math.PI
-const SPOKES = 9
-const TURNS = 6
 
 const canvasRef = ref(null)
 const spiderList = shallowRef([])
@@ -53,7 +44,6 @@ let lastNow = 0
 
 const rand = (min, max) => min + Math.random() * (max - min)
 const clamp01 = (v) => Math.max(0, Math.min(1, v))
-const easeOut = (t) => 1 - Math.pow(1 - t, 3)
 
 /* ---------- geometria ---------- */
 
@@ -94,101 +84,9 @@ const organicEase = (t) => {
   return clamp01(base + Math.sin(base * Math.PI * 8) * 0.012)
 }
 
-/* ---------- teia orbicular ---------- */
+/* ---------- teia orbicular (ver spider/orb.js) ---------- */
 
-const makeOrb = (hub, radius) => {
-  const baseRot = Math.random() * Math.PI * 2
-  const spokes = []
-  for (let i = 0; i < SPOKES; i += 1) {
-    const angle = baseRot + (i / SPOKES) * Math.PI * 2 + rand(-0.16, 0.16)
-    spokes.push({ dx: Math.cos(angle), dy: Math.sin(angle), len: radius * rand(0.82, 1.12) })
-  }
-  const total = SPOKES * TURNS
-  const spiral = []
-  for (let j = 0; j <= total; j += 1) {
-    const spoke = spokes[j % SPOKES]
-    const f = 0.1 + 0.9 * (j / total)
-    spiral.push({ x: spoke.dx * spoke.len * f, y: spoke.dy * spoke.len * f, f })
-  }
-  return { hub, radius, spokes, spiral, phase: Math.random() * 6.28 }
-}
-
-// Desenha a teia até `progress` (0–1) e devolve a posição da "cabeça" da aranha.
-const ZERO = { x: 0, y: 0 }
-const drawOrb = (orb, progress, alpha, now, offset = ZERO) => {
-  const { hub, radius, spokes, spiral } = orb
-  const windX = Math.sin(now / 1700 + orb.phase) * 2.2
-  const windY = Math.cos(now / 2300 + orb.phase) * 1.4
-  const hx = hub.x + offset.x
-  const hy = hub.y + offset.y
-  const at = (x, y, f) => ({
-    x: hub.x + x + windX * f + offset.x * (1 - f),
-    y: hub.y + y + windY * f + offset.y * (1 - f),
-  })
-
-  const SPOKE_PHASE = 0.2
-  const grow = easeOut(clamp01(progress / SPOKE_PHASE))
-  let head = { x: hx, y: hy }
-
-  // raios (crescem juntos a partir do centro)
-  ctx.strokeStyle = `rgba(200, 208, 232, ${0.42 * alpha})`
-  ctx.lineWidth = 0.9
-  ctx.beginPath()
-  for (const s of spokes) {
-    const end = at(s.dx * s.len * grow, s.dy * s.len * grow, grow)
-    ctx.moveTo(hx, hy)
-    ctx.quadraticCurveTo(
-      hx + s.dx * s.len * grow * 0.5,
-      hy + s.dy * s.len * grow * 0.5 + 3 * grow,
-      end.x,
-      end.y,
-    )
-  }
-  ctx.stroke()
-
-  // espiral: do centro para fora, segmentos com leve caimento
-  const spiralProgress = clamp01((progress - SPOKE_PHASE) / (1 - SPOKE_PHASE))
-  const segments = spiral.length - 1
-  const exact = spiralProgress * segments
-  const whole = Math.floor(exact)
-  const frac = exact - whole
-
-  if (spiralProgress > 0) {
-    ctx.strokeStyle = `rgba(219, 225, 244, ${0.3 * alpha})`
-    ctx.lineWidth = 0.6
-    ctx.beginPath()
-    let p = at(spiral[0].x, spiral[0].y, spiral[0].f)
-    ctx.moveTo(p.x, p.y)
-    for (let i = 0; i < Math.min(whole, segments); i += 1) {
-      const next = at(spiral[i + 1].x, spiral[i + 1].y, spiral[i + 1].f)
-      const sag = Math.hypot(next.x - p.x, next.y - p.y) * 0.16
-      ctx.quadraticCurveTo((p.x + next.x) / 2, (p.y + next.y) / 2 + sag, next.x, next.y)
-      p = next
-    }
-    head = p
-    if (whole < segments) {
-      const target = at(spiral[whole + 1].x, spiral[whole + 1].y, spiral[whole + 1].f)
-      const partial = { x: p.x + (target.x - p.x) * frac, y: p.y + (target.y - p.y) * frac }
-      ctx.lineTo(partial.x, partial.y)
-      head = partial
-    }
-    ctx.stroke()
-
-    // gotas de orvalho nas interseções já prontas
-    if (progress >= 1) {
-      ctx.fillStyle = `rgba(190, 215, 255, ${0.55 * alpha})`
-      for (let i = 3; i <= segments; i += 4) {
-        const d = at(spiral[i].x, spiral[i].y, spiral[i].f)
-        ctx.beginPath()
-        ctx.arc(d.x, d.y, 1.1, 0, Math.PI * 2)
-        ctx.fill()
-      }
-    }
-  } else {
-    head = at(0, 0, 0)
-  }
-  return head
-}
+const drawOrb = (orb, progress, alpha, now, offset) => drawOrbOn(ctx, orb, progress, alpha, now, offset)
 
 /* ---------- fio (dragline) ---------- */
 
@@ -220,21 +118,24 @@ const newJourney = (spider, from) => {
   spider.mode = 'walk'
 }
 
+// ângulo (graus, convenção "para cima") → direção do corpo em radianos
+const headingOf = (spider) => ((spider.angle - 90) * Math.PI) / 180
+const spiderScale = () => (window.innerWidth < 600 ? 0.62 : 0.8)
+
 const createSpider = (from) => {
   const spider = {
     id: nextId++,
-    el: null,
+    rig: null,
     x: 0,
     y: 0,
     lastX: 0,
     lastY: 0,
-    frame: 0,
-    shownFrame: -1,
     traveled: Math.random() * 100,
     angle: 0,
     pauseUntil: clock,
     glitchUntil: 0,
-    wasGlitching: false,
+    gx: 0,
+    gy: 0,
     buildStart: 0,
     buildDuration: 0,
   }
@@ -243,6 +144,7 @@ const createSpider = (from) => {
   spider.y = spider.lastY = spider.start.y
   const tan = lineTangent(spider.start, spider.end, spider.sag, 0)
   spider.angle = Math.atan2(tan.y, tan.x) * RAD + 90
+  spider.rig = createRig(spider.x, spider.y, headingOf(spider), spiderScale(), spider.id + Math.random())
   return spider
 }
 
@@ -254,29 +156,49 @@ const spawnFrom = (spider) => {
   spiderList.value = [...list, born]
 }
 
-const render = (spider) => {
-  const el = spider.el
-  if (!el) return
-
+// Atualiza o esqueleto (pernas/marcha) e o tremor do glitch. O desenho acontece em drawSpiders().
+const render = (spider, dt = 16) => {
   const glitching = clock < spider.glitchUntil
-  let gx = 0
-  let gy = 0
-  let ga = 0
-  if (glitching) {
-    gx = (Math.random() - 0.5) * 9
-    gy = (Math.random() - 0.5) * 9
-    ga = (Math.random() - 0.5) * 16
-  }
-  if (glitching !== spider.wasGlitching) {
-    el.classList.toggle('is-glitching', glitching)
-    spider.wasGlitching = glitching
-  }
+  spider.gx = glitching ? (Math.random() - 0.5) * 9 : 0
+  spider.gy = glitching ? (Math.random() - 0.5) * 9 : 0
+  if (spider.rig) updateRig(spider.rig, spider.x, spider.y, headingOf(spider), dt, clock)
+}
 
-  el.style.transform = `translate3d(${(spider.x + gx).toFixed(1)}px, ${(spider.y + gy).toFixed(1)}px, 0) translate(-50%, -50%) rotate(${(spider.angle + ga).toFixed(1)}deg)`
-  if (spider.frame !== spider.shownFrame) {
-    spider.shownFrame = spider.frame
-    el.src = spiderFrames[spider.frame]
+let hovered = null
+const drawSpiders = () => {
+  for (const spider of spiderList.value) {
+    if (!spider.rig) continue
+    if (clock < spider.glitchUntil) {
+      // camadas deslocadas em vermelho e azul + fatias, como o glitch antigo
+      ctx.globalAlpha = 0.5
+      drawRig(ctx, spider.rig, { clock, tint: '#e62429', dx: spider.gx - 3, dy: spider.gy })
+      drawRig(ctx, spider.rig, { clock, tint: '#3157ff', dx: spider.gx + 3, dy: spider.gy })
+      ctx.globalAlpha = 1
+      ctx.save()
+      const cut = Math.random() * 40 - 20
+      ctx.beginPath()
+      ctx.rect(spider.x - 60, spider.y - 60, 120, 60 + cut)
+      ctx.clip()
+      drawRig(ctx, spider.rig, { clock, dx: spider.gx, dy: spider.gy })
+      ctx.restore()
+    } else {
+      drawRig(ctx, spider.rig, { clock, hover: spider === hovered })
+    }
   }
+}
+
+// Clique/hover por proximidade (o canvas não recebe eventos)
+const spiderAt = (x, y) => {
+  let best = null
+  let bestD = 26 * spiderScale() + 8
+  for (const spider of spiderList.value) {
+    const d = Math.hypot(spider.x - x, spider.y - y)
+    if (d < bestD) {
+      best = spider
+      bestD = d
+    }
+  }
+  return best
 }
 
 const moveTo = (spider, x, y, face = true) => {
@@ -291,14 +213,12 @@ const moveTo = (spider, x, y, face = true) => {
   spider.lastY = y
   spider.x = x
   spider.y = y
-  // 3.4px por frame de animação: as pernas acompanham o deslocamento real
-  spider.frame = Math.floor((spider.traveled / 3.4) % spiderFrames.length)
 }
 
 const step = (spider, dt) => {
   if (spider.mode === 'trap') return
   if (clock < spider.pauseUntil) {
-    render(spider)
+    render(spider, dt)
     return
   }
 
@@ -314,15 +234,16 @@ const step = (spider, dt) => {
     spider.angle += ((((target - spider.angle + 540) % 360) - 180)) * 0.2
 
     drawLine(spider.start, spider.end, spider.sag, eased, 1)
+    if (spider.orb) drawOrb(spider.orb, 1, 1, clock) // teia já pronta continua visível
 
     // Meio do caminho: algumas aranhas param e tecem uma teia
     if (spider.willBuild && !spider.orb && spider.t >= 0.5) {
       const length = Math.hypot(spider.end.x - spider.start.x, spider.end.y - spider.start.y)
-      const radius = Math.max(46, Math.min(95, length * 0.16))
-      spider.orb = makeOrb({ x: p.x, y: p.y }, radius)
+      const radius = Math.max(50, Math.min(90, length * 0.15))
+      spider.orb = makeOrb({ x: p.x, y: p.y }, radius, { turns: 4, speed: 0.22 })
       spider.mode = 'build'
       spider.buildStart = clock
-      spider.buildDuration = rand(4800, 6200)
+      spider.buildDuration = spider.orb.duration
     }
 
     if (spider.t >= 1) {
@@ -343,14 +264,14 @@ const step = (spider, dt) => {
     const eased = organicEase(spider.t)
     drawLine(spider.start, spider.end, spider.sag, eased, 1)
     const head = drawOrb(spider.orb, progress, 1, clock)
-    // a aranha "anda" na ponta do fio sendo tecido, com pequena inércia
-    moveTo(spider, spider.x + (head.x - spider.x) * 0.35, spider.y + (head.y - spider.y) * 0.35)
+    // a aranha está exatamente na ponta do fio que está tecendo
+    moveTo(spider, head.x, head.y)
     if (progress >= 1) {
       spider.mode = 'walk'
       spider.pauseUntil = clock + rand(500, 900) // descansa um instante no centro
     }
   }
-  render(spider)
+  render(spider, dt)
 }
 
 /* ---------- captura do cursor ---------- */
@@ -382,10 +303,25 @@ const onPointerMove = (event) => {
   pointer.lastMove = clock
 }
 
-const swallowClick = (event) => {
+const onClickCapture = (event) => {
   if (trap && trap.phase === 'caught') {
     event.preventDefault()
     event.stopPropagation()
+    return
+  }
+  const spider = spiderAt(event.clientX, event.clientY)
+  if (spider) {
+    event.preventDefault()
+    event.stopPropagation()
+    spawnFrom(spider)
+  }
+}
+
+const onHoverMove = (event) => {
+  const spider = spiderAt(event.clientX, event.clientY)
+  if (spider !== hovered) {
+    hovered = spider
+    document.documentElement.classList.toggle('is-over-spider', !!spider)
   }
 }
 
@@ -441,19 +377,7 @@ const shatter = () => {
       age: 0,
     })
   }
-  const cx = c.x + offset.x
-  const cy = c.y + offset.y
-  for (const sp of orb.spokes) add(cx, cy, c.x + sp.dx * sp.len, c.y + sp.dy * sp.len)
-  for (let i = 0; i < orb.spiral.length - 1; i += 1) {
-    const a = orb.spiral[i]
-    const b = orb.spiral[i + 1]
-    add(
-      c.x + a.x + offset.x * (1 - a.f),
-      c.y + a.y + offset.y * (1 - a.f),
-      c.x + b.x + offset.x * (1 - b.f),
-      c.y + b.y + offset.y * (1 - b.f),
-    )
-  }
+  for (const seg of orbSegments(orb, offset)) add(...seg)
   for (const th of orb.tethers) add(c.x + th.x1, c.y + th.y1, c.x + th.x2, c.y + th.y2)
 
   trap.shards = shards
@@ -508,7 +432,7 @@ const updateTrap = (dt) => {
       trap.phase = 'weave'
       trap.phaseAt = clock
       trap.c = { x: pointer.x, y: pointer.y }
-      trap.orb = makeOrb(trap.c, TRAP_RADIUS) // hub === trap.c (mesmo objeto)
+      trap.orb = makeOrb(trap.c, TRAP_RADIUS, { turns: 4, speed: 0.4, spokeCount: 13 }) // hub === trap.c
       // fios-âncora longos que "prendem" a teia ao resto da tela
       trap.orb.tethers = Array.from({ length: 6 }, (_, i) => {
         const a = (i / 6) * Math.PI * 2 + rand(-0.3, 0.3)
@@ -521,20 +445,20 @@ const updateTrap = (dt) => {
       })
       return
     }
-    const stepLen = Math.min(dist * 5 + 280, 620) * (dt / 1000)
+    const stepLen = Math.min(dist * 3 + 160, 420) * (dt / 1000)
     moveTo(spider, spider.x + (dx / dist) * stepLen, spider.y + (dy / dist) * stepLen)
-    render(spider)
+    render(spider, dt)
     return
   }
 
   if (trap.phase === 'weave') {
-    const progress = clamp01((clock - trap.phaseAt) / 1700)
+    const progress = clamp01((clock - trap.phaseAt) / trap.orb.duration)
     // a teia acompanha o cursor enquanto é tecida
     trap.c.x += (pointer.x - trap.c.x) * 0.25
     trap.c.y += (pointer.y - trap.c.y) * 0.25
     const head = drawOrb(trap.orb, progress, 1, clock)
-    moveTo(spider, spider.x + (head.x - spider.x) * 0.45, spider.y + (head.y - spider.y) * 0.45)
-    render(spider)
+    moveTo(spider, head.x, head.y)
+    render(spider, dt)
     if (progress >= 1) {
       trap.phase = 'caught'
       trap.phaseAt = clock
@@ -584,7 +508,7 @@ const updateTrap = (dt) => {
     // a aranha vigia a presa, balançando no alto da teia
     moveTo(spider, trap.c.x + 6, trap.c.y - TRAP_RADIUS * 0.55 + Math.sin(clock / 260) * 3, false)
     spider.angle += (180 - spider.angle) * 0.05
-    render(spider)
+    render(spider, dt)
 
     const timedOut = clock - trap.phaseAt > 25000 // rede de segurança
     if (strain >= 1 || timedOut) shatter()
@@ -646,6 +570,8 @@ const frameLoop = (now) => {
 
   for (const spider of spiderList.value) step(spider, dt)
   updateTrap(dt)
+  // aranha presa no "break" volta a andar normalmente
+  drawSpiders()
 }
 
 const updateLoop = () => {
@@ -681,6 +607,7 @@ const onVisibility = () => {
 }
 
 onMounted(() => {
+  if (import.meta.env.DEV) window.__spiders = spiderList // inspeção em desenvolvimento
   reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
   reducedMotion.addEventListener?.('change', updateLoop)
   resize()
@@ -690,8 +617,9 @@ onMounted(() => {
   if (trapCapable) {
     nextTrapAt = clock + rand(18000, 32000)
     window.addEventListener('mousemove', onPointerMove, { passive: true })
-    window.addEventListener('click', swallowClick, true)
   }
+  window.addEventListener('click', onClickCapture, true)
+  window.addEventListener('mousemove', onHoverMove, { passive: true })
 
   const layer = canvasRef.value?.parentElement
   layerObserver = new ResizeObserver(() => {
@@ -721,7 +649,9 @@ onBeforeUnmount(() => {
   reducedMotion?.removeEventListener?.('change', updateLoop)
   document.removeEventListener('visibilitychange', onVisibility)
   window.removeEventListener('mousemove', onPointerMove)
-  window.removeEventListener('click', swallowClick, true)
+  window.removeEventListener('click', onClickCapture, true)
+  window.removeEventListener('mousemove', onHoverMove)
+  document.documentElement.classList.remove('is-over-spider')
   setTrappedUI(false)
 })
 </script>
@@ -740,38 +670,7 @@ onBeforeUnmount(() => {
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.85;
   pointer-events: none;
-}
-
-.spider {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 72px;
-  height: 72px;
-  object-fit: contain;
-  will-change: transform;
-  pointer-events: auto;
-  cursor: pointer;
-  user-select: none;
-  transition: filter 0.15s ease;
-}
-
-.spider:hover {
-  filter: brightness(1.35);
-}
-
-.spider.is-glitching {
-  filter: drop-shadow(-4px 0 #e62429) drop-shadow(4px 0 #3157ff) brightness(1.5) contrast(1.3);
-  animation: spiderGlitch 0.1s steps(2) infinite alternate;
-}
-
-@keyframes spiderGlitch {
-  0% { clip-path: inset(0 0 0 0); }
-  35% { clip-path: inset(18% 0 12% 0); }
-  70% { clip-path: inset(50% 0 6% 0); }
-  100% { clip-path: inset(6% 0 40% 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -781,11 +680,6 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 480px) {
-  .spider {
-    width: 58px;
-    height: 58px;
-  }
-
   .spider-webs {
     opacity: 0.7;
   }

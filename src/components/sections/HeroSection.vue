@@ -29,14 +29,13 @@
     <a class="scroll-cue" href="#projetos">{{ t('hero.scroll') }} <span>↓</span></a>
   </section>
 
-  <div class="marquee" aria-hidden="true">
-    <div>DESIGN ✦ FULL STACK ✦ UI/UX ✦ FRONT-END ✦ QA ✦ DESIGN ✦ FULL STACK ✦ UI/UX ✦ FRONT-END ✦ QA ✦</div>
-  </div>
+  <ManifestoSection />
 </template>
 
 <script setup>
 import GlitchHeroTitle from '../GlitchHeroTitle.vue'
 import HeroPortrait from '../HeroPortrait.vue'
+import ManifestoSection from './ManifestoSection.vue'
 import { RESUME_URL } from '../../data/content'
 import { t } from '../../i18n'
 

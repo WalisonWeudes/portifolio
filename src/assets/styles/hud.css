@@ -1,0 +1,198 @@
+/* Estética HUD / interface técnica:
+   grade de colunas, rótulos em monoespaçada, chips chanfrados, relógio e trilho lateral. */
+
+:root {
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+  --chamfer: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+
+/* Grade de colunas finas por cima de tudo (bem sutil) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(100% / 6 - 1px),
+    rgba(245, 245, 242, 0.05) calc(100% / 6 - 1px),
+    rgba(245, 245, 242, 0.05) calc(100% / 6)
+  );
+}
+
+/* Rótulos técnicos em monoespaçada */
+.hero__meta,
+.eyebrow,
+.topbar__role,
+.topbar__links a,
+.section-heading > div p,
+.section-heading > p,
+.compact-heading > span,
+.about__title > p,
+.illustrations__header > div > span,
+.case__meta,
+.case__status,
+.case__info li,
+.case__open,
+.figma-row small,
+.figma-row strong,
+.experience-list time,
+.experience-list span,
+.stats__label,
+.contact__top,
+.contact__form label,
+.contact footer,
+.text-link,
+.scroll-cue,
+.lang-switch button,
+.dock a,
+.illustration-item > span,
+.lightbox__count,
+.portrait-caption {
+  font-family: var(--mono);
+}
+
+/* Relógio HUD no topo */
+.topbar__hud {
+  display: grid;
+  gap: 0.1rem;
+  text-align: center;
+  line-height: 1.3;
+}
+.topbar__hud span:last-child {
+  color: var(--text);
+}
+
+/* Chip chanfrado (como uma tag de interface) */
+.hero .eyebrow {
+  display: inline-block;
+  padding: 0.45rem 0.8rem;
+  background: var(--red);
+  color: #fff;
+  clip-path: var(--chamfer);
+}
+.hero .eyebrow::before {
+  color: #fff;
+}
+.case__open,
+.portrait-caption,
+.lang-switch,
+.lightbox__nav {
+  clip-path: var(--chamfer);
+}
+.lang-switch {
+  border-radius: 0;
+}
+.lang-switch button {
+  border-radius: 0;
+}
+.lightbox__nav {
+  border-radius: 0;
+}
+
+/* Ações do hero em linha própria, abaixo do texto */
+.hero__intro {
+  grid-template-columns: minmax(12rem, 26rem);
+  gap: 1.25rem;
+}
+.hero__actions .text-link {
+  white-space: nowrap;
+}
+
+/* Relógio só quando há espaço sobrando no topo */
+@media (max-width: 1600px) {
+  .topbar__hud {
+    display: none !important;
+  }
+}
+
+/* Botão de currículo no topo */
+.topbar__cv {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  background: var(--red);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  clip-path: var(--chamfer);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.topbar__cv:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+.topbar__cv-short {
+  display: none;
+}
+@media (max-width: 1200px) {
+  .topbar__cv-long {
+    display: none;
+  }
+  .topbar__cv-short {
+    display: inline;
+  }
+}
+
+@media (max-width: 900px) {
+  body::before {
+    display: none;
+  }
+}
+
+/* Botão "voltar ao topo" (aparece depois de rolar a página) */
+.to-top {
+  position: fixed;
+  right: clamp(1rem, 2vw, 2rem);
+  bottom: clamp(1rem, 2vw, 2rem);
+  z-index: 56;
+  display: grid;
+  place-items: center;
+  width: 3.1rem;
+  height: 3.1rem;
+  background: var(--red);
+  color: #fff;
+  clip-path: var(--chamfer);
+  opacity: 0;
+  transform: translateY(1rem);
+  pointer-events: none;
+  transition:
+    opacity 0.35s ease,
+    transform 0.45s var(--ease),
+    background 0.3s ease;
+}
+.to-top.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.to-top:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+.to-top svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: transform 0.35s var(--ease);
+}
+.to-top:hover svg {
+  transform: translateY(-3px);
+}
+@media (max-width: 900px) {
+  /* acima do dock inferior */
+  .to-top {
+    bottom: calc(5.4rem + env(safe-area-inset-bottom));
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}

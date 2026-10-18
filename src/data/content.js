@@ -43,7 +43,7 @@ export const projects = [
       L('Modelos preditivos', 'Predictive models'),
     ],
     url: 'https://dislexyall.vercel.app/',
-    preview: '/imagens/projetos/dislexyall.png',
+    preview: '/imagens/projetos/dislexyall.png?v=2026-10',
   },
   {
     status: L('Projeto UFPI', 'UFPI project'),
@@ -56,7 +56,7 @@ export const projects = [
     ),
     tags: [L('Full Stack'), L('UI/UX'), L('Arquitetura', 'Architecture')],
     url: 'https://premaut.ufpi.br/',
-    preview: '/imagens/projetos/premaut.png',
+    preview: '/imagens/projetos/premaut.png?v=2026-10',
   },
   {
     status: L('Projeto UFPI', 'UFPI project'),
@@ -69,7 +69,7 @@ export const projects = [
     ),
     tags: [L('Web'), L('Mobile'), L('APIs REST'), L('VPS')],
     url: 'https://tbkoch.com/#/',
-    preview: '/imagens/projetos/tbkoch.png',
+    preview: '/imagens/projetos/tbkoch.png?v=2026-10',
   },
 ]
 
@@ -79,24 +79,28 @@ export const figmaProjects = [
     title: L('Barbearia', 'Barbershop'),
     description: L('Serviços, agendamento e contato direto.', 'Services, booking and direct contact.'),
     file: '/arquivos/barbearia.fig',
+    kind: 'booking',
   },
   {
     type: L('Dashboard'),
     title: L('Financeiro', 'Finance'),
     description: L('Indicadores, registros e movimentações.', 'Indicators, records and transactions.'),
     file: '/arquivos/Finaceiro.fig',
+    kind: 'dashboard',
   },
   {
     type: L('Educação e evento', 'Education and event'),
     title: L('Mini Cursos Geek'),
     description: L('Divulgação, hierarquia e inscrição.', 'Promotion, hierarchy and sign-up.'),
     file: '/arquivos/mini%20cursos%20geek.fig',
+    kind: 'event',
   },
   {
     type: L('Sistema acadêmico', 'Academic system'),
     title: L('PREMAUT'),
     description: L('Telas e fluxos para operação de dados.', 'Screens and flows for data operations.'),
     file: '/arquivos/PREMAUT.fig',
+    kind: 'system',
   },
 ]
 
@@ -228,8 +232,3 @@ export const illustrations = [
   illustration(L('Soul'), 'soul', L('Ilustração Soul', 'Soul illustration')),
 ]
 
-export const SPIDER_FRAME_COUNT = 60
-export const spiderFrames = Array.from(
-  { length: SPIDER_FRAME_COUNT },
-  (_, i) => `/imagens/aranha-frames/frame-${String(i).padStart(2, '0')}.png`,
-)

@@ -63,6 +63,11 @@ const dict = {
     'figma.title1': 'DO RASCUNHO',
     'figma.title2': 'À INTERFACE.',
     'figma.download': 'BAIXAR .FIG',
+    'figma.wire': 'ESQUEMA',
+    'figma.preview': 'PRÉVIA',
+    'nav.top': 'Voltar ao topo',
+    'manifesto.label': '00.5 / Manifesto',
+    'manifesto.text': 'Todo projeto é um *universo* diferente. Meu trabalho é fazer _design_ e *código* falarem a mesma língua, do primeiro rascunho no Figma ao último commit em produção.',
 
     'about.label': '02 / Sobre / Formação',
     'about.title1': 'DESIGN,',
@@ -157,6 +162,11 @@ const dict = {
     'figma.title1': 'FROM SKETCH',
     'figma.title2': 'TO INTERFACE.',
     'figma.download': 'DOWNLOAD .FIG',
+    'figma.wire': 'WIREFRAME',
+    'figma.preview': 'PREVIEW',
+    'nav.top': 'Back to top',
+    'manifesto.label': '00.5 / Manifesto',
+    'manifesto.text': 'Every project is a different *universe.* My job is to make _design_ and *code* speak the same language, from the first Figma sketch to the last commit in production.',
 
     'about.label': '02 / About / Education',
     'about.title1': 'DESIGN,',

@@ -29,8 +29,10 @@ import ContactSection from './components/sections/ContactSection.vue'
 import { useReveal } from './composables/useReveal'
 import { useTitleGlitch } from './composables/useTitleGlitch'
 import { usePointerEffects } from './composables/usePointerEffects'
+import { useDecode } from './composables/useDecode'
 
 useReveal()
 useTitleGlitch()
 usePointerEffects()
+useDecode()
 </script>

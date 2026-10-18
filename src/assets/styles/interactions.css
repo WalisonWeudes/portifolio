@@ -315,3 +315,9 @@ html.is-trapped .cursor-ring {
     margin-top: 0;
   }
 }
+
+/* Cursor sobre a aranha (o canvas não recebe eventos; a detecção é por proximidade) */
+html.is-over-spider,
+html.is-over-spider * {
+  cursor: pointer !important;
+}

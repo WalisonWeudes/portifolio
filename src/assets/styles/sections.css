@@ -235,27 +235,6 @@
   margin-top: 0.65rem;
   color: var(--red);
 }
-.marquee {
-  overflow: hidden;
-  border-bottom: 1px solid var(--line);
-  background: var(--red);
-  color: #fff;
-  transform: rotate(-1deg) scale(1.01);
-}
-.marquee div {
-  width: max-content;
-  padding: 0.9rem 0;
-  font-family: var(--display);
-  font-size: clamp(1.3rem, 2vw, 2.1rem);
-  line-height: 1;
-  letter-spacing: 0.03em;
-  animation: marquee 28s linear infinite;
-}
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
 .section {
   position: relative;
   max-width: var(--container);
