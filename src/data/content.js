@@ -46,6 +46,19 @@ export const projects = [
     preview: '/imagens/projetos/dislexyall.png?v=2026-10',
   },
   {
+    status: L('Prototipação e liderança do projeto', 'Prototyping and project co-lead'),
+    title: L('SINFO 2026'),
+    category: L('UI/UX / Prototipação', 'UI/UX / Prototyping'),
+    year: '2026',
+    description: L(
+      'Site do Simpósio de Sistemas de Informação da UFPI. Participei ativamente da prototipação e das decisões de layout, liderando o projeto junto com uma colega da equipe.',
+      "Website for UFPI's Information Systems Symposium. I was actively involved in prototyping and layout decisions, co-leading the project with a teammate.",
+    ),
+    tags: [L('Prototipação', 'Prototyping'), L('Layout'), L('UI/UX'), L('Liderança', 'Leadership')],
+    url: 'https://sinfo-ufpi.com.br/',
+    preview: '/imagens/projetos/sinfo.png?v=2026-10',
+  },
+  {
     status: L('Projeto UFPI', 'UFPI project'),
     title: L('PREMAUT'),
     category: L('Full Stack / UI/UX'),
