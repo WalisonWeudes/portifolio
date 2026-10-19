@@ -4,21 +4,21 @@
     <header class="about__title reveal">
       <p>{{ t('about.label') }}</p>
       <h2 id="about-title">
-        {{ t('about.title1') }}<br /><em>{{ t('about.title2') }}</em><br />{{ t('about.title3') }}
+        <KineticText :text="t('about.title1')" /><br /><em><KineticText :text="t('about.title2')" /></em><br /><KineticText :text="t('about.title3')" />
       </h2>
     </header>
     <div class="about__media">
       <img
         class="about__campus-main"
-        src="/imagens/ufpi_picos.jpg"
+        src="/imagens/ufpi_picos.webp"
         :alt="t('about.mainAlt')"
         loading="lazy"
         decoding="async"
-        @error="$event.currentTarget.src = '/imagens/UFPI-Picos.jpg'"
+        @error="$event.currentTarget.src = '/imagens/UFPI-Picos.webp'"
       />
       <img
         class="about__campus-detail"
-        src="/imagens/UFPI-Picos.jpg"
+        src="/imagens/UFPI-Picos.webp"
         :alt="t('about.detailAlt')"
         loading="lazy"
         decoding="async"
@@ -35,5 +35,6 @@
 </template>
 
 <script setup>
+import KineticText from '../KineticText.vue'
 import { t } from '../../i18n'
 </script>

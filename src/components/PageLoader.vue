@@ -39,40 +39,13 @@
       <p class="hud__label hud__label--bl">{{ universe }}</p>
       <p class="hud__label hud__label--br" aria-live="polite">{{ statusText }}</p>
 
-      <svg width="0" height="0" class="loader__defs" aria-hidden="true">
-        <defs>
-          <g id="spider-mark" fill="currentColor">
-            <g id="spider-half">
-              <path d="M-34,-42 Q-40,-80 -26,-116 Q-24,-80 -20,-46 Z" />
-              <path d="M-62,-30 Q-66,-56 -56,-74 Q-50,-54 -50,-38 Z" />
-              <path d="M-8,-32 L-66,-30 L-84,-10 L-60,-21 L-8,-23 Z" />
-              <path d="M-8,-12 L-70,-6 Q-86,-2 -84,8 Q-72,60 -26,112 Q-60,54 -72,10 L-8,-3 Z" />
-              <path d="M-8,6 L-52,10 Q-62,12 -60,24 Q-56,62 -42,94 Q-52,62 -54,26 L-8,14 Z" />
-            </g>
-            <use href="#spider-half" transform="scale(-1 1)" />
-            <path d="M0,-36 L17,-14 L15,10 L0,28 L-15,10 L-17,-14 Z" />
-            <path d="M0,-54 L5,-47 L9,-54 L8,-43 L0,-39 L-8,-43 L-9,-54 L-5,-47 Z" />
-            <path
-              fill-rule="evenodd"
-              d="M0,-44 L27,-14 L25,20 L0,54 L-25,20 L-27,-14 Z M0,-39 L22,-13 L20,18 L0,47 L-20,18 L-22,-13 Z"
-            />
-          </g>
-        </defs>
-      </svg>
-
       <div class="hud__center">
-        <div class="emblem" aria-hidden="true">
-          <div class="emblem__spin">
-            <svg
-              v-for="(layer, i) in layers"
-              :key="i"
-              class="emblem__layer"
-              viewBox="-125 -125 250 250"
-              :style="{ transform: `translateZ(${layer.z}px)`, color: layer.color }"
-            >
-              <use href="#spider-mark" />
-            </svg>
-          </div>
+        <div class="mark" :style="{ '--mark': `url(${spiderMark})` }" aria-hidden="true">
+          <i class="mark__layer mark__base"></i>
+          <i class="mark__layer mark__fill"></i>
+          <i class="mark__layer mark__ghost mark__ghost--r"></i>
+          <i class="mark__layer mark__ghost mark__ghost--b"></i>
+          <i class="mark__scan"></i>
         </div>
         <p class="hud__percent">{{ percent }}%</p>
       </div>
@@ -86,23 +59,14 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { usePreloader } from '../composables/usePreloader'
 import { t } from '../i18n'
+import spiderMark from '../assets/aranha-loader.svg'
 
 const emit = defineEmits(['loaded'])
 
 const universes = ['TERRA-1610', 'TERRA-616', 'TERRA-65', 'TERRA-928', 'TERRA-42', 'TERRA-138', 'TERRA-8311', 'TERRA-90214']
 const STATUS = ['loader.s1', 'loader.s2', 'loader.s3', 'loader.s4']
 
-// Emblema 3D escuro (extrusão em camadas) sobre o fundo vermelho.
-const LAYER_COUNT = 12
-const GAP = 1.6
-const layers = Array.from({ length: LAYER_COUNT }, (_, i) => {
-  const k = i / (LAYER_COUNT - 1)
-  return {
-    z: (i - LAYER_COUNT / 2) * GAP,
-    color: i === LAYER_COUNT - 1 ? '#0b0b10' : `hsl(357 70% ${30 - k * 20}%)`,
-  }
-})
-
+// Aranha do carregamento (arte em spray). Usada como máscara para poder colorir as camadas.
 // Grade de blocos proporcional à tela (blocos ~quadrados).
 const COLS = window.innerWidth < 600 ? 7 : 14
 const grid = {
@@ -144,7 +108,7 @@ const skipLoader = import.meta.env.DEV && new URLSearchParams(location.search).h
 
 const { progress: realProgress, start: startPreload } = usePreloader({
   fonts: ['Chetta', 'Odeto'],
-  images: ['/imagens/foro%20porti.png'],
+  images: ['/imagens/retrato.webp'],
 })
 
 const percent = computed(() => Math.round(shown.value * 100))
@@ -257,9 +221,6 @@ onBeforeUnmount(() => {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   user-select: none;
   cursor: progress;
-}
-.loader__defs {
-  position: absolute;
 }
 
 /* ---------- blocos (fundo) ---------- */
@@ -484,32 +445,85 @@ onBeforeUnmount(() => {
   transform-origin: left;
 }
 
-/* ---------- emblema ---------- */
-.emblem {
-  width: clamp(72px, 11vmin, 104px);
-  aspect-ratio: 1;
-  perspective: 600px;
-}
-.emblem__spin {
+/* ---------- aranha (carregamento estilo jogo) ---------- */
+.mark {
   position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  animation: spin 4.8s linear infinite;
+  width: clamp(110px, 17vmin, 180px);
+  aspect-ratio: 1289 / 1393;
+  animation: breathe 2.6s ease-in-out infinite;
 }
-.emblem__layer {
+.mark__layer {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
+  -webkit-mask: var(--mark) center / contain no-repeat;
+  mask: var(--mark) center / contain no-repeat;
 }
-@keyframes spin {
-  from {
-    transform: rotateX(-12deg) rotateY(0deg);
+/* silhueta apagada: o "vazio" que vai sendo preenchido */
+.mark__base {
+  background: rgba(11, 11, 16, 0.2);
+}
+/* preenchimento de baixo para cima conforme o progresso (--p) */
+.mark__fill {
+  background: var(--ink);
+  clip-path: inset(calc((1 - var(--p)) * 100%) 0 0 0);
+}
+/* linha de varredura no nível do preenchimento */
+.mark__scan {
+  position: absolute;
+  top: calc((1 - var(--p)) * 100%);
+  left: -14%;
+  right: -14%;
+  height: 2px;
+  margin-top: -1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85) 25%, rgba(255, 255, 255, 0.85) 75%, transparent);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
+  opacity: 0.8;
+  transition: opacity 0.4s ease;
+}
+.is-done .mark__scan,
+.is-leaving .mark__scan {
+  opacity: 0;
+}
+/* camadas do glitch (só na troca de universo) */
+.mark__ghost {
+  opacity: 0;
+  clip-path: inset(calc((1 - var(--p)) * 100%) 0 0 0);
+}
+.mark__ghost--r {
+  background: #fff;
+}
+.mark__ghost--b {
+  background: #3157ff;
+}
+.is-glitching .mark__ghost--r {
+  opacity: 0.3;
+  transform: translate(-4px, 1px);
+}
+.is-glitching .mark__ghost--b {
+  opacity: 0.4;
+  transform: translate(4px, -1px);
+}
+.is-glitching .mark {
+  animation: markJolt 0.14s steps(2) 1;
+}
+/* ao completar: um "pulso" de confirmação */
+.is-done .mark {
+  animation: markDone 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1;
+}
+@keyframes breathe {
+  50% {
+    transform: scale(1.03);
   }
-  to {
-    transform: rotateX(-12deg) rotateY(360deg);
+}
+@keyframes markJolt {
+  50% {
+    transform: translateX(-3px) skewX(-3deg);
+  }
+}
+@keyframes markDone {
+  30% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.6));
   }
 }
 @keyframes blink {
@@ -537,9 +551,8 @@ onBeforeUnmount(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .emblem__spin {
-    animation: none;
-    transform: rotateX(-12deg) rotateY(-20deg);
+  .mark {
+    animation: none !important;
   }
   .is-leaving .loader__pixels i {
     animation: pixelOut 0.2s linear forwards;

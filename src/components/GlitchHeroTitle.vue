@@ -8,19 +8,20 @@
     @click="triggerGlitch"
   >
     <span class="title-line line-1">
-      <span class="word">DESIGNER</span>
+      <span class="word"><KineticText text="DESIGNER" :entrance="false" /></span>
       <em class="ampersand">&</em>
     </span>
     <span class="title-line line-2">
-      <span class="word">FRONT-END</span>
+      <span class="word"><KineticText text="FRONT-END" :entrance="false" /></span>
     </span>
     <span class="title-line line-3">
-      <span class="word">DEVELOPER</span>
+      <span class="word"><KineticText text="DEVELOPER" :entrance="false" /></span>
     </span>
   </h1>
 </template>
 
 <script setup>
+import KineticText from './KineticText.vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
 const titleRef = ref(null)

@@ -5,7 +5,7 @@
       <p>{{ t('hero.location') }}<br />{{ t('contact.available') }}</p>
     </div>
     <h2 id="contact-title" class="reveal">
-      {{ t('contact.title1') }}<br /><em>{{ t('contact.title2') }}</em><br />{{ t('contact.title3') }} <span>↗</span>
+      <KineticText :text="t('contact.title1')" /><br /><em><KineticText :text="t('contact.title2')" /></em><br /><KineticText :text="t('contact.title3')" /> <span class="contact__arrow">↗</span>
     </h2>
     <div class="contact__bottom">
       <div class="contact__links reveal">
@@ -55,6 +55,7 @@
 </template>
 
 <script setup>
+import KineticText from '../KineticText.vue'
 import { ref } from 'vue'
 import { EMAIL, RESUME_URL, socials } from '../../data/content'
 import { t } from '../../i18n'

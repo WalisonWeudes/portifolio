@@ -2,7 +2,7 @@
   <section id="projetos" class="section work" aria-labelledby="projects-title">
     <header class="section-heading reveal">
       <div><span>01</span><p>{{ t('projects.label') }}</p></div>
-      <h2 id="projects-title">{{ t('projects.title1') }}<br /><em>{{ t('projects.title2') }}</em></h2>
+      <h2 id="projects-title"><KineticText :text="t('projects.title1')" /><br /><em><KineticText :text="t('projects.title2')" /></em></h2>
       <p>{{ t('projects.desc') }}</p>
     </header>
 
@@ -56,6 +56,7 @@
 </template>
 
 <script setup>
+import KineticText from '../KineticText.vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { projects } from '../../data/content'
 import { t, tr } from '../../i18n'

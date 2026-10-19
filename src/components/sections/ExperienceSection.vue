@@ -2,7 +2,7 @@
   <section id="experiencia" class="section experience" aria-labelledby="experience-title">
     <header class="section-heading reveal">
       <div><span>03</span><p>{{ t('experience.label') }}</p></div>
-      <h2 id="experience-title">{{ t('experience.title1') }}<br /><em>{{ t('experience.title2') }}</em></h2>
+      <h2 id="experience-title"><KineticText :text="t('experience.title1')" /><br /><em><KineticText :text="t('experience.title2')" /></em></h2>
       <p>{{ t('experience.desc') }}</p>
     </header>
     <StatsStrip />
@@ -18,6 +18,7 @@
 </template>
 
 <script setup>
+import KineticText from '../KineticText.vue'
 import StatsStrip from '../StatsStrip.vue'
 import { activities } from '../../data/content'
 import { t, tr } from '../../i18n'

@@ -978,7 +978,7 @@
   font-weight: 400;
   color: var(--red);
 }
-.contact h2 span {
+.contact h2 .contact__arrow {
   display: inline-block;
   color: var(--blue);
   font-size: 0.7em;

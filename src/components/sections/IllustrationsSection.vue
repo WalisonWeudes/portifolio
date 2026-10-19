@@ -3,7 +3,7 @@
     <header class="illustrations__header reveal">
       <div>
         <span>{{ t('illustrations.label') }}</span>
-        <h2 id="illustrations-title">{{ t('illustrations.title1') }}<br />{{ t('illustrations.title2') }}</h2>
+        <h2 id="illustrations-title"><KineticText :text="t('illustrations.title1')" /><br /><KineticText :text="t('illustrations.title2')" /></h2>
       </div>
       <p>{{ t('illustrations.desc') }}</p>
     </header>
@@ -51,6 +51,7 @@
 </template>
 
 <script setup>
+import KineticText from '../KineticText.vue'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import { illustrations } from '../../data/content'
 import { t, tr } from '../../i18n'

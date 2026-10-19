@@ -196,3 +196,18 @@ body::before {
     height: 2.75rem;
   }
 }
+
+/* Tipografia cinética dentro do título do hero: as regras antigas de ".hero h1 span"
+   (display block, recuo e cor da 2ª linha) não devem atingir as letras. */
+.hero h1 .kt,
+.hero h1 .kt__glyphs {
+  display: inline;
+}
+.hero h1 .kt span {
+  margin-left: 0;
+  color: inherit;
+}
+.hero h1 .kt__word,
+.hero h1 .kt__char {
+  display: inline-block;
+}

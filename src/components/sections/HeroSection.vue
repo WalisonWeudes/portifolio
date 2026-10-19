@@ -21,7 +21,7 @@
       </div>
       <div class="hero__portrait">
         <div class="hero__portrait-frame">
-          <HeroPortrait base="/imagens/foro%20porti.png" :alt="t('hero.portraitAlt')" />
+          <HeroPortrait base="/imagens/retrato.webp" :alt="t('hero.portraitAlt')" />
         </div>
         <span class="portrait-mark">+</span><span class="portrait-caption">FULL STACK / UI DESIGN</span>
       </div>

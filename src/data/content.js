@@ -43,7 +43,7 @@ export const projects = [
       L('Modelos preditivos', 'Predictive models'),
     ],
     url: 'https://dislexyall.vercel.app/',
-    preview: '/imagens/projetos/dislexyall.png?v=2026-10',
+    preview: '/imagens/projetos/dislexyall.webp',
   },
   {
     status: L('Prototipação e liderança do projeto', 'Prototyping and project co-lead'),
@@ -56,7 +56,7 @@ export const projects = [
     ),
     tags: [L('Prototipação', 'Prototyping'), L('Layout'), L('UI/UX'), L('Liderança', 'Leadership')],
     url: 'https://sinfo-ufpi.com.br/',
-    preview: '/imagens/projetos/sinfo.png?v=2026-10',
+    preview: '/imagens/projetos/sinfo.webp',
   },
   {
     status: L('Projeto UFPI', 'UFPI project'),
@@ -69,7 +69,7 @@ export const projects = [
     ),
     tags: [L('Full Stack'), L('UI/UX'), L('Arquitetura', 'Architecture')],
     url: 'https://premaut.ufpi.br/',
-    preview: '/imagens/projetos/premaut.png?v=2026-10',
+    preview: '/imagens/projetos/premaut.webp',
   },
   {
     status: L('Projeto UFPI', 'UFPI project'),
@@ -82,7 +82,7 @@ export const projects = [
     ),
     tags: [L('Web'), L('Mobile'), L('APIs REST'), L('VPS')],
     url: 'https://tbkoch.com/#/',
-    preview: '/imagens/projetos/tbkoch.png?v=2026-10',
+    preview: '/imagens/projetos/tbkoch.webp',
   },
 ]
 
@@ -224,8 +224,8 @@ export const stats = [
 const illustration = (title, file, alt) => ({
   title,
   alt,
-  image: `/desenhos/${file}.png`,
-  thumbnail: `/desenhos/thumbs/${file}.jpg`,
+  image: `/desenhos/${file}.webp`,
+  thumbnail: `/desenhos/thumbs/${file}.webp`,
 })
 
 export const illustrations = [

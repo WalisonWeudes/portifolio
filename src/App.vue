@@ -30,9 +30,11 @@ import { useReveal } from './composables/useReveal'
 import { useTitleGlitch } from './composables/useTitleGlitch'
 import { usePointerEffects } from './composables/usePointerEffects'
 import { useDecode } from './composables/useDecode'
+import { useScrollVelocity } from './composables/useScrollVelocity'
 
 useReveal()
 useTitleGlitch()
 usePointerEffects()
 useDecode()
+useScrollVelocity()
 </script>

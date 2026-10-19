@@ -2,7 +2,7 @@
   <section id="figma" class="section figma-section" aria-labelledby="figma-title">
     <header class="compact-heading reveal">
       <span>{{ t('figma.label') }}</span>
-      <h2 id="figma-title">{{ t('figma.title1') }}<br />{{ t('figma.title2') }}</h2>
+      <h2 id="figma-title"><KineticText :text="t('figma.title1')" /><br /><KineticText :text="t('figma.title2')" /></h2>
     </header>
     <div class="figma-list" :class="{ 'has-hover': hover !== null }" @mouseleave="hover = null">
       <a
@@ -57,6 +57,7 @@
 </template>
 
 <script setup>
+import KineticText from '../KineticText.vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import FigmaWireframe from '../FigmaWireframe.vue'
 import { figmaProjects } from '../../data/content'
