@@ -1,14 +1,20 @@
-import { useEffect } from 'react'
+import PageLoader from './components/PageLoader'
+import SpiderWalker from './components/SpiderWalker'
+import SiteHeader from './components/SiteHeader'
 import HeroSection from './components/sections/HeroSection'
+import ProjectsSection from './components/sections/ProjectsSection'
+import FigmaSection from './components/sections/FigmaSection'
+import AboutSection from './components/sections/AboutSection'
+import ExperienceSection from './components/sections/ExperienceSection'
+import StackSection from './components/sections/StackSection'
+import IllustrationsSection from './components/sections/IllustrationsSection'
+import ContactSection from './components/sections/ContactSection'
 import { useReveal } from './hooks/useReveal'
 import { useTitleGlitch } from './hooks/useTitleGlitch'
 import { usePointerEffects } from './hooks/usePointerEffects'
 import { useDecode } from './hooks/useDecode'
 import { useScrollVelocity } from './hooks/useScrollVelocity'
 
-// Migração Vue → React em andamento: as seções ainda em .vue entram aqui conforme forem portadas.
-// Ordem final: PageLoader, SpiderWalker, SiteHeader, Hero, Projects, Figma, About,
-// Experience, Stack, Illustrations, Contact.
 export default function App() {
   useReveal()
   useTitleGlitch()
@@ -16,15 +22,21 @@ export default function App() {
   useDecode()
   useScrollVelocity()
 
-  // TEMPORÁRIO até o PageLoader ser migrado: é ele quem libera a entrada do site.
-  useEffect(() => {
-    document.documentElement.classList.add('is-ready')
-    window.dispatchEvent(new CustomEvent('site:ready'))
-  }, [])
-
   return (
-    <main className="site-shell">
-      <HeroSection />
-    </main>
+    <>
+      <PageLoader />
+      <main className="site-shell">
+        <SpiderWalker />
+        <SiteHeader />
+        <HeroSection />
+        <ProjectsSection />
+        <FigmaSection />
+        <AboutSection />
+        <ExperienceSection />
+        <StackSection />
+        <IllustrationsSection />
+        <ContactSection />
+      </main>
+    </>
   )
 }

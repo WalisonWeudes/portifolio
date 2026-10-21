@@ -18,11 +18,13 @@
 .kt__char {
   --p: 0;
   --in: 0;
+  /* velocidade do scroll: só vale depois da entrada (senão cada frame de scroll reinicia a transição) */
+  --sv: 0;
   display: inline-block;
   transform-origin: 50% 100%;
   transform:
-    translateY(calc(var(--in) * 110% + var(--kv, 0) * var(--wv) * 0.12em - var(--p) * 0.07em))
-    skewX(calc(var(--kv, 0) * -7deg))
+    translateY(calc(var(--in) * 110% + var(--sv) * var(--wv) * 0.12em - var(--p) * 0.07em))
+    skewX(calc(var(--sv) * -7deg))
     scaleY(calc(1 + var(--p) * 0.22));
   transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
@@ -39,12 +41,15 @@
   --in: 0;
   rotate: 0deg;
   transition:
-    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-    rotate 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: calc(var(--i) * 22ms);
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    rotate 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--i) * 12ms);
 }
 .kt--live .kt__word {
   clip-path: none;
+}
+.kt--live .kt__char {
+  --sv: var(--kv, 0);
 }
 
 @media (prefers-reduced-motion: reduce) {

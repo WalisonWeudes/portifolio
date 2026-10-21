@@ -32,7 +32,7 @@ export default function KineticText({ text, entrance = true }) {
   const enter = () => {
     setState('in')
     clearTimeout(live.current.liveTimer)
-    live.current.liveTimer = setTimeout(() => setState('live'), 900 + charCount * 22)
+    live.current.liveTimer = setTimeout(() => setState('live'), 600 + charCount * 12)
   }
 
   // Proximidade do cursor → --p (0 a 1) em cada letra
@@ -78,7 +78,8 @@ export default function KineticText({ text, entrance = true }) {
         enter()
         observer.disconnect()
       },
-      { threshold: 0.35 },
+      // dispara um pouco antes do texto aparecer, para a animação não ficar atrás do scroll
+      { rootMargin: '0px 0px 15% 0px', threshold: 0 },
     )
     observer.observe(root.current)
     return () => observer.disconnect()
