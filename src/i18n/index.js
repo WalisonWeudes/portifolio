@@ -1,4 +1,4 @@
-import { ref, watchEffect } from 'vue'
+import { useSyncExternalStore } from 'react'
 
 const STORAGE_KEY = 'ww-locale'
 export const LOCALES = ['pt', 'en']
@@ -13,16 +13,31 @@ const detect = () => {
   return navigator.language?.toLowerCase().startsWith('pt') ? 'pt' : 'en'
 }
 
-export const locale = ref(detect())
+// Store mínima: o idioma vive fora do React e os componentes assinam via useI18n().
+let locale = detect()
+const listeners = new Set()
+
+const subscribe = (listener) => {
+  listeners.add(listener)
+  return () => listeners.delete(listener)
+}
+const getLocale = () => locale
+
+const syncDocument = () => {
+  document.documentElement.lang = locale === 'pt' ? 'pt-BR' : 'en'
+  document.title = dict[locale]['meta.title']
+}
 
 export const setLocale = (value) => {
-  if (!LOCALES.includes(value)) return
-  locale.value = value
+  if (!LOCALES.includes(value) || value === locale) return
+  locale = value
   try {
     localStorage.setItem(STORAGE_KEY, value)
   } catch {
     /* ignore */
   }
+  syncDocument()
+  listeners.forEach((listener) => listener())
 }
 
 const dict = {
@@ -227,15 +242,22 @@ const dict = {
 }
 
 /** Texto de interface pela chave. */
-export const t = (key) => dict[locale.value][key] ?? dict.pt[key] ?? key
+const translate = (lang, key) => dict[lang][key] ?? dict.pt[key] ?? key
 
 /** Resolve um valor de conteúdo: string simples ou { pt, en }. */
-export const tr = (value) =>
-  value && typeof value === 'object' && !Array.isArray(value) ? (value[locale.value] ?? value.pt) : value
+const resolve = (lang, value) =>
+  value && typeof value === 'object' && !Array.isArray(value) ? (value[lang] ?? value.pt) : value
 
-export const trList = (list) => (list || []).map(tr)
+/** Idioma atual + helpers de tradução; re-renderiza o componente quando o idioma muda. */
+export function useI18n() {
+  const lang = useSyncExternalStore(subscribe, getLocale)
+  return {
+    locale: lang,
+    setLocale,
+    t: (key) => translate(lang, key),
+    tr: (value) => resolve(lang, value),
+    trList: (list) => (list || []).map((value) => resolve(lang, value)),
+  }
+}
 
-watchEffect(() => {
-  document.documentElement.lang = locale.value === 'pt' ? 'pt-BR' : 'en'
-  document.title = dict[locale.value]['meta.title']
-})
+syncDocument()

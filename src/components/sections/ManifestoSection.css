@@ -1,0 +1,87 @@
+.manifesto {
+  --sp: 0;
+  position: relative;
+  height: 240vh;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.manifesto__sticky {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1.5rem, 4vh, 3rem);
+  height: 100vh;
+  height: 100svh;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 6rem var(--gutter) 3rem;
+  overflow: hidden;
+}
+
+.manifesto__label {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.manifesto__text {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.3rem, 6.2vw, 7.4rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-align: justify;
+  text-align-last: justify;
+  text-transform: uppercase;
+}
+
+.manifesto__word {
+  display: inline-block;
+  margin-right: 0.22em;
+  /* cada palavra acende quando o progresso passa pela sua posição */
+  --on: clamp(0, calc(var(--sp) * var(--n) * 1.15 - var(--i)), 1);
+  opacity: calc(0.12 + 0.88 * var(--on));
+  transform: translateY(calc((1 - var(--on)) * 0.12em));
+  transition: color 0.3s ease;
+}
+.manifesto__word.is-accent {
+  color: var(--red);
+}
+.manifesto__word.is-blue {
+  color: var(--blue);
+  font-family: Georgia, serif;
+  font-style: italic;
+  text-transform: none;
+}
+
+.manifesto__bar {
+  height: 2px;
+  background: var(--line);
+}
+.manifesto__bar i {
+  display: block;
+  height: 100%;
+  background: var(--red);
+  transform: scaleX(var(--sp));
+  transform-origin: left;
+}
+
+@media (max-width: 760px) {
+  .manifesto {
+    height: 200vh;
+  }
+  .manifesto__text {
+    font-size: clamp(2rem, 10.5vw, 3.6rem);
+    text-align: left;
+    text-align-last: left;
+  }
+}

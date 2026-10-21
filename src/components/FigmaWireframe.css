@@ -1,0 +1,49 @@
+.wire {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.wire__frame,
+.wire__l {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  vector-effect: non-scaling-stroke;
+  transition: stroke-dashoffset 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.wire__accent {
+  stroke: var(--red);
+  stroke-width: 2;
+}
+.wire__fill {
+  fill: var(--red);
+  opacity: 0;
+  transition: opacity 0.4s ease 0.7s;
+}
+.wire__soft {
+  fill: currentColor;
+}
+.wire__dot {
+  fill: currentColor;
+  opacity: 0.5;
+}
+.is-drawn .wire__frame,
+.is-drawn .wire__l {
+  stroke-dashoffset: 0;
+}
+.is-drawn .wire__fill {
+  opacity: 1;
+}
+.is-drawn .wire__soft {
+  opacity: 0.12;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wire__frame,
+  .wire__l,
+  .wire__fill {
+    transition: none;
+  }
+}

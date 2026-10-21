@@ -1,0 +1,61 @@
+.kt {
+  display: inline;
+}
+.kt__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.kt__word {
+  display: inline-block;
+  white-space: nowrap;
+  /* máscara da entrada (folga em cima/baixo para acentos e o esticar) */
+  clip-path: inset(-0.35em -0.1em -0.12em -0.1em);
+}
+.kt__char {
+  --p: 0;
+  --in: 0;
+  /* velocidade do scroll: só vale depois da entrada (senão cada frame de scroll reinicia a transição) */
+  --sv: 0;
+  display: inline-block;
+  transform-origin: 50% 100%;
+  transform:
+    translateY(calc(var(--in) * 110% + var(--sv) * var(--wv) * 0.12em - var(--p) * 0.07em))
+    skewX(calc(var(--sv) * -7deg))
+    scaleY(calc(1 + var(--p) * 0.22));
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* antes de entrar: letras escondidas abaixo da linha, levemente giradas */
+.kt--hidden .kt__char {
+  --in: 1;
+  transition: none;
+  rotate: 8deg;
+}
+/* entrada em cascata */
+.kt--in .kt__char {
+  --in: 0;
+  rotate: 0deg;
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    rotate 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--i) * 12ms);
+}
+.kt--live .kt__word {
+  clip-path: none;
+}
+.kt--live .kt__char {
+  --sv: var(--kv, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kt__char {
+    transform: none !important;
+    rotate: none !important;
+    transition: none !important;
+  }
+}
