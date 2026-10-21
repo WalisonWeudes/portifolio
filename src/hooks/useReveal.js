@@ -1,10 +1,8 @@
-import { onBeforeUnmount, onMounted } from 'vue'
+import { useEffect } from 'react'
 
 /** Revela elementos `.reveal` / `.reveal-image` quando entram na viewport. */
 export function useReveal(selector = '.reveal, .reveal-image') {
-  let observer
-
-  onMounted(() => {
+  useEffect(() => {
     const items = document.querySelectorAll(selector)
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -13,7 +11,7 @@ export function useReveal(selector = '.reveal, .reveal-image') {
       return
     }
 
-    observer = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue
@@ -24,7 +22,7 @@ export function useReveal(selector = '.reveal, .reveal-image') {
       { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
     )
     items.forEach((item) => observer.observe(item))
-  })
 
-  onBeforeUnmount(() => observer?.disconnect())
+    return () => observer.disconnect()
+  }, [selector])
 }

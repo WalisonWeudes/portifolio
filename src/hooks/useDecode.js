@@ -1,4 +1,4 @@
-import { onBeforeUnmount, onMounted } from 'vue'
+import { useEffect } from 'react'
 
 const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*/<>+=_'
 const randomGlyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
@@ -74,34 +74,36 @@ const SECTION_SELECTOR = [
 
 /** Decodifica o hero na entrada do site e os títulos quando entram na tela. */
 export function useDecode() {
-  let observer
-
-  const onReady = () => {
-    setTimeout(() => {
-      document.querySelectorAll(HERO_SELECTOR).forEach((el, i) => {
-        setTimeout(() => decode(el, { duration: 900 }), i * 70)
-      })
-    }, 250)
-  }
-
-  onMounted(() => {
+  useEffect(() => {
+    let readyTimer
+    const onReady = () => {
+      readyTimer = setTimeout(() => {
+        document.querySelectorAll(HERO_SELECTOR).forEach((el, i) => {
+          setTimeout(() => decode(el, { duration: 900 }), i * 70)
+        })
+      }, 250)
+    }
     window.addEventListener('site:ready', onReady)
-    if (reduce() || !('IntersectionObserver' in window)) return
-    observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue
-          decode(entry.target)
-          observer.unobserve(entry.target)
-        }
-      },
-      { threshold: 0.5 },
-    )
-    document.querySelectorAll(SECTION_SELECTOR).forEach((el) => observer.observe(el))
-  })
 
-  onBeforeUnmount(() => {
-    window.removeEventListener('site:ready', onReady)
-    observer?.disconnect()
-  })
+    let observer
+    if (!reduce() && 'IntersectionObserver' in window) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue
+            decode(entry.target)
+            observer.unobserve(entry.target)
+          }
+        },
+        { threshold: 0.5 },
+      )
+      document.querySelectorAll(SECTION_SELECTOR).forEach((el) => observer.observe(el))
+    }
+
+    return () => {
+      window.removeEventListener('site:ready', onReady)
+      clearTimeout(readyTimer)
+      observer?.disconnect()
+    }
+  }, [])
 }
