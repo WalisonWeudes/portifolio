@@ -51,7 +51,7 @@ export default function PageLoader({ onLoaded }) {
 
   const { progressRef, start: startPreload } = usePreloader({
     fonts: ['Chetta', 'Odeto'],
-    images: ['/imagens/retrato.webp'],
+    images: ['/imagens/retrato-social.webp', '/imagens/retrato.webp'],
   })
 
   // callback sempre atual; "site:ready" é disparado uma única vez (StrictMode roda o efeito duas vezes)

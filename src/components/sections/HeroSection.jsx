@@ -46,7 +46,12 @@ export default function HeroSection() {
           </div>
           <div className="hero__portrait">
             <div className="hero__portrait-frame">
-              <HeroPortrait base="/imagens/retrato.webp" alt={t('hero.portraitAlt')} />
+              {/* Retrato de camisa; no hover, a versão com a camiseta de aranha aparece por baixo */}
+              <HeroPortrait
+                base="/imagens/retrato-social.webp"
+                reveal="/imagens/retrato.webp"
+                alt={t('hero.portraitAlt')}
+              />
             </div>
             <span className="portrait-mark">+</span>
             <span className="portrait-caption">FULL STACK / UI DESIGN</span>

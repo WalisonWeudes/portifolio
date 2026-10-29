@@ -1,5 +1,5 @@
-// Retrato com revelação "aquática": ao passar o mouse, a versão com o traje
-// do Homem-Aranha se espalha a partir do cursor como uma onda de água.
+// Retrato com revelação "aquática": ao passar o mouse, a outra versão do retrato
+// (camiseta de aranha) se espalha a partir do cursor como uma onda de água.
 import { useEffect, useRef } from 'react'
 import './HeroPortrait.css'
 
@@ -18,8 +18,8 @@ const loadReveal = (reveal, base) =>
 
 export default function HeroPortrait({
   base,
-  // Arte com máscara/traje. Basta colocar o arquivo em public/imagens/.
-  reveal = '/imagens/foro-porti-traje.png',
+  // Arte revelada no hover (mesmo enquadramento da base), em public/imagens/.
+  reveal = '/imagens/retrato.webp',
   alt = '',
 }) {
   const root = useRef(null)

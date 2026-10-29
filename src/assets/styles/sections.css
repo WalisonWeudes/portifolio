@@ -195,6 +195,7 @@
   inset: 0;
   background: linear-gradient(130deg, transparent 60%, rgba(230, 36, 41, 0.26));
   mix-blend-mode: screen;
+  pointer-events: none; /* sem isso o retrato não recebe o hover */
 }
 .hero__portrait img {
   width: 100%;
