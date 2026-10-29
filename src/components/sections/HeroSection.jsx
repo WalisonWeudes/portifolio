@@ -1,6 +1,7 @@
 import GlitchHeroTitle from '../GlitchHeroTitle'
 import HeroPortrait from '../HeroPortrait'
 import ManifestoSection from './ManifestoSection'
+import ShinyText from '../reactbits/ShinyText/ShinyText'
 import { RESUME_URL } from '../../data/content'
 import { useI18n } from '../../i18n'
 
@@ -23,7 +24,8 @@ export default function HeroSection() {
         <div className="hero__meta hero__meta--right">
           <span>{currentYear}</span>
           <span className="availability">
-            <i></i> {t('hero.available')}
+            <i></i>{' '}
+            <ShinyText text={t('hero.available')} color="#f5f5f2" shineColor="#e62429" speed={3} delay={1.5} shineWidth={30} />
           </span>
         </div>
         <div className="hero__content">

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import KineticText from '../KineticText'
+import GlareHover from '../reactbits/GlareHover/GlareHover'
 import { projects } from '../../data/content'
 import { useI18n } from '../../i18n'
 import { useScrollFrame } from '../../hooks/useScrollProgress'
@@ -82,12 +83,24 @@ export default function ProjectsSection() {
                   rel="noreferrer"
                   aria-label={`${t('projects.openAria')} ${tr(project.title)}`}
                 >
-                  <img
-                    src={project.preview}
-                    alt={`${t('projects.previewAlt')} ${tr(project.title)}`}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  {/* Reflexo que atravessa a imagem no hover (React Bits) */}
+                  <GlareHover
+                    className="case__glare"
+                    width="100%"
+                    height="100%"
+                    borderRadius="0"
+                    glareColor="#ffffff"
+                    glareOpacity={0.28}
+                    glareSize={60}
+                    transitionDuration={900}
+                  >
+                    <img
+                      src={project.preview}
+                      alt={`${t('projects.previewAlt')} ${tr(project.title)}`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </GlareHover>
                   <span className="case__open">
                     {t('projects.open')} <i>↗</i>
                   </span>

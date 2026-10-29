@@ -123,7 +123,7 @@ export default function KineticText({ text, entrance = true }) {
           <span key={`${text}-${w}`} className="kt__word">
             {word.chars.map((ch, c) => (
               <span key={c} className="kt__char" style={{ '--i': ch.i, '--wv': ch.wave }}>
-                {ch.c}
+                {ch.c === ' ' ? ' ' : ch.c /* espaço comum some no fim do inline-block */}
               </span>
             ))}
           </span>

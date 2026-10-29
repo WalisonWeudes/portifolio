@@ -1,4 +1,6 @@
 import KineticText from '../KineticText'
+import SpotlightCard from '../reactbits/SpotlightCard/SpotlightCard'
+import CurvedLoop from '../reactbits/CurvedLoop/CurvedLoop'
 import { skillGroups } from '../../data/content'
 import { useI18n } from '../../i18n'
 
@@ -17,16 +19,40 @@ export default function StackSection() {
       </header>
       <div className="stack__groups">
         {skillGroups.map((group) => (
-          <div key={group.number} className="stack__group reveal">
-            <span>{group.number}</span>
+          <SpotlightCard
+            key={group.number}
+            className="stack__group reveal"
+            spotlightColor="#e62429"
+            intensity={0.22}
+            spotlightSize={320}
+            borderGlow={0.8}
+            proximity={60}
+          >
+            <span className="stack__num">{group.number}</span>
             <h3>{tr(group.title)}</h3>
             <ul>
               {group.items.map((item, i) => (
                 <li key={i}>{tr(item)}</li>
               ))}
             </ul>
-          </div>
+          </SpotlightCard>
         ))}
+      </div>
+      {/* Faixa em onda, como um fio de teia: arraste para girar (React Bits) */}
+      <div className="stack__loop">
+        <CurvedLoop
+          marqueeText={t('stack.loop')}
+          shape="wave"
+          curveAmount={260}
+          speed={1.4}
+          fontSize={88}
+          fontWeight={400}
+          className="stack__loop-text"
+          separator="✦"
+          separatorColor="#e62429"
+          edgeFade={0.12}
+          scrollBoost={1}
+        />
       </div>
     </section>
   )

@@ -1,0 +1,61 @@
+/* Ajustes dos componentes React Bits (src/components/reactbits) ao visual do portfólio.
+   Os arquivos originais ficam intactos; tudo que muda o visual mora aqui. */
+
+/* ClickSpark: faíscas acima de tudo (header fixo, aranhas), sem bloquear cliques */
+.spark-root > span[aria-hidden='true'] {
+  z-index: 200 !important;
+}
+
+/* SpotlightCard nos grupos da stack: mantém o grid reto e as divisórias do site */
+.stack__group.spotlight-card {
+  /* o componente define fundo/borda por style inline; aqui o grid fica como era */
+  background-color: transparent;
+  box-shadow: none;
+  padding: 2rem clamp(1rem, 2vw, 2.5rem) 1rem;
+  border-radius: 0;
+  overflow: hidden;
+}
+.stack__group .spotlight-card__border {
+  display: none;
+}
+.stack__group.spotlight-card:last-child {
+  border: 0;
+}
+.stack__group .stack__num {
+  z-index: 0;
+  transition: color 0.4s var(--ease);
+}
+.stack__group:hover .stack__num {
+  color: rgba(230, 36, 41, 0.28);
+}
+
+/* GlareHover nas imagens dos projetos: ocupa o preview inteiro */
+.case__glare.glare-hover {
+  display: block;
+  border: 0;
+}
+
+/* CurvedLoop: faixa em onda entre a stack e as ilustrações */
+.stack__loop {
+  margin: clamp(3rem, 7vw, 7rem) calc(var(--gutter) * -1) 0;
+  overflow: hidden;
+  color: var(--text);
+  cursor: grab;
+}
+.stack__loop:active {
+  cursor: grabbing;
+}
+.stack__loop .curved-loop-jacket {
+  min-height: 0;
+  padding: 2.5rem 0;
+}
+.stack__loop-text {
+  font-family: var(--display);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 900px) {
+  .stack__loop .curved-loop-jacket {
+    padding: 1rem 0;
+  }
+}

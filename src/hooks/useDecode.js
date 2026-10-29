@@ -55,7 +55,7 @@ export function decode(el, { duration = 750 } = {}) {
   requestAnimationFrame(frame)
 }
 
-const HERO_SELECTOR = '.hero h1 .word, .hero .eyebrow, .hero__meta span, .topbar__role span'
+const HERO_SELECTOR = '.hero h1 .word, .hero .eyebrow, .hero__meta > span, .topbar__role span'
 const SECTION_SELECTOR = [
   '.section-heading h2',
   '.section-heading > div p',
