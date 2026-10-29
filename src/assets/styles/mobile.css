@@ -79,10 +79,6 @@
   .illustration-grid {
     scroll-padding-left: var(--gutter);
   }
-  .contact__form input,
-  .contact__form textarea {
-    font-size: 1rem; /* evita zoom automático no iOS */
-  }
 }
 
 @media (max-width: 430px) {

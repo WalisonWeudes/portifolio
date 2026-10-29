@@ -217,10 +217,9 @@
     font-size: clamp(3.7rem, 17vw, 7rem);
   }
   .contact__bottom {
-    display: block;
-  }
-  .contact__form {
-    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
   }
   .contact footer span:last-child {
     display: none;
@@ -286,10 +285,6 @@
   }
   .contact__top p {
     display: none;
-  }
-  .contact__links > div {
-    flex-wrap: wrap;
-    gap: 1rem 1.5rem;
   }
   .contact footer {
     font-size: 0.48rem;
@@ -527,10 +522,6 @@
   }
   .experience-list h3,
   .experience-list p {
-    overflow-wrap: anywhere;
-  }
-  .contact__links > a {
-    max-width: 100%;
     overflow-wrap: anywhere;
   }
 }

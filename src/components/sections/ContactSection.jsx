@@ -1,24 +1,40 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import KineticText from '../KineticText'
 import { EMAIL, RESUME_URL, socials } from '../../data/content'
 import { useI18n } from '../../i18n'
 
 const currentYear = new Date().getFullYear()
 
+// copia o e-mail; fallback para navegadores sem a API de área de transferência
+const copyText = async (text) => {
+  try {
+    await navigator.clipboard.writeText(text)
+    return true
+  } catch {
+    const field = document.createElement('textarea')
+    field.value = text
+    field.setAttribute('readonly', '')
+    field.style.position = 'fixed'
+    field.style.opacity = '0'
+    document.body.appendChild(field)
+    field.select()
+    const ok = document.execCommand('copy')
+    field.remove()
+    return ok
+  }
+}
+
 export default function ContactSection() {
   const { t } = useI18n()
-  const [form, setForm] = useState({ email: '', subject: '', message: '' })
+  const [copied, setCopied] = useState(false)
+  const timer = useRef(null)
+  useEffect(() => () => clearTimeout(timer.current), [])
 
-  const update = (field) => (event) => setForm((f) => ({ ...f, [field]: event.target.value }))
-
-  const sendEmail = (event) => {
-    event.preventDefault()
-    // equivalente ao v-model.trim: aparar os espaços no envio
-    const email = form.email.trim()
-    const subject = form.subject.trim()
-    const message = form.message.trim()
-    const body = `${t('contact.replyTo')} ${email}\n\n${message}`
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  const copyEmail = async () => {
+    if (!(await copyText(EMAIL))) return
+    setCopied(true)
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => setCopied(false), 2200)
   }
 
   return (
@@ -40,53 +56,36 @@ export default function ContactSection() {
         <br />
         <KineticText text={t('contact.title3')} /> <span className="contact__arrow">↗</span>
       </h2>
-      <div className="contact__bottom">
-        <div className="contact__links reveal">
-          <a href={`mailto:${EMAIL}`}>{EMAIL} ↗</a>
-          <div>
+      <div className="contact__bottom reveal">
+        {/* e-mail em destaque: clicar copia */}
+        <button
+          type="button"
+          className={`contact__copy${copied ? ' is-copied' : ''}`}
+          onClick={copyEmail}
+          aria-label={`${t('contact.copyAria')} ${EMAIL}`}
+        >
+          <span className="contact__copy-email">{EMAIL}</span>
+          <span className="contact__copy-action" aria-live="polite">
+            {copied ? t('contact.copied') : t('contact.copy')}
+          </span>
+        </button>
+
+        <ul className="contact__channels">
+          <li>
             <a href={RESUME_URL} download="Curriculo Walison Weudes.pdf">
-              {t('resume.short')} ↓
+              <span>{t('resume.short')}</span>
+              <i aria-hidden="true">↓</i>
             </a>
-            {socials.map((social) => (
-              <a key={social.name} href={social.href} target="_blank" rel="noreferrer">
-                {social.name} ↗
+          </li>
+          {socials.map((social) => (
+            <li key={social.name}>
+              <a href={social.href} target="_blank" rel="noreferrer">
+                <span>{social.name}</span>
+                <i aria-hidden="true">↗</i>
               </a>
-            ))}
-          </div>
-        </div>
-        <form className="contact__form reveal" onSubmit={sendEmail}>
-          <label htmlFor="contact-email">{t('contact.email')}</label>
-          <input
-            id="contact-email"
-            value={form.email}
-            onChange={update('email')}
-            type="email"
-            autoComplete="email"
-            placeholder={t('contact.emailPh')}
-            required
-          />
-          <label htmlFor="contact-subject">{t('contact.subject')}</label>
-          <input
-            id="contact-subject"
-            value={form.subject}
-            onChange={update('subject')}
-            type="text"
-            placeholder={t('contact.subjectPh')}
-            required
-          />
-          <label htmlFor="contact-message">{t('contact.message')}</label>
-          <textarea
-            id="contact-message"
-            value={form.message}
-            onChange={update('message')}
-            rows={3}
-            placeholder={t('contact.messagePh')}
-            required
-          ></textarea>
-          <button className="text-link" type="submit">
-            {t('contact.send')} <span>↗</span>
-          </button>
-        </form>
+            </li>
+          ))}
+        </ul>
       </div>
       <footer>
         <span>© {currentYear} WALISON WEUDES</span>

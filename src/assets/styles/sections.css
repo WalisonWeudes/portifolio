@@ -986,54 +986,114 @@
 }
 .contact__bottom {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(3rem, 10vw, 12rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(3rem, 8vw, 9rem);
   align-items: end;
 }
-.contact__links > a {
-  position: relative;
-  display: inline-block;
-  font-size: clamp(1.1rem, 2vw, 2rem);
-  font-weight: 600;
-}
-.contact__links > div {
-  display: flex;
-  gap: 2rem;
-  margin-top: 3rem;
-}
-.contact__links > div a {
-  position: relative;
-  font-size: 0.65rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-}
-.contact__form {
+
+/* botão de copiar o e-mail */
+.contact__copy {
   display: grid;
+  justify-items: start;
+  gap: 1.1rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: copy;
 }
-.contact__form label {
-  margin-top: 1.4rem;
-  font-size: 0.55rem;
+.contact__copy-email {
+  font-size: clamp(1.4rem, 2.6vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat;
+  transition: background-size 0.5s var(--ease);
+}
+.contact__copy:hover .contact__copy-email,
+.contact__copy:focus-visible .contact__copy-email {
+  background-size: 100% 2px;
+}
+.contact__copy-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.25rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
+  clip-path: var(--chamfer, none);
+  transition:
+    background 0.3s ease,
+    transform 0.3s var(--ease);
 }
-.contact__form input,
-.contact__form textarea {
-  width: 100%;
-  padding: 0.7rem 0;
-  border: 0;
+.contact__copy-action::before {
+  content: '';
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+  box-shadow: 3px -3px 0 -1.5px var(--bg), 3px -3px 0 0 currentColor;
+}
+.contact__copy:hover .contact__copy-action,
+.contact__copy:focus-visible .contact__copy-action {
+  background: var(--red);
+  transform: translateY(-2px);
+}
+.contact__copy.is-copied .contact__copy-action {
+  background: var(--blue);
+}
+.contact__copy.is-copied .contact__copy-action::before {
+  display: none;
+}
+.contact__copy:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 8px;
+}
+
+/* currículo e redes: lista grande com setas */
+.contact__channels {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(8, 9, 13, 0.4);
+}
+.contact__channels li {
   border-bottom: 1px solid rgba(8, 9, 13, 0.4);
-  border-radius: 0;
-  outline: 0;
-  background: transparent;
-  color: var(--bg);
-  resize: vertical;
 }
-.contact__form input:focus,
-.contact__form textarea:focus {
-  border-color: var(--red);
+.contact__channels a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(0.9rem, 1.6vw, 1.4rem) 0;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 3.4vw, 3.4rem);
+  line-height: 1;
+  text-transform: uppercase;
+  transition:
+    color 0.3s ease,
+    padding 0.45s var(--ease);
 }
-.contact__form .text-link {
-  margin-top: 1.5rem;
+.contact__channels a i {
+  color: var(--blue);
+  font-style: normal;
+  font-size: 0.7em;
+  transition: transform 0.45s var(--ease);
+}
+.contact__channels a:hover,
+.contact__channels a:focus-visible {
+  padding-left: 0.8rem;
+  color: var(--red);
+}
+.contact__channels a:hover i,
+.contact__channels a:focus-visible i {
+  transform: translate(4px, -4px);
 }
 .contact footer {
   display: flex;
