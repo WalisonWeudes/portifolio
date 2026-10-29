@@ -1,5 +1,6 @@
 import KineticText from '../KineticText'
 import StatsStrip from '../StatsStrip'
+import FieldSection from './FieldSection'
 import { activities } from '../../data/content'
 import { useI18n } from '../../i18n'
 
@@ -36,6 +37,7 @@ export default function ExperienceSection() {
           </li>
         ))}
       </ol>
+      <FieldSection />
     </section>
   )
 }

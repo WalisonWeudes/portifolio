@@ -210,6 +210,29 @@ export const activities = [
   },
 ]
 
+// Em campo: fotos de eventos, palestras e minicursos.
+// Para adicionar uma foto: coloque as imagens em public/imagens/em-campo/ e copie um item abaixo.
+//   card  → recorte vertical 4:5 que aparece na seção
+//   image → foto inteira, aberta ao clicar
+//   date  → opcional
+export const fieldwork = [
+  {
+    card: '/imagens/em-campo/geek-day-minicurso-card.webp',
+    image: '/imagens/em-campo/geek-day-minicurso.webp',
+    event: L('Geek Day — UFPI'),
+    title: L('Minicurso de Design Web', 'Web Design Mini-course'),
+    role: L('Instrutor', 'Instructor'),
+    description: L(
+      'Ministrei um minicurso sobre design web: layout, cores, tipografia, imagens e ícones, responsividade, usabilidade e acessibilidade.',
+      'I taught a mini-course on web design: layout, color, typography, images and icons, responsiveness, usability and accessibility.',
+    ),
+    alt: L(
+      'Walison apresentando o slide "O que é design web?" em uma sala de aula',
+      'Walison presenting the slide "What is web design?" in a classroom',
+    ),
+  },
+]
+
 // Números do currículo (ISESMT, ago–out de 2026)
 export const stats = [
   { value: 889, label: L('commits em 3 meses', 'commits in 3 months') },
