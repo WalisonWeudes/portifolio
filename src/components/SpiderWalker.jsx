@@ -230,6 +230,8 @@ export default function SpiderWalker() {
     const TRAP_RADIUS = 88
     const FREE_SPEED = 1.9 // px/ms
     const FREE_ENERGY = 520 // ms acumulados em alta velocidade (~0,5s de sacudida)
+    const LEAP_RANGE = 230 // px: a esta distância a aranha salta no cursor
+    const LEAP_TIME = 170 // ms do salto
 
     const setTrappedUI = (on) => {
       document.documentElement.classList.toggle('is-trapped', on)
@@ -248,7 +250,7 @@ export default function SpiderWalker() {
     }
 
     const onClickCapture = (event) => {
-      if (trap && trap.phase === 'caught') {
+      if (trap && (trap.phase === 'weave' || trap.phase === 'caught')) {
         event.preventDefault()
         event.stopPropagation()
         return
@@ -352,6 +354,49 @@ export default function SpiderWalker() {
       ctx.stroke()
     }
 
+    // Prende o cursor na hora: a teia começa a ser tecida já com ele preso.
+    const capture = () => {
+      trap.phase = 'weave'
+      trap.phaseAt = clock
+      trap.caughtAt = clock
+      trap.energy = 0
+      trap.c = { x: pointer.x, y: pointer.y }
+      trap.orb = makeOrb(trap.c, TRAP_RADIUS, { turns: 5, speed: 2.2, spokeCount: 16, pauses: 0.12, radiusTime: 26 })
+      // fios de suporte esticados até a borda da tela
+      for (const th of trap.orb.tethers) {
+        const sx = trap.c.x + th.from.x
+        const sy = trap.c.y + th.from.y
+        let dx = th.to.x - th.from.x
+        let dy = th.to.y - th.from.y
+        const dl = Math.hypot(dx, dy) || 1
+        dx /= dl
+        dy /= dl
+        const tx = dx > 0 ? (viewport.width - sx) / dx : dx < 0 ? -sx / dx : Infinity
+        const ty = dy > 0 ? (viewport.height - sy) / dy : dy < 0 ? -sy / dy : Infinity
+        const len = Math.max(20, Math.min(tx, ty)) + 4
+        th.to = { x: th.from.x + dx * len, y: th.from.y + dy * len }
+        th.sag = rand(0.015, 0.04) // fio longo e esticado
+        th.brace.t = Math.min(0.3, rand(45, 75) / len)
+      }
+      setTrappedUI(true)
+    }
+
+    // Cursor preso: só se afasta um pouco, puxado elasticamente de volta.
+    // Sacudir rápido acumula energia (devolve 0–1); devagar ela se dissipa.
+    const holdPrey = (dt) => {
+      const pullX = pointer.x - trap.c.x
+      const pullY = pointer.y - trap.c.y
+      const mag = Math.hypot(pullX, pullY)
+      const reach = Math.min(mag, 70) * 0.5
+      const ox = mag ? (pullX / mag) * reach : 0
+      const oy = mag ? (pullY / mag) * reach : 0
+      trap.offset.x += (ox - trap.offset.x) * 0.3
+      trap.offset.y += (oy - trap.offset.y) * 0.3
+      if (pointer.speed > FREE_SPEED) trap.energy += dt
+      else trap.energy = Math.max(0, trap.energy - dt * 0.6)
+      return clamp01(trap.energy / FREE_ENERGY)
+    }
+
     const updateTrap = (dt) => {
       if (!trap) {
         if (clock >= nextTrapAt) {
@@ -366,75 +411,68 @@ export default function SpiderWalker() {
         const dx = pointer.x - spider.x
         const dy = pointer.y - spider.y
         const dist = Math.hypot(dx, dy)
-        if (clock - trap.phaseAt > 9000 || pointer.x < 0) {
+        if (clock - trap.phaseAt > 6000 || pointer.x < 0) {
           spider.mode = 'walk'
           giveUp()
           return
         }
-        if (dist < 34) {
-          trap.phase = 'weave'
+        // perto o bastante: salta em cima do cursor soltando um fio
+        if (dist < LEAP_RANGE) {
+          trap.phase = 'leap'
           trap.phaseAt = clock
-          trap.c = { x: pointer.x, y: pointer.y }
-          trap.orb = makeOrb(trap.c, TRAP_RADIUS, { turns: 6, speed: 0.42, spokeCount: 16 }) // hub === trap.c
+          trap.from = { x: spider.x, y: spider.y }
           return
         }
-        const stepLen = Math.min(dist * 3 + 160, 420) * (dt / 1000)
+        // corre rápido em direção ao cursor
+        const stepLen = Math.min(dist * 5 + 500, 1500) * (dt / 1000)
         moveTo(spider, spider.x + (dx / dist) * stepLen, spider.y + (dy / dist) * stepLen)
         render(spider, dt)
         return
       }
 
-      if (trap.phase === 'weave') {
-        const progress = clamp01((clock - trap.phaseAt) / trap.orb.duration)
-        // a teia acompanha o cursor enquanto é tecida
-        trap.c.x += (pointer.x - trap.c.x) * 0.25
-        trap.c.y += (pointer.y - trap.c.y) * 0.25
-        const head = drawOrb(trap.orb, progress, 1, clock)
-        moveTo(spider, head.x, head.y)
+      if (trap.phase === 'leap') {
+        const p = clamp01((clock - trap.phaseAt) / LEAP_TIME)
+        const e = 1 - (1 - p) ** 3
+        const x = trap.from.x + (pointer.x - trap.from.x) * e
+        // arco do salto
+        const y = trap.from.y + (pointer.y - trap.from.y) * e - Math.sin(p * Math.PI) * 28
+        ctx.strokeStyle = 'rgba(225, 232, 248, 0.55)'
+        ctx.lineWidth = 0.9
+        ctx.beginPath()
+        ctx.moveTo(trap.from.x, trap.from.y)
+        ctx.lineTo(x, y)
+        ctx.stroke()
+        moveTo(spider, x, y)
         render(spider, dt)
-        if (progress >= 1) {
-          trap.phase = 'caught'
-          trap.phaseAt = clock
-          trap.energy = 0
-          setTrappedUI(true)
-        }
+        if (p >= 1) capture()
         return
       }
 
-      if (trap.phase === 'caught') {
-        // cursor preso: só se afasta um pouco, puxado elasticamente de volta
-        const pullX = pointer.x - trap.c.x
-        const pullY = pointer.y - trap.c.y
-        const mag = Math.hypot(pullX, pullY)
-        const reach = Math.min(mag, 70) * 0.5
-        const ox = mag ? (pullX / mag) * reach : 0
-        const oy = mag ? (pullY / mag) * reach : 0
-        trap.offset.x += (ox - trap.offset.x) * 0.3
-        trap.offset.y += (oy - trap.offset.y) * 0.3
-
-        // sacudir rápido acumula energia; devagar ela se dissipa
-        if (pointer.speed > FREE_SPEED) trap.energy += dt
-        else trap.energy = Math.max(0, trap.energy - dt * 0.6)
-        const strain = clamp01(trap.energy / FREE_ENERGY)
-
-        // quanto mais a presa se debate, mais a teia vibra
-        drawOrb(trap.orb, 1, 1, clock, trap.offset, strain)
-
+      if (trap.phase === 'weave' || trap.phase === 'caught') {
+        const strain = holdPrey(dt)
+        if (trap.phase === 'weave') {
+          // o cursor já está preso; a teia é tecida em volta dele
+          const progress = clamp01((clock - trap.phaseAt) / trap.orb.duration)
+          const head = drawOrb(trap.orb, progress, 1, clock, trap.offset, strain)
+          moveTo(spider, head.x, head.y)
+          if (progress >= 1) trap.phase = 'caught'
+        } else {
+          // quanto mais a presa se debate, mais a teia vibra
+          drawOrb(trap.orb, 1, 1, clock, trap.offset, strain)
+          // a aranha vigia a presa, balançando no alto da teia
+          moveTo(spider, trap.c.x + 6, trap.c.y - TRAP_RADIUS * 0.55 + Math.sin(clock / 260) * 3, false)
+          spider.angle += (180 - spider.angle) * 0.05
+        }
         drawCursor(trap.c.x + trap.offset.x, trap.c.y + trap.offset.y)
-
-        if (clock - trap.phaseAt > 2500) {
+        if (clock - trap.caughtAt > 2500) {
           ctx.font = '600 10px "Courier New", monospace'
           ctx.fillStyle = 'rgba(245, 245, 242, 0.75)'
           ctx.textAlign = 'center'
           ctx.fillText(tRef.current('spider.hint'), trap.c.x, trap.c.y + TRAP_RADIUS + 36)
         }
-
-        // a aranha vigia a presa, balançando no alto da teia
-        moveTo(spider, trap.c.x + 6, trap.c.y - TRAP_RADIUS * 0.55 + Math.sin(clock / 260) * 3, false)
-        spider.angle += (180 - spider.angle) * 0.05
         render(spider, dt)
 
-        const timedOut = clock - trap.phaseAt > 25000 // rede de segurança
+        const timedOut = clock - trap.caughtAt > 25000 // rede de segurança
         if (strain >= 1 || timedOut) shatter()
         return
       }

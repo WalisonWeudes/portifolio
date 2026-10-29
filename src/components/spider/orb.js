@@ -52,7 +52,11 @@ const quadAt = (a, c, b, t) => {
   return { x: k * k * a.x + 2 * k * t * c.x + t * t * b.x, y: k * k * a.y + 2 * k * t * c.y + t * t * b.y }
 }
 
-export function makeOrb(hub, radius, { turns = 5, speed = 0.2, spokeCount, anchors = true } = {}) {
+export function makeOrb(
+  hub,
+  radius,
+  { turns = 5, speed = 0.2, spokeCount, anchors = true, pauses = 1, radiusTime } = {},
+) {
   const rot = Math.random() * TAU
 
   // 1. moldura: 5–7 cantos, mais longe embaixo (sin > 0 = para baixo na tela)
@@ -146,7 +150,7 @@ export function makeOrb(hub, radius, { turns = 5, speed = 0.2, spokeCount, ancho
     : []
 
   // linha do tempo da construção (ms) — a aranha anda em velocidade constante
-  const RADIUS_TIME = Math.max(70, 1600 / n / (speed / 0.2))
+  const RADIUS_TIME = radiusTime ?? Math.max(70, 1600 / n / (speed / 0.2))
   const timeline = []
   let t = RADIUS_TIME * n + 250 // raios + pequena pausa no centro
   const radiiEnd = t
@@ -161,11 +165,11 @@ export function makeOrb(hub, radius, { turns = 5, speed = 0.2, spokeCount, ancho
     }
   }
   const center = { x: 0, y: 0, f: 0 }
-  pushPath([center, ...hubPts], 'hub', 14)
+  pushPath([center, ...hubPts], 'hub', 14 * pauses)
   const hubEnd = t
   pushPath([hubPts[hubPts.length - 1], onSpoke(0, outer)], 'move', 0)
   const spiralStart = t
-  pushPath(spiral, 'spiral', 45)
+  pushPath(spiral, 'spiral', 45 * pauses)
   pushPath([spiral[spiral.length - 1], center], 'move', 0)
 
   return {
