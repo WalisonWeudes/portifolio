@@ -3,7 +3,6 @@ import { usePreloader } from '../hooks/usePreloader'
 import { useI18n } from '../i18n'
 import spiderMark from '../assets/aranha-loader.svg'
 import InkMark from './InkMark'
-import SpiderStampede from './SpiderStampede'
 import './PageLoader.css'
 
 const universes = ['TERRA-1610', 'TERRA-616', 'TERRA-65', 'TERRA-928', 'TERRA-42', 'TERRA-138', 'TERRA-8311', 'TERRA-90214']
@@ -233,9 +232,6 @@ export default function PageLoader({ onLoaded }) {
 
         <div className="hud__progress" aria-hidden="true"><i></i></div>
       </div>
-
-      {/* na transição, a aranha estoura em várias que fogem em debandada */}
-      <SpiderStampede active={phase === 'leaving'} />
     </div>
   )
 }

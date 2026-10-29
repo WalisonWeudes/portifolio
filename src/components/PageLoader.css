@@ -240,23 +240,15 @@
 .mark__base {
   background: rgba(11, 11, 16, 0.2);
 }
-/* na saída, a aranha "estoura" e dá lugar à debandada */
+/* na saída, a aranha cresce um pouco e desbota junto com a onda de triângulos */
 .is-leaving .mark {
-  animation: markBurst 0.18s ease-out forwards;
+  animation: markOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-@keyframes markBurst {
+@keyframes markOut {
   to {
     opacity: 0;
-    transform: scale(1.35);
+    transform: scale(1.15);
   }
-}
-.loader__stampede {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
 }
 /* ondas de choque ao completar */
 .mark__ring {
