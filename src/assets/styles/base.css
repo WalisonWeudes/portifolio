@@ -36,6 +36,13 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
+  /* sem barra de rolagem visível (a página continua rolando normalmente;
+     o progresso aparece na linha fina no topo) */
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 body {
   margin: 0;
