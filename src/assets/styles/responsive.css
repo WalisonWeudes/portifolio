@@ -37,6 +37,23 @@
   .illustration-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+  /* tablet: texto do hero por cima do retrato e terminando antes dele */
+  .hero__headline {
+    position: relative;
+    z-index: 2;
+  }
+  .hero__intro {
+    grid-template-columns: 1fr;
+    max-width: min(26rem, 44vw);
+  }
+  /* contato empilhado: links em largura total */
+  .contact__bottom {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+  .contact__channels a {
+    font-size: clamp(2rem, 6vw, 3.2rem);
+  }
 }
 @media (max-width: 760px) {
   :root {
