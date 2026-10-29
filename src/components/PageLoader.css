@@ -45,10 +45,11 @@
   background: transparent;
 }
 .is-leaving .loader__pixels i {
-  animation: pixelOut 0.16s steps(1) var(--d) forwards;
+  /* espera o "estouro" da aranha antes de o mosaico começar a sumir */
+  animation: pixelOut 0.16s steps(1) calc(var(--d) + 200ms) forwards;
 }
 .is-leaving .loader__pixels i.is-dark {
-  animation: pixelOutDark 0.28s steps(1) var(--d) forwards;
+  animation: pixelOutDark 0.28s steps(1) calc(var(--d) + 200ms) forwards;
 }
 @keyframes pixelOut {
   to {
@@ -79,8 +80,6 @@
 .is-leaving .loader__hud {
   opacity: 0;
   transform: scale(0.985);
-  /* espera a aranha subir pelo fio antes de sumir */
-  transition-delay: 0.32s;
 }
 
 .hud__frame {
@@ -230,60 +229,7 @@
 }
 
 /* ---------- aranha (carregamento estilo jogo) ---------- */
-/* ---------- aranha pendurada no fio ---------- */
-/* desce do topo com quique de mola; na saída sobe rápido pelo fio */
-.hang {
-  position: relative;
-  animation: hangDrop 1.25s cubic-bezier(0.22, 1.45, 0.45, 1) both;
-}
-.is-leaving .hang {
-  animation: hangZip 0.5s cubic-bezier(0.55, 0, 0.8, 0.2) forwards;
-}
-/* balança como pêndulo, com o pivô bem acima da tela */
-.hang__swing {
-  transform-origin: 50% -55vh;
-  /* começa no centro (0°) só depois da queda, para não "pular" de lado */
-  animation: hangSway 4.4s linear 1.25s infinite;
-}
-.hang__thread {
-  position: absolute;
-  bottom: 74%;
-  left: 50%;
-  width: 1.5px;
-  height: 75vh;
-  margin-left: -0.75px;
-  background: linear-gradient(to top, var(--ink), rgba(11, 11, 16, 0.55) 40%, rgba(11, 11, 16, 0));
-}
-@keyframes hangDrop {
-  from {
-    transform: translateY(-70vh);
-  }
-}
-@keyframes hangZip {
-  20% {
-    transform: translateY(14px);
-  }
-  to {
-    transform: translateY(-95vh);
-  }
-}
-@keyframes hangSway {
-  0%,
-  50%,
-  100% {
-    transform: rotate(0deg);
-    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 1);
-  }
-  25% {
-    transform: rotate(1.6deg);
-    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 1);
-  }
-  75% {
-    transform: rotate(-1.6deg);
-    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 1);
-  }
-}
-
+/* ---------- aranha de tinta ---------- */
 .mark {
   position: relative;
   width: clamp(110px, 17vmin, 180px);
@@ -303,6 +249,24 @@
 /* silhueta apagada: o "vazio" que a tinta vai preenchendo */
 .mark__base {
   background: rgba(11, 11, 16, 0.2);
+}
+/* na saída, a aranha "estoura" e dá lugar à debandada */
+.is-leaving .mark {
+  animation: markBurst 0.18s ease-out forwards;
+}
+@keyframes markBurst {
+  to {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+.loader__stampede {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 /* ondas de choque ao completar */
 .mark__ring {
@@ -390,9 +354,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mark,
-  .hang,
-  .hang__swing {
+  .mark {
     animation: none !important;
   }
   .is-leaving .loader__pixels i {
