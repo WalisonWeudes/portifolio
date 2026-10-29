@@ -26,47 +26,37 @@
   position: absolute;
   inset: -1px; /* leve sobreposição para não aparecerem frestas */
   background: var(--red);
+  will-change: transform, opacity; /* camada própria: a saída roda na GPU */
 }
-/* diagonal "\" */
+/* diagonal "\" (origem de cada triângulo no seu próprio centro) */
 .loader__pixels .tri--0 {
   clip-path: polygon(0 0, 100% 0, 0 100%);
+  transform-origin: 33% 33%;
 }
 .loader__pixels .tri--1 {
   clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  transform-origin: 67% 67%;
 }
 /* diagonal "/" nos blocos alternados */
 .loader__pixels .is-flip .tri--0 {
   clip-path: polygon(0 0, 100% 100%, 0 100%);
+  transform-origin: 33% 67%;
 }
 .loader__pixels .is-flip .tri--1 {
   clip-path: polygon(0 0, 100% 0, 100% 100%);
+  transform-origin: 67% 33%;
 }
 .is-leaving .loader__pixels {
   background: transparent;
 }
+/* saída suave: cada triângulo encolhe girando para o próprio centro e desbota,
+   numa onda que vai do meio da tela para as bordas */
 .is-leaving .loader__pixels i {
-  /* espera o "estouro" da aranha antes de o mosaico começar a sumir */
-  animation: pixelOut 0.16s steps(1) calc(var(--d) + 200ms) forwards;
-}
-.is-leaving .loader__pixels i.is-dark {
-  animation: pixelOutDark 0.28s steps(1) calc(var(--d) + 200ms) forwards;
-}
-@keyframes pixelOut {
-  to {
-    opacity: 0;
-  }
-}
-@keyframes pixelOutDark {
-  0% {
-    background: var(--ink);
-  }
-  55% {
-    background: #3157ff;
-    opacity: 0.85;
-  }
-  100% {
-    opacity: 0;
-  }
+  opacity: 0;
+  transform: scale(0.15) rotate(var(--spin, 0deg));
+  transition:
+    transform 0.7s cubic-bezier(0.65, 0, 0.35, 1) var(--d),
+    opacity 0.55s cubic-bezier(0.4, 0, 0.6, 1) calc(var(--d) + 0.12s);
 }
 
 /* ---------- HUD ---------- */
@@ -358,6 +348,7 @@
     animation: none !important;
   }
   .is-leaving .loader__pixels i {
-    animation: pixelOut 0.2s linear forwards;
+    transform: none;
+    transition: opacity 0.2s linear;
   }
 }

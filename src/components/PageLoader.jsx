@@ -11,19 +11,23 @@ const STATUS = ['loader.s1', 'loader.s2', 'loader.s3', 'loader.s4']
 
 // Grade de blocos proporcional à tela (blocos ~quadrados).
 // Cada bloco vira dois triângulos; a diagonal alterna para formar o padrão.
+// Na saída eles somem numa onda do centro para as bordas (atraso pela distância).
 const buildCells = () => {
   const cols = window.innerWidth < 600 ? 7 : 14
   const rows = Math.max(4, Math.round((cols * window.innerHeight) / window.innerWidth))
+  const aspect = window.innerHeight / window.innerWidth
   const cells = Array.from({ length: cols * rows }, (_, i) => {
     const row = Math.floor(i / cols)
     const col = i % cols
-    const base = Math.random() * 420
+    const dx = (col + 0.5) / cols - 0.5
+    const dy = ((row + 0.5) / rows - 0.5) * aspect
+    const dist = Math.min(1, Math.hypot(dx, dy) / Math.hypot(0.5, 0.5 * aspect))
     return {
       i,
       flip: (row + col) % 2 === 1,
       tris: [0, 1].map(() => ({
-        delay: Math.round(base + Math.random() * 160),
-        dark: Math.random() < 0.28,
+        delay: Math.round(dist * 560 + Math.random() * 110),
+        spin: Math.round((Math.random() - 0.5) * 50),
       })),
     }
   })
@@ -72,6 +76,7 @@ export default function PageLoader({ onLoaded }) {
 
     let frame
     let leaveTimer
+    let readyTimer
     let stopPreload
     let lastTime = 0
     let startTime = 0
@@ -92,15 +97,22 @@ export default function PageLoader({ onLoaded }) {
       currentPhase = 'leaving'
       setPhase('leaving')
       unlockScroll()
-      document.documentElement.classList.add('is-ready')
-      if (!readyFired.current) {
-        readyFired.current = true
-        window.dispatchEvent(new CustomEvent('site:ready'))
-      }
+      // a entrada do site começa um instante depois, para não disputar o
+      // processamento com o início da transição (era aí que travava)
+      readyTimer = setTimeout(
+        () => {
+          document.documentElement.classList.add('is-ready')
+          if (!readyFired.current) {
+            readyFired.current = true
+            window.dispatchEvent(new CustomEvent('site:ready'))
+          }
+        },
+        reduceMotion ? 0 : 220,
+      )
       leaveTimer = setTimeout(() => {
         setVisible(false)
         onLoadedRef.current?.()
-      }, reduceMotion ? 200 : 1100)
+      }, reduceMotion ? 200 : 1450)
     }
 
     const tick = (now) => {
@@ -157,6 +169,7 @@ export default function PageLoader({ onLoaded }) {
     return () => {
       cancelAnimationFrame(frame)
       clearTimeout(leaveTimer)
+      clearTimeout(readyTimer)
       stopPreload?.()
       unlockScroll()
     }
@@ -184,11 +197,7 @@ export default function PageLoader({ onLoaded }) {
         {cells.map((cell) => (
           <span key={cell.i} className={cell.flip ? 'is-flip' : undefined}>
             {cell.tris.map((tri, k) => (
-              <i
-                key={k}
-                className={`tri--${k}${tri.dark ? ' is-dark' : ''}`}
-                style={{ '--d': `${tri.delay}ms` }}
-              ></i>
+              <i key={k} className={`tri--${k}`} style={{ '--d': `${tri.delay}ms`, '--spin': `${tri.spin}deg` }}></i>
             ))}
           </span>
         ))}
