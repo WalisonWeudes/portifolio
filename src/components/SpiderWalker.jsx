@@ -1,6 +1,7 @@
 // Comportamento das aranhas:
 //  1. Caminham de uma borda à outra soltando um fio de seda que cai com a gravidade.
-//  2. Não tecem teias aleatórias: a teia orbicular só aparece quando caçam o cursor.
+//  2. Só andam pela página (sem soltar fio). A teia orbicular aparece apenas
+//     quando uma delas caça o cursor (ver spider/orb.js).
 //  4. A aranha é desenhada em código (src/components/spider/rig.js): pernas com
 //     cinemática inversa e marcha alternada, sem sprites.
 // Tudo é animado direto no canvas (sem estado do React por frame).
@@ -11,8 +12,6 @@ import { drawOrb as drawOrbOn, makeOrb, orbSegments } from './spider/orb'
 import './SpiderWalker.css'
 
 const MAX_SPIDERS = 8
-const MAX_WEBS = 8
-const WEB_LIFETIME = 42000
 const EDGE_PADDING = 18
 const RAD = 180 / Math.PI
 
@@ -29,7 +28,6 @@ export default function SpiderWalker() {
   useEffect(() => {
     // toda a animação vive neste fechamento (StrictMode monta/desmonta limpo)
     let spiders = []
-    const webs = []
     let nextId = 1
     let ctx
     let rafId = null
@@ -83,22 +81,8 @@ export default function SpiderWalker() {
 
     /* ---------- teia orbicular (ver spider/orb.js) ---------- */
 
-    const drawOrb = (orb, progress, alpha, now, offset) => drawOrbOn(ctx, orb, progress, alpha, now, offset)
-
-    /* ---------- fio (dragline) ---------- */
-
-    const drawLine = (a, b, sag, upTo, alpha, width = 1.2) => {
-      const steps = Math.max(4, Math.ceil(upTo * 18))
-      ctx.strokeStyle = `rgba(160, 172, 200, ${0.5 * alpha})`
-      ctx.lineWidth = width
-      ctx.beginPath()
-      for (let i = 0; i <= steps; i += 1) {
-        const p = linePoint(a, b, sag, (i / steps) * upTo)
-        if (i === 0) ctx.moveTo(p.x, p.y)
-        else ctx.lineTo(p.x, p.y)
-      }
-      ctx.stroke()
-    }
+    const drawOrb = (orb, progress, alpha, now, offset, shake) =>
+      drawOrbOn(ctx, orb, progress, alpha, now, offset, shake)
 
     /* ---------- aranhas ---------- */
 
@@ -110,8 +94,6 @@ export default function SpiderWalker() {
       spider.sag = Math.min(70, length * 0.08) + rand(0, 14)
       spider.t = 0
       spider.duration = rand(11000, 15000)
-      spider.willBuild = false // teia só ao capturar o cursor
-      spider.orb = null
       spider.mode = 'walk'
     }
 
@@ -133,8 +115,6 @@ export default function SpiderWalker() {
         glitchUntil: 0,
         gx: 0,
         gy: 0,
-        buildStart: 0,
-        buildDuration: 0,
       }
       newJourney(spider, from)
       spider.x = spider.lastX = spider.start.x
@@ -230,42 +210,9 @@ export default function SpiderWalker() {
         const target = Math.atan2(tan.y, tan.x) * RAD + 90 + Math.sin(spider.traveled * 0.24) * 3
         spider.angle += ((((target - spider.angle + 540) % 360) - 180)) * 0.2
 
-        drawLine(spider.start, spider.end, spider.sag, eased, 1)
-        if (spider.orb) drawOrb(spider.orb, 1, 1, clock) // teia já pronta continua visível
-
-        // Meio do caminho: algumas aranhas param e tecem uma teia
-        if (spider.willBuild && !spider.orb && spider.t >= 0.5) {
-          const length = Math.hypot(spider.end.x - spider.start.x, spider.end.y - spider.start.y)
-          const radius = Math.max(50, Math.min(90, length * 0.15))
-          spider.orb = makeOrb({ x: p.x, y: p.y }, radius, { turns: 4, speed: 0.22 })
-          spider.mode = 'build'
-          spider.buildStart = clock
-          spider.buildDuration = spider.orb.duration
-        }
-
         if (spider.t >= 1) {
-          webs.push({
-            start: spider.start,
-            end: spider.end,
-            sag: spider.sag,
-            orb: spider.orb,
-            finishedAt: clock,
-          })
-          if (webs.length > MAX_WEBS) webs.shift()
           spider.pauseUntil = clock + rand(900, 1800)
           newJourney(spider, { ...spider.end })
-        }
-      } else {
-        // construindo: dragline até o centro + teia progressiva
-        const progress = clamp01((clock - spider.buildStart) / spider.buildDuration)
-        const eased = organicEase(spider.t)
-        drawLine(spider.start, spider.end, spider.sag, eased, 1)
-        const head = drawOrb(spider.orb, progress, 1, clock)
-        // a aranha está exatamente na ponta do fio que está tecendo
-        moveTo(spider, head.x, head.y)
-        if (progress >= 1) {
-          spider.mode = 'walk'
-          spider.pauseUntil = clock + rand(500, 900) // descansa um instante no centro
         }
       }
       render(spider, dt)
@@ -280,7 +227,7 @@ export default function SpiderWalker() {
     let trap = null // { phase, spider, orb, c, energy, phaseAt, shards, offset }
     let nextTrapAt = 0
 
-    const TRAP_RADIUS = 78
+    const TRAP_RADIUS = 88
     const FREE_SPEED = 1.9 // px/ms
     const FREE_ENERGY = 520 // ms acumulados em alta velocidade (~0,5s de sacudida)
 
@@ -375,7 +322,6 @@ export default function SpiderWalker() {
         })
       }
       for (const seg of orbSegments(orb, offset)) add(...seg)
-      for (const th of orb.tethers) add(c.x + th.x1, c.y + th.y1, c.x + th.x2, c.y + th.y2)
 
       trap.shards = shards
       trap.phase = 'break'
@@ -429,17 +375,7 @@ export default function SpiderWalker() {
           trap.phase = 'weave'
           trap.phaseAt = clock
           trap.c = { x: pointer.x, y: pointer.y }
-          trap.orb = makeOrb(trap.c, TRAP_RADIUS, { turns: 4, speed: 0.4, spokeCount: 13 }) // hub === trap.c
-          // fios-âncora longos que "prendem" a teia ao resto da tela
-          trap.orb.tethers = Array.from({ length: 6 }, (_, i) => {
-            const a = (i / 6) * Math.PI * 2 + rand(-0.3, 0.3)
-            return {
-              x1: Math.cos(a) * TRAP_RADIUS,
-              y1: Math.sin(a) * TRAP_RADIUS,
-              x2: Math.cos(a) * rand(170, 260),
-              y2: Math.sin(a) * rand(140, 230),
-            }
-          })
+          trap.orb = makeOrb(trap.c, TRAP_RADIUS, { turns: 6, speed: 0.42, spokeCount: 16 }) // hub === trap.c
           return
         }
         const stepLen = Math.min(dist * 3 + 160, 420) * (dt / 1000)
@@ -481,17 +417,8 @@ export default function SpiderWalker() {
         else trap.energy = Math.max(0, trap.energy - dt * 0.6)
         const strain = clamp01(trap.energy / FREE_ENERGY)
 
-        drawOrb(trap.orb, 1, 1, clock + strain * 400, trap.offset)
-
-        ctx.strokeStyle = `rgba(230, 236, 255, ${0.5 + strain * 0.4})`
-        ctx.lineWidth = 1 + strain
-        ctx.beginPath()
-        for (const th of trap.orb.tethers) {
-          const jitter = strain * rand(-2, 2)
-          ctx.moveTo(trap.c.x + th.x1, trap.c.y + th.y1)
-          ctx.lineTo(trap.c.x + th.x2 + jitter, trap.c.y + th.y2 + jitter)
-        }
-        ctx.stroke()
+        // quanto mais a presa se debate, mais a teia vibra
+        drawOrb(trap.orb, 1, 1, clock, trap.offset, strain)
 
         drawCursor(trap.c.x + trap.offset.x, trap.c.y + trap.offset.y)
 
@@ -552,18 +479,6 @@ export default function SpiderWalker() {
       ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0)
       ctx.clearRect(0, 0, viewport.width, viewport.height)
 
-      // teias prontas (balançam ao vento e somem devagar)
-      for (let i = webs.length - 1; i >= 0; i -= 1) {
-        const web = webs[i]
-        const age = clock - web.finishedAt
-        const alpha = clamp01(1 - age / WEB_LIFETIME)
-        if (!alpha) {
-          webs.splice(i, 1)
-          continue
-        }
-        drawLine(web.start, web.end, web.sag, 1, alpha)
-        if (web.orb) drawOrb(web.orb, 1, alpha, clock)
-      }
 
       for (const spider of spiders) step(spider, dt)
       updateTrap(dt)
