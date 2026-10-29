@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { usePreloader } from '../hooks/usePreloader'
 import { useI18n } from '../i18n'
 import spiderMark from '../assets/aranha-loader.svg'
+import InkMark from './InkMark'
 import './PageLoader.css'
 
 const universes = ['TERRA-1610', 'TERRA-616', 'TERRA-65', 'TERRA-928', 'TERRA-42', 'TERRA-138', 'TERRA-8311', 'TERRA-90214']
@@ -210,10 +211,17 @@ export default function PageLoader({ onLoaded }) {
         <p className="hud__label hud__label--br" aria-live="polite">{statusText}</p>
 
         <div className="hud__center">
-          <div className="mark" style={{ '--mark': `url(${spiderMark})` }} aria-hidden="true">
-            <i className="mark__layer mark__base"></i>
-            <i className="mark__layer mark__fill"></i>
-            <i className="mark__scan"></i>
+          {/* aranha pendurada no fio: desce, balança e se enche de tinta */}
+          <div className="hang" aria-hidden="true">
+            <i className="hang__thread"></i>
+            <div className="hang__swing">
+              <div className="mark" style={{ '--mark': `url(${spiderMark})` }}>
+                <i className="mark__layer mark__base"></i>
+                <InkMark progress={shown} />
+                <i className="mark__ring"></i>
+                <i className="mark__ring mark__ring--2"></i>
+              </div>
+            </div>
           </div>
           <p className="hud__percent">{percent}%</p>
         </div>
