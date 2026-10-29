@@ -1,8 +1,6 @@
 // Comportamento das aranhas:
 //  1. Caminham de uma borda à outra soltando um fio de seda que cai com a gravidade.
-//  2. Em alguns trajetos, param no meio e tecem uma teia orbicular: raios primeiro,
-//     depois a espiral, do centro para fora.
-//  3. A teia pronta balança de leve ao vento, ganha gotas de orvalho e some devagar.
+//  2. Não tecem teias aleatórias: a teia orbicular só aparece quando caçam o cursor.
 //  4. A aranha é desenhada em código (src/components/spider/rig.js): pernas com
 //     cinemática inversa e marcha alternada, sem sprites.
 // Tudo é animado direto no canvas (sem estado do React por frame).
@@ -112,7 +110,7 @@ export default function SpiderWalker() {
       spider.sag = Math.min(70, length * 0.08) + rand(0, 14)
       spider.t = 0
       spider.duration = rand(11000, 15000)
-      spider.willBuild = Math.random() < 0.6
+      spider.willBuild = false // teia só ao capturar o cursor
       spider.orb = null
       spider.mode = 'walk'
     }
