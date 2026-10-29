@@ -1,6 +1,5 @@
 import KineticText from '../KineticText'
 import SpotlightCard from '../reactbits/SpotlightCard/SpotlightCard'
-import CurvedLoop from '../reactbits/CurvedLoop/CurvedLoop'
 import { skillGroups } from '../../data/content'
 import { useI18n } from '../../i18n'
 
@@ -37,22 +36,6 @@ export default function StackSection() {
             </ul>
           </SpotlightCard>
         ))}
-      </div>
-      {/* Faixa em onda, como um fio de teia: arraste para girar (React Bits) */}
-      <div className="stack__loop">
-        <CurvedLoop
-          marqueeText={t('stack.loop')}
-          shape="wave"
-          curveAmount={260}
-          speed={1.4}
-          fontSize={88}
-          fontWeight={400}
-          className="stack__loop-text"
-          separator="✦"
-          separatorColor="#e62429"
-          edgeFade={0.12}
-          scrollBoost={1}
-        />
       </div>
     </section>
   )

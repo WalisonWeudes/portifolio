@@ -14,4 +14,3 @@ portfólio ficam em `src/assets/styles/reactbits.css`.
 | SpotlightCard | `StackSection.jsx`: grupos de habilidades |
 | GlareHover | `ProjectsSection.jsx`: imagens dos projetos |
 | ShinyText | `HeroSection.jsx`: selo de disponibilidade |
-| CurvedLoop | `StackSection.jsx`: faixa em onda depois da stack |

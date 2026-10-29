@@ -34,28 +34,3 @@
   display: block;
   border: 0;
 }
-
-/* CurvedLoop: faixa em onda entre a stack e as ilustrações */
-.stack__loop {
-  margin: clamp(3rem, 7vw, 7rem) calc(var(--gutter) * -1) 0;
-  overflow: hidden;
-  color: var(--text);
-  cursor: grab;
-}
-.stack__loop:active {
-  cursor: grabbing;
-}
-.stack__loop .curved-loop-jacket {
-  min-height: 0;
-  padding: 2.5rem 0;
-}
-.stack__loop-text {
-  font-family: var(--display);
-  letter-spacing: 0.02em;
-}
-
-@media (max-width: 900px) {
-  .stack__loop .curved-loop-jacket {
-    padding: 1rem 0;
-  }
-}

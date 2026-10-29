@@ -112,7 +112,6 @@ const dict = {
     'stack.label': '04 — Stack',
     'stack.title1': 'FERRAMENTAS',
     'stack.title2': 'DE TRABALHO.',
-    'stack.loop': 'Do conceito ao código',
 
     'illustrations.label': '05 — Explorações visuais',
     'illustrations.title1': 'OUTRO LADO',
@@ -218,7 +217,6 @@ const dict = {
     'stack.label': '04 — Stack',
     'stack.title1': 'TOOLS',
     'stack.title2': 'OF THE TRADE.',
-    'stack.loop': 'From concept to code',
 
     'illustrations.label': '05 — Visual explorations',
     'illustrations.title1': 'THE OTHER SIDE',
