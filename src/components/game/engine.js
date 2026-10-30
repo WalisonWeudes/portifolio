@@ -142,6 +142,8 @@ export function createGame(canvas, cb = {}) {
   let raf = 0
   let meterWasFull = false
   let ultWasReady = false
+  let impactT = 0 // quadro de impacto (silhueta em alto contraste)
+  let impactAt = null
   let lastHit = null
   let scroll = 0 // quanto o cenário já andou (para o chão e o fundo acompanharem)
 
@@ -583,6 +585,10 @@ export function createGame(canvas, cb = {}) {
       webs.push({ x1: h.x, y1: h.y, x2: hx, y2: hy, life: 160, max: 160 })
     }
     const killed = damage(e, w.dmg, a.dir)
+    if (killed && !reduce && (heavy || e.type === 'big' || combo % 5 === 4 || fury >= 2)) {
+      impactT = 70
+      impactAt = { x: hx, y: hy }
+    }
     for (const o of a.extra) if (o.alive) damage(o, 1, a.dir)
     combo += 1 + a.extra.length
     maxCombo = Math.max(maxCombo, combo)
@@ -1869,12 +1875,12 @@ export function createGame(canvas, cb = {}) {
     const target = currentPose()
     const a = player.anim
     // suaviza as transições, mas o golpe em si (preparo → impacto) é exato
-    if (a && a.u > 0.2 && a.u < 0.66) player.pose = { ...target }
+    if (a && a.u > 0.1 && a.u < 0.58) player.pose = { ...target }
     else {
       const rate = a ? 70 : player.override ? 40 : player.hurt > 0 ? 26 : 16
       player.pose = smoothPose(player.pose, target, hitStop > 0 ? 0 : rdt, rate)
     }
-    const b = bones(player.pose, style())
+    const b = bones(player.pose, style(), player.trailKey)
     player.b = b
     if (import.meta.env.DEV && a && a.target && !a.measured && a.u >= HIT_AT && player.trailKey) {
       // distância entre a ponta do golpe e a frente da aranha no quadro do impacto
@@ -1986,6 +1992,27 @@ export function createGame(canvas, cb = {}) {
     drawParts()
     drawPopups()
     ctx.restore()
+
+    // quadro de impacto: tudo escurece e o lutador vira silhueta branca por um instante
+    if (impactT > 0) {
+      impactT -= rdt
+      ctx.save()
+      ctx.translate(sx, sy)
+      ctx.fillStyle = 'rgba(8, 9, 13, 0.88)'
+      ctx.fillRect(-20, -20, W + 40, H + 40)
+      ctx.fillStyle = WHITE
+      ctx.beginPath()
+      const ir = 90 * S
+      for (let i = 0; i < 16; i += 1) {
+        const a2 = (i / 16) * TAU
+        const rr = i % 2 ? ir * 0.45 : ir * (1 + Math.sin(i * 9.1) * 0.25)
+        ctx.lineTo(impactAt.x + Math.cos(a2) * rr, impactAt.y + Math.sin(a2) * rr)
+      }
+      ctx.closePath()
+      ctx.fill()
+      drawPlayerAt(player.x, player.air, player.facing, b, { tint: WHITE })
+      ctx.restore()
+    }
 
     // câmera lenta: linhas de velocidade e vinheta
     const slow = clamp((0.7 - timeScale) / 0.6, 0, 1)
@@ -2135,6 +2162,12 @@ export function createGame(canvas, cb = {}) {
       peek: () => ({ px: player.x, range: ws().range * S, es: alive().map((e) => [e.x, e.r, !!e.leap]) }),
       god: () => (lives = 99),
       lastHit: () => lastHit,
+      strikeAt: (st, v, u) => {
+        weapon = Object.keys(WEAPONS).find((k) => WEAPONS[k].style === st)
+        player.anim = { variant: v, u, dur: 1e9, dir: 1, target: null, extra: [], miss: false, hitDone: true, from: IDLE[st] }
+        player.trailKey = ATTACKS[st][v].trail
+        player.pose = null
+      },
       setCombo: (n) => (combo = n),
       poseAt: (st, v) => {
         weapon = Object.keys(WEAPONS).find((k) => WEAPONS[k].style === st)

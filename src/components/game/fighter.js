@@ -11,11 +11,15 @@
 const TAU = Math.PI * 2
 const SEG = { T: 34, UA: 16, FA: 15, TH: 22, SH: 22, HEAD: 11 }
 const HIP_H = 40 // altura do quadril com as pernas quase esticadas
-export const HIT_AT = 0.42
-const KEYS = ['x', 'y', 'hop', 'lean', 'nod', 'aF1', 'aF2', 'aB1', 'aB2', 'fFx', 'fFy', 'fBx', 'fBy', 'w', 'wB', 'grip']
+// Tempo do golpe (fração da duração): preparo curto e seco, impacto cedo.
+// Referência: jogos de luta comprimem a antecipação em 1–2 quadros para o
+// golpe responder na hora; a força vem do quadro de borrão e da pausa no impacto.
+const WIND = 0.16
+export const HIT_AT = 0.3
+const KEYS = ['x', 'y', 'hop', 'lean', 'nod', 'smear', 'aF1', 'aF2', 'aB1', 'aB2', 'fFx', 'fFy', 'fBx', 'fBy', 'w', 'wB', 'grip']
 
 const BASE = {
-  x: 0, y: 0, hop: 0, lean: 0.1, nod: 0, aF1: 0.7, aF2: 1.9, aB1: 0.4, aB2: 2.1,
+  x: 0, y: 0, hop: 0, lean: 0.1, nod: 0, smear: 0, aF1: 0.7, aF2: 1.9, aB1: 0.4, aB2: 2.1,
   fFx: 13, fFy: 0, fBx: -15, fBy: 0, w: 0, wB: 0, grip: 0,
 }
 const LUNGE = { fFx: 28, fBx: -20, y: 4 }
@@ -259,15 +263,20 @@ export function attackPose(style, variant, u, idle = IDLE[style], from = idle, h
   const v = ATTACKS[style][variant % ATTACKS[style].length]
   const wind = { ...idle, ...v.wind }
   const hit = { ...idle, ...v.hit }
-  if (u < 0.3) return mixPose(from, wind, eo(u / 0.3))
-  if (u < HIT_AT) return mixPose(wind, hit, ei((u - 0.3) / (HIT_AT - 0.3)))
-  if (u < 0.62) {
-    // um pouco além do impacto e volta (follow-through)
-    const over = Math.sin(Math.PI * ((u - HIT_AT) / (0.62 - HIT_AT))) * 0.09
-    return mixPose(hit, mixPose(wind, hit, 1 + 1), over)
+  if (u < WIND) return mixPose(from, wind, eo(u / WIND))
+  if (u < HIT_AT) {
+    // golpe: quadro de borrão — o membro/arma estica perto do impacto
+    const t = (u - WIND) / (HIT_AT - WIND)
+    return { ...mixPose(wind, hit, ei(t)), smear: Math.sin(Math.PI * Math.min(1, t * 0.85 + 0.15)) }
+  }
+  if (u < 0.55) {
+    // passa um pouco do ponto e volta (follow-through); o borrão some
+    const k = (u - HIT_AT) / (0.55 - HIT_AT)
+    const over = Math.sin(Math.PI * k) * 0.09
+    return { ...mixPose(hit, mixPose(wind, hit, 2), over), smear: Math.max(0, 0.6 - k * 2.4) }
   }
   if (hold) return hit
-  return mixPose(hit, idle, eio(Math.min(1, (u - 0.62) / 0.38)))
+  return mixPose(hit, idle, eio(Math.min(1, (u - 0.55) / 0.45)))
 }
 
 const V = (a, l) => ({ x: Math.sin(a) * l, y: Math.cos(a) * l })
@@ -290,19 +299,20 @@ function ik(a, t, l1, l2, pick) {
 }
 
 /** Posições das articulações (coordenadas locais; chão em y = 0). */
-export function bones(p, style) {
+export function bones(p, style, smearKey = null) {
+  const sm = 1 + (p.smear || 0) * 0.42 // quanto o membro do golpe estica
   const hip = { x: p.x, y: -HIP_H + p.y - p.hop }
-  const legF = ik(hip, { x: p.fFx, y: -p.fFy - p.hop }, SEG.TH, SEG.SH, (a, b) => (a.x > b.x ? a : b))
-  const legB = ik(hip, { x: p.fBx, y: -p.fBy - p.hop }, SEG.TH, SEG.SH, (a, b) => (a.x > b.x ? a : b))
+  const legF = ik(hip, { x: p.fFx, y: -p.fFy - p.hop }, SEG.TH, SEG.SH * (smearKey === 'fF' ? sm : 1), (a, b) => (a.x > b.x ? a : b))
+  const legB = ik(hip, { x: p.fBx, y: -p.fBy - p.hop }, SEG.TH, SEG.SH * (smearKey === 'fB' ? sm : 1), (a, b) => (a.x > b.x ? a : b))
   const up = V(Math.PI - p.lean, 1)
   const neck = along(hip, up, SEG.T)
   const sh = along(hip, up, SEG.T - 5)
   const head = add(along(hip, up, SEG.T + SEG.HEAD + 3), { x: 1.5 + p.nod * 3.5, y: p.nod * 2.5 })
   const eF = add(sh, V(p.aF1, SEG.UA))
-  const hF = add(eF, V(p.aF1 + p.aF2, SEG.FA))
+  const hF = add(eF, V(p.aF1 + p.aF2, SEG.FA * (smearKey === 'hF' ? sm : 1)))
   const waF = p.aF1 + p.aF2 + p.w
   let eB = add(sh, V(p.aB1, SEG.UA))
-  let hB = add(eB, V(p.aB1 + p.aB2, SEG.FA))
+  let hB = add(eB, V(p.aB1 + p.aB2, SEG.FA * (smearKey === 'hB' ? sm : 1)))
   const g = GRIP[style]
   if (g && p.grip > 0.01) {
     // mão de trás vai até o cabo da arma
@@ -315,6 +325,8 @@ export function bones(p, style) {
     hip, neck, sh, head, eF, hF, eB, hB, up,
     kF: legF.joint, fF: legF.end, kB: legB.joint, fB: legB.end,
     waF, waB: p.aB1 + p.aB2 + p.wB,
+    smear: p.smear || 0,
+    smearKey,
   }
 }
 
@@ -543,7 +555,7 @@ export function drawFighter(ctx, b, style, { tint = null } = {}) {
       if (kind === 'dagger') drawWeapon(ctx, b.hB, b.waB, 'dagger', col, ex)
       limb(ctx, b.sh, b.eB, 7.5 + ex, 6.5 + ex, c('shirtD'))
       limb(ctx, b.eB, b.hB, 6.5 + ex, 5.5 + ex, c('shirtD'))
-      dot(ctx, b.hB, 3.6 + ex / 2, kind === 'fist' ? col || '#b81d22' : c('skinD'))
+      dot(ctx, b.hB, (kind === 'fist' && b.smearKey === 'hB' ? 3.6 * (1 + b.smear * 0.8) : 3.6) + ex / 2, kind === 'fist' ? col || '#b81d22' : c('skinD'))
     }
     if (!twoHand) backArm()
     // tronco e quadril
@@ -559,12 +571,27 @@ export function drawFighter(ctx, b, style, { tint = null } = {}) {
     drawHair(ctx, b.head, col, ex)
     if (!col) drawFace(ctx, b)
     // arma e braço da frente
-    if (kind !== 'fist' && kind !== 'web' && kind !== 'dagger') drawWeapon(ctx, b.hF, b.waF, kind, col, ex)
+    if (kind !== 'fist' && kind !== 'web' && kind !== 'dagger') {
+      const wsm = (b.smearKey === 'tF' || b.smearKey === 'staff') ? 1 + b.smear * 0.28 : 1
+      if (wsm > 1.001) {
+        // estica a arma ao longo do próprio eixo (quadro de borrão)
+        ctx.save()
+        ctx.translate(b.hF.x, b.hF.y)
+        ctx.rotate(-b.waF)
+        ctx.scale(1 - (wsm - 1) * 0.3, wsm)
+        ctx.rotate(b.waF)
+        ctx.translate(-b.hF.x, -b.hF.y)
+        drawWeapon(ctx, b.hF, b.waF, kind, col, ex)
+        ctx.restore()
+      } else drawWeapon(ctx, b.hF, b.waF, kind, col, ex)
+    }
     if (twoHand) backArm()
     limb(ctx, b.sh, b.eF, 8 + ex, 7 + ex, c('shirt'))
     limb(ctx, b.eF, b.hF, 7 + ex, 6 + ex, c('shirt'))
     if (kind === 'web') drawWeapon(ctx, b.hF, b.waF, 'web', col, ex)
     if (kind === 'dagger') drawWeapon(ctx, b.hF, b.waF, 'dagger', col, ex)
-    dot(ctx, b.hF, (kind === 'fist' ? 4.6 : 3.8) + ex / 2, kind === 'fist' ? col || C.red : c('skin'))
+    // punho cresce no impacto para vender a força
+    const fistK = kind === 'fist' && b.smearKey === 'hF' ? 1 + b.smear * 0.7 : 1
+    dot(ctx, b.hF, (kind === 'fist' ? 4.6 * fistK : 3.8) + ex / 2, kind === 'fist' ? col || C.red : c('skin'))
   }
 }
