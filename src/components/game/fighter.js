@@ -140,17 +140,32 @@ export function idlePose(style, t) {
   return p
 }
 
-export function attackPose(style, variant, u, idle = IDLE[style]) {
+/** Pose final do golpe, onde o lutador fica congelado até o próximo comando. */
+export function holdPose(style, variant, t = 0) {
+  const v = ATTACKS[style][variant % ATTACKS[style].length]
+  const p = { ...IDLE[style], ...v.hit }
+  // só a respiração, bem de leve
+  p.y += Math.sin(t * 2.4) * 0.8
+  p.lean += Math.sin(t * 1.2) * 0.012
+  return p
+}
+
+/**
+ * `from` é a pose de onde o golpe parte (a postura ou a pose congelada do golpe
+ * anterior). Com `hold`, o golpe termina parado na pose de impacto, sem voltar.
+ */
+export function attackPose(style, variant, u, idle = IDLE[style], from = idle, hold = false) {
   const v = ATTACKS[style][variant % ATTACKS[style].length]
   const wind = { ...idle, ...v.wind }
   const hit = { ...idle, ...v.hit }
-  if (u < 0.3) return mixPose(idle, wind, eo(u / 0.3))
+  if (u < 0.3) return mixPose(from, wind, eo(u / 0.3))
   if (u < HIT_AT) return mixPose(wind, hit, ei((u - 0.3) / (HIT_AT - 0.3)))
   if (u < 0.62) {
     // um pouco além do impacto e volta (follow-through)
     const over = Math.sin(Math.PI * ((u - HIT_AT) / (0.62 - HIT_AT))) * 0.09
     return mixPose(hit, mixPose(wind, hit, 1 + 1), over)
   }
+  if (hold) return hit
   return mixPose(hit, idle, eio(Math.min(1, (u - 0.62) / 0.38)))
 }
 

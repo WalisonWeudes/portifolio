@@ -11,7 +11,7 @@ import { WEAPONS, WEAPON_POOL, METER_MAX } from './weapons'
 import {
   IDLE, ATTACKS, CHARGE, HURT, MISS, SHEATHE, HIT_AT,
   attackPose, mixPose, withIdle, bones, trailPoints, drawFighter,
-  idlePose, smoothPose, hitReach,
+  idlePose, smoothPose, hitReach, holdPose,
 } from './fighter'
 import { TYPES, drawSpider, drawGib } from './spiders'
 
@@ -124,11 +124,12 @@ export function createGame(canvas, cb = {}) {
 
   const player = {
     x: 0, air: 0, facing: 1, anim: null, queued: null, stun: 0, invuln: 0, hurt: 0,
-    variant: 0, dashFrom: 0, dashTo: 0, ghostT: 0, override: null, trailKey: null, b: null, pose: null,
+    variant: 0, dashFrom: 0, dashTo: 0, ghostT: 0, override: null, trailKey: null, b: null, pose: null, hold: null,
   }
 
   const style = () => WEAPONS[weapon].style
   const idle = () => IDLE[style()]
+  const clampX = (x) => clamp(x, W * 0.15, W * 0.85)
   const toWorld = (p) => ({ x: player.x + p.x * player.facing * S * FIG, y: G - player.air + p.y * S * FIG })
 
   /* ---------- tela ---------- */
@@ -199,6 +200,7 @@ export function createGame(canvas, cb = {}) {
     player.stun = 0
     player.invuln = 0
     player.override = null
+    player.hold = null
   }
 
   const start = () => {
@@ -340,6 +342,7 @@ export function createGame(canvas, cb = {}) {
   }
 
   const bite = (e) => {
+    player.hold = null
     lives -= 1
     combo = 0
     player.invuln = 1400
@@ -433,14 +436,16 @@ export function createGame(canvas, cb = {}) {
     const extra = []
     if (target && w.cleave) extra.push(...side.slice(1, w.cleave))
     if (target && w.splash) extra.push(...side.filter((e) => e !== target && Math.abs(e.x - target.x) < w.splash * S))
-    player.anim = { variant: player.variant, u: 0, dur: w.dur * (target ? 1 : 1.3), dir, target, extra, miss: !target, hitDone: false }
+    const from = player.pose ? { ...player.pose } : idle()
+    player.anim = { variant: player.variant, u: 0, dur: w.dur * (target ? 1 : 1.3), dir, target, extra, miss: !target, hitDone: false, from }
+    player.hold = null
     player.trailKey = ATTACKS[st][player.variant].trail
     if (target) {
       target.locked = true
       player.dashFrom = player.x
       // para onde a ponta do golpe encosta no corpo da aranha
       player.anim.reachOff = hitReach(st, player.variant) * S * FIG + 14 * S * target.size
-      player.dashTo = w.ranged ? player.x : clamp(target.x - dir * player.anim.reachOff, 50 * S, W - 50 * S)
+      player.dashTo = w.ranged ? player.x : clampX(target.x - dir * player.anim.reachOff)
     } else {
       player.stun = 380
       combo = 0
@@ -501,7 +506,7 @@ export function createGame(canvas, cb = {}) {
     if (a) {
       a.u += pdt / a.dur
       if (a.target && a.u <= HIT_AT + 0.02 && !WEAPONS[weapon].ranged) {
-        if (a.target.alive) player.dashTo = clamp(a.target.x - a.dir * a.reachOff, 50 * S, W - 50 * S)
+        if (a.target.alive) player.dashTo = clampX(a.target.x - a.dir * a.reachOff)
         player.x = player.dashFrom + (player.dashTo - player.dashFrom) * eo(Math.min(1, a.u / (HIT_AT - 0.04)))
         player.ghostT -= pdt
         if (player.ghostT <= 0) {
@@ -526,9 +531,8 @@ export function createGame(canvas, cb = {}) {
       if (a.u >= 1) {
         player.anim = null
         player.trailKey = null
+        player.hold = a.miss ? null : { variant: a.variant, since: clock }
       }
-    } else {
-      player.x += (CX - player.x) * (1 - Math.exp(-pdt * 0.003))
     }
   }
 
@@ -537,6 +541,7 @@ export function createGame(canvas, cb = {}) {
   const trySpecial = () => {
     if (mode !== 'play' || meter < METER_MAX || player.hurt > 0) return
     mode = 'special'
+    player.hold = null
     meter = 0
     player.anim = null
     player.queued = null
@@ -1053,10 +1058,11 @@ export function createGame(canvas, cb = {}) {
     if (player.hurt > 0) return mixPose(base, withIdle(style(), HURT), Math.min(1, player.hurt / 120))
     const a = player.anim
     if (a) {
-      let p = attackPose(style(), a.variant, Math.min(1, a.u), base)
+      let p = attackPose(style(), a.variant, Math.min(1, a.u), base, a.from, !a.miss)
       if (a.miss && a.u > 0.5) p = mixPose(p, withIdle(style(), MISS), Math.min(1, (a.u - 0.5) * 2.5) * (1 - Math.max(0, a.u - 0.85) * 6))
       return p
     }
+    if (player.hold) return holdPose(style(), player.hold.variant, (clock - player.hold.since) / 1000)
     return idlePose(style(), clock / 1000)
   }
 
