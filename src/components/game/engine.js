@@ -205,6 +205,13 @@ export function createGame(canvas, cb = {}) {
     if (!player.b) return
     ghosts.push({ x: player.x, air: player.air, facing: player.facing, b: player.b, c, life: 220, max: 220 })
   }
+  // luz no ponto do impacto
+  const glow = (x, y, r, c = WHITE, life = 170) => parts.push({ k: 'glow', x, y, r, c, life, max: life })
+  // linhas de impacto estilo mangá
+  const impactLines = (x, y, r, n = 14, life = 150, c = WHITE) =>
+    parts.push({ k: 'lines', x, y, r, n, c, life, max: life, rot: Math.random() * TAU, seed: Math.random() * 100 })
+  // risco de luz do corte atravessando o alvo
+  const cut = (x, y, ang, len, c, life = 230) => parts.push({ k: 'cut', x, y, ang, len, c, life, max: life })
   const bolt = (x1, y1, x2, y2) => parts.push({ k: 'bolt', x1, y1, x2, y2, life: 160, max: 160, seed: Math.random() * 100 })
 
   /* ---------- partida ---------- */
@@ -581,13 +588,25 @@ export function createGame(canvas, cb = {}) {
     maxCombo = Math.max(maxCombo, combo)
     comboPop = 1
     score += 5
-    hitStop = killed ? (heavy ? 95 : 65) : 45
-    addShake(heavy ? 11 : killed ? 6 : 4)
-    sparks(hx, hy, a.dir, heavy ? 16 : 9, [WHITE, w.color, RED])
-    ring(hx, hy, 4 * S, (heavy ? 90 : 55) * S, WHITE, 220, heavy ? 4 : 2.5)
-    if (st === 'punch' || st === 'smash') burst(hx, hy, (heavy ? 60 : 40) * S, WHITE)
+    hitStop = killed ? (heavy ? 100 : 72) : 50
+    addShake(heavy ? 12 : killed ? 7 : 5)
+    const big = killed ? 1.35 : 1
+    const fc = fury ? FURY_COLORS[fury][0] : w.color
+    glow(hx, hy, (heavy ? 190 : 140) * S * big, fc === WHITE ? '#9fb8ff' : fc, 180)
+    glow(hx, hy, 70 * S * big, WHITE, 110)
+    impactLines(hx, hy, (heavy ? 150 : 115) * S * big, heavy ? 18 : 14, killed ? 170 : 130)
+    sparks(hx, hy, a.dir, (heavy ? 22 : 14) + (killed ? 8 : 0), [WHITE, fc, RED, '#ffe9a8'], 1.15)
+    ring(hx, hy, 4 * S, (heavy ? 100 : 62) * S * big, WHITE, 230, heavy ? 5 : 3)
+    if (st === 'punch' || st === 'smash' || st === 'shoot') {
+      burst(hx, hy, (heavy ? 72 : 48) * S * big, WHITE)
+      ring(hx, hy, 10 * S, (heavy ? 150 : 90) * S * big, fc, 320, 2)
+    }
     if (st === 'slash' || st === 'dual' || st === 'spin') {
-      slash(hx, hy, a.dir, { r: st === 'slash' ? 85 : st === 'spin' ? 95 : 55, c: w.color, rot: st === 'spin' ? rand(-1.2, 1.2) : rand(-0.7, 0.4) })
+      slash(hx, hy, a.dir, { r: st === 'slash' ? 95 : st === 'spin' ? 100 : 62, c: fc, rot: st === 'spin' ? rand(-1.2, 1.2) : rand(-0.7, 0.4) })
+      // risco de luz atravessando a aranha
+      const ang = (st === 'spin' ? rand(-0.5, 0.5) : rand(-0.85, -0.25)) * a.dir
+      cut(hx + a.dir * 10 * S, hy, ang, (st === 'slash' ? 230 : st === 'spin' ? 190 : 140) * S * big, fc)
+      if (st === 'dual') cut(hx + a.dir * 10 * S, hy, -ang, 130 * S * big, RED)
     }
     if (heavy) dust(hx, 8)
     if (killed && (Math.random() < 0.4 || e.type === 'big')) popup(hx, hy - 60 * S, pick(w.sfx), WHITE, 1.1, 'sfx')
@@ -939,7 +958,7 @@ export function createGame(canvas, cb = {}) {
   const updateFx = (gdt, rdt) => {
     const g = 1400 * S
     for (const p of parts) {
-      p.life -= p.k === 'aura' || p.k === 'bolt' || p.k === 'ember' ? rdt : gdt
+      p.life -= p.k === 'aura' || p.k === 'bolt' || p.k === 'ember' || p.k === 'glow' || p.k === 'cut' || p.k === 'lines' ? rdt : gdt
       if (p.k === 'spark') {
         p.x += p.vx * (gdt / 1000)
         p.y += p.vy * (gdt / 1000)
@@ -1368,9 +1387,62 @@ export function createGame(canvas, cb = {}) {
       ctx.lineTo(p.x - p.vx * 0.03, p.y - p.vy * 0.03)
       ctx.stroke()
     }
+    for (const p of parts) {
+      const a = clamp(p.life / p.max, 0, 1)
+      if (p.k === 'glow') {
+        const r = p.r * (0.7 + (1 - a) * 0.5)
+        const gr = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r)
+        gr.addColorStop(0, p.c)
+        gr.addColorStop(1, 'rgba(0,0,0,0)')
+        ctx.globalAlpha = a * a * 0.85
+        ctx.fillStyle = gr
+        ctx.fillRect(p.x - r, p.y - r, r * 2, r * 2)
+      } else if (p.k === 'cut') {
+        // núcleo branco, brilho colorido e bordas vermelha/azul deslocadas
+        const t = 1 - a
+        const len = p.len * (0.55 + eo(Math.min(1, t * 3)) * 0.45)
+        const wd = (1 - t) * 11 * S
+        ctx.save()
+        ctx.translate(p.x, p.y)
+        ctx.rotate(p.ang)
+        for (const [c, k, al, dy] of [[RED, 1.6, 0.5, -3 * S], [BLUE, 1.6, 0.5, 3 * S], [p.c, 2.6, 0.45, 0], [WHITE, 1, 1, 0]]) {
+          ctx.globalAlpha = a * al
+          ctx.fillStyle = c
+          ctx.beginPath()
+          ctx.moveTo(-len / 2, dy)
+          ctx.lineTo(0, dy - wd * k * 0.5)
+          ctx.lineTo(len / 2, dy)
+          ctx.lineTo(0, dy + wd * k * 0.5)
+          ctx.closePath()
+          ctx.fill()
+        }
+        ctx.restore()
+      }
+    }
     ctx.globalCompositeOperation = 'source-over'
     for (const p of parts) {
       const a = clamp(p.life / p.max, 0, 1)
+      if (p.k === 'lines') {
+        // linhas de velocidade irradiando do impacto (mangá)
+        const t = 1 - a
+        ctx.globalAlpha = a
+        ctx.fillStyle = WHITE
+        for (let i = 0; i < p.n; i += 1) {
+          const ang = p.rot + (i / p.n) * TAU + Math.sin(p.seed + i * 7.3) * 0.18
+          const r0 = p.r * (0.32 + t * 0.35)
+          const r1 = p.r * (0.72 + Math.abs(Math.sin(p.seed + i * 3.1)) * 0.5 + t * 0.3)
+          const wdt = (2.6 + Math.abs(Math.sin(p.seed + i)) * 2.4) * S * a
+          const cx = Math.cos(ang)
+          const cy = Math.sin(ang)
+          ctx.beginPath()
+          ctx.moveTo(p.x + cx * r0 - cy * wdt, p.y + cy * r0 + cx * wdt)
+          ctx.lineTo(p.x + cx * r1, p.y + cy * r1)
+          ctx.lineTo(p.x + cx * r0 + cy * wdt, p.y + cy * r0 - cx * wdt)
+          ctx.closePath()
+          ctx.fill()
+        }
+        continue
+      }
       if (p.k === 'spark') {
         ctx.globalAlpha = a
         ctx.strokeStyle = p.c
@@ -1812,11 +1884,14 @@ export function createGame(canvas, cb = {}) {
       lastHit = { gap: Math.round((a.target.x - a.dir * 23 * S * a.target.size - reachX) * a.dir), weapon, dash: Math.round(Math.abs(player.x - player.dashFrom)) }
     }
     if (player.trailKey) trail.push({ t: clock, pts: trailPoints(b, style(), player.trailKey).map(toWorld) })
-    trail = trail.filter((tp) => clock - tp.t < 120)
+    trail = trail.filter((tp) => clock - tp.t < 150)
     const lanes = Math.max(0, ...trail.map((tp) => tp.pts.length))
     for (let j = 0; j < lanes; j += 1) {
       const pts = trail.filter((tp) => tp.pts[j]).map((tp) => tp.pts[j])
-      strip(pts, 9 * S * (1 + fury * 0.3), fury ? FURY_COLORS[fury][0] : WEAPONS[weapon].color, 0.4 + fury * 0.1)
+      ctx.globalCompositeOperation = 'lighter'
+      strip(pts, 16 * S * (1 + fury * 0.3), fury ? FURY_COLORS[fury][0] : WEAPONS[weapon].color, 0.22 + fury * 0.06)
+      strip(pts, 9 * S * (1 + fury * 0.3), fury ? FURY_COLORS[fury][0] : WEAPONS[weapon].color, 0.45 + fury * 0.1)
+      ctx.globalCompositeOperation = 'source-over'
       strip(pts, 3.5 * S * (1 + fury * 0.15), WHITE, 0.95)
     }
 
