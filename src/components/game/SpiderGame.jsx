@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { createGame, tr } from './engine'
-import { WEAPONS } from './weapons'
+import { WEAPONS, PASSIVES } from './weapons'
 import './SpiderGame.css'
 
 const UI = {
@@ -24,6 +24,10 @@ const UI = {
   combo: { pt: 'Maior combo', en: 'Best combo' },
   close: { pt: 'Fechar jogo', en: 'Close game' },
   useSpecial: { pt: 'Especial', en: 'Special' },
+  upgrade: { pt: 'Melhorar', en: 'Upgrade' },
+  lv: { pt: 'NV', en: 'LV' },
+  passive: { pt: 'Passiva', en: 'Passive' },
+  allUp: { pt: 'Todas: +8% de alcance e golpes 6% mais rápidos por nível.', en: 'All: +8% reach and 6% faster strikes per level.' },
 }
 
 const ICONS = {
@@ -32,6 +36,7 @@ const ICONS = {
   staff: <path d="M6 42 L42 6 M6 42 L11 37 M37 11 L42 6" />,
   web: <path d="M24 4 V44 M4 24 H44 M10 10 L38 38 M38 10 L10 38 M24 12 L34 16 L36 26 L30 34 L18 34 L12 26 L14 16 Z" />,
   daggers: <path d="M8 40 L26 22 M26 22 L34 10 L30 20 Z M40 40 L22 22 M22 22 L14 10 L18 20 Z" />,
+  fists: <path d="M12 30 Q12 18 22 18 L34 18 Q40 18 40 24 L40 34 Q40 42 32 42 L20 42 Q12 42 12 34 Z M22 18 V26 M28 18 V26 M34 18 V26" />,
 }
 
 const hasTouch = () => window.matchMedia('(hover: none)').matches
@@ -104,14 +109,27 @@ function GameOverlay({ onClose }) {
           <div className="spider-game__cards">
             {data.options.map((id, i) => {
               const w = WEAPONS[id]
+              const up = id === data.current
+              const lv = data.levels?.[id] || 1
               return (
-                <button key={id} type="button" className="weapon-card" onClick={() => game.current?.choose(id)} style={{ '--k': i }}>
+                <button key={id} type="button" className={`weapon-card${up ? ' weapon-card--up' : ''}`} onClick={() => game.current?.choose(id)} style={{ '--k': i }}>
                   <span className="weapon-card__key">{i + 1}</span>
+                  {up && (
+                    <span className="weapon-card__badge">
+                      ▲ {tr(UI.upgrade)} · {tr(UI.lv)} {lv} → {lv + 1}
+                    </span>
+                  )}
+                  {!up && lv > 1 && <span className="weapon-card__lv">{tr(UI.lv)} {lv}</span>}
                   <svg className="weapon-card__icon" viewBox="0 0 48 48" aria-hidden="true">
                     {ICONS[id]}
                   </svg>
                   <strong className="weapon-card__name">{tr(w.name)}</strong>
-                  <span className="weapon-card__trait">{tr(w.trait)}</span>
+                  <span className="weapon-card__trait">{up ? tr(UI.allUp) : tr(w.trait)}</span>
+                  {up && (
+                    <span className="weapon-card__passive">
+                      <b>{tr(UI.passive)}</b> {tr(PASSIVES[id])}
+                    </span>
+                  )}
                   <span className="weapon-card__special">
                     <b>
                       {tr(UI.special)}: {tr(w.special.name)}

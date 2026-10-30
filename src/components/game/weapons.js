@@ -107,5 +107,35 @@ export const WEAPONS = {
   },
 }
 
+export const MAX_WLV = 5
+
+// Passiva própria de cada arma (ganha a cada nível, além de +8% de alcance e
+// golpes 6% mais rápidos por nível).
+export const PASSIVES = {
+  fists: L('A partir do nível 3, cada golpe tira 2 de vida.', 'From level 3, every hit deals 2 damage.'),
+  katana: L('Cada nível: o corte atravessa mais uma aranha atrás.', 'Each level: the cut pierces one more spider behind.'),
+  hammer: L('Cada nível: onda de impacto 30% maior.', 'Each level: 30% larger impact splash.'),
+  staff: L('A cada 2 níveis: acerta mais uma aranha.', 'Every 2 levels: hits one more spider.'),
+  web: L('Cada nível: +15% de alcance extra e enche mais o especial.', 'Each level: +15% extra range and more special charge.'),
+  daggers: L('A partir do nível 3, enchem o especial em triplo.', 'From level 3, fill the special three times as fast.'),
+}
+
+/** Atributos da arma no nível `lv` (1 = base). */
+export function weaponStats(id, lv = 1) {
+  const w = WEAPONS[id]
+  const k = lv - 1
+  const st = {
+    ...w,
+    range: w.range * (1 + 0.08 * k) * (id === 'web' ? 1 + 0.15 * k : 1),
+    dur: w.dur * Math.max(0.6, 1 - 0.06 * k),
+    dmg: w.dmg + (id === 'fists' && lv >= 3 ? 1 : 0),
+    meter: (w.meter || 1) + (id === 'daggers' && lv >= 3 ? 1 : 0) + (id === 'web' ? Math.floor(k / 2) : 0),
+  }
+  if (id === 'katana' && k > 0) st.cleave = 1 + k
+  if (id === 'hammer') st.splash = w.splash * (1 + 0.3 * k)
+  if (id === 'staff') st.cleave = (w.cleave || 1) + Math.floor(k / 2)
+  return st
+}
+
 // armas oferecidas ao subir de nível (os punhos são só o começo)
 export const WEAPON_POOL = ['katana', 'hammer', 'staff', 'web', 'daggers']

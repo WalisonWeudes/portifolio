@@ -7,7 +7,7 @@
 // (câmera lenta no especial, "hit-stop" no impacto) enquanto o lutador segue
 // no tempo real, então os controles nunca travam.
 
-import { WEAPONS, WEAPON_POOL, METER_MAX } from './weapons'
+import { WEAPONS, WEAPON_POOL, METER_MAX, MAX_WLV, weaponStats } from './weapons'
 import {
   IDLE, ATTACKS, CHARGE, HURT, MISS, SHEATHE, HIT_AT,
   attackPose, mixPose, withIdle, bones, trailPoints, drawFighter,
@@ -48,6 +48,7 @@ const TXT = {
   space: { pt: 'ESPAÇO', en: 'SPACE' },
   ready: { pt: 'ESPECIAL PRONTO', en: 'SPECIAL READY' },
   fury: { pt: 'FÚRIA', en: 'FURY' },
+  wlv: { pt: 'NV', en: 'LV' },
 }
 
 const readBest = () => {
@@ -80,6 +81,7 @@ export function createGame(canvas, cb = {}) {
   // estado da partida
   let mode = 'title' // title | play | special | clear | choose | dying | over
   let weapon = 'fists'
+  let wLevels = {} // nível de cada arma nesta partida
   let level = 1
   let score = 0
   let best = readBest()
@@ -136,6 +138,8 @@ export function createGame(canvas, cb = {}) {
   }
 
   const style = () => WEAPONS[weapon].style
+  const wlv = (id = weapon) => wLevels[id] || 1
+  const ws = () => weaponStats(weapon, wlv())
   const idle = () => IDLE[style()]
   const clampX = (x) => clamp(x, 34 * S, W - 34 * S) // o avanço sempre alcança a aranha
   const toWorld = (p) => ({ x: player.x + p.x * player.facing * S * FIG, y: G - player.air + p.y * S * FIG })
@@ -213,6 +217,7 @@ export function createGame(canvas, cb = {}) {
 
   const start = () => {
     weapon = 'fists'
+    wLevels = {}
     level = 1
     score = 0
     combo = 0
@@ -245,13 +250,20 @@ export function createGame(canvas, cb = {}) {
 
   const choose = (id) => {
     if (mode !== 'choose' || !WEAPONS[id]) return
+    const upgrade = id === weapon
+    if (upgrade) wLevels[id] = Math.min(MAX_WLV, wlv(id) + 1)
     weapon = id
     level += 1
     resetLevel()
     mode = 'play'
     tsTarget = 1
     cb.onScreen?.(null)
-    banner = { title: `${tr(TXT.level)} ${String(level).padStart(2, '0')}`, sub: tr(WEAPONS[weapon].name).toUpperCase(), t: 0, dur: 1700 }
+    const name = `${tr(WEAPONS[weapon].name).toUpperCase()} · ${tr(TXT.wlv)} ${wlv()}`
+    banner = { title: `${tr(TXT.level)} ${String(level).padStart(2, '0')}`, sub: upgrade ? `▲ ${name}` : name, t: 0, dur: 1700 }
+    if (upgrade) {
+      flash(WEAPONS[weapon].color, 0.3)
+      ring(player.x, G - 50 * S, 10 * S, 240 * S, WHITE, 600, 4)
+    }
     ring(player.x, G - 50 * S, 10 * S, 160 * S, WEAPONS[weapon].color, 500, 3)
   }
 
@@ -403,7 +415,7 @@ export function createGame(canvas, cb = {}) {
     const gain = e.score * comboMult()
     score += Math.round(gain)
     popup(e.x, y - 30 * k, `+${Math.round(gain)}`, WHITE, 0.8)
-    meter = Math.min(METER_MAX, meter + (WEAPONS[weapon].meter || 1))
+    meter = Math.min(METER_MAX, meter + ws().meter)
     if (kills >= quota) {
       if (mode === 'special') pendingClear = true
       else if (mode === 'play') levelClear()
@@ -432,7 +444,7 @@ export function createGame(canvas, cb = {}) {
   }
 
   const startAttack = (dir) => {
-    const w = WEAPONS[weapon]
+    const w = ws()
     const st = w.style
     const range = w.range * S
     const side = alive()
@@ -477,7 +489,7 @@ export function createGame(canvas, cb = {}) {
   const handWorld = () => toWorld(player.b ? player.b.hF : { x: 20, y: -60 })
 
   const resolveHit = (a) => {
-    const w = WEAPONS[weapon]
+    const w = ws()
     const st = w.style
     const e = a.target
     const heavy = st === 'smash'
@@ -1020,10 +1032,11 @@ export function createGame(canvas, cb = {}) {
       if (modeT > 1600) {
         mode = 'choose'
         tsTarget = 1
-        options = WEAPON_POOL.filter((id) => id !== weapon)
-          .sort(() => Math.random() - 0.5)
-          .slice(0, 3)
-        cb.onScreen?.('choose', { level, options, current: weapon })
+        // a arma atual (para melhorar, se ainda não está no máximo) + outras sorteadas
+        const others = WEAPON_POOL.filter((id) => id !== weapon).sort(() => Math.random() - 0.5)
+        options = wlv() < MAX_WLV ? [weapon, ...others.slice(0, 2)] : others.slice(0, 3)
+        const levels = Object.fromEntries(options.map((id) => [id, wlv(id)]))
+        cb.onScreen?.('choose', { level, options, current: weapon, levels, max: MAX_WLV })
       }
     } else if (mode === 'dying') {
       modeT += rdt
@@ -1488,7 +1501,11 @@ export function createGame(canvas, cb = {}) {
     ctx.textBaseline = 'bottom'
     ctx.font = `600 ${small}px ${MONO}`
     ctx.fillStyle = 'rgba(245, 245, 242, 0.55)'
-    ctx.fillText(tr(WEAPONS[weapon].name).toUpperCase(), pad, H - pad)
+    ctx.fillText(`${tr(WEAPONS[weapon].name).toUpperCase()} · ${tr(TXT.wlv)} ${wlv()}`, pad, H - pad)
+    for (let i = 0; i < MAX_WLV; i += 1) {
+      ctx.fillStyle = i < wlv() ? WEAPONS[weapon].color : 'rgba(245, 245, 242, 0.15)'
+      ctx.fillRect(pad + i * 9, H - pad - Math.max(14, 16 * S) - 8, 6, 6)
+    }
     // medidor do especial
     const mw = Math.min(320 * S, W * 0.6)
     const mh = Math.max(9, 12 * S)
@@ -1791,11 +1808,12 @@ export function createGame(canvas, cb = {}) {
     api.debug = {
       fillMeter: () => (meter = METER_MAX),
       setWeapon: (id) => (weapon = id),
+      setLevel: (id, n) => (wLevels[id] = n),
       winLevel: () => {
         kills = quota - 1
       },
       state: () => ({ mode, weapon, level, score, combo, lives, kills, quota, meter, enemies: alive().length }),
-      peek: () => ({ px: player.x, range: WEAPONS[weapon].range * S, es: alive().map((e) => [e.x, e.r, !!e.leap]) }),
+      peek: () => ({ px: player.x, range: ws().range * S, es: alive().map((e) => [e.x, e.r, !!e.leap]) }),
       god: () => (lives = 99),
       lastHit: () => lastHit,
       setCombo: (n) => (combo = n),
