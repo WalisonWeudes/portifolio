@@ -10,6 +10,7 @@ import StackSection from './components/sections/StackSection'
 import IllustrationsSection from './components/sections/IllustrationsSection'
 import ContactSection from './components/sections/ContactSection'
 import ClickSpark from './components/reactbits/ClickSpark/ClickSpark'
+import SpiderGame from './components/game/SpiderGame'
 import { useReveal } from './hooks/useReveal'
 import { useTitleGlitch } from './hooks/useTitleGlitch'
 import { usePointerEffects } from './hooks/usePointerEffects'
@@ -53,6 +54,8 @@ export default function App() {
           <ContactSection />
         </main>
       </ClickSpark>
+      {/* jogo escondido: digite "spider" */}
+      <SpiderGame />
     </>
   )
 }

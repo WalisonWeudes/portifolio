@@ -12,6 +12,8 @@ import { drawOrb as drawOrbOn, makeOrb, orbSegments } from './spider/orb'
 import './SpiderWalker.css'
 
 const MAX_SPIDERS = 8
+const GAME_CLICKS = 5 // cliques nas aranhas, em sequência, para abrir o jogo
+const GAME_CLICK_WINDOW = 4000 // ms
 const EDGE_PADDING = 18
 const RAD = 180 / Math.PI
 
@@ -223,6 +225,8 @@ export default function SpiderWalker() {
     // A aranha caça o cursor, tece uma teia em volta dele e o prende. Só solta
     // quando o usuário sacode o mouse rápido: aí a teia se despedaça.
     let trapCapable = false
+    let gaming = false // jogo Spider Rush aberto
+    let spiderClicks = []
     const pointer = { x: -999, y: -999, speed: 0, lastT: 0, lastMove: 0 }
     let trap = null // { phase, spider, orb, c, energy, phaseAt, shards, offset }
     let nextTrapAt = 0
@@ -259,6 +263,15 @@ export default function SpiderWalker() {
       if (spider) {
         event.preventDefault()
         event.stopPropagation()
+        // várias cliques seguidos nas aranhas abrem o jogo escondido
+        const now = performance.now()
+        spiderClicks = spiderClicks.filter((t) => now - t < GAME_CLICK_WINDOW)
+        spiderClicks.push(now)
+        if (spiderClicks.length >= GAME_CLICKS) {
+          spiderClicks = []
+          window.dispatchEvent(new CustomEvent('spider:game'))
+          return
+        }
         spawnFrom(spider)
       }
     }
@@ -273,6 +286,7 @@ export default function SpiderWalker() {
 
     const canStartTrap = () =>
       trapCapable &&
+      !gaming &&
       !trap &&
       !document.hidden &&
       isIntersecting &&
@@ -525,7 +539,7 @@ export default function SpiderWalker() {
     }
 
     const updateLoop = () => {
-      const run = isIntersecting && isDocumentVisible && !reducedMotion.matches
+      const run = isIntersecting && isDocumentVisible && !reducedMotion.matches && !gaming
       if (!run) {
         if (rafId) cancelAnimationFrame(rafId)
         rafId = null
@@ -551,6 +565,27 @@ export default function SpiderWalker() {
       }
     }
 
+
+    // Enquanto o jogo está aberto: apaga as aranhas extras (geradas pelos cliques),
+    // desfaz a teia e para a animação, para o jogo rodar leve. Ao sair, retoma.
+    const onGameState = (event) => {
+      gaming = !!event.detail?.open
+      if (gaming) {
+        if (trap) {
+          trap.spider.mode = 'walk'
+          trap = null
+        }
+        setTrappedUI(false)
+        hovered = null
+        document.documentElement.classList.remove('is-over-spider')
+        spiders = viewport.width > 0 ? [createSpider(null)] : []
+        ctx?.setTransform(1, 0, 0, 1, 0, 0)
+        ctx?.clearRect(0, 0, canvasRef.current?.width || 0, canvasRef.current?.height || 0)
+      } else {
+        nextTrapAt = clock + rand(20000, 35000)
+      }
+      updateLoop()
+    }
 
     const onVisibility = () => {
       isDocumentVisible = !document.hidden
@@ -593,6 +628,7 @@ export default function SpiderWalker() {
       visibilityObserver.observe(layer)
     }
     document.addEventListener('visibilitychange', onVisibility)
+    window.addEventListener('spider:game-state', onGameState)
     updateLoop()
 
     return () => {
@@ -603,6 +639,7 @@ export default function SpiderWalker() {
       visibilityObserver.disconnect()
       reducedMotion.removeEventListener?.('change', updateLoop)
       document.removeEventListener('visibilitychange', onVisibility)
+      window.removeEventListener('spider:game-state', onGameState)
       window.removeEventListener('mousemove', onPointerMove)
       window.removeEventListener('click', onClickCapture, true)
       window.removeEventListener('mousemove', onHoverMove)
