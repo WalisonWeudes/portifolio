@@ -29,7 +29,7 @@ export const IDLE = {
   punch: { ...BASE, lean: 0.2, y: 4.5, aF1: 0.95, aF2: 2.35, aB1: 0.6, aB2: 2.5, fFx: 17, fBx: -17 },
   // ronin relaxado: de pé, pernas abertas, ombros caídos e cabeça baixa encarando;
   // katana numa mão só, braço solto e lâmina para baixo e para trás; a outra mão fechada no quadril
-  slash: { ...BASE, lean: 0.07, y: 0, nod: 1, aF1: 0.12, aF2: 0.18, w: -0.78, aB1: 0.12, aB2: 0.55, grip: 0, fFx: 17, fBx: -19 },
+  slash: { ...BASE, lean: 0.07, y: 0, nod: 1, aF1: 0.05, aF2: 0.35, w: -1.45, aB1: 0.12, aB2: 0.55, grip: 0, fFx: 17, fBx: -19 },
   // martelo apoiado no ombro
   smash: { ...BASE, lean: 0.02, y: 5, aF1: 0.2, aF2: 2.2, w: 1.6, aB1: 0.3, aB2: 1.9, grip: 1, fFx: 20, fBx: -18 },
   // bastão segurado com as duas mãos, na diagonal
@@ -60,6 +60,18 @@ export const ATTACKS = {
     { trail: 'fB', wind: { lean: 0.25, fBx: -6, fBy: 8, aF1: 0.5, aF2: 2.0 }, hit: { fBx: 42, fBy: 30, fFx: -4, lean: -0.5, x: -2, aF1: -0.2, aF2: 1.4, aB1: 0.4, aB2: 1.2 } },
     // rasteira
     { trail: 'fF', wind: { y: 12, lean: 0.3, fFx: 10 }, hit: { fFx: 44, fFy: 3, y: 17, lean: 0.55, x: 4, fBx: -14, aF1: 0.4, aF2: 1.5, aB1: -0.4, aB2: 1.3 } },
+    // capoeira: bênção (chute de empurrar com a sola)
+    { trail: 'fF', wind: { fFx: 8, fFy: 22, lean: -0.1, aF1: 0.8, aF2: 2.0 }, hit: { fFx: 44, fFy: 28, lean: -0.32, x: 2, aF1: 0.5, aF2: 1.8, aB1: 0.2, aB2: 1.6, fBx: -14 } },
+    // capoeira: martelo (chute circular alto com o peito do pé)
+    { trail: 'fF', wind: { fFx: 2, fFy: 18, lean: 0.1, x: -2 }, hit: { fFx: 34, fFy: 50, lean: -0.6, hop: 4, aF1: -0.1, aF2: 1.2, aB1: 0.8, aB2: 1.6, fBx: -8 } },
+    // capoeira: meia-lua de compasso (mão no chão, calcanhar girando por cima)
+    { trail: 'fB', wind: { lean: -0.3, y: 6, aF1: -0.3, aF2: 0.5, fFx: 6 }, hit: { lean: -1.0, y: 8, aF1: -0.75, aF2: 0.1, aB1: -0.6, aB2: 0.1, fBx: 34, fBy: 74, fFx: -10, x: -6 } },
+    // capoeira: armada (giro com a perna de trás em arco)
+    { trail: 'fB', wind: { lean: 0.2, fFx: 10, aF1: 1.2, aF2: 1.5 }, hit: { fBx: 32, fBy: 46, fFx: -2, lean: -0.45, hop: 3, aF1: 2.0, aF2: 0.6, aB1: -0.5, aB2: 1.0 } },
+    // cabeçada
+    { trail: 'hF', wind: { lean: -0.15, nod: -0.5, x: -4 }, hit: { lean: 0.62, nod: 2, x: 14, aF1: 0.4, aF2: 1.4, aB1: 0.3, aB2: 1.4, ...LUNGE } },
+    // cutelada (golpe com a lateral da mão, de cima)
+    { trail: 'hF', wind: { aF1: 2.7, aF2: 0.9, lean: -0.1 }, hit: { aF1: 1.25, aF2: 0.15, lean: 0.42, x: 9, aB1: 0.4, aB2: 2.4, ...LUNGE } },
   ],
   slash: [
     // diagonal de cima
@@ -76,6 +88,14 @@ export const ATTACKS = {
     { trail: 'tF', wind: { grip: 1, aF1: -0.8, aF2: 1.2, w: 1.2, lean: -0.3, hop: 4 }, hit: { grip: 1, aF1: 1.45, aF2: 0, w: -0.3, lean: 0.25, hop: 10, x: 10, fFx: 20, fFy: 8, fBx: -16 } },
     // saque da bainha com uma mão (iai)
     { trail: 'tF', wind: { aF1: 0.2, aF2: 0.4, w: 2.6, grip: 0, lean: 0.3, y: 10 }, hit: { aF1: 1.9, aF2: 0, w: 0, grip: 0, aB1: -0.3, aB2: 0.8, lean: 0.35, x: 14, fFx: 34, fBx: -22, y: 9 } },
+    // jōdan → shōmen: espada acima da cabeça e corte vertical
+    { trail: 'tF', wind: { grip: 1, aF1: 3.05, aF2: 0.15, w: -0.25, lean: -0.12, y: -1 }, hit: { grip: 1, aF1: 1.42, aF2: 0, w: 0.12, lean: 0.38, x: 12, fFx: 32, fBx: -22, y: 6 } },
+    // hassō → kesa-giri: cabo no ombro, lâmina quase vertical, corte diagonal
+    { trail: 'tF', wind: { grip: 1, aF1: 2.3, aF2: 1.5, w: -0.75, lean: 0, x: -2 }, hit: { grip: 1, aF1: 0.95, aF2: 0.1, w: 0, lean: 0.46, x: 11, ...LUNGE } },
+    // waki → yoko-giri: espada escondida atrás do corpo, corte horizontal
+    { trail: 'tF', wind: { grip: 1, aF1: -0.55, aF2: 0.35, w: -1.0, lean: 0.15, y: 5 }, hit: { grip: 1, aF1: 1.72, aF2: 0, w: 0.1, lean: 0.28, x: 12, fFx: 30, fBx: -22, y: 4 } },
+    // ronin: corte rápido para cima, numa mão só, saindo da postura relaxada
+    { trail: 'tF', wind: { grip: 0, aF1: -0.1, aF2: 0.3, w: -1.6, lean: 0.15, nod: 1 }, hit: { grip: 0, aF1: 2.1, aF2: 0, w: 0, aB1: -0.4, aB2: 0.7, lean: 0.2, nod: 0.5, x: 10, fFx: 26, fBx: -18 } },
   ],
   smash: [
     // marretada de cima
@@ -88,6 +108,10 @@ export const ATTACKS = {
     { trail: 'tF', wind: { aF1: -0.9, aF2: 0.6, w: 0.4, lean: -0.2 }, hit: { aF1: 1.6, aF2: 0, w: 0.2, hop: 10, lean: 0.2, x: 10, fFx: 18, fFy: 10, fBx: -16 } },
     // cabo para a frente
     { trail: 'hF', wind: { aF1: 0.6, aF2: 1.6, w: 1.4, x: -3 }, hit: { aF1: 1.5, aF2: 0.2, w: 3.0, lean: 0.4, x: 12, ...LUNGE } },
+    // varrida baixa
+    { trail: 'tF', wind: { aF1: -0.4, aF2: 0.5, w: 0.5, y: 8 }, hit: { aF1: 1.15, aF2: 0, w: 0.45, y: 14, lean: 0.5, x: 9, fFx: 32, fBx: -18 } },
+    // salto com marretada
+    { trail: 'tF', wind: { aF1: 3.0, aF2: 0.1, w: 0, hop: 8, lean: -0.3 }, hit: { aF1: 0.95, aF2: 0, w: 0, hop: 2, y: 12, lean: 0.62, x: 12, fFx: 30, fBx: -24 } },
   ],
   spin: [
     // giro para a frente
@@ -102,6 +126,12 @@ export const ATTACKS = {
     { trail: 'staff', wind: { aF1: 0.5, aF2: 1.0, w: 0.6, y: 6 }, hit: { aF1: 1.0, aF2: 0.2, w: -0.4, y: 15, lean: 0.48, x: 8, fFx: 32, fBx: -18 } },
     // salto com chute apoiado no bastão
     { trail: 'fF', wind: { aF1: 0.9, aF2: 0.7, w: 0.9, y: 8 }, hit: { hop: 18, fFx: 36, fFy: 30, aF1: 1.2, aF2: 0.2, w: 1.6, grip: 0, lean: -0.25, fBx: -6, fBy: 10 } },
+    // golpe na cabeça (bastão girando na altura da cabeça)
+    { trail: 'staff', wind: { aF1: 0.6, aF2: 1.6, w: 1.0, lean: -0.1 }, hit: { aF1: 2.05, aF2: 0.2, w: -0.25, lean: 0.25, x: 10, ...LUNGE } },
+    // golpe nas pernas
+    { trail: 'staff', wind: { aF1: 1.8, aF2: 0.8, w: 0.6, y: 4 }, hit: { aF1: 0.75, aF2: 0.1, w: 0.4, y: 13, lean: 0.4, x: 9, fFx: 30, fBx: -18 } },
+    // golpe seco para baixo
+    { trail: 'staff', wind: { aF1: 2.6, aF2: 0.4, w: 0.3, lean: -0.1 }, hit: { aF1: 1.2, aF2: 0.1, w: 0.3, grip: 1, lean: 0.4, x: 10, y: 6, ...LUNGE } },
   ],
   shoot: [
     { trail: null, wind: { aF1: 1.3, aF2: 0.5 }, hit: { aF1: 1.6, aF2: 0, lean: 0.14, x: -4 } },
@@ -112,6 +142,10 @@ export const ATTACKS = {
     { trail: null, wind: { y: 10, aF1: 1.2, aF2: 0.6 }, hit: { y: 15, aF1: 1.5, aF2: 0, lean: 0.35, x: -3, fFx: 24, fBx: -16 } },
     // tiro saltando
     { trail: null, wind: { y: 8 }, hit: { hop: 14, aF1: 1.8, aF2: -0.2, lean: 0.05, fFy: 10, fBy: 4, fFx: 10, fBx: -10 } },
+    // tiro deslizando no chão
+    { trail: null, wind: { y: 6, lean: 0.2 }, hit: { y: 18, lean: 0.55, aF1: 1.45, aF2: 0, x: 4, fFx: 34, fBx: -14, aB1: -0.3, aB2: 0.6, grip: 0 } },
+    // tiro girando
+    { trail: null, wind: { lean: -0.3, aF1: -0.4, aF2: 1.2 }, hit: { aF1: 1.8, aF2: 0, lean: -0.25, aB1: 2.4, aB2: 0.4, grip: 0, fFx: 12, fBx: -22 } },
   ],
   dual: [
     { trail: 'tF', wind: { aF1: 2.6, aF2: 0.7, lean: 0.15 }, hit: { aF1: 1.25, aF2: -0.15, aB1: 0.4, aB2: 2.4, lean: 0.42, x: 9, ...LUNGE } },
@@ -126,6 +160,10 @@ export const ATTACKS = {
     { trail: 'tF', wind: { y: 10, aF1: 2.4, aF2: 0.8 }, hit: { hop: 16, aF1: 0.9, aF2: -0.2, aB1: 2.2, aB2: 0.4, lean: 0.3, x: 10, fFx: 18, fFy: 14, fBx: -10, fBy: 6 } },
     // giro de lâminas
     { trail: 'tB', wind: { lean: -0.2, aF1: -0.4, aF2: 1.4, aB1: -0.6, aB2: 1.2 }, hit: { lean: 0.3, aF1: 1.8, aF2: 0.3, aB1: 1.3, aB2: -0.1, x: 10, ...LUNGE } },
+    // sinawali: alto com uma, baixo com a outra
+    { trail: 'tF', wind: { aF1: 2.7, aF2: 0.5, aB1: 0.2, aB2: 1.6 }, hit: { aF1: 1.0, aF2: -0.2, aB1: 1.6, aB2: -0.3, lean: 0.4, x: 10, ...LUNGE } },
+    // gancho de pegada invertida
+    { trail: 'tF', wind: { aF1: 0.6, aF2: 2.3, w: Math.PI, lean: -0.1 }, hit: { aF1: 1.85, aF2: 0.6, w: Math.PI, lean: 0.4, x: 11, ...LUNGE } },
   ],
 }
 
