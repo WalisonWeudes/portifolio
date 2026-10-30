@@ -41,31 +41,90 @@ export const IDLE = {
 
 export const ATTACKS = {
   punch: [
+    // jab
     { trail: 'hF', wind: { aF1: 1.0, aF2: 2.6, x: -2, lean: 0.1 }, hit: { aF1: 1.57, aF2: 0.04, aB1: 0.5, aB2: 2.6, lean: 0.34, x: 8, ...LUNGE } },
+    // direto
     { trail: 'hB', wind: { aB1: 0.4, aB2: 2.7, lean: 0.08 }, hit: { aB1: 1.62, aB2: 0.04, aF1: 0.7, aF2: 2.4, lean: 0.45, x: 10, ...LUNGE } },
+    // chute alto
     { trail: 'fF', wind: { fFx: 6, fFy: 14, lean: -0.05, aF1: 0.6, aF2: 2.2 }, hit: { fFx: 40, fFy: 34, lean: -0.42, x: -4, aF1: 0.3, aF2: 1.6, aB1: -0.4, aB2: 1.4, fBx: -10 } },
+    // gancho para cima
     { trail: 'hF', wind: { lean: 0.3, y: 10, aF1: 0.4, aF2: 1.2 }, hit: { lean: -0.08, y: -3, aF1: 2.7, aF2: 0.3, x: 6, fFx: 18, fBx: -12 } },
+    // cruzado (hook)
+    { trail: 'hF', wind: { aF1: 0.9, aF2: 1.4, lean: -0.05, x: -2 }, hit: { aF1: 1.65, aF2: 0.7, lean: 0.38, x: 9, aB1: 0.5, aB2: 2.6, ...LUNGE } },
+    // cotovelada
+    { trail: 'hF', wind: { aF1: 0.6, aF2: 2.8, lean: 0 }, hit: { aF1: 1.75, aF2: 2.6, lean: 0.42, x: 12, ...LUNGE } },
+    // joelhada
+    { trail: 'fF', wind: { fFx: 4, fFy: 6, lean: 0.1 }, hit: { fFx: 16, fFy: 30, lean: -0.1, hop: 6, aF1: 1.5, aF2: 0.9, aB1: 1.3, aB2: 1.1, x: 6, fBx: -8 } },
+    // chute giratório com a perna de trás
+    { trail: 'fB', wind: { lean: 0.25, fBx: -6, fBy: 8, aF1: 0.5, aF2: 2.0 }, hit: { fBx: 42, fBy: 30, fFx: -4, lean: -0.5, x: -2, aF1: -0.2, aF2: 1.4, aB1: 0.4, aB2: 1.2 } },
+    // rasteira
+    { trail: 'fF', wind: { y: 12, lean: 0.3, fFx: 10 }, hit: { fFx: 44, fFy: 3, y: 17, lean: 0.55, x: 4, fBx: -14, aF1: 0.4, aF2: 1.5, aB1: -0.4, aB2: 1.3 } },
   ],
   slash: [
+    // diagonal de cima
     { trail: 'tF', wind: { aF1: 2.95, aF2: 0.35, w: 0.15, lean: -0.08, y: 2 }, hit: { aF1: 1.2, aF2: 0.05, w: 0.1, lean: 0.4, x: 10, ...LUNGE } },
+    // horizontal
     { trail: 'tF', wind: { aF1: 0.4, aF2: 1.3, w: 1.6, lean: -0.05 }, hit: { aF1: 1.65, aF2: 0, w: 0, lean: 0.32, x: 10, ...LUNGE } },
+    // de baixo para cima
     { trail: 'tF', wind: { aF1: 0.25, aF2: 0.15, w: -0.5, lean: 0.3, y: 10 }, hit: { aF1: 2.55, aF2: 0.1, w: 0.25, lean: -0.1, y: -2, x: 6, fFx: 23, fBx: -14 } },
+    // estocada
+    { trail: 'tF', wind: { aF1: 1.2, aF2: 1.5, w: 0.3, lean: -0.1, x: -4 }, hit: { aF1: 1.57, aF2: 0, w: 0, lean: 0.45, x: 14, fFx: 34, fBx: -22, y: 6 } },
+    // diagonal invertida
+    { trail: 'tF', wind: { aF1: 0.9, aF2: 0.3, w: -1.4, lean: 0.25, y: 6 }, hit: { aF1: 2.4, aF2: 0.25, w: 0.6, lean: 0.05, x: 8, ...LUNGE } },
+    // corte girando no ar
+    { trail: 'tF', wind: { aF1: -0.8, aF2: 1.2, w: 1.2, lean: -0.3, hop: 4 }, hit: { aF1: 1.45, aF2: 0, w: -0.3, lean: 0.25, hop: 10, x: 10, fFx: 20, fFy: 8, fBx: -16 } },
+    // saque da bainha com uma mão (iai)
+    { trail: 'tF', wind: { aF1: 0.2, aF2: 0.4, w: 2.6, grip: 0, lean: 0.3, y: 10 }, hit: { aF1: 1.9, aF2: 0, w: 0, grip: 0, aB1: -0.3, aB2: 0.8, lean: 0.35, x: 14, fFx: 34, fBx: -22, y: 9 } },
   ],
   smash: [
+    // marretada de cima
     { trail: 'tF', wind: { aF1: 3.05, aF2: 0.2, w: 0.1, lean: -0.25, y: -1 }, hit: { aF1: 1.05, aF2: 0, w: 0, lean: 0.55, y: 11, x: 8, fFx: 31, fBx: -27 } },
+    // balanço lateral
     { trail: 'tF', wind: { aF1: -0.5, aF2: 0.8, w: 0.6, lean: -0.05 }, hit: { aF1: 1.8, aF2: 0, w: 0, lean: 0.38, x: 10, ...LUNGE } },
+    // de baixo para cima
+    { trail: 'tF', wind: { aF1: 0.1, aF2: 0.2, w: -0.8, y: 10, lean: 0.35 }, hit: { aF1: 2.7, aF2: 0, w: 0, y: -2, lean: -0.15, x: 6, fFx: 20, fBx: -14 } },
+    // giro com salto
+    { trail: 'tF', wind: { aF1: -0.9, aF2: 0.6, w: 0.4, lean: -0.2 }, hit: { aF1: 1.6, aF2: 0, w: 0.2, hop: 10, lean: 0.2, x: 10, fFx: 18, fFy: 10, fBx: -16 } },
+    // cabo para a frente
+    { trail: 'hF', wind: { aF1: 0.6, aF2: 1.6, w: 1.4, x: -3 }, hit: { aF1: 1.5, aF2: 0.2, w: 3.0, lean: 0.4, x: 12, ...LUNGE } },
   ],
   spin: [
+    // giro para a frente
     { trail: 'staff', wind: { aF1: 0.5, aF2: 1.3, w: 0.6 }, hit: { aF1: 1.6, aF2: 0.05, w: -4.1, grip: 0, lean: 0.32, x: 10, ...LUNGE } },
+    // giro com chute
     { trail: 'staff', wind: { aF1: 2.4, aF2: 0.4, w: 0.5, y: 3 }, hit: { aF1: 1.25, aF2: 0, w: 3.8, grip: 0, lean: 0.25, x: 8, fFx: 34, fFy: 16, fBx: -18 } },
+    // estocada
+    { trail: 'staff', wind: { aF1: 1.1, aF2: 1.4, w: 0.2, x: -4 }, hit: { aF1: 1.57, aF2: 0, w: 0, lean: 0.42, x: 14, fFx: 32, fBx: -22, y: 5 } },
+    // golpe de cima
+    { trail: 'staff', wind: { aF1: 2.9, aF2: 0.3, w: 0.4, lean: -0.15 }, hit: { aF1: 1.3, aF2: 0, w: 0.2, lean: 0.45, y: 8, x: 10, ...LUNGE } },
+    // varrida baixa
+    { trail: 'staff', wind: { aF1: 0.5, aF2: 1.0, w: 0.6, y: 6 }, hit: { aF1: 1.0, aF2: 0.2, w: -0.4, y: 15, lean: 0.48, x: 8, fFx: 32, fBx: -18 } },
+    // salto com chute apoiado no bastão
+    { trail: 'fF', wind: { aF1: 0.9, aF2: 0.7, w: 0.9, y: 8 }, hit: { hop: 18, fFx: 36, fFy: 30, aF1: 1.2, aF2: 0.2, w: 1.6, grip: 0, lean: -0.25, fBx: -6, fBy: 10 } },
   ],
   shoot: [
     { trail: null, wind: { aF1: 1.3, aF2: 0.5 }, hit: { aF1: 1.6, aF2: 0, lean: 0.14, x: -4 } },
     { trail: null, wind: { aF1: 1.8, aF2: 0.4 }, hit: { aF1: 1.72, aF2: -0.08, lean: 0.18, x: -4, fFx: 18 } },
+    // tiro com as duas mãos
+    { trail: null, wind: { aF1: 1.2, aF2: 0.8, aB1: 1.1, aB2: 0.8, grip: 0 }, hit: { aF1: 1.6, aF2: 0, aB1: 1.6, aB2: 0, grip: 0, lean: 0.2, x: -5 } },
+    // tiro agachado
+    { trail: null, wind: { y: 10, aF1: 1.2, aF2: 0.6 }, hit: { y: 15, aF1: 1.5, aF2: 0, lean: 0.35, x: -3, fFx: 24, fBx: -16 } },
+    // tiro saltando
+    { trail: null, wind: { y: 8 }, hit: { hop: 14, aF1: 1.8, aF2: -0.2, lean: 0.05, fFy: 10, fBy: 4, fFx: 10, fBx: -10 } },
   ],
   dual: [
     { trail: 'tF', wind: { aF1: 2.6, aF2: 0.7, lean: 0.15 }, hit: { aF1: 1.25, aF2: -0.15, aB1: 0.4, aB2: 2.4, lean: 0.42, x: 9, ...LUNGE } },
     { trail: 'tB', wind: { aB1: 2.5, aB2: 0.7 }, hit: { aB1: 1.45, aB2: -0.15, aF1: 0.8, aF2: 2.0, lean: 0.45, x: 10, ...LUNGE } },
+    // estocada dupla
+    { trail: 'tF', wind: { aF1: 1.0, aF2: 2.2, aB1: 0.9, aB2: 2.2, w: 0, wB: 0 }, hit: { aF1: 1.57, aF2: 0, aB1: 1.5, aB2: 0, w: 0, wB: 0, lean: 0.42, x: 12, ...LUNGE } },
+    // corte em X
+    { trail: 'tF', wind: { aF1: 2.6, aF2: 0.6, aB1: 2.4, aB2: 0.6 }, hit: { aF1: 1.0, aF2: -0.3, aB1: 1.9, aB2: -0.3, lean: 0.4, x: 10, ...LUNGE } },
+    // corte baixo
+    { trail: 'tF', wind: { y: 10, aF1: 0.6, aF2: 1.8 }, hit: { y: 17, aF1: 1.3, aF2: -0.2, lean: 0.55, x: 8, fFx: 32, fBx: -16 } },
+    // corte saltando
+    { trail: 'tF', wind: { y: 10, aF1: 2.4, aF2: 0.8 }, hit: { hop: 16, aF1: 0.9, aF2: -0.2, aB1: 2.2, aB2: 0.4, lean: 0.3, x: 10, fFx: 18, fFy: 14, fBx: -10, fBy: 6 } },
+    // giro de lâminas
+    { trail: 'tB', wind: { lean: -0.2, aF1: -0.4, aF2: 1.4, aB1: -0.6, aB2: 1.2 }, hit: { lean: 0.3, aF1: 1.8, aF2: 0.3, aB1: 1.3, aB2: -0.1, x: 10, ...LUNGE } },
   ],
 }
 
@@ -224,6 +283,7 @@ export function trailPoints(b, style, key) {
   if (key === 'hF') return [b.hF]
   if (key === 'hB') return [b.hB]
   if (key === 'fF') return [b.fF]
+  if (key === 'fB') return [b.fB]
   if (key === 'tB') return [along(b.hB, dB, 24)]
   if (key === 'staff') return [along(b.hF, d, 58), along(b.hF, d, -42)]
   if (key === 'tF') return [along(b.hF, d, style === 'slash' ? 62 : style === 'smash' ? 48 : 24)]

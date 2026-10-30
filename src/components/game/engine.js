@@ -30,6 +30,11 @@ const DISPLAY = 'Chetta, Impact, "Arial Narrow", sans-serif'
 const MONO = '"JetBrains Mono", "Courier New", monospace'
 const BEST_KEY = 'ww-spider-best'
 const FIG = 1.15 // escala do lutador em relação ao resto
+// Fúria: golpes perfeitos em sequência (sem errar nem levar dano) aceleram o lutador
+const FURY_AT = [0, 8, 20, 40] // combo para entrar em cada nível
+const FURY_SPEED = [1, 0.85, 0.72, 0.6] // duração dos golpes
+const FURY_RATE = [0, 45, 100, 170] // faíscas por segundo
+const FURY_COLORS = [[], ['#9fb8ff', '#f5f5f2'], ['#3157ff', '#9fb8ff', '#e62429'], ['#e62429', '#ff8a8e', '#f5f5f2', '#3157ff']]
 
 export const isPt = () => (document.documentElement.lang || '').startsWith('pt')
 export const tr = (o) => (isPt() ? o.pt : o.en)
@@ -42,6 +47,7 @@ const TXT = {
   clear: { pt: 'NÍVEL COMPLETO', en: 'LEVEL CLEAR' },
   space: { pt: 'ESPAÇO', en: 'SPACE' },
   ready: { pt: 'ESPECIAL PRONTO', en: 'SPECIAL READY' },
+  fury: { pt: 'FÚRIA', en: 'FURY' },
 }
 
 const readBest = () => {
@@ -80,6 +86,7 @@ export function createGame(canvas, cb = {}) {
   let combo = 0
   let maxCombo = 0
   let comboPop = 0
+  let fury = 0
   let kills = 0
   let quota = 0
   let meter = 0
@@ -208,6 +215,7 @@ export function createGame(canvas, cb = {}) {
     level = 1
     score = 0
     combo = 0
+    fury = 0
     maxCombo = 0
     meter = 0
     lives = 3
@@ -432,12 +440,15 @@ export function createGame(canvas, cb = {}) {
     const target = side[0] || null
     player.facing = dir
     const n = ATTACKS[st].length
-    player.variant = (player.variant + 1 + (Math.random() < 0.35 ? 1 : 0)) % n
+    let v = Math.floor(Math.random() * n)
+    for (let i = 0; i < 8 && n > 2 && (v === player.variant || v === player.prevVariant); i += 1) v = Math.floor(Math.random() * n)
+    player.prevVariant = player.variant
+    player.variant = v
     const extra = []
     if (target && w.cleave) extra.push(...side.slice(1, w.cleave))
     if (target && w.splash) extra.push(...side.filter((e) => e !== target && Math.abs(e.x - target.x) < w.splash * S))
     const from = player.pose ? { ...player.pose } : idle()
-    player.anim = { variant: player.variant, u: 0, dur: w.dur * (target ? 1 : 1.3), dir, target, extra, miss: !target, hitDone: false, from }
+    player.anim = { variant: player.variant, u: 0, dur: w.dur * FURY_SPEED[fury] * (target ? 1 : 1.3), dir, target, extra, miss: !target, hitDone: false, from }
     player.hold = null
     player.trailKey = ATTACKS[st][player.variant].trail
     if (target) {
@@ -510,8 +521,8 @@ export function createGame(canvas, cb = {}) {
         player.x = player.dashFrom + (player.dashTo - player.dashFrom) * eo(Math.min(1, a.u / (HIT_AT - 0.04)))
         player.ghostT -= pdt
         if (player.ghostT <= 0) {
-          ghost()
-          player.ghostT = 18
+          ghost(fury ? FURY_COLORS[fury][0] + '99' : undefined)
+          player.ghostT = fury >= 2 ? 12 : 18
         }
       }
       if (!a.hitDone && a.u >= HIT_AT) {
@@ -844,7 +855,7 @@ export function createGame(canvas, cb = {}) {
   const updateFx = (gdt, rdt) => {
     const g = 1400 * S
     for (const p of parts) {
-      p.life -= p.k === 'aura' || p.k === 'bolt' ? rdt : gdt
+      p.life -= p.k === 'aura' || p.k === 'bolt' || p.k === 'ember' ? rdt : gdt
       if (p.k === 'spark') {
         p.x += p.vx * (gdt / 1000)
         p.y += p.vy * (gdt / 1000)
@@ -856,6 +867,11 @@ export function createGame(canvas, cb = {}) {
         p.r += gdt * 0.012 * S
       } else if (p.k === 'aura') {
         p.y += p.vy * (rdt / 1000)
+      } else if (p.k === 'ember') {
+        p.x += p.vx * (rdt / 1000)
+        p.y += p.vy * (rdt / 1000)
+        p.vx += Math.sin(clock * 0.02 + p.y * 0.05) * 12 * S
+        p.vy *= Math.exp(-rdt * 0.0015)
       }
     }
     parts = parts.filter((p) => p.life > 0)
@@ -925,6 +941,40 @@ export function createGame(canvas, cb = {}) {
     comboPop = Math.max(0, comboPop - rdt * 0.004)
   }
 
+  const romans = ['', 'I', 'II', 'III']
+  const updateFury = (rdt) => {
+    const f = combo >= FURY_AT[3] ? 3 : combo >= FURY_AT[2] ? 2 : combo >= FURY_AT[1] ? 1 : 0
+    if (f > fury) {
+      const c = FURY_COLORS[f][0]
+      flash(c, 0.22)
+      addShake(7)
+      hitStop = Math.max(hitStop, 55)
+      ring(player.x, G - 60 * S * FIG, 10 * S, 190 * S, c, 420, 4)
+      ring(player.x, G - 60 * S * FIG, 10 * S, 120 * S, WHITE, 300, 2)
+      popup(player.x, G - 170 * S * FIG, `${tr(TXT.fury)} ${romans[f]}!`, c, 1.15, 'sfx')
+    } else if (f < fury && player.b) {
+      // a energia se apaga
+      for (let i = 0; i < 14; i += 1) parts.push({ k: 'ember', x: player.x + rand(-30, 30) * S, y: G - rand(20, 110) * S, vx: rand(-60, 60) * S, vy: rand(30, 120) * S, life: rand(250, 450), max: 450, c: '#6b7080', s: rand(1.5, 3) * S })
+    }
+    fury = f
+    if (!fury || (mode !== 'play' && mode !== 'special') || !player.b) return
+    // faíscas de energia saindo do corpo
+    const n = FURY_RATE[fury] * (rdt / 1000)
+    const pts = [player.b.hip, player.b.sh, player.b.head, player.b.hF, player.b.hB, player.b.kF, player.b.fF]
+    for (let i = 0; i < Math.floor(n) + (Math.random() < n % 1 ? 1 : 0); i += 1) {
+      const p = toWorld(pick(pts))
+      parts.push({
+        k: 'ember', x: p.x + rand(-6, 6) * S, y: p.y + rand(-6, 6) * S,
+        vx: rand(-70, 70) * S, vy: -rand(90, 240) * S * (0.7 + fury * 0.25),
+        life: rand(300, 620), max: 620, c: pick(FURY_COLORS[fury]), s: rand(1.6, 3.4) * S * (0.8 + fury * 0.2),
+      })
+    }
+    if (fury === 3 && Math.random() < rdt / 140) {
+      const a = toWorld(pick(pts))
+      bolt(a.x, a.y, a.x + rand(-50, 50) * S, a.y + rand(-60, 20) * S)
+    }
+  }
+
   const update = (rdt, gdt, pdt) => {
     shake *= Math.exp(-rdt * 0.012)
     flashA = Math.max(0, flashA - rdt * 0.0032)
@@ -963,6 +1013,7 @@ export function createGame(canvas, cb = {}) {
       }
     }
     updateEnemies(gdt)
+    updateFury(rdt)
     updateFx(gdt, rdt)
 
     const full = meter >= METER_MAX && mode === 'play'
@@ -1112,6 +1163,24 @@ export function createGame(canvas, cb = {}) {
 
   const drawParts = () => {
     ctx.lineCap = 'round'
+    ctx.globalCompositeOperation = 'lighter'
+    for (const p of parts) {
+      if (p.k !== 'ember') continue
+      const a = clamp(p.life / p.max, 0, 1)
+      ctx.globalAlpha = a * 0.35
+      ctx.fillStyle = p.c
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, p.s * 2.4, 0, TAU)
+      ctx.fill()
+      ctx.globalAlpha = a
+      ctx.strokeStyle = p.c
+      ctx.lineWidth = p.s
+      ctx.beginPath()
+      ctx.moveTo(p.x, p.y)
+      ctx.lineTo(p.x - p.vx * 0.03, p.y - p.vy * 0.03)
+      ctx.stroke()
+    }
+    ctx.globalCompositeOperation = 'source-over'
     for (const p of parts) {
       const a = clamp(p.life / p.max, 0, 1)
       if (p.k === 'spark') {
@@ -1384,6 +1453,11 @@ export function createGame(canvas, cb = {}) {
       ctx.font = `600 ${small}px ${MONO}`
       ctx.fillStyle = RED
       ctx.fillText(`${tr(TXT.combo)} ×${comboMult()}`, W - pad, H * 0.2 + sz * 0.95)
+      if (fury) {
+        ctx.font = `${Math.round(Math.max(18, 26 * S))}px ${DISPLAY}`
+        ctx.fillStyle = FURY_COLORS[fury][Math.floor(clock / 90) % FURY_COLORS[fury].length]
+        ctx.fillText(`${tr(TXT.fury)} ${romans[fury]}`, W - pad, H * 0.2 + sz * 0.95 + small + 8)
+      }
     }
     // arma atual
     ctx.textAlign = 'left'
@@ -1501,8 +1575,8 @@ export function createGame(canvas, cb = {}) {
     const lanes = Math.max(0, ...trail.map((tp) => tp.pts.length))
     for (let j = 0; j < lanes; j += 1) {
       const pts = trail.filter((tp) => tp.pts[j]).map((tp) => tp.pts[j])
-      strip(pts, 9 * S, WEAPONS[weapon].color, 0.4)
-      strip(pts, 3.5 * S, WHITE, 0.95)
+      strip(pts, 9 * S * (1 + fury * 0.3), fury ? FURY_COLORS[fury][0] : WEAPONS[weapon].color, 0.4 + fury * 0.1)
+      strip(pts, 3.5 * S * (1 + fury * 0.15), WHITE, 0.95)
     }
 
     for (const gh of ghosts) {
@@ -1516,6 +1590,19 @@ export function createGame(canvas, cb = {}) {
     ctx.beginPath()
     ctx.ellipse(player.x, G + 2 * S, 38 * S * (1 - Math.min(0.6, player.air / (300 * S))), 6 * S, 0, 0, TAU)
     ctx.fill()
+
+    if (fury > 0) {
+      const c = FURY_COLORS[fury][0]
+      const r = (70 + fury * 22 + Math.sin(clock * 0.012) * 8) * S
+      const cy = G - player.air - 55 * S * FIG
+      const au = ctx.createRadialGradient(player.x, cy, 4, player.x, cy, r)
+      au.addColorStop(0, c + '55')
+      au.addColorStop(1, c + '00')
+      ctx.globalCompositeOperation = 'lighter'
+      ctx.fillStyle = au
+      ctx.fillRect(player.x - r, cy - r, r * 2, r * 2)
+      ctx.globalCompositeOperation = 'source-over'
+    }
 
     const blink = player.invuln > 0 && Math.floor(clock / 70) % 2 === 0
     if (hitStop > 0 || (special && special.phase !== 'outro')) {
@@ -1680,6 +1767,13 @@ export function createGame(canvas, cb = {}) {
       peek: () => ({ px: player.x, range: WEAPONS[weapon].range * S, es: alive().map((e) => [e.x, e.r, !!e.leap]) }),
       god: () => (lives = 99),
       lastHit: () => lastHit,
+      setCombo: (n) => (combo = n),
+      poseAt: (st, v) => {
+        weapon = Object.keys(WEAPONS).find((k) => WEAPONS[k].style === st)
+        player.anim = null
+        player.hold = { variant: v, since: 1e12 }
+        player.pose = null
+      },
       calm: () => {
         enemies = []
         spawnT = 1e9
