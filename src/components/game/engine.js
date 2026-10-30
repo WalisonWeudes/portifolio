@@ -128,6 +128,7 @@ export function createGame(canvas, cb = {}) {
   let raf = 0
   let meterWasFull = false
   let lastHit = null
+  let scroll = 0 // quanto o cenário já andou (para o chão e o fundo acompanharem)
 
   const player = {
     x: 0, air: 0, facing: 1, anim: null, queued: null, stun: 0, invuln: 0, hurt: 0,
@@ -970,7 +971,33 @@ export function createGame(canvas, cb = {}) {
     }
   }
 
+  // Câmera: o lutador fica sempre perto do centro; quem anda é o cenário.
+  // Desloca o mundo inteiro (aranhas, pedaços, efeitos) na direção oposta.
+  const recenter = (rdt) => {
+    const dx = (CX - player.x) * (1 - Math.exp(-rdt * 0.007))
+    if (Math.abs(dx) < 0.01) return
+    scroll += dx
+    player.x += dx
+    player.dashFrom += dx
+    player.dashTo += dx
+    for (const e of enemies) {
+      e.x += dx
+      if (e.leap) {
+        e.leap.from += dx
+        e.leap.to += dx
+      }
+    }
+    for (const list of [parts, gibs, stains, slashes, popups, ghosts]) for (const o of list) if (o.x !== undefined) o.x += dx
+    for (const p of parts) if (p.x1 !== undefined) { p.x1 += dx; p.x2 += dx }
+    for (const t of trail) for (const pt of t.pts) pt.x += dx
+    for (const w of webs) { w.x1 += dx; if (w.x2 !== undefined) w.x2 += dx }
+    for (const w of waves) w.x += dx
+    for (const v of voidLines) { v.x1 += dx; v.x2 += dx }
+    for (const p of projs) { p.x += dx; p.sx += dx; if (p.tx !== undefined) p.tx += dx }
+  }
+
   const update = (rdt, gdt, pdt) => {
+    if (mode !== 'title' && mode !== 'over') recenter(rdt)
     shake *= Math.exp(-rdt * 0.012)
     flashA = Math.max(0, flashA - rdt * 0.0032)
     zoom += (zoomT - zoom) * (1 - Math.exp(-rdt * 0.01))
@@ -1053,8 +1080,9 @@ export function createGame(canvas, cb = {}) {
     ctx.lineWidth = 1
     for (let i = 1; i < 6; i += 1) {
       ctx.beginPath()
-      ctx.moveTo((W * i) / 6, 0)
-      ctx.lineTo((W * i) / 6, H)
+      const gx = ((((W * i) / 6 + scroll * 0.35) % W) + W) % W
+      ctx.moveTo(gx, 0)
+      ctx.lineTo(gx, H)
       ctx.stroke()
     }
     ctx.save()
@@ -1063,7 +1091,7 @@ export function createGame(canvas, cb = {}) {
     ctx.textBaseline = 'alphabetic'
     ctx.strokeStyle = 'rgba(245, 245, 242, 0.06)'
     ctx.lineWidth = 1.5
-    ctx.strokeText('SPIDER', CX, G - 110 * S)
+    ctx.strokeText('SPIDER', CX + ((((scroll * 0.2) % W) + W * 1.5) % W) - W / 2, G - 110 * S)
     ctx.restore()
     const floor = ctx.createLinearGradient(0, G, 0, H)
     floor.addColorStop(0, '#14161d')
@@ -1071,10 +1099,11 @@ export function createGame(canvas, cb = {}) {
     ctx.fillStyle = floor
     ctx.fillRect(0, G, W, H - G)
     ctx.strokeStyle = 'rgba(245, 245, 242, 0.05)'
-    for (let i = -9; i <= 9; i += 1) {
+    const off = (((scroll % (46 * S)) + 46 * S) % (46 * S))
+    for (let i = -10; i <= 10; i += 1) {
       ctx.beginPath()
-      ctx.moveTo(CX + i * 46 * S, G)
-      ctx.lineTo(CX + i * 300 * S, H)
+      ctx.moveTo(CX + i * 46 * S + off, G)
+      ctx.lineTo(CX + (i * 46 * S + off) * 6.5, H)
       ctx.stroke()
     }
     const glow = ctx.createRadialGradient(player.x, G, 0, player.x, G, 220 * S)
