@@ -12,10 +12,10 @@ const TAU = Math.PI * 2
 const SEG = { T: 34, UA: 16, FA: 15, TH: 22, SH: 22, HEAD: 11 }
 const HIP_H = 40 // altura do quadril com as pernas quase esticadas
 export const HIT_AT = 0.42
-const KEYS = ['x', 'y', 'hop', 'lean', 'aF1', 'aF2', 'aB1', 'aB2', 'fFx', 'fFy', 'fBx', 'fBy', 'w', 'wB', 'grip']
+const KEYS = ['x', 'y', 'hop', 'lean', 'nod', 'aF1', 'aF2', 'aB1', 'aB2', 'fFx', 'fFy', 'fBx', 'fBy', 'w', 'wB', 'grip']
 
 const BASE = {
-  x: 0, y: 0, hop: 0, lean: 0.1, aF1: 0.7, aF2: 1.9, aB1: 0.4, aB2: 2.1,
+  x: 0, y: 0, hop: 0, lean: 0.1, nod: 0, aF1: 0.7, aF2: 1.9, aB1: 0.4, aB2: 2.1,
   fFx: 13, fFy: 0, fBx: -15, fBy: 0, w: 0, wB: 0, grip: 0,
 }
 const LUNGE = { fFx: 28, fBx: -20, y: 4 }
@@ -27,8 +27,9 @@ const GRIP = { slash: -8, smash: -10, spin: -28, shoot: -9 }
 export const IDLE = {
   // guarda de boxe: punhos perto do queixo
   punch: { ...BASE, lean: 0.2, y: 4.5, aF1: 0.95, aF2: 2.35, aB1: 0.6, aB2: 2.5, fFx: 17, fBx: -17 },
-  // katana com as duas mãos, lâmina apontada para a frente e para cima
-  slash: { ...BASE, lean: 0.12, y: 6, aF1: 0.85, aF2: 1.15, w: 0.75, aB1: 0.5, aB2: 1.6, grip: 1, fFx: 22, fBx: -19 },
+  // ronin relaxado: de pé, pernas abertas, ombros caídos e cabeça baixa encarando;
+  // katana numa mão só, braço solto e lâmina para baixo e para trás; a outra mão fechada no quadril
+  slash: { ...BASE, lean: 0.07, y: 0, nod: 1, aF1: 0.12, aF2: 0.18, w: -0.78, aB1: 0.12, aB2: 0.55, grip: 0, fFx: 17, fBx: -19 },
   // martelo apoiado no ombro
   smash: { ...BASE, lean: 0.02, y: 5, aF1: 0.2, aF2: 2.2, w: 1.6, aB1: 0.3, aB2: 1.9, grip: 1, fFx: 20, fBx: -18 },
   // bastão segurado com as duas mãos, na diagonal
@@ -62,17 +63,17 @@ export const ATTACKS = {
   ],
   slash: [
     // diagonal de cima
-    { trail: 'tF', wind: { aF1: 2.95, aF2: 0.35, w: 0.15, lean: -0.08, y: 2 }, hit: { aF1: 1.2, aF2: 0.05, w: 0.1, lean: 0.4, x: 10, ...LUNGE } },
+    { trail: 'tF', wind: { grip: 1, aF1: 2.95, aF2: 0.35, w: 0.15, lean: -0.08, y: 2 }, hit: { grip: 1, aF1: 1.2, aF2: 0.05, w: 0.1, lean: 0.4, x: 10, ...LUNGE } },
     // horizontal
-    { trail: 'tF', wind: { aF1: 0.4, aF2: 1.3, w: 1.6, lean: -0.05 }, hit: { aF1: 1.65, aF2: 0, w: 0, lean: 0.32, x: 10, ...LUNGE } },
+    { trail: 'tF', wind: { grip: 1, aF1: 0.4, aF2: 1.3, w: 1.6, lean: -0.05 }, hit: { grip: 1, aF1: 1.65, aF2: 0, w: 0, lean: 0.32, x: 10, ...LUNGE } },
     // de baixo para cima
-    { trail: 'tF', wind: { aF1: 0.25, aF2: 0.15, w: -0.5, lean: 0.3, y: 10 }, hit: { aF1: 2.55, aF2: 0.1, w: 0.25, lean: -0.1, y: -2, x: 6, fFx: 23, fBx: -14 } },
+    { trail: 'tF', wind: { grip: 1, aF1: 0.25, aF2: 0.15, w: -0.5, lean: 0.3, y: 10 }, hit: { grip: 1, aF1: 2.55, aF2: 0.1, w: 0.25, lean: -0.1, y: -2, x: 6, fFx: 23, fBx: -14 } },
     // estocada
-    { trail: 'tF', wind: { aF1: 1.2, aF2: 1.5, w: 0.3, lean: -0.1, x: -4 }, hit: { aF1: 1.57, aF2: 0, w: 0, lean: 0.45, x: 14, fFx: 34, fBx: -22, y: 6 } },
+    { trail: 'tF', wind: { grip: 1, aF1: 1.2, aF2: 1.5, w: 0.3, lean: -0.1, x: -4 }, hit: { grip: 1, aF1: 1.57, aF2: 0, w: 0, lean: 0.45, x: 14, fFx: 34, fBx: -22, y: 6 } },
     // diagonal invertida
-    { trail: 'tF', wind: { aF1: 0.9, aF2: 0.3, w: -1.4, lean: 0.25, y: 6 }, hit: { aF1: 2.4, aF2: 0.25, w: 0.6, lean: 0.05, x: 8, ...LUNGE } },
+    { trail: 'tF', wind: { grip: 1, aF1: 0.9, aF2: 0.3, w: -1.4, lean: 0.25, y: 6 }, hit: { grip: 1, aF1: 2.4, aF2: 0.25, w: 0.6, lean: 0.05, x: 8, ...LUNGE } },
     // corte girando no ar
-    { trail: 'tF', wind: { aF1: -0.8, aF2: 1.2, w: 1.2, lean: -0.3, hop: 4 }, hit: { aF1: 1.45, aF2: 0, w: -0.3, lean: 0.25, hop: 10, x: 10, fFx: 20, fFy: 8, fBx: -16 } },
+    { trail: 'tF', wind: { grip: 1, aF1: -0.8, aF2: 1.2, w: 1.2, lean: -0.3, hop: 4 }, hit: { grip: 1, aF1: 1.45, aF2: 0, w: -0.3, lean: 0.25, hop: 10, x: 10, fFx: 20, fFy: 8, fBx: -16 } },
     // saque da bainha com uma mão (iai)
     { trail: 'tF', wind: { aF1: 0.2, aF2: 0.4, w: 2.6, grip: 0, lean: 0.3, y: 10 }, hit: { aF1: 1.9, aF2: 0, w: 0, grip: 0, aB1: -0.3, aB2: 0.8, lean: 0.35, x: 14, fFx: 34, fBx: -22, y: 9 } },
   ],
@@ -174,9 +175,12 @@ export function idlePose(style, t) {
     p.aB1 += s(t * 6.2 + 1) * 0.05
     p.lean += s(t * 3.1) * 0.03
   } else if (style === 'slash') {
-    p.y += s(t * 2) * 1.2
-    p.w += s(t * 1.6) * 0.05
-    p.aF1 += s(t * 2) * 0.03
+    // respiração lenta, lâmina balançando de leve e a cabeça acompanhando
+    p.y += s(t * 1.8) * 0.9
+    p.lean += s(t * 0.9) * 0.015
+    p.w += s(t * 1.3) * 0.05
+    p.aF1 += s(t * 1.3 + 0.5) * 0.025
+    p.nod += s(t * 0.7) * 0.12
   } else if (style === 'smash') {
     p.y += s(t * 2.4) * 1.6
     p.lean += s(t * 1.2) * 0.03
@@ -255,7 +259,7 @@ export function bones(p, style) {
   const up = V(Math.PI - p.lean, 1)
   const neck = along(hip, up, SEG.T)
   const sh = along(hip, up, SEG.T - 5)
-  const head = add(along(hip, up, SEG.T + SEG.HEAD + 3), { x: 1.5, y: 0 })
+  const head = add(along(hip, up, SEG.T + SEG.HEAD + 3), { x: 1.5 + p.nod * 3.5, y: p.nod * 2.5 })
   const eF = add(sh, V(p.aF1, SEG.UA))
   const hF = add(eF, V(p.aF1 + p.aF2, SEG.FA))
   const waF = p.aF1 + p.aF2 + p.w

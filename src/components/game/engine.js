@@ -136,7 +136,7 @@ export function createGame(canvas, cb = {}) {
 
   const style = () => WEAPONS[weapon].style
   const idle = () => IDLE[style()]
-  const clampX = (x) => clamp(x, W * 0.15, W * 0.85)
+  const clampX = (x) => clamp(x, 34 * S, W - 34 * S) // o avanço sempre alcança a aranha
   const toWorld = (p) => ({ x: player.x + p.x * player.facing * S * FIG, y: G - player.air + p.y * S * FIG })
 
   /* ---------- tela ---------- */
@@ -485,11 +485,6 @@ export function createGame(canvas, cb = {}) {
     if (w.ranged) {
       const h = handWorld()
       webs.push({ x1: h.x, y1: h.y, x2: hx, y2: hy, life: 160, max: 160 })
-    }
-    if (import.meta.env.DEV && player.b && player.trailKey) {
-      const tip = trailPoints(player.b, st, player.trailKey).map(toWorld)
-      const reachX = Math.max(...tip.map((p) => p.x * a.dir)) * a.dir
-      lastHit = { gap: Math.round((e.x - a.dir * 23 * S * e.size - reachX) * a.dir), weapon }
     }
     const killed = damage(e, w.dmg, a.dir)
     for (const o of a.extra) if (o.alive) damage(o, 1, a.dir)
@@ -1570,6 +1565,13 @@ export function createGame(canvas, cb = {}) {
     }
     const b = bones(player.pose, style())
     player.b = b
+    if (import.meta.env.DEV && a && a.target && !a.measured && a.u >= HIT_AT && player.trailKey) {
+      // distância entre a ponta do golpe e a frente da aranha no quadro do impacto
+      a.measured = true
+      const tip = trailPoints(b, style(), player.trailKey).map(toWorld)
+      const reachX = Math.max(...tip.map((p) => p.x * a.dir)) * a.dir
+      lastHit = { gap: Math.round((a.target.x - a.dir * 23 * S * a.target.size - reachX) * a.dir), weapon, dash: Math.round(Math.abs(player.x - player.dashFrom)) }
+    }
     if (player.trailKey) trail.push({ t: clock, pts: trailPoints(b, style(), player.trailKey).map(toWorld) })
     trail = trail.filter((tp) => clock - tp.t < 120)
     const lanes = Math.max(0, ...trail.map((tp) => tp.pts.length))
