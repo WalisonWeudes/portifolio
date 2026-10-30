@@ -155,13 +155,16 @@ export const skillGroups = [
 
 export const activities = [
   {
-    year: L('2026—ATUAL', '2026—NOW'),
+    year: L('SET 2026—ATUAL', 'SEP 2026—NOW'),
     title: L('ISESMT'),
-    role: L('Desenvolvedor Full Stack / QA', 'Full Stack Developer / QA'),
+    role: L('Desenvolvedor Full Stack', 'Full Stack Developer'),
     description: L(
-      'Três sistemas SaaS de saúde e segurança do trabalho (Gerencia SST, Avalia NR01 e Avalia NR17): telas, laudos em PDF, pagamentos, integrações, segurança entre clientes e testes automatizados.',
-      'Three occupational health and safety SaaS systems (Gerencia SST, Avalia NR01 and Avalia NR17): screens, PDF reports, payments, integrations, tenant data security and automated tests.',
+      'Front e back em quatro produtos de saúde e segurança do trabalho: Gerencia SST, Avalia NR17, Avalia NR01 e a Plataforma de Treinamentos. Transformo normas e métodos de SST (RULA, REBA, NIOSH, COPSOQ, PGR, PCMSO) em funcionalidades, gero relatórios em PDF no padrão ABNT, cuido do módulo financeiro, audito a segurança e o isolamento entre clientes, escrevo testes automatizados e lidero módulos: especifico, divido épicos e integro PRs. Também criei um protótipo de visão computacional com MediaPipe que mede ângulos posturais, levado ao Avalia NR17.',
+      'Front and back end across four occupational health and safety products: Gerencia SST, Avalia NR17, Avalia NR01 and the Training Platform. I turn safety standards and methods (RULA, REBA, NIOSH, COPSOQ, PGR, PCMSO) into features, build ABNT-standard PDF reports, handle the finance module, audit security and tenant isolation, write automated tests and lead modules: specs, epic breakdown and PR integration. I also built a MediaPipe computer-vision prototype that measures posture angles, shipped to Avalia NR17.',
     ),
+    tags: ['Next.js', 'React', 'TypeScript', 'Node', 'Django', 'Prisma', 'Drizzle', 'MySQL'],
+    photo: '/imagens/isesmt.webp',
+    photoAlt: L('Walison com a camisa da ISESMT na mesa de trabalho, com o notebook e o monitor ao fundo', 'Walison wearing the ISESMT shirt at his desk, with laptop and monitor behind him'),
   },
   {
     year: L('2026—ATUAL', '2026—NOW'),
@@ -248,11 +251,11 @@ export const fieldwork = [
   },
 ]
 
-// Números do currículo (ISESMT, ago–out de 2026)
+// Números da ISESMT (histórico git e Jira, ago–out de 2026)
 export const stats = [
-  { value: 889, label: L('commits em 3 meses', 'commits in 3 months') },
-  { value: 149, label: L('tarefas concluídas', 'tasks completed') },
-  { value: 3, label: L('sistemas SaaS em produção', 'SaaS systems in production') },
+  { value: 1575, label: L('commits em 6 repositórios', 'commits across 6 repositories') },
+  { value: 330, label: L('cards concluídos no Jira', 'Jira cards completed') },
+  { value: 4, label: L('produtos de SST, front e back', 'safety products, front and back') },
   {
     text: L('150s → 40s', '150s → 40s'),
     label: L('para abrir um laudo de 138 páginas', 'to open a 138-page report'),

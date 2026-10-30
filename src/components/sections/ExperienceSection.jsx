@@ -31,8 +31,20 @@ export default function ExperienceSection() {
             <div>
               <h3>{tr(activity.title)}</h3>
               <span>{tr(activity.role)}</span>
+              {activity.photo && (
+                <img className="experience-list__photo" src={activity.photo} alt={tr(activity.photoAlt)} loading="lazy" decoding="async" />
+              )}
             </div>
-            <p>{tr(activity.description)}</p>
+            <div className="experience-list__body">
+              <p>{tr(activity.description)}</p>
+              {activity.tags && (
+                <ul className="experience-list__tags">
+                  {activity.tags.map((tag) => (
+                    <li key={tag}>{tag}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
             <i>↗</i>
           </li>
         ))}

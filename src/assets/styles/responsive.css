@@ -200,7 +200,8 @@
   .experience-list li {
     grid-template-columns: 4.5rem 1fr auto;
   }
-  .experience-list li > p {
+  .experience-list li > p,
+  .experience-list li > .experience-list__body {
     grid-column: 2/-1;
   }
   .stack__groups {
@@ -287,7 +288,8 @@
   .experience-list time {
     grid-column: 1/-1;
   }
-  .experience-list li > p {
+  .experience-list li > p,
+  .experience-list li > .experience-list__body {
     grid-column: 1/-1;
   }
   .illustration-grid {

@@ -773,6 +773,45 @@
   font-style: normal;
   color: var(--red);
 }
+/* foto no card da experiência atual */
+.experience-list__photo {
+  display: block;
+  width: min(11rem, 100%);
+  aspect-ratio: 4 / 5;
+  margin-top: 1.4rem;
+  object-fit: cover;
+  clip-path: polygon(0 3%, 100% 0, 97% 100%, 3% 97%);
+  filter: grayscale(0.35) drop-shadow(7px 7px 0 var(--red));
+  transform: rotate(-2deg);
+  transition:
+    filter 0.5s var(--ease),
+    transform 0.5s var(--ease);
+}
+.experience-list li:hover .experience-list__photo {
+  filter: none drop-shadow(9px 9px 0 var(--blue));
+  transform: rotate(0deg) scale(1.03);
+}
+.experience-list__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.experience-list__tags li {
+  display: block;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: none;
+}
+.experience-list__tags li:hover {
+  padding: 0.25rem 0.55rem;
+}
 .stack {
   padding-bottom: calc(var(--section) * 0.8);
 }
