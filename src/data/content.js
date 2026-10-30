@@ -217,6 +217,21 @@ export const activities = [
 //   date  → opcional
 export const fieldwork = [
   {
+    card: '/imagens/em-campo/sinfo-dislexyall-card.webp',
+    image: '/imagens/em-campo/sinfo-dislexyall.webp',
+    event: L('SINFO — UFPI'),
+    title: L('Apresentação do Dislexyall', 'Presenting Dislexyall'),
+    role: L('Artigo aprovado · Apresentador', 'Accepted paper · Speaker'),
+    description: L(
+      'Apresentei o Dislexyall, meu projeto de detecção de indícios de dislexia, depois de ter o artigo sobre ele aprovado no Simpósio de Sistemas de Informação da UFPI. Mostrei a plataforma web na prática, incluindo o módulo de atividades pedagógicas gamificadas.',
+      'I presented Dislexyall, my project for detecting signs of dyslexia, after its paper was accepted at UFPI’s Information Systems Symposium. I demoed the web platform, including the gamified learning activities module.',
+    ),
+    alt: L(
+      'Walison no palco do auditório apresentando o slide "A plataforma web na prática" do Dislexyall',
+      'Walison on the auditorium stage presenting the Dislexyall slide "The web platform in practice"',
+    ),
+  },
+  {
     card: '/imagens/em-campo/geek-day-minicurso-card.webp',
     image: '/imagens/em-campo/geek-day-minicurso.webp',
     event: L('Geek Day — UFPI'),
