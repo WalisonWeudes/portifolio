@@ -11,6 +11,7 @@ import { WEAPONS, WEAPON_POOL, METER_MAX } from './weapons'
 import {
   IDLE, ATTACKS, CHARGE, HURT, MISS, SHEATHE, HIT_AT,
   attackPose, mixPose, withIdle, bones, trailPoints, drawFighter,
+  idlePose, smoothPose, hitReach,
 } from './fighter'
 import { TYPES, drawSpider, drawGib } from './spiders'
 
@@ -28,6 +29,7 @@ const INK = '#08090d'
 const DISPLAY = 'Chetta, Impact, "Arial Narrow", sans-serif'
 const MONO = '"JetBrains Mono", "Courier New", monospace'
 const BEST_KEY = 'ww-spider-best'
+const FIG = 1.15 // escala do lutador em relação ao resto
 
 export const isPt = () => (document.documentElement.lang || '').startsWith('pt')
 export const tr = (o) => (isPt() ? o.pt : o.en)
@@ -118,15 +120,16 @@ export function createGame(canvas, cb = {}) {
   let last = 0
   let raf = 0
   let meterWasFull = false
+  let lastHit = null
 
   const player = {
     x: 0, air: 0, facing: 1, anim: null, queued: null, stun: 0, invuln: 0, hurt: 0,
-    variant: 0, dashFrom: 0, dashTo: 0, ghostT: 0, override: null, trailKey: null, b: null,
+    variant: 0, dashFrom: 0, dashTo: 0, ghostT: 0, override: null, trailKey: null, b: null, pose: null,
   }
 
   const style = () => WEAPONS[weapon].style
   const idle = () => IDLE[style()]
-  const toWorld = (p) => ({ x: player.x + p.x * player.facing * S, y: G - player.air + p.y * S })
+  const toWorld = (p) => ({ x: player.x + p.x * player.facing * S * FIG, y: G - player.air + p.y * S * FIG })
 
   /* ---------- tela ---------- */
 
@@ -266,10 +269,10 @@ export function createGame(canvas, cb = {}) {
     enemies.push({
       x: side < 0 ? -40 * S - offset : W + 40 * S + offset,
       type, hp: t.hp, mark: t.mark, size: t.size, score: t.score,
-      speed: (150 + level * 16) * t.speed * S,
+      speed: (138 + level * 15) * t.speed * S,
       dir: -side, phase: Math.random() * TAU, air: 0, flash: 0, squash: 0,
       kb: 0, stagger: 0, locked: false, alive: true, jumped: false, leap: null,
-      wrapped: false, moving: true, r: 20 * S * t.size, chainAt: 0,
+      wrapped: false, moving: true, r: 30 * S * t.size, chainAt: 0,
     })
   }
 
@@ -310,6 +313,12 @@ export function createGame(canvas, cb = {}) {
       if (special?.phase === 'action' && special.w === 'staff') continue // o tornado controla
       const toP = Math.sign(player.x - e.x) || 1
       e.dir = toP
+      if (e.locked && !e.wrapped) {
+        // alvo do golpe: espera o impacto parado (o avanço não erra)
+        e.moving = false
+        e.stagger = 0
+        continue
+      }
       if (e.stagger > 0) {
         e.stagger -= gdt
         e.x -= toP * e.kb * (gdt / 1000)
@@ -325,7 +334,7 @@ export function createGame(canvas, cb = {}) {
       e.moving = true
       e.x += toP * e.speed * (gdt / 1000)
       e.phase += gdt * 0.016 * (e.speed / (110 * S))
-      if (mode === 'play' && player.invuln <= 0 && Math.abs(e.x - player.x) < e.r + 16 * S) bite(e)
+      if (mode === 'play' && player.invuln <= 0 && Math.abs(e.x - player.x) < e.r + 14 * S) bite(e)
     }
     if (enemies.length > 40) enemies = enemies.filter((e) => e.alive)
   }
@@ -362,9 +371,9 @@ export function createGame(canvas, cb = {}) {
     e.alive = false
     e.locked = false
     const k = S * e.size
-    const y = G - e.air - 16 * k
+    const y = G - e.air - 24 * k
     const power = kind === 'launch' ? 2 : kind === 'fling' ? 1.6 : 1
-    const base = { size: e.size, dir: e.dir, mark: e.mark, rot: 0 }
+    const base = { size: e.size, dir: e.dir, mark: e.mark, type: e.type, rot: 0 }
     if (kind === 'split') {
       gibs.push({ ...base, shape: 'abd', half: 1, x: e.x, y: y - 2, vx: dir * rand(40, 120) * S, vy: -rand(380, 520) * S, vr: rand(-6, 6), life: 1100 })
       gibs.push({ ...base, shape: 'abd', half: -1, x: e.x, y: y + 2, vx: dir * rand(60, 160) * S, vy: -rand(80, 180) * S, vr: rand(-6, 6), life: 1100 })
@@ -429,9 +438,9 @@ export function createGame(canvas, cb = {}) {
     if (target) {
       target.locked = true
       player.dashFrom = player.x
-      player.dashTo = w.ranged
-        ? player.x
-        : clamp(target.x - dir * (w.reach * S + target.r * 0.6), 50 * S, W - 50 * S)
+      // para onde a ponta do golpe encosta no corpo da aranha
+      player.anim.reachOff = hitReach(st, player.variant) * S * FIG + 14 * S * target.size
+      player.dashTo = w.ranged ? player.x : clamp(target.x - dir * player.anim.reachOff, 50 * S, W - 50 * S)
     } else {
       player.stun = 380
       combo = 0
@@ -455,11 +464,16 @@ export function createGame(canvas, cb = {}) {
     const st = w.style
     const e = a.target
     const heavy = st === 'smash'
-    const hy = G - e.air - 16 * S * e.size
+    const hy = G - e.air - 24 * S * e.size
     const hx = e.x - a.dir * e.r * 0.5
     if (w.ranged) {
       const h = handWorld()
       webs.push({ x1: h.x, y1: h.y, x2: hx, y2: hy, life: 160, max: 160 })
+    }
+    if (import.meta.env.DEV && player.b && player.trailKey) {
+      const tip = trailPoints(player.b, st, player.trailKey).map(toWorld)
+      const reachX = Math.max(...tip.map((p) => p.x * a.dir)) * a.dir
+      lastHit = { gap: Math.round((e.x - a.dir * 23 * S * e.size - reachX) * a.dir), weapon }
     }
     const killed = damage(e, w.dmg, a.dir)
     for (const o of a.extra) if (o.alive) damage(o, 1, a.dir)
@@ -486,7 +500,8 @@ export function createGame(canvas, cb = {}) {
     const a = player.anim
     if (a) {
       a.u += pdt / a.dur
-      if (a.target && a.u <= HIT_AT + 0.02 && player.dashTo !== player.dashFrom) {
+      if (a.target && a.u <= HIT_AT + 0.02 && !WEAPONS[weapon].ranged) {
+        if (a.target.alive) player.dashTo = clamp(a.target.x - a.dir * a.reachOff, 50 * S, W - 50 * S)
         player.x = player.dashFrom + (player.dashTo - player.dashFrom) * eo(Math.min(1, a.u / (HIT_AT - 0.04)))
         player.ghostT -= pdt
         if (player.ghostT <= 0) {
@@ -564,7 +579,7 @@ export function createGame(canvas, cb = {}) {
         ghost('rgba(230, 36, 41, 0.6)')
         const dir = Math.sign(e.x - player.x) || 1
         player.facing = dir
-        player.x = clamp(e.x - dir * 46 * S, 30 * S, W - 30 * S)
+        player.x = clamp(e.x - dir * (hitReach('punch', i % 4) * S * FIG + 14 * S * e.size), 30 * S, W - 30 * S)
         bolt(from.x, from.y, player.x, G - 60 * S)
         d.i = i
         d.hit = false
@@ -576,7 +591,7 @@ export function createGame(canvas, cb = {}) {
       if (!d.hit && u >= 0.38 && t < n * step) {
         d.hit = true
         if (e.alive) {
-          const hy = G - e.air - 16 * S * e.size
+          const hy = G - e.air - 24 * S * e.size
           burst(e.x, hy, 60 * S, WHITE)
           ring(e.x, hy, 6 * S, 120 * S, RED, 300, 4)
           addShake(9)
@@ -629,7 +644,7 @@ export function createGame(canvas, cb = {}) {
           hitStop = 90
           for (const e of sp.targets) {
             if (!e.alive) continue
-            const hy = G - e.air - 16 * S * e.size
+            const hy = G - e.air - 24 * S * e.size
             slash(e.x, hy, 1, { kind: 'line', rot: rand(-0.75, -0.45), len: 190, life: 420, c: '#9fb8ff' })
             kill(e, sideOf(e), 'split')
           }
@@ -724,7 +739,7 @@ export function createGame(canvas, cb = {}) {
           webs.push({ x1: h.x, y1: h.y, e, life: 99999, max: 99999 })
           e.wrapped = true
           e.flash = 1
-          sparks(e.x, G - 18 * S, -player.facing, 5, [WHITE])
+          sparks(e.x, G - 26 * S, -player.facing, 5, [WHITE])
           popup(e.x, G - 80 * S, 'THWIP!', WHITE, 0.8, 'sfx')
         }
       }
@@ -735,8 +750,8 @@ export function createGame(canvas, cb = {}) {
         for (let j = 0; j <= Math.min(k, n - 1); j += 1) {
           const e = sp.targets[j]
           if (e.alive) {
-            ring(e.x, G - 18 * S, 8 * S, 110 * S, WHITE, 320, 4)
-            burst(e.x, G - 18 * S, 56 * S, WHITE, 200)
+            ring(e.x, G - 26 * S, 8 * S, 110 * S, WHITE, 320, 4)
+            burst(e.x, G - 26 * S, 56 * S, WHITE, 200)
             addShake(7)
             kill(e, sideOf(e), 'launch')
             webs = webs.filter((wb) => wb.e !== e)
@@ -883,7 +898,7 @@ export function createGame(canvas, cb = {}) {
       if (p.t < 0) continue
       const u = Math.min(1, p.t / p.dur)
       const tx = p.e ? p.e.x : p.tx
-      const ty = p.e ? G - p.e.air - 16 * S * p.e.size : p.ty
+      const ty = p.e ? G - p.e.air - 24 * S * p.e.size : p.ty
       p.x = p.sx + (tx - p.sx) * u
       p.y = p.sy + (ty - p.sy) * u - Math.sin(Math.PI * u) * 60 * S
       p.rot += rdt * 0.04
@@ -921,7 +936,7 @@ export function createGame(canvas, cb = {}) {
       updatePlayer(pdt)
       for (const e of enemies) {
         if (e.alive && modeT >= e.chainAt) {
-          ring(e.x, G - 18 * S, 6 * S, 90 * S, WHITE, 260, 3)
+          ring(e.x, G - 26 * S, 6 * S, 90 * S, WHITE, 260, 3)
           kill(e, sideOf(e), 'launch')
         }
       }
@@ -1027,7 +1042,7 @@ export function createGame(canvas, cb = {}) {
   const drawPlayerAt = (x, air, facing, b, opts) => {
     ctx.save()
     ctx.translate(x, G - air)
-    ctx.scale(facing * S, S)
+    ctx.scale(facing * S * FIG, S * FIG)
     drawFighter(ctx, b, style(), opts)
     ctx.restore()
   }
@@ -1042,8 +1057,7 @@ export function createGame(canvas, cb = {}) {
       if (a.miss && a.u > 0.5) p = mixPose(p, withIdle(style(), MISS), Math.min(1, (a.u - 0.5) * 2.5) * (1 - Math.max(0, a.u - 0.85) * 6))
       return p
     }
-    const t = clock * 0.004
-    return { ...base, y: base.y + Math.sin(t) * 1.2, aF1: base.aF1 + Math.sin(t) * 0.04, aB1: base.aB1 + Math.sin(t + 1) * 0.04 }
+    return idlePose(style(), clock / 1000)
   }
 
   const drawSlashes = () => {
@@ -1210,7 +1224,7 @@ export function createGame(canvas, cb = {}) {
     ctx.lineWidth = 1.4 * S
     for (const wb of webs) {
       const x2 = wb.e ? wb.e.x : wb.x2
-      const y2 = wb.e ? G - wb.e.air - 16 * S : wb.y2
+      const y2 = wb.e ? G - wb.e.air - 24 * S : wb.y2
       ctx.globalAlpha = wb.e ? 1 : wb.life / wb.max
       ctx.beginPath()
       ctx.moveTo(wb.x1, wb.y1)
@@ -1249,7 +1263,7 @@ export function createGame(canvas, cb = {}) {
     ctx.textBaseline = 'middle'
     for (const e of enemies) {
       if (!e.alive || e.wrapped) continue
-      const top = G - e.air - 46 * S * e.size
+      const top = G - e.air - 64 * S * e.size
       if (e.hp > 1) {
         for (let i = 0; i < e.hp; i += 1) {
           ctx.fillStyle = WHITE
@@ -1436,7 +1450,7 @@ export function createGame(canvas, cb = {}) {
     ctx.restore()
   }
 
-  const render = () => {
+  const render = (rdt = 16) => {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     drawBackground()
 
@@ -1466,8 +1480,15 @@ export function createGame(canvas, cb = {}) {
     drawIndicators()
 
     // rastro dos golpes
-    const pose = currentPose()
-    const b = bones(pose)
+    const target = currentPose()
+    const a = player.anim
+    // suaviza as transições, mas o golpe em si (preparo → impacto) é exato
+    if (a && a.u > 0.2 && a.u < 0.66) player.pose = { ...target }
+    else {
+      const rate = a ? 70 : player.override ? 40 : player.hurt > 0 ? 26 : 16
+      player.pose = smoothPose(player.pose, target, hitStop > 0 ? 0 : rdt, rate)
+    }
+    const b = bones(player.pose, style())
     player.b = b
     if (player.trailKey) trail.push({ t: clock, pts: trailPoints(b, style(), player.trailKey).map(toWorld) })
     trail = trail.filter((tp) => clock - tp.t < 120)
@@ -1487,7 +1508,7 @@ export function createGame(canvas, cb = {}) {
     // sombra do lutador
     ctx.fillStyle = 'rgba(0, 0, 0, 0.45)'
     ctx.beginPath()
-    ctx.ellipse(player.x, G + 2 * S, 34 * S * (1 - Math.min(0.6, player.air / (300 * S))), 6 * S, 0, 0, TAU)
+    ctx.ellipse(player.x, G + 2 * S, 38 * S * (1 - Math.min(0.6, player.air / (300 * S))), 6 * S, 0, 0, TAU)
     ctx.fill()
 
     const blink = player.invuln > 0 && Math.floor(clock / 70) % 2 === 0
@@ -1503,7 +1524,7 @@ export function createGame(canvas, cb = {}) {
 
     // tontura depois de errar
     if (player.stun > 0 && mode === 'play') {
-      const hy = G - player.air - 112 * S
+      const hy = G - player.air - 128 * S * FIG
       for (let i = 0; i < 3; i += 1) {
         const a = clock * 0.008 + (i / 3) * TAU
         ctx.fillStyle = i === 1 ? RED : WHITE
@@ -1579,7 +1600,7 @@ export function createGame(canvas, cb = {}) {
       pdt = 0
     }
     if (mode !== 'choose') update(rdt, gdt, pdt)
-    render()
+    render(rdt)
   }
 
   const onKey = (e) => {
@@ -1652,6 +1673,11 @@ export function createGame(canvas, cb = {}) {
       state: () => ({ mode, weapon, level, score, combo, lives, kills, quota, meter, enemies: alive().length }),
       peek: () => ({ px: player.x, range: WEAPONS[weapon].range * S, es: alive().map((e) => [e.x, e.r, !!e.leap]) }),
       god: () => (lives = 99),
+      lastHit: () => lastHit,
+      calm: () => {
+        enemies = []
+        spawnT = 1e9
+      },
     }
   }
   return api
