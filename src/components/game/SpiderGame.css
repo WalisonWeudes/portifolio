@@ -183,8 +183,8 @@ html.is-gaming .cursor-ring {
 /* cartas de arma */
 .spider-game__cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 17rem));
-  gap: 1.2rem;
+  grid-template-columns: repeat(4, minmax(0, 15.5rem));
+  gap: 1rem;
 }
 .weapon-card {
   position: relative;
@@ -238,8 +238,10 @@ html.is-gaming .cursor-ring {
   filter: drop-shadow(3px 3px 0 var(--red));
 }
 .weapon-card__name {
+  max-width: 100%;
   font-family: Chetta, Impact, 'Arial Narrow', sans-serif;
-  font-size: 2rem;
+  font-size: clamp(1.3rem, 1.75vw, 1.8rem);
+  letter-spacing: -0.01em;
   font-weight: 400;
   line-height: 1;
   text-transform: uppercase;
@@ -308,6 +310,35 @@ html.is-gaming .cursor-ring {
   color: #9fb8ff;
 }
 
+/* cartas de habilidade */
+.weapon-card--perk {
+  border-color: color-mix(in srgb, var(--pc) 55%, transparent);
+}
+.weapon-card--perk .weapon-card__icon {
+  stroke: var(--pc);
+  filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.5));
+}
+.weapon-card--perk:hover,
+.weapon-card--perk:focus-visible {
+  border-color: var(--pc);
+  background: color-mix(in srgb, var(--pc) 14%, rgba(20, 22, 29, 0.92));
+}
+.weapon-card__badge--perk {
+  background: var(--pc);
+  color: var(--ink);
+}
+.weapon-card--ult::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(130deg, transparent 55%, color-mix(in srgb, var(--pc) 22%, transparent));
+  pointer-events: none;
+}
+.spider-game__special--ult {
+  bottom: 8.2rem;
+  background: #8a5cff;
+}
+
 /* placar final */
 .spider-game__stats {
   display: grid;
@@ -354,6 +385,17 @@ html.is-gaming .cursor-ring {
   to {
     background: var(--red);
     transform: scale(1.06);
+  }
+}
+
+@media (max-width: 1100px) and (min-width: 761px) {
+  .spider-game__cards {
+    grid-template-columns: repeat(2, minmax(0, 18rem));
+  }
+  .spider-game__panel--choose {
+    place-content: start center;
+    overflow-y: auto;
+    padding-top: 3rem;
   }
 }
 

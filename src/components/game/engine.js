@@ -8,6 +8,7 @@
 // no tempo real, então os controles nunca travam.
 
 import { WEAPONS, WEAPON_POOL, METER_MAX, MAX_WLV, weaponStats } from './weapons'
+import { PERKS, PERK_IDS } from './perks'
 import {
   IDLE, ATTACKS, CHARGE, HURT, MISS, SHEATHE, HIT_AT,
   attackPose, mixPose, withIdle, bones, trailPoints, drawFighter,
@@ -49,6 +50,9 @@ const TXT = {
   ready: { pt: 'ESPECIAL PRONTO', en: 'SPECIAL READY' },
   fury: { pt: 'FÚRIA', en: 'FURY' },
   wlv: { pt: 'NV', en: 'LV' },
+  shield: { pt: 'ESCUDO!', en: 'BLOCKED!' },
+  life: { pt: '+1 VIDA', en: '+1 LIFE' },
+  ultReady: { pt: 'Q — ULTI PRONTA', en: 'Q — ULT READY' },
 }
 
 const readBest = () => {
@@ -93,6 +97,14 @@ export function createGame(canvas, cb = {}) {
   let quota = 0
   let meter = 0
   let lives = 3
+  let perks = {} // nível de cada habilidade passiva
+  let shield = 0 // cargas de escudo disponíveis
+  let ult = null // ultimate equipada
+  let ultCd = 0
+  let immuneT = 0
+  let shadow = null
+  let totalKills = 0
+  let regenAt = 0
   let options = []
   let spawnT = 0
   let modeT = 0
@@ -129,6 +141,7 @@ export function createGame(canvas, cb = {}) {
   let last = 0
   let raf = 0
   let meterWasFull = false
+  let ultWasReady = false
   let lastHit = null
   let scroll = 0 // quanto o cenário já andou (para o chão e o fundo acompanharem)
 
@@ -213,6 +226,9 @@ export function createGame(canvas, cb = {}) {
     player.invuln = 0
     player.override = null
     player.hold = null
+    shield = perks.shield || 0
+    immuneT = 0
+    shadow = null
   }
 
   const start = () => {
@@ -225,6 +241,11 @@ export function createGame(canvas, cb = {}) {
     maxCombo = 0
     meter = 0
     lives = 3
+    perks = {}
+    ult = null
+    ultCd = 0
+    totalKills = 0
+    regenAt = 0
     gibs = []
     stains = []
     parts = []
@@ -248,18 +269,40 @@ export function createGame(canvas, cb = {}) {
     banner = { title: tr(TXT.clear), sub: `${tr(TXT.level)} ${String(level).padStart(2, '0')}`, t: 0, dur: 1500 }
   }
 
-  const choose = (id) => {
-    if (mode !== 'choose' || !WEAPONS[id]) return
-    const upgrade = id === weapon
-    if (upgrade) wLevels[id] = Math.min(MAX_WLV, wlv(id) + 1)
-    weapon = id
+  const nextLevel = (sub) => {
     level += 1
     resetLevel()
     mode = 'play'
     tsTarget = 1
     cb.onScreen?.(null)
+    banner = { title: `${tr(TXT.level)} ${String(level).padStart(2, '0')}`, sub, t: 0, dur: 1700 }
+  }
+
+  const choose = (id) => {
+    if (mode !== 'choose') return
+    if (id.startsWith('perk:')) {
+      const pid = id.slice(5)
+      const def = PERKS[pid]
+      if (!def) return
+      if (def.kind === 'ult') {
+        ult = pid
+        ultCd = 0
+      } else if (def.kind === 'instant') {
+        lives += 1
+      } else {
+        perks[pid] = Math.min(def.max, (perks[pid] || 0) + 1)
+      }
+      nextLevel(`✦ ${tr(def.name).toUpperCase()}`)
+      flash(def.color, 0.3)
+      ring(player.x, G - 50 * S, 10 * S, 220 * S, def.color, 600, 4)
+      return
+    }
+    if (!WEAPONS[id]) return
+    const upgrade = id === weapon
+    if (upgrade) wLevels[id] = Math.min(MAX_WLV, wlv(id) + 1)
+    weapon = id
     const name = `${tr(WEAPONS[weapon].name).toUpperCase()} · ${tr(TXT.wlv)} ${wlv()}`
-    banner = { title: `${tr(TXT.level)} ${String(level).padStart(2, '0')}`, sub: upgrade ? `▲ ${name}` : name, t: 0, dur: 1700 }
+    nextLevel(upgrade ? `▲ ${name}` : name)
     if (upgrade) {
       flash(WEAPONS[weapon].color, 0.3)
       ring(player.x, G - 50 * S, 10 * S, 240 * S, WHITE, 600, 4)
@@ -357,13 +400,35 @@ export function createGame(canvas, cb = {}) {
       e.moving = true
       e.x += toP * e.speed * (gdt / 1000)
       e.phase += gdt * 0.016 * (e.speed / (110 * S))
-      if (mode === 'play' && player.invuln <= 0 && Math.abs(e.x - player.x) < e.r + 14 * S) bite(e)
+      if (mode === 'play' && Math.abs(e.x - player.x) < e.r + 14 * S) {
+        if (immuneT > 0) {
+          // Pele de Aço: esmaga quem encosta
+          ring(e.x, G - 26 * S, 6 * S, 110 * S, '#ffc94a', 300, 4)
+          addShake(6)
+          kill(e, Math.sign(e.x - player.x) || 1, 'launch')
+        } else if (player.invuln <= 0) bite(e)
+      }
     }
     if (enemies.length > 40) enemies = enemies.filter((e) => e.alive)
   }
 
   const bite = (e) => {
     player.hold = null
+    if (shield > 0) {
+      // o escudo absorve a mordida
+      shield -= 1
+      player.invuln = 700
+      hitStop = 80
+      addShake(10)
+      flash(BLUE, 0.3)
+      ring(player.x, G - 60 * S * FIG, 20 * S, 130 * S, BLUE, 380, 5)
+      sparks(player.x + (e.x > player.x ? 30 : -30) * S, G - 50 * S, Math.sign(e.x - player.x), 16, [BLUE, WHITE, '#9fb8ff'])
+      popup(player.x, G - 150 * S, tr(TXT.shield), '#9fb8ff', 1.1, 'sfx')
+      e.stagger = 420
+      e.kb = 520 * S
+      e.locked = false
+      return
+    }
     lives -= 1
     combo = 0
     player.invuln = 1400
@@ -415,7 +480,18 @@ export function createGame(canvas, cb = {}) {
     const gain = e.score * comboMult()
     score += Math.round(gain)
     popup(e.x, y - 30 * k, `+${Math.round(gain)}`, WHITE, 0.8)
-    meter = Math.min(METER_MAX, meter + ws().meter)
+    meter = Math.min(METER_MAX, meter + ws().meter * (1 + 0.5 * (perks.magnet || 0)))
+    totalKills += 1
+    if (perks.regen) {
+      regenAt += 1
+      const need = [0, 30, 25, 20][perks.regen]
+      if (regenAt >= need) {
+        regenAt = 0
+        lives += 1
+        flash('#ff6b6f', 0.18)
+        popup(player.x, G - 165 * S, tr(TXT.life), '#ff6b6f', 1.1, 'sfx')
+      }
+    }
     if (kills >= quota) {
       if (mode === 'special') pendingClear = true
       else if (mode === 'play') levelClear()
@@ -471,7 +547,7 @@ export function createGame(canvas, cb = {}) {
       player.anim.reachOff = hitReach(st, player.variant) * S * FIG + 14 * S * target.size
       player.dashTo = w.ranged ? player.x : clampX(target.x - dir * player.anim.reachOff)
     } else {
-      player.stun = 380
+      player.stun = 380 * Math.max(0.2, 1 - 0.4 * (perks.reflex || 0))
       combo = 0
       popup(player.x + dir * 40 * S, G - 150 * S, tr(TXT.miss), '#9aa0ad', 0.9)
     }
@@ -949,6 +1025,60 @@ export function createGame(canvas, cb = {}) {
     comboPop = Math.max(0, comboPop - rdt * 0.004)
   }
 
+  const tryUlt = () => {
+    if (!ult || ultCd > 0 || mode !== 'play') return
+    const def = PERKS[ult]
+    ultCd = def.cooldown
+    hitStop = 90
+    flash(def.color, 0.4)
+    addShake(10)
+    ring(player.x, G - 60 * S * FIG, 10 * S, 260 * S, def.color, 500, 5)
+    popup(player.x, G - 180 * S, tr(def.name).replace(/^Ulti: |^Ult: /, '').toUpperCase() + '!', def.color, 1.2, 'sfx')
+    if (ult === 'immune') immuneT = 5000
+    else shadow = { x: player.x, facing: -player.facing, t: 9000, cd: 0, anim: null, variant: 0, pose: null }
+  }
+
+  // Sombra: fica do lado oposto ao último golpe e ataca o que chegar perto ali
+  const updateShadow = (rdt) => {
+    if (!shadow) return
+    shadow.t -= rdt
+    shadow.cd -= rdt
+    const side = shadow.facing
+    const home = player.x + side * 70 * S
+    const reach = 190 * S
+    const target = alive()
+      .filter((e) => !e.leap && Math.sign(e.x - player.x) === side && Math.abs(e.x - player.x) < reach + 70 * S)
+      .sort((a, b) => Math.abs(a.x - player.x) - Math.abs(b.x - player.x))[0]
+    if (shadow.anim) {
+      shadow.anim.u += rdt / 260
+      const a = shadow.anim
+      if (a.u < HIT_AT) shadow.x = a.from + (a.to - a.from) * (1 - (1 - a.u / HIT_AT) ** 3)
+      if (!a.hit && a.u >= HIT_AT) {
+        a.hit = true
+        if (a.e.alive) {
+          const hy = G - a.e.air - 24 * S * a.e.size
+          slash(a.e.x, hy, side, { r: 80, c: '#8a5cff', rot: rand(-0.6, 0.4) })
+          ring(a.e.x, hy, 4 * S, 70 * S, '#8a5cff', 240, 3)
+          addShake(4)
+          kill(a.e, side, 'fling')
+        }
+      }
+      if (a.u >= 1) shadow.anim = null
+    } else {
+      shadow.x += (home - shadow.x) * (1 - Math.exp(-rdt * 0.008))
+      if (target && shadow.cd <= 0) {
+        shadow.cd = 380
+        shadow.variant = Math.floor(Math.random() * ATTACKS[style()].length)
+        shadow.anim = { u: 0, from: shadow.x, to: target.x - side * 60 * S, e: target, hit: false }
+        target.locked = true
+      }
+    }
+    if (shadow.t <= 0) {
+      for (let i = 0; i < 18; i += 1) parts.push({ k: 'ember', x: shadow.x + rand(-20, 20) * S, y: G - rand(10, 110) * S, vx: rand(-40, 40) * S, vy: -rand(60, 160) * S, life: rand(300, 600), max: 600, c: '#8a5cff', s: rand(2, 4) * S })
+      shadow = null
+    }
+  }
+
   const romans = ['', 'I', 'II', 'III']
   const updateFury = (rdt) => {
     const f = combo >= FURY_AT[3] ? 3 : combo >= FURY_AT[2] ? 2 : combo >= FURY_AT[1] ? 1 : 0
@@ -1033,10 +1163,17 @@ export function createGame(canvas, cb = {}) {
         mode = 'choose'
         tsTarget = 1
         // a arma atual (para melhorar, se ainda não está no máximo) + outras sorteadas
+        // sempre: a arma atual (melhorar ou manter) + outra arma + duas habilidades
         const others = WEAPON_POOL.filter((id) => id !== weapon).sort(() => Math.random() - 0.5)
-        options = wlv() < MAX_WLV ? [weapon, ...others.slice(0, 2)] : others.slice(0, 3)
-        const levels = Object.fromEntries(options.map((id) => [id, wlv(id)]))
-        cb.onScreen?.('choose', { level, options, current: weapon, levels, max: MAX_WLV })
+        const avail = PERK_IDS.filter((pid) => {
+          const d = PERKS[pid]
+          if (d.kind === 'ult') return ult !== pid
+          if (d.kind === 'passive') return (perks[pid] || 0) < d.max
+          return true
+        }).sort(() => Math.random() - 0.5)
+        options = [weapon, others[0], ...avail.slice(0, 2).map((pid) => `perk:${pid}`)]
+        const levels = Object.fromEntries([...WEAPON_POOL, 'fists'].map((id) => [id, wlv(id)]))
+        cb.onScreen?.('choose', { level, options, current: weapon, levels, max: MAX_WLV, perks: { ...perks }, ult })
       }
     } else if (mode === 'dying') {
       modeT += rdt
@@ -1048,6 +1185,20 @@ export function createGame(canvas, cb = {}) {
       }
     }
     updateEnemies(gdt)
+    if (mode === 'play' || mode === 'special') {
+      ultCd = Math.max(0, ultCd - rdt)
+      immuneT = Math.max(0, immuneT - rdt)
+      updateShadow(rdt)
+      if (immuneT > 0 && Math.random() < rdt / 40) {
+        const p = toWorld({ x: rand(-14, 14), y: rand(-110, -5) })
+        parts.push({ k: 'ember', x: p.x, y: p.y, vx: rand(-40, 40) * S, vy: -rand(80, 180) * S, life: rand(250, 500), max: 500, c: pick(['#ffc94a', '#fff1c2', WHITE]), s: rand(1.6, 3) * S })
+      }
+    }
+    const uReady = !!ult && ultCd <= 0 && mode === 'play'
+    if (uReady !== ultWasReady) {
+      ultWasReady = uReady
+      cb.onUlt?.(uReady)
+    }
     updateFury(rdt)
     updateFx(gdt, rdt)
 
@@ -1466,8 +1617,29 @@ export function createGame(canvas, cb = {}) {
     ctx.fillRect(CX - bw / 2, pad + small + 10, bw * clamp(kills / quota, 0, 1), 3)
     // vidas
     const lw = Math.max(16, 22 * S)
-    for (let i = 0; i < 3; i += 1) {
-      const x = W - pad - (i + 1) * (lw + 8)
+    const many = lives > 6
+    const slots = many ? 1 : Math.max(3, lives)
+    if (many) {
+      // muitas vidas: um bloco e o número
+      ctx.textAlign = 'right'
+      ctx.textBaseline = 'middle'
+      ctx.font = `${Math.round(lw * 1.1)}px ${DISPLAY}`
+      ctx.fillStyle = WHITE
+      ctx.fillText(`×${lives}`, W - pad - (lw + 8) - 6 - shield * (lw + 8), pad + 4 + lw / 2)
+      ctx.textBaseline = 'top'
+    }
+    for (let i = 0; i < slots + shield; i += 1) {
+      const x = W - pad - (i + 1) * (lw + 8) - (many && i >= slots ? 40 * Math.max(1, S) : 0)
+      if (i >= slots) {
+        // cargas de escudo, depois das vidas
+        chamfer(x, pad + 4, lw, lw, lw * 0.3)
+        ctx.strokeStyle = BLUE
+        ctx.lineWidth = 2
+        ctx.stroke()
+        ctx.fillStyle = 'rgba(49, 87, 255, 0.35)'
+        ctx.fill()
+        continue
+      }
       chamfer(x, pad + 4, lw, lw, lw * 0.3)
       if (i < lives) {
         ctx.fillStyle = RED
@@ -1522,6 +1694,27 @@ export function createGame(canvas, cb = {}) {
         ctx.fillStyle = 'rgba(245, 245, 242, 0.12)'
         ctx.fill()
       }
+    }
+    if (ult) {
+      // ultimate: ícone com recarga, à direita do medidor
+      const def = PERKS[ult]
+      const ux = mx + mw + 22
+      const us = Math.max(26, 30 * S)
+      const pct = 1 - ultCd / def.cooldown
+      chamfer(ux, my + mh - us, us, us, 6)
+      ctx.fillStyle = 'rgba(245, 245, 242, 0.08)'
+      ctx.fill()
+      ctx.save()
+      ctx.clip()
+      ctx.fillStyle = ultCd <= 0 ? (Math.sin(clock * 0.012) > 0 ? def.color : WHITE) : def.color + '88'
+      ctx.fillRect(ux, my + mh - us * pct, us, us * pct)
+      ctx.restore()
+      ctx.fillStyle = ultCd <= 0 ? INK : WHITE
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.font = `700 ${Math.round(us * 0.45)}px ${MONO}`
+      ctx.fillText(touch ? '★' : 'Q', ux + us / 2, my + mh - us / 2)
+      ctx.textBaseline = 'bottom'
     }
     if (full && mode === 'play') {
       ctx.textAlign = 'center'
@@ -1652,7 +1845,26 @@ export function createGame(canvas, cb = {}) {
       ctx.globalCompositeOperation = 'source-over'
     }
 
-    const blink = player.invuln > 0 && Math.floor(clock / 70) % 2 === 0
+    if (shadow && player.b) {
+      const sp = shadow.anim
+        ? attackPose(style(), shadow.variant, Math.min(1, shadow.anim.u), idle(), idle(), true)
+        : idlePose(style(), clock / 1000 + 1.3)
+      const sb = bones(sp, style())
+      const fade = Math.min(1, shadow.t / 400)
+      ctx.globalAlpha = 0.35 * fade
+      drawPlayerAt(shadow.x + 3, 0, shadow.facing, sb, { tint: '#8a5cff' })
+      ctx.globalAlpha = 0.92 * fade
+      drawPlayerAt(shadow.x, 0, shadow.facing, sb, { tint: '#120a24' })
+      ctx.globalAlpha = 1
+      // olhos acesos
+      const eye = { x: shadow.x + shadow.facing * (sb.head.x + 6) * S * FIG, y: G + (sb.head.y - 1) * S * FIG }
+      ctx.fillStyle = '#c9b3ff'
+      ctx.beginPath()
+      ctx.arc(eye.x, eye.y, 2 * S, 0, TAU)
+      ctx.fill()
+    }
+
+    const blink = player.invuln > 0 && immuneT <= 0 && Math.floor(clock / 70) % 2 === 0
     if (hitStop > 0 || (special && special.phase !== 'outro')) {
       ctx.globalAlpha = 0.55
       drawPlayerAt(player.x - 3, player.air, player.facing, b, { tint: RED })
@@ -1662,6 +1874,26 @@ export function createGame(canvas, cb = {}) {
     ctx.globalAlpha = blink ? 0.4 : 1
     drawPlayerAt(player.x, player.air, player.facing, b)
     ctx.globalAlpha = 1
+    if (immuneT > 0) {
+      // Pele de Aço: corpo dourado pulsando
+      ctx.globalAlpha = 0.35 + Math.sin(clock * 0.02) * 0.15
+      ctx.globalCompositeOperation = 'lighter'
+      drawPlayerAt(player.x, player.air, player.facing, b, { tint: '#ffc94a' })
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.globalAlpha = 1
+    }
+    if (shield > 0 && mode === 'play') {
+      // bolha de escudo, mais forte com mais cargas
+      const cy = G - player.air - 58 * S * FIG
+      const r = (62 + Math.sin(clock * 0.006) * 2) * S
+      ctx.strokeStyle = `rgba(49, 87, 255, ${0.25 + shield * 0.15})`
+      ctx.lineWidth = 2 * S
+      ctx.beginPath()
+      ctx.ellipse(player.x, cy, r * 0.75, r, 0, 0, TAU)
+      ctx.stroke()
+      ctx.fillStyle = 'rgba(49, 87, 255, 0.06)'
+      ctx.fill()
+    }
 
     // tontura depois de errar
     if (player.stun > 0 && mode === 'play') {
@@ -1775,6 +2007,9 @@ export function createGame(canvas, cb = {}) {
     } else if (k === ' ' || k === 'ArrowUp' || k === 'w' || k === 'W') {
       e.preventDefault()
       if (!e.repeat) trySpecial()
+    } else if (k === 'q' || k === 'Q' || k === 'e' || k === 'E' || k === 'Shift') {
+      e.preventDefault()
+      if (!e.repeat) tryUlt()
     }
   }
   const onPointer = (e) => {
@@ -1795,6 +2030,7 @@ export function createGame(canvas, cb = {}) {
     start,
     choose,
     special: trySpecial,
+    ult: tryUlt,
     attack,
     destroy() {
       cancelAnimationFrame(raf)
@@ -1809,6 +2045,14 @@ export function createGame(canvas, cb = {}) {
       fillMeter: () => (meter = METER_MAX),
       setWeapon: (id) => (weapon = id),
       setLevel: (id, n) => (wLevels[id] = n),
+      setUlt: (id) => {
+        ult = id
+        ultCd = 0
+      },
+      setPerk: (id, n) => {
+        perks[id] = n
+        if (id === 'shield') shield = n
+      },
       winLevel: () => {
         kills = quota - 1
       },
