@@ -3,7 +3,7 @@
   z-index: 2;
   margin: 0;
   font-family: Chetta, Impact, 'Arial Narrow', sans-serif;
-  font-size: clamp(4.35rem, 9.7vw, 11.5rem);
+  font-size: clamp(4.35rem, min(9.7vw, 18vh), 11.5rem);
   font-weight: 400;
   line-height: 0.72;
   letter-spacing: -0.045em;
@@ -27,16 +27,6 @@
 .line-2 {
   margin-left: clamp(1rem, 7vw, 9rem);
   color: #e62429;
-}
-
-.line-2b {
-  margin-left: clamp(0.5rem, 4vw, 5rem);
-  white-space: nowrap;
-}
-
-.ampersand-lead {
-  margin-left: 0;
-  margin-right: 0.15em;
 }
 
 .line-3 {
