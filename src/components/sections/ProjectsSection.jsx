@@ -6,6 +6,10 @@ import { useI18n } from '../../i18n'
 import { useScrollFrame } from '../../hooks/useScrollProgress'
 import './ProjectsSection.css'
 
+// Cada prévia tem uma versão de 800 px (celular) ao lado da de 1440 px.
+const PREVIEW_SIZES = '(max-width: 900px) 100vw, 90vw'
+const previewSrcSet = (src) => `${src.replace(/\.webp$/, '-800.webp')} 800w, ${src} 1440w`
+
 export default function ProjectsSection() {
   const { t, tr } = useI18n()
   const stack = useRef(null)
@@ -43,6 +47,44 @@ export default function ProjectsSection() {
     )
     shots.forEach((s) => observer.observe(s))
     return () => observer.disconnect()
+  }, [])
+
+  // Baixa todas as prévias antes de a seção chegar na tela (ou quando o navegador
+  // fica ocioso), para a revelação nunca mostrar um espaço vazio.
+  useEffect(() => {
+    let done = false
+    const preload = () => {
+      if (done) return
+      done = true
+      projects.forEach(({ preview }) => {
+        const img = new Image()
+        img.decoding = 'async'
+        img.sizes = PREVIEW_SIZES
+        img.srcset = previewSrcSet(preview)
+        img.src = preview
+      })
+    }
+
+    const observer =
+      'IntersectionObserver' in window
+        ? new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && preload(), {
+            rootMargin: '150% 0px',
+          })
+        : null
+    observer?.observe(stack.current)
+
+    const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 2000))
+    const cancelIdle = window.cancelIdleCallback || clearTimeout
+    let idleId
+    const onLoad = () => (idleId = idle(preload, { timeout: 4000 }))
+    if (document.readyState === 'complete') onLoad()
+    else window.addEventListener('load', onLoad, { once: true })
+
+    return () => {
+      observer?.disconnect()
+      window.removeEventListener('load', onLoad)
+      if (idleId) cancelIdle(idleId)
+    }
   }, [])
 
   return (
@@ -96,6 +138,10 @@ export default function ProjectsSection() {
                   >
                     <img
                       src={project.preview}
+                      srcSet={previewSrcSet(project.preview)}
+                      sizes={PREVIEW_SIZES}
+                      width="1440"
+                      height="900"
                       alt={`${t('projects.previewAlt')} ${tr(project.title)}`}
                       loading="lazy"
                       decoding="async"
