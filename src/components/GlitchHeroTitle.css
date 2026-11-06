@@ -33,6 +33,10 @@
   margin-left: clamp(0rem, 2vw, 3rem);
   color: #f5f5f2;
 }
+/* respiro entre FULL-STACK e DEVELOPER (o line-height é bem fechado) */
+.hero h1 .line-3 {
+  margin-top: 0.1em;
+}
 
 .ampersand {
   font-family: Georgia, serif;
