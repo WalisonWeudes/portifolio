@@ -29,6 +29,16 @@
   color: #e62429;
 }
 
+.line-2b {
+  margin-left: clamp(0.5rem, 4vw, 5rem);
+  white-space: nowrap;
+}
+
+.ampersand-lead {
+  margin-left: 0;
+  margin-right: 0.15em;
+}
+
 .line-3 {
   margin-left: clamp(0rem, 2vw, 3rem);
   color: #f5f5f2;

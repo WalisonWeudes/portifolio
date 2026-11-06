@@ -79,6 +79,12 @@ export default function GlitchHeroTitle() {
           <KineticText text="FRONT-END" entrance={false} />
         </span>
       </span>
+      <span className="title-line line-2 line-2b">
+        <em className="ampersand ampersand-lead">&amp;</em>
+        <span className="word">
+          <KineticText text="FULL-STACK" entrance={false} />
+        </span>
+      </span>
       <span className="title-line line-3">
         <span className="word">
           <KineticText text="DEVELOPER" entrance={false} />
