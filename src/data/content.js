@@ -132,6 +132,7 @@ export const figmaProjects = [
     description: L('Serviços, agendamento e contato direto.', 'Services, booking and direct contact.'),
     file: '/arquivos/barbearia.fig',
     kind: 'booking',
+    preview: '/imagens/figma/barbearia.webp',
   },
   {
     type: L('Dashboard'),
@@ -146,6 +147,7 @@ export const figmaProjects = [
     description: L('Divulgação, hierarquia e inscrição.', 'Promotion, hierarchy and sign-up.'),
     file: '/arquivos/mini%20cursos%20geek.fig',
     kind: 'event',
+    preview: '/imagens/figma/mini-cursos-geek.webp',
   },
   {
     type: L('Sistema acadêmico', 'Academic system'),
@@ -153,6 +155,7 @@ export const figmaProjects = [
     description: L('Telas e fluxos para operação de dados.', 'Screens and flows for data operations.'),
     file: '/arquivos/PREMAUT.fig',
     kind: 'system',
+    preview: '/imagens/figma/premaut.webp',
   },
 ]
 
