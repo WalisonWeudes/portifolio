@@ -8,9 +8,95 @@ const L = (pt, en = pt) => ({ pt, en })
 
 export const topbarLinks = [
   { key: 'nav.work', href: '#projetos' },
+  { key: 'nav.products', href: '#produtos' },
   { key: 'nav.about', href: '#sobre' },
   { key: 'nav.experience', href: '#experiencia' },
   { key: 'nav.contact', href: '#contato' },
+]
+
+// Tipos de site/landing page que eu ofereço. `status: 'soon'` = protótipo ainda não publicado;
+// quando houver um, adicione `preview` (imagem) e/ou `href` (link do protótipo).
+export const products = [
+  {
+    tag: L('Empresa', 'Business'),
+    title: L('Site institucional', 'Company website'),
+    description: L(
+      'Várias páginas para apresentar a empresa, os serviços e a equipe, com contato direto.',
+      'Multi-page site to present the company, its services and team, with direct contact.',
+    ),
+    items: [L('Páginas de serviços', 'Service pages'), L('Sobre e equipe', 'About and team'), L('Contato e mapa', 'Contact and map')],
+    href: '/exemplos/site-institucional/index.html',
+  },
+  {
+    tag: L('Empresa', 'Business'),
+    title: L('Landing page para empresa', 'Business landing page'),
+    description: L(
+      'Uma página só, direta ao ponto, para transformar visitas em clientes.',
+      'A single, to-the-point page that turns visits into customers.',
+    ),
+    items: [L('Chamada principal', 'Hero and call to action'), L('Benefícios e provas', 'Benefits and proof'), L('Botão de WhatsApp', 'WhatsApp button')],
+    status: 'soon',
+  },
+  {
+    tag: L('Vendas', 'Sales'),
+    title: L('Venda de produto', 'Product sales page'),
+    description: L(
+      'Página de conversão para lançar ou vender um produto físico ou digital.',
+      'Conversion page to launch or sell a physical or digital product.',
+    ),
+    items: [L('Oferta e preço', 'Offer and pricing'), L('Depoimentos', 'Testimonials'), L('Perguntas frequentes', 'FAQ')],
+    status: 'soon',
+  },
+  {
+    tag: L('Pessoal', 'Personal'),
+    title: L('Portfólio', 'Portfolio'),
+    description: L(
+      'Vitrine para designers, fotógrafos, devs e criativos mostrarem o próprio trabalho.',
+      'A showcase for designers, photographers, devs and creatives to show their work.',
+    ),
+    items: [L('Galeria de projetos', 'Project gallery'), L('Sobre e currículo', 'About and résumé'), L('Links e contato', 'Links and contact')],
+    status: 'soon',
+  },
+  {
+    tag: L('Estudante', 'Student'),
+    title: L('Página para estudante', 'Student page'),
+    description: L(
+      'Sua primeira presença online: projetos da faculdade, certificados e currículo em um link.',
+      'Your first online presence: college projects, certificates and résumé in one link.',
+    ),
+    items: [L('Projetos acadêmicos', 'Academic projects'), L('Certificados', 'Certificates'), L('Currículo para baixar', 'Downloadable résumé')],
+    status: 'soon',
+  },
+  {
+    tag: L('Profissional', 'Professional'),
+    title: L('Profissional liberal', 'Independent professional'),
+    description: L(
+      'Para médicos, advogados, psicólogos e consultores passarem confiança e receberem agendamentos.',
+      'For doctors, lawyers, therapists and consultants to build trust and take bookings.',
+    ),
+    items: [L('Especialidades', 'Specialties'), L('Agendamento', 'Booking'), L('Localização', 'Location')],
+    status: 'soon',
+  },
+  {
+    tag: L('Evento', 'Event'),
+    title: L('Evento e curso', 'Event and course'),
+    description: L(
+      'Divulgação de evento, palestra ou curso com programação e inscrição.',
+      'Promote an event, talk or course with schedule and sign-up.',
+    ),
+    items: [L('Programação', 'Schedule'), L('Palestrantes', 'Speakers'), L('Inscrição', 'Sign-up')],
+    status: 'soon',
+  },
+  {
+    tag: L('Comércio', 'Retail'),
+    title: L('Restaurante e loja local', 'Restaurant and local shop'),
+    description: L(
+      'Cardápio ou catálogo online com horários, endereço e pedido pelo WhatsApp.',
+      'Online menu or catalog with hours, address and ordering via WhatsApp.',
+    ),
+    items: [L('Cardápio ou catálogo', 'Menu or catalog'), L('Horários e endereço', 'Hours and address'), L('Pedido no WhatsApp', 'WhatsApp ordering')],
+    status: 'soon',
+  },
 ]
 
 export const dockItems = [
@@ -23,7 +109,6 @@ export const dockItems = [
 
 export const socials = [
   { name: 'GitHub', href: 'https://github.com/WalisonWeudes' },
-  { name: 'Instagram', href: 'https://www.instagram.com/walison_w0?igsh=a2c1cmpydnBpbG42' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/walisonweudes' },
 ]
 

@@ -1,9 +1,10 @@
 import PageLoader from './components/PageLoader'
-import SpiderWalker from './components/SpiderWalker'
+// import SpiderWalker from './components/SpiderWalker'
 import SiteHeader from './components/SiteHeader'
 import HeroSection from './components/sections/HeroSection'
 import ProjectsSection from './components/sections/ProjectsSection'
 import FigmaSection from './components/sections/FigmaSection'
+import ProductsSection from './components/sections/ProductsSection'
 import AboutSection from './components/sections/AboutSection'
 import ExperienceSection from './components/sections/ExperienceSection'
 import StackSection from './components/sections/StackSection'
@@ -42,11 +43,13 @@ export default function App() {
         style={{ height: 'auto' }}
       >
         <main className="site-shell">
-          <SpiderWalker />
+          {/* aranha desligada por enquanto: para voltar, descomente a linha abaixo */}
+          {/* <SpiderWalker /> */}
           <SiteHeader />
           <HeroSection />
           <ProjectsSection />
           <FigmaSection />
+          <ProductsSection />
           <AboutSection />
           <ExperienceSection />
           <StackSection />

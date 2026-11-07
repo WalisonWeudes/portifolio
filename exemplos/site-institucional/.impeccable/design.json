@@ -1,0 +1,557 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-07T14:22:14.386Z",
+  "title": "Design System: Ventura Contabilidade",
+  "extensions": {
+    "colorMeta": {
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "oklch(100.0% 0.000 0)",
+        "tonalRamp": [
+          "oklch(15% 0.000 0)",
+          "oklch(26.4% 0.000 0)",
+          "oklch(37.9% 0.000 0)",
+          "oklch(49.3% 0.000 0)",
+          "oklch(60.7% 0.000 0)",
+          "oklch(72.1% 0.000 0)",
+          "oklch(83.6% 0.000 0)",
+          "oklch(95% 0.000 0)"
+        ]
+      },
+      "mint-ground": {
+        "role": "neutral",
+        "displayName": "Mint Ground",
+        "canonical": "oklch(96.9% 0.006 153.8)",
+        "tonalRamp": [
+          "oklch(15% 0.004 153.8)",
+          "oklch(26.4% 0.006 153.8)",
+          "oklch(37.9% 0.006 153.8)",
+          "oklch(49.3% 0.006 153.8)",
+          "oklch(60.7% 0.006 153.8)",
+          "oklch(72.1% 0.006 153.8)",
+          "oklch(83.6% 0.004 153.8)",
+          "oklch(95% 0.001 153.8)"
+        ]
+      },
+      "mint-ground-2": {
+        "role": "neutral",
+        "displayName": "Mint Ground 2",
+        "canonical": "oklch(94.2% 0.011 158.8)",
+        "tonalRamp": [
+          "oklch(15% 0.007 158.8)",
+          "oklch(26.4% 0.011 158.8)",
+          "oklch(37.9% 0.011 158.8)",
+          "oklch(49.3% 0.011 158.8)",
+          "oklch(60.7% 0.011 158.8)",
+          "oklch(72.1% 0.011 158.8)",
+          "oklch(83.6% 0.007 158.8)",
+          "oklch(95% 0.001 158.8)"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(92.0% 0.011 158.8)",
+        "tonalRamp": [
+          "oklch(15% 0.007 158.8)",
+          "oklch(26.4% 0.011 158.8)",
+          "oklch(37.9% 0.011 158.8)",
+          "oklch(49.3% 0.011 158.8)",
+          "oklch(60.7% 0.011 158.8)",
+          "oklch(72.1% 0.011 158.8)",
+          "oklch(83.6% 0.007 158.8)",
+          "oklch(95% 0.001 158.8)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(20.6% 0.017 175.7)",
+        "tonalRamp": [
+          "oklch(15% 0.008 175.7)",
+          "oklch(26.4% 0.017 175.7)",
+          "oklch(37.9% 0.017 175.7)",
+          "oklch(49.3% 0.017 175.7)",
+          "oklch(60.7% 0.017 175.7)",
+          "oklch(72.1% 0.017 175.7)",
+          "oklch(83.6% 0.009 175.7)",
+          "oklch(95% 0.001 175.7)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "oklch(42.2% 0.018 170.2)",
+        "tonalRamp": [
+          "oklch(15% 0.005 170.2)",
+          "oklch(26.4% 0.014 170.2)",
+          "oklch(37.9% 0.018 170.2)",
+          "oklch(49.3% 0.018 170.2)",
+          "oklch(60.7% 0.018 170.2)",
+          "oklch(72.1% 0.015 170.2)",
+          "oklch(83.6% 0.006 170.2)",
+          "oklch(95% 0.001 170.2)"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink 3",
+        "canonical": "oklch(54.3% 0.017 170.6)",
+        "tonalRamp": [
+          "oklch(15% 0.005 170.6)",
+          "oklch(26.4% 0.013 170.6)",
+          "oklch(37.9% 0.016 170.6)",
+          "oklch(49.3% 0.017 170.6)",
+          "oklch(60.7% 0.017 170.6)",
+          "oklch(72.1% 0.013 170.6)",
+          "oklch(83.6% 0.006 170.6)",
+          "oklch(95% 0.001 170.6)"
+        ]
+      },
+      "forest": {
+        "role": "secondary",
+        "displayName": "Forest",
+        "canonical": "oklch(27.2% 0.047 167.2)",
+        "tonalRamp": [
+          "oklch(15% 0.017 167.2)",
+          "oklch(26.4% 0.045 167.2)",
+          "oklch(37.9% 0.047 167.2)",
+          "oklch(49.3% 0.047 167.2)",
+          "oklch(60.7% 0.047 167.2)",
+          "oklch(72.1% 0.047 167.2)",
+          "oklch(83.6% 0.020 167.2)",
+          "oklch(95% 0.002 167.2)"
+        ]
+      },
+      "forest-2": {
+        "role": "secondary",
+        "displayName": "Forest Ring",
+        "canonical": "oklch(33.5% 0.058 165.1)",
+        "tonalRamp": [
+          "oklch(15% 0.019 165.1)",
+          "oklch(26.4% 0.049 165.1)",
+          "oklch(37.9% 0.058 165.1)",
+          "oklch(49.3% 0.058 165.1)",
+          "oklch(60.7% 0.058 165.1)",
+          "oklch(72.1% 0.052 165.1)",
+          "oklch(83.6% 0.022 165.1)",
+          "oklch(95% 0.002 165.1)"
+        ]
+      },
+      "forest-text": {
+        "role": "secondary",
+        "displayName": "Forest Mist",
+        "canonical": "oklch(82.4% 0.026 161.8)",
+        "tonalRamp": [
+          "oklch(15% 0.014 161.8)",
+          "oklch(26.4% 0.026 161.8)",
+          "oklch(37.9% 0.026 161.8)",
+          "oklch(49.3% 0.026 161.8)",
+          "oklch(60.7% 0.026 161.8)",
+          "oklch(72.1% 0.026 161.8)",
+          "oklch(83.6% 0.016 161.8)",
+          "oklch(95% 0.002 161.8)"
+        ]
+      },
+      "forest-divider": {
+        "role": "secondary",
+        "displayName": "Forest Seam",
+        "canonical": "oklch(37.8% 0.054 165.5)",
+        "tonalRamp": [
+          "oklch(15% 0.016 165.5)",
+          "oklch(26.4% 0.042 165.5)",
+          "oklch(37.9% 0.054 165.5)",
+          "oklch(49.3% 0.054 165.5)",
+          "oklch(60.7% 0.054 165.5)",
+          "oklch(72.1% 0.044 165.5)",
+          "oklch(83.6% 0.019 165.5)",
+          "oklch(95% 0.002 165.5)"
+        ]
+      },
+      "night-bar": {
+        "role": "secondary",
+        "displayName": "Night Bar",
+        "canonical": "oklch(15.6% 0.018 168.6)",
+        "tonalRamp": [
+          "oklch(15% 0.011 168.6)",
+          "oklch(26.4% 0.018 168.6)",
+          "oklch(37.9% 0.018 168.6)",
+          "oklch(49.3% 0.018 168.6)",
+          "oklch(60.7% 0.018 168.6)",
+          "oklch(72.1% 0.018 168.6)",
+          "oklch(83.6% 0.012 168.6)",
+          "oklch(95% 0.001 168.6)"
+        ]
+      },
+      "brand": {
+        "role": "primary",
+        "displayName": "Ventura Green",
+        "canonical": "oklch(51.2% 0.118 156.8)",
+        "tonalRamp": [
+          "oklch(15% 0.032 156.8)",
+          "oklch(26.4% 0.085 156.8)",
+          "oklch(37.9% 0.109 156.8)",
+          "oklch(49.3% 0.118 156.8)",
+          "oklch(60.7% 0.111 156.8)",
+          "oklch(72.1% 0.091 156.8)",
+          "oklch(83.6% 0.038 156.8)",
+          "oklch(95% 0.004 156.8)"
+        ]
+      },
+      "brand-dark": {
+        "role": "primary",
+        "displayName": "Deep Ventura Green",
+        "canonical": "oklch(42.6% 0.096 157.3)",
+        "tonalRamp": [
+          "oklch(15% 0.027 157.3)",
+          "oklch(26.4% 0.072 157.3)",
+          "oklch(37.9% 0.092 157.3)",
+          "oklch(49.3% 0.096 157.3)",
+          "oklch(60.7% 0.093 157.3)",
+          "oklch(72.1% 0.076 157.3)",
+          "oklch(83.6% 0.032 157.3)",
+          "oklch(95% 0.003 157.3)"
+        ]
+      },
+      "brand-tint": {
+        "role": "primary",
+        "displayName": "Green Wash",
+        "canonical": "oklch(94.8% 0.019 162.9)",
+        "tonalRamp": [
+          "oklch(15% 0.012 162.9)",
+          "oklch(26.4% 0.019 162.9)",
+          "oklch(37.9% 0.019 162.9)",
+          "oklch(49.3% 0.019 162.9)",
+          "oklch(60.7% 0.019 162.9)",
+          "oklch(72.1% 0.019 162.9)",
+          "oklch(83.6% 0.013 162.9)",
+          "oklch(95% 0.002 162.9)"
+        ]
+      },
+      "lime": {
+        "role": "tertiary",
+        "displayName": "Lime Spark",
+        "canonical": "oklch(89.2% 0.148 124.5)",
+        "tonalRamp": [
+          "oklch(15% 0.089 124.5)",
+          "oklch(26.4% 0.145 124.5)",
+          "oklch(37.9% 0.148 124.5)",
+          "oklch(49.3% 0.148 124.5)",
+          "oklch(60.7% 0.148 124.5)",
+          "oklch(72.1% 0.148 124.5)",
+          "oklch(83.6% 0.097 124.5)",
+          "oklch(95% 0.014 124.5)"
+        ]
+      },
+      "lime-dark": {
+        "role": "tertiary",
+        "displayName": "Lime Pressed",
+        "canonical": "oklch(84.2% 0.161 125.2)",
+        "tonalRamp": [
+          "oklch(15% 0.093 125.2)",
+          "oklch(26.4% 0.158 125.2)",
+          "oklch(37.9% 0.161 125.2)",
+          "oklch(49.3% 0.161 125.2)",
+          "oklch(60.7% 0.161 125.2)",
+          "oklch(72.1% 0.161 125.2)",
+          "oklch(83.6% 0.105 125.2)",
+          "oklch(95% 0.011 125.2)"
+        ]
+      },
+      "star": {
+        "role": "neutral",
+        "displayName": "Star",
+        "canonical": "oklch(78.5% 0.147 72.4)",
+        "tonalRamp": [
+          "oklch(15% 0.065 72.4)",
+          "oklch(26.4% 0.145 72.4)",
+          "oklch(37.9% 0.147 72.4)",
+          "oklch(49.3% 0.147 72.4)",
+          "oklch(60.7% 0.147 72.4)",
+          "oklch(72.1% 0.147 72.4)",
+          "oklch(83.6% 0.076 72.4)",
+          "oklch(95% 0.008 72.4)"
+        ]
+      },
+      "whatsapp": {
+        "role": "neutral",
+        "displayName": "WhatsApp",
+        "canonical": "oklch(64.4% 0.165 150.8)",
+        "tonalRamp": [
+          "oklch(15% 0.050 150.8)",
+          "oklch(26.4% 0.133 150.8)",
+          "oklch(37.9% 0.165 150.8)",
+          "oklch(49.3% 0.165 150.8)",
+          "oklch(60.7% 0.165 150.8)",
+          "oklch(72.1% 0.141 150.8)",
+          "oklch(83.6% 0.059 150.8)",
+          "oklch(95% 0.006 150.8)"
+        ]
+      },
+      "error": {
+        "role": "neutral",
+        "displayName": "Error",
+        "canonical": "oklch(50.0% 0.182 29.5)",
+        "tonalRamp": [
+          "oklch(15% 0.050 29.5)",
+          "oklch(26.4% 0.132 29.5)",
+          "oklch(37.9% 0.169 29.5)",
+          "oklch(49.3% 0.182 29.5)",
+          "oklch(60.7% 0.172 29.5)",
+          "oklch(72.1% 0.140 29.5)",
+          "oklch(83.6% 0.059 29.5)",
+          "oklch(95% 0.006 29.5)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Home hero headline only; key phrases in brand green."
+      },
+      "display-page": {
+        "displayName": "Display Page",
+        "purpose": "Inner-page head titles."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles; slightly smaller clamp on forest and CTA bands."
+      },
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "Counted statistics, plan prices, rating and hero card figures; tabular lining numerals."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card titles (services, plans, contact form)."
+      },
+      "body-lead": {
+        "displayName": "Body Lead",
+        "purpose": "Support line under hero and section titles, capped at 32-36rem."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraphs, FAQ answers, card copy."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons (700), nav links (600), FAQ questions."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Chips, badges, footnotes, table headers, testimonial roles."
+      }
+    },
+    "shadows": [
+      {
+        "name": "resting-lift",
+        "value": "0 12px 32px rgba(0, 0, 0, 0.07)",
+        "purpose": "Borderless cards resting on a ground: hero info cards, deadlines panel, open FAQ item, team cards, row process steps, page-head photo, mobile menu."
+      },
+      {
+        "name": "floating-lift",
+        "value": "0 24px 56px rgba(0, 0, 0, 0.12)",
+        "purpose": "Floating or featured elements: hero photo, floating cards, featured review and plan, contact form, hovered service cards."
+      },
+      {
+        "name": "round-button-lift",
+        "value": "0 10px 24px rgba(0, 0, 0, 0.18)",
+        "purpose": "Round call button (0.18 alpha) and fixed WhatsApp button (0.2 alpha)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-house",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Transforms: hover lifts, arrow nudges, nav underline, FAQ toggle, deadline rows."
+      },
+      {
+        "name": "duration-color",
+        "value": "0.2s",
+        "purpose": "Colour, background and border changes."
+      },
+      {
+        "name": "duration-transform",
+        "value": "0.25s / 0.3s",
+        "purpose": "Arrow nudge (0.25s); card lift, underline and glow (0.3s)."
+      },
+      {
+        "name": "logoloop",
+        "value": "38s linear infinite",
+        "purpose": "Client logo loop; pauses on hover; static grid under reduced motion."
+      },
+      {
+        "name": "count-up",
+        "value": "1400ms ease-out-expo",
+        "purpose": "Numbers band figures, once on entering view; final value is already in the HTML."
+      },
+      {
+        "name": "row-settle",
+        "value": "0.5s house ease, 90ms stagger",
+        "purpose": "Deadline rows fade and rise 8px into place on first view."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "640px"
+      },
+      {
+        "name": "menu",
+        "value": "860px"
+      },
+      {
+        "name": "tablet",
+        "value": "1020px"
+      },
+      {
+        "name": "container",
+        "value": "1200px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Brand Pill Button",
+      "kind": "button",
+      "refersTo": "button-brand",
+      "description": "Primary action on light grounds; the arrow nudges right on hover.",
+      "html": "<button class=\"ds-btn-brand\" type=\"button\">Falar com um contador <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-btn-brand { display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 46px; padding: 0.7rem 1.35rem; border: 1.5px solid transparent; border-radius: 999px; font-family: var(--font, 'Manrope', 'Segoe UI', Arial, sans-serif); font-size: 0.95rem; font-weight: 700; text-decoration: none; white-space: nowrap; cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; background: var(--brand, #0f7a4a); color: #fff; } .ds-btn-brand svg { transition: transform 0.25s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)); } .ds-btn-brand:hover { background: var(--brand-dark, #0b5e39); } .ds-btn-brand:hover svg { transform: translateX(3px); } .ds-btn-brand:focus-visible { outline: 2px solid var(--brand, #0f7a4a); outline-offset: 3px; } .ds-btn-brand:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Lime Pill Button",
+      "kind": "button",
+      "refersTo": "button-lime",
+      "description": "Primary action on forest or brand-green grounds only.",
+      "html": "<div class=\"ds-on-forest\"><button class=\"ds-btn-lime\" type=\"button\">Quero ser cliente <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button></div>",
+      "css": ".ds-on-forest { padding: 24px; background: var(--forest, #0a2e22); border-radius: 20px; } .ds-btn-lime { display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 46px; padding: 0.7rem 1.35rem; border: 1.5px solid transparent; border-radius: 999px; font-family: var(--font, 'Manrope', 'Segoe UI', Arial, sans-serif); font-size: 0.95rem; font-weight: 700; text-decoration: none; white-space: nowrap; cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; background: var(--lime, #c6ec7a); color: var(--forest, #0a2e22); } .ds-btn-lime svg { transition: transform 0.25s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)); } .ds-btn-lime:hover { background: var(--lime-dark, #b3dd5f); } .ds-btn-lime:hover svg { transform: translateX(3px); } .ds-btn-lime:focus-visible { outline: 2px solid var(--lime, #c6ec7a); outline-offset: 3px; }"
+    },
+    {
+      "name": "Outline Pill Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action on light grounds; fills ink on hover.",
+      "html": "<button class=\"ds-btn-outline\" type=\"button\">Ver serviços</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 46px; padding: 0.7rem 1.35rem; border: 1.5px solid transparent; border-radius: 999px; font-family: var(--font, 'Manrope', 'Segoe UI', Arial, sans-serif); font-size: 0.95rem; font-weight: 700; text-decoration: none; white-space: nowrap; cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; background: transparent; border-color: var(--ink, #0f1a17); color: var(--ink, #0f1a17); } .ds-btn-outline:hover { background: var(--ink, #0f1a17); color: #fff; } .ds-btn-outline:focus-visible { outline: 2px solid var(--brand, #0f7a4a); outline-offset: 3px; }"
+    },
+    {
+      "name": "Chips",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Filled green-wash chips and hairline line chips; static labels.",
+      "html": "<ul class=\"ds-chips\"><li>MEI</li><li>Simples Nacional</li><li>Lucro Presumido</li></ul><ul class=\"ds-chips ds-chips--line\"><li>Alvarás</li><li>Certidões negativas</li></ul>",
+      "css": ".ds-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0 0 0.6rem; padding: 0; list-style: none; font-family: var(--font, 'Manrope', 'Segoe UI', Arial, sans-serif); } .ds-chips li { padding: 0.3rem 0.75rem; border-radius: 999px; background: var(--brand-tint, #e3f2ea); color: var(--brand-dark, #0b5e39); font-size: 0.82rem; font-weight: 700; } .ds-chips--line li { background: transparent; border: 1px solid var(--line, #dfe7e2); color: var(--ink-2, #44514c); font-weight: 600; }"
+    },
+    {
+      "name": "Lead Field",
+      "kind": "input",
+      "refersTo": "field-input",
+      "description": "Mint-filled 50px field with bold label; turns white with a brand border on focus.",
+      "html": "<label class=\"ds-field\"><span>WhatsApp</span><input type=\"tel\" placeholder=\"(89) 9 0000-0000\" /></label>",
+      "css": ".ds-field { display: grid; gap: 0.35rem; font-family: var(--font, 'Manrope', 'Segoe UI', Arial, sans-serif); font-size: 0.88rem; font-weight: 700; color: var(--ink, #0f1a17); max-width: 360px; } .ds-field input { width: 100%; min-height: 50px; padding: 0 1rem; border: 1.5px solid var(--line, #dfe7e2); border-radius: 12px; background: var(--soft, #f2f6f3); color: var(--ink, #0f1a17); font: inherit; font-weight: 500; font-size: 1rem; transition: border-color 0.2s, background 0.2s; } .ds-field input::placeholder { color: var(--ink-3, #66736e); } .ds-field input:focus { outline: none; border-color: var(--brand, #0f7a4a); background: #fff; }"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Sticky white header; links grow a brand-green underline on hover and on the current page.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" class=\"ds-logo\"><svg viewBox=\"0 0 32 32\" width=\"34\" height=\"34\" aria-hidden=\"true\"><rect width=\"32\" height=\"32\" rx=\"9\" fill=\"#0f7a4a\"/><path d=\"M9 10l7 12 7-12\" fill=\"none\" stroke=\"#c6ec7a\" stroke-width=\"3.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Ventura</a><span class=\"ds-nav__links\"><a href=\"#\" aria-current=\"page\">Serviços</a><a href=\"#\">Planos</a><a href=\"#\">Sobre</a></span><a href=\"#\" class=\"ds-nav__cta\">Falar com um contador</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; min-height: 76px; padding: 0 20px; background: rgba(255,255,255,0.94); border-bottom: 1px solid var(--line, #dfe7e2); font-family: var(--font, 'Manrope', 'Segoe UI', Arial, sans-serif); } .ds-logo { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em; color: var(--ink, #0f1a17); text-decoration: none; } .ds-nav__links { display: flex; gap: 1.8rem; } .ds-nav__links a { position: relative; font-size: 0.95rem; font-weight: 600; color: var(--ink-2, #44514c); text-decoration: none; transition: color 0.2s; } .ds-nav__links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; border-radius: 2px; background: var(--brand, #0f7a4a); transform: scaleX(0); transition: transform 0.3s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)); } .ds-nav__links a:hover, .ds-nav__links a[aria-current='page'] { color: var(--ink, #0f1a17); } .ds-nav__links a:hover::after, .ds-nav__links a[aria-current='page']::after { transform: scaleX(1); } .ds-nav a:focus-visible { outline: 2px solid var(--brand, #0f7a4a); outline-offset: 3px; border-radius: 6px; } .ds-nav__cta { display: inline-flex; align-items: center; min-height: 46px; padding: 0.7rem 1.35rem; border-radius: 999px; background: var(--brand, #0f7a4a); color: #fff; font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: background 0.2s; } .ds-nav__cta:hover { background: var(--brand-dark, #0b5e39); }"
+    },
+    {
+      "name": "Service Photo Card",
+      "kind": "card",
+      "refersTo": "card-service",
+      "description": "Photo-topped service card with a straddling icon tile; lifts and shows a cursor-following green glow on hover (photo stood in by a mint gradient here).",
+      "html": "<article class=\"ds-svc\"><div class=\"ds-svc__img\"><span class=\"ds-svc__icon\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M8 7h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v3M8 18h4\"/></svg></span></div><div class=\"ds-svc__body\"><h3>Contabilidade e impostos</h3><p>Escrituração, balanço e apuração mensal entregues no prazo.</p><a href=\"#\">Saiba mais <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a></div></article>",
+      "css": ".ds-svc { position: relative; display: flex; flex-direction: column; max-width: 340px; overflow: hidden; border: 1px solid var(--line, #dfe7e2); border-radius: 20px; background: #fff; font-family: var(--font, 'Manrope', 'Segoe UI', Arial, sans-serif); color: var(--ink, #0f1a17); transition: transform 0.3s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)), box-shadow 0.3s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)); } .ds-svc::after { content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; background: radial-gradient(360px circle at 50% 30%, rgba(15,122,74,0.09), transparent 60%); opacity: 0; transition: opacity 0.3s; } .ds-svc:hover { transform: translateY(-4px); box-shadow: 0 24px 56px rgba(0,0,0,0.12); } .ds-svc:hover::after { opacity: 1; } .ds-svc__img { position: relative; aspect-ratio: 480 / 300; background: linear-gradient(135deg, #cfdcd5, #8fa99c); } .ds-svc__icon { position: absolute; left: 1.3rem; bottom: -24px; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; border: 4px solid #fff; background: var(--brand, #0f7a4a); color: #fff; } .ds-svc__body { display: flex; flex-direction: column; gap: 0.6rem; padding: 2.2rem 1.4rem 1.4rem; } .ds-svc h3 { margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; } .ds-svc p { margin: 0; color: var(--ink-2, #44514c); line-height: 1.6; } .ds-svc a { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: var(--brand, #0f7a4a); text-decoration: none; } .ds-svc a svg { transition: transform 0.25s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)); } .ds-svc a:hover svg { transform: translateX(4px); } .ds-svc a:focus-visible { outline: 2px solid var(--brand, #0f7a4a); outline-offset: 3px; border-radius: 6px; }"
+    },
+    {
+      "name": "Floating Info Card",
+      "kind": "card",
+      "refersTo": "float-card",
+      "description": "Small white card with an icon tile that floats over photo edges.",
+      "html": "<div class=\"ds-float\"><span class=\"ds-float__icon\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"8\" r=\"3.2\"/><path d=\"M3 20a6 6 0 0 1 12 0M16 4.8a3.2 3.2 0 0 1 0 6.4M18 14a5.5 5.5 0 0 1 3 6\"/></svg></span><div><b>Contador dedicado</b><span>que conhece a sua empresa pelo nome</span></div></div>",
+      "css": ".ds-float { display: inline-flex; align-items: center; gap: 0.8rem; max-width: 15rem; padding: 0.9rem 1.1rem; border-radius: 16px; background: #fff; box-shadow: 0 24px 56px rgba(0,0,0,0.12); font-family: var(--font, 'Manrope', 'Segoe UI', Arial, sans-serif); font-size: 0.82rem; line-height: 1.3; color: var(--ink-2, #44514c); } .ds-float b { display: block; font-size: 1.02rem; font-weight: 800; letter-spacing: -0.01em; color: var(--ink, #0f1a17); } .ds-float__icon { display: grid; place-items: center; flex: none; width: 42px; height: 42px; border-radius: 12px; background: var(--brand-tint, #e3f2ea); color: var(--brand, #0f7a4a); }"
+    },
+    {
+      "name": "Numbers Band Tile",
+      "kind": "custom",
+      "refersTo": "stats-tile",
+      "description": "Translucent tile on forest with a large counted figure, mist label and lime icon tile.",
+      "html": "<dl class=\"ds-stats\"><div class=\"ds-stat\"><svg viewBox=\"0 0 24 24\" width=\"44\" height=\"44\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 10v10h16V10M3 6l2-3h14l2 3v2a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z\"/><path d=\"M10 20v-5h4v5\"/></svg><dt>Empresas atendidas</dt><dd>320+</dd></div></dl>",
+      "css": ".ds-stats { margin: 0; padding: 24px; background: var(--forest, #0a2e22); border-radius: 20px; font-family: var(--font, 'Manrope', 'Segoe UI', Arial, sans-serif); } .ds-stat { display: grid; grid-template-columns: 1fr auto; column-gap: 1rem; max-width: 300px; padding: 1.3rem 1.4rem; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; } .ds-stat dd { grid-column: 1; grid-row: 1; margin: 0; font-size: clamp(1.9rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums lining-nums; } .ds-stat dt { grid-column: 1; grid-row: 2; font-size: 0.88rem; color: #b7cbc0; } .ds-stat svg { grid-column: 2; grid-row: 1 / span 2; align-self: start; padding: 10px; border-radius: 12px; background: rgba(198,236,122,0.12); color: var(--lime, #c6ec7a); }"
+    },
+    {
+      "name": "Deadlines Panel",
+      "kind": "custom",
+      "refersTo": "card-info",
+      "description": "Live monthly obligations table: past rows struck through, the next row on green wash with a stamp.",
+      "html": "<div class=\"ds-guide\"><div class=\"ds-guide__head\"><b>Calendário de obrigações</b><span>Novembro de 2026</span></div><table><tbody><tr class=\"is-done\"><td>06/11</td><td>Pagamento de salários</td><td>Cumprido</td></tr><tr class=\"is-next\"><td>13/11</td><td>eSocial: eventos da folha</td><td><span class=\"ds-stamp\">Próximo</span></td></tr><tr><td>20/11</td><td>DAS do Simples Nacional</td><td>Acompanhado</td></tr></tbody></table></div>",
+      "css": ".ds-guide { overflow: hidden; max-width: 520px; border-radius: 20px; background: #fff; box-shadow: 0 12px 32px rgba(0,0,0,0.07); font-family: var(--font, 'Manrope', 'Segoe UI', Arial, sans-serif); color: var(--ink, #0f1a17); } .ds-guide__head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.1rem 1.4rem; border-bottom: 1px solid var(--line, #dfe7e2); } .ds-guide__head span { padding: 0.25rem 0.75rem; border-radius: 999px; background: var(--brand-tint, #e3f2ea); color: var(--brand-dark, #0b5e39); font-size: 0.85rem; font-weight: 700; } .ds-guide table { width: 100%; border-collapse: collapse; } .ds-guide td { padding: 0.9rem 1.4rem; border-bottom: 1px solid var(--line, #dfe7e2); font-size: 0.95rem; } .ds-guide tr:last-child td { border-bottom: 0; } .ds-guide td:first-child { font-weight: 800; font-variant-numeric: tabular-nums lining-nums; } .ds-guide td:last-child { font-size: 0.85rem; color: var(--ink-3, #66736e); } .ds-guide tr.is-done td { color: var(--ink-3, #66736e); } .ds-guide tr.is-done td:nth-child(2) { text-decoration: line-through; } .ds-guide tr.is-next { background: var(--brand-tint, #e3f2ea); } .ds-stamp { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; background: var(--brand, #0f7a4a); color: #fff; font-size: 0.75rem; font-weight: 700; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Well-Run Practice",
+    "overview": "The site looks like the office of a firm that already has its house in order: bright white and soft mint-grey rooms, a deep forest-green that anchors every dark band and the footer, one confident brand green for every action, and real photographs of people at work in nearly every block. It plays the modern service-business category standard straight (big photo hero with floating cards, photo service cards, a dark numbers band, process steps, testimonial cards, plans, a two-column FAQ, a colour CTA band, a dark footer with newsletter) and earns its distinction through execution, not novelty: tight Manrope display type, generous rounded corners, quiet neutral shadows, and small live details that prove the firm actually tracks things.\n\nDensity is comfortable, never sparse. Sections breathe on a fluid 4 to 6.5rem rhythm, cards sit on a 1.4rem gap, and every block resolves into a two- or three-column grid on desktop that collapses to one column on phones. Light grounds alternate between pure white and mint so the page reads in clear chapters; forest-green bands interrupt that rhythm at the moments that carry proof (numbers, the featured plan, the featured testimonial, the footer).\n\nMotion is earned and small: a logo loop of client marks, figures that count up once when the numbers band enters the viewport, a cursor-following glow on service cards, deadline rows that settle in sequence, arrows that nudge on hover. Every one of them has a reduced-motion fallback that shows the final state.",
+    "keyCharacteristics": [
+      "White and mint-grey grounds, forest-green bands, one brand green for action, lime only on green.",
+      "Manrope 800 display with tight negative tracking; 400 body at 1.6 line-height.",
+      "Rounded everything: 12 to 28px cards and media, pill buttons and chips, round step numbers.",
+      "Real photography in the hero, every service card, the process block, page heads, team and CTA.",
+      "Soft, neutral, downward shadows; no hard offsets, no coloured glows.",
+      "Live, honest details: a monthly deadlines panel computed for the current month, figures that count up."
+    ],
+    "rules": [
+      {
+        "name": "The Lime-On-Green Rule",
+        "body": "Lime never touches white or mint. It appears only on forest or brand-green grounds (and as the text-selection highlight), and only in small doses: a button, a tag, a figure, an icon.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Action Colour Rule",
+        "body": "On light grounds, every clickable call to action is brand green (filled pill, text link with arrow) or ink outline. No second accent competes for the click.",
+        "section": "colors"
+      },
+      {
+        "name": "The Forest Means Proof Rule",
+        "body": "A forest surface marks evidence or a featured choice: the numbers, the featured testimonial, the featured plan, the deadline that is next. Don't spend it on ordinary content.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Figures Rule",
+        "body": "Every number that can be compared (statistics, prices, dates, phone numbers, years) uses tabular lining numerals.",
+        "section": "typography"
+      },
+      {
+        "name": "The Heavy Head, Light Body Rule",
+        "body": "Headings are always 800 with negative tracking; body copy is always 400. Nothing in between carries a heading role.",
+        "section": "typography"
+      },
+      {
+        "name": "The Border Or Shadow Rule",
+        "body": "A light card has either a 1px hairline border (service, review, plan, FAQ at rest) or a resting shadow, not both. Hover or open state trades the border for lift.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do put brand green on every primary action on light grounds and lime on every primary action on forest or brand-green grounds.",
+      "Do use real photographs of people and work in the hero, service cards, process block, page heads, team and CTA, clipped to the container radius.",
+      "Do alternate white and mint section grounds and reserve forest bands for numbers, featured items and the footer.",
+      "Do set every heading in Manrope 800 with negative tracking, and every comparable number with tabular lining numerals.",
+      "Do keep shadows neutral black at 7 to 12% alpha and pointing down; use a hairline border instead when a card sits flat.",
+      "Do give every motion (loop, count-up, row sequence, hover lift) a reduced-motion fallback that shows the final state.",
+      "Do label fictional figures, plans and forms as examples in a visible footnote or notice."
+    ],
+    "donts": [
+      "Don't put lime on white or mint grounds, or use it for body text.",
+      "Don't introduce a second accent hue (no stock blue, no orange) beyond the star rating and the WhatsApp button.",
+      "Don't use hard offset shadows, coloured glows, or shadow and border together on the same resting card.",
+      "Don't use square corners on cards, media or buttons; the smallest radius is 12px except focus rings and logo micro-marks.",
+      "Don't turn testimonials into a carousel; show them as fixed cards.",
+      "Don't use empty icon tiles as a substitute for imagery in service cards."
+    ]
+  }
+}
