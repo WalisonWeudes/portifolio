@@ -1,14 +1,12 @@
-import { useState } from 'react'
 import KineticText from '../KineticText'
 import SpotlightCard from '../reactbits/SpotlightCard/SpotlightCard'
-import { ProductPreviewDialog, ProductThumb } from '../ProductPreview'
+import { ProductThumb } from '../ProductPreview'
 import { products } from '../../data/content'
 import { useI18n } from '../../i18n'
 import './ProductsSection.css'
 
 export default function ProductsSection() {
   const { t, tr } = useI18n()
-  const [aberto, setAberto] = useState(null)
 
   return (
     <section id="produtos" className="section products" aria-labelledby="products-title">
@@ -43,15 +41,15 @@ export default function ProductsSection() {
               ))}
             </ul>
             {product.href ? (
-              <ProductThumb src={product.href} title={tr(product.title)} onOpen={() => setAberto(product)} />
+              <ProductThumb src={product.href} title={tr(product.title)} />
             ) : (
               product.preview && <img className="product-card__img" src={product.preview} alt="" loading="lazy" />
             )}
             <footer className="product-card__foot">
               {product.href ? (
-                <button type="button" className="product-card__view" onClick={() => setAberto(product)}>
+                <a className="product-card__view" href={product.href} target="_blank" rel="noreferrer">
                   {t('products.view')} ↗
-                </button>
+                </a>
               ) : (
                 <span className="product-card__soon">
                   <i aria-hidden="true"></i>
@@ -65,7 +63,6 @@ export default function ProductsSection() {
           </SpotlightCard>
         ))}
       </div>
-      <ProductPreviewDialog product={aberto} onClose={() => setAberto(null)} />
     </section>
   )
 }
