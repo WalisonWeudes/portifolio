@@ -1961,10 +1961,12 @@ input[type='range']::-moz-range-thumb {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* sem animação nenhuma: só encurtar as animações que se repetem sem fim
+     (pacote e grãos flutuando) as fazia repetir milhares de vezes e a tela tremia */
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
+    animation: none !important;
     transition-duration: 0.01ms !important;
   }
 
