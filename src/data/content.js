@@ -35,7 +35,7 @@ export const products = [
       'A single, to-the-point page that turns visits into customers.',
     ),
     items: [L('Chamada principal', 'Hero and call to action'), L('Benefícios e provas', 'Benefits and proof'), L('Botão de WhatsApp', 'WhatsApp button')],
-    status: 'soon',
+    href: '/exemplos/landing-page/index.html',
   },
   {
     tag: L('Vendas', 'Sales'),

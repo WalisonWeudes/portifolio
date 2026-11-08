@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Raia Energia Solar — Energia solar em Picos e região</title>
+<meta name="description" content="Simule sua economia com energia solar e receba a proposta pelo WhatsApp. Projeto, instalação e homologação em Picos e região." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#14151f" />
+<link rel="icon" type="image/png" href="/imagens/favicon-64.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&amp;display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://images.unsplash.com" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="demo-bar">
+  <div class="wrap">
+    <a href="/#produtos"><svg class="flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Voltar ao portfólio</a>
+    <span><span class="hide-sm">Landing page de exemplo · </span>Empresa fictícia</span>
+  </div>
+</div>
+
+<header class="header" id="topo">
+  <div class="wrap header__row">
+    <a class="logo" href="#topo" aria-label="Raia Energia Solar, início">
+      <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#F74A28"/><path d="M8 27a12 12 0 0 1 24 0" fill="none" stroke="#14151F" stroke-width="3.4" stroke-linecap="round"/><path d="M20 8v5M9.5 12.5l3.2 3.2M30.5 12.5l-3.2 3.2" stroke="#14151F" stroke-width="3.4" stroke-linecap="round"/><path d="M7 31.5h26" stroke="#D6FA52" stroke-width="3.4" stroke-linecap="round"/></svg>
+      <span>Raia<small>Energia Solar</small></span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Menu principal">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#clientes">Clientes</a>
+      <a href="#duvidas">Dúvidas</a>
+    </nav>
+    <button class="btn btn--lime btn--sm js-wa magnet" type="button" data-msg="Olá! Vim pelo site e quero um orçamento de energia solar.">
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-wa"><use href="#i-wa"/></svg>Orçamento grátis
+    </button>
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+
+<!-- ABERTURA -->
+<section class="intro" aria-labelledby="intro-title">
+  <img class="intro__bg" src="https://images.unsplash.com/photo-1698752821934-28bd5ce6fd42?auto=format&amp;fit=crop&amp;w=1920&amp;h=1200&amp;q=72" srcset="https://images.unsplash.com/photo-1698752821934-28bd5ce6fd42?auto=format&amp;fit=crop&amp;w=1000&amp;h=1400&amp;q=70 1000w, https://images.unsplash.com/photo-1698752821934-28bd5ce6fd42?auto=format&amp;fit=crop&amp;w=1920&amp;h=1200&amp;q=72 1920w, https://images.unsplash.com/photo-1698752821934-28bd5ce6fd42?auto=format&amp;fit=crop&amp;w=2800&amp;h=1700&amp;q=68 2800w" sizes="100vw" width="1920" height="1200" alt="" fetchpriority="high" />
+
+  <div class="intro__tint" aria-hidden="true"></div>
+  <div class="intro__stars" aria-hidden="true"></div>
+
+  <!-- caminho do sol: a posição segue a hora de Picos -->
+  <div class="sky" id="sky" aria-hidden="true">
+    <svg viewBox="0 0 1200 600" preserveAspectRatio="none">
+      <path class="sky__path" d="M60 560 A540 540 0 0 1 1140 560" />
+      <path class="sky__lit" id="sky-lit" pathLength="1" d="M60 560 A540 540 0 0 1 1140 560" />
+    </svg>
+    <span class="sky__sun" id="sky-sun"></span>
+    <span class="sky__moon" id="sky-moon"></span>
+  </div>
+
+  <div class="wrap intro__inner">
+    <div class="intro__copy">
+      <h1 id="intro-title">O sol que castiga o sertão pode <em>pagar a sua conta de luz.</em></h1>
+      <p class="intro__lead">A Raia projeta, instala e homologa energia solar em casas, comércios e fazendas do centro-sul do Piauí. Uma equipe só, do primeiro “oi” à energia ligada.</p>
+      <div class="intro__ctas">
+        <button class="btn btn--lime btn--lg js-wa magnet" type="button" data-msg="Olá! Quero falar com um especialista em energia solar.">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-wa"><use href="#i-wa"/></svg>Falar com um especialista
+        </button>
+        <a class="btn btn--glass btn--lg" href="#simular">Simular minha economia<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-down"/></svg></a>
+      </div>
+    </div>
+
+    <div class="intro__foot">
+      <div class="glass live" aria-live="polite">
+        <p class="live__head"><span class="live__dot" aria-hidden="true"></span><b id="live-time">Agora em Picos · 14:20</b></p>
+        <strong class="live__num" id="live-mw">5,1 MW</strong>
+        <p class="live__text" id="live-text">é o que os 1.240 sistemas da Raia estão gerando agora. Hoje já foram 21,4 MWh.</p>
+        <p class="live__hint">Passe o mouse pelo céu para ver o dia inteiro</p>
+      </div>
+
+      <div class="rating">
+        <span class="rating__faces" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1535643302794-19c3804b874b?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="36" height="36" alt="" />
+          <img src="https://images.unsplash.com/photo-1753354868616-544973e405c9?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="36" height="36" alt="" />
+          <img src="https://images.unsplash.com/photo-1694185752018-2ff397cb99b4?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="36" height="36" alt="" />
+        </span>
+        <span class="rating__stars" aria-label="Nota 4,9 de 5">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg>
+        </span>
+        <span><b>4,9</b> em 380 avaliações</span>
+      </div>
+
+      <div class="glass creds">
+        <p class="creds__big"><b>12 anos</b> no sertão do Piauí</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>Engenheiro responsável no CREA-PI</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>Equipe própria com NR-10 e NR-35</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>Seguro de obra incluso</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCLUSO -->
+<section class="perks" aria-label="O que está incluso">
+  <div class="wrap">
+    <ul class="perks__bar">
+      <li class="perk"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-doc"/></svg><div><b>Projeto gratuito</b><span>Feito e assinado por engenheiro</span></div></li>
+      <li class="perk"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wallet"/></svg><div><b>Até 72 parcelas</b><span>Com até 120 dias de carência</span></div></li>
+      <li class="perk"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg><div><b>Homologação inclusa</b><span>A papelada fica com a gente</span></div></li>
+      <li class="perk"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-award"/></svg><div><b>25 anos de garantia</b><span>Na eficiência das placas</span></div></li>
+      <li class="perk"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg><div><b>Geração no app</b><span>Acompanhe pelo celular</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- SIMULADOR -->
+<section class="calc section" id="simular" aria-labelledby="calc-title">
+  <div class="wrap calc__grid">
+    <figure class="calc__photo">
+      <img src="https://images.unsplash.com/photo-1624397640148-949b1732bb0a?auto=format&amp;fit=crop&amp;w=900&amp;h=1080&amp;q=75" srcset="https://images.unsplash.com/photo-1624397640148-949b1732bb0a?auto=format&amp;fit=crop&amp;w=900&amp;h=1080&amp;q=75 1x, https://images.unsplash.com/photo-1624397640148-949b1732bb0a?auto=format&amp;fit=crop&amp;w=1800&amp;h=2160&amp;q=70 2x" width="900" height="1080" alt="Instalador posicionando uma placa solar em um telhado sob céu azul" loading="lazy" />
+      <div class="chip chip--top">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg>
+        <span><b>Homologado na distribuidora</b>A gente cuida de toda a papelada</span>
+      </div>
+    </figure>
+
+    <div class="calc__panel">
+      <h2 id="calc-title">
+        Quanto o sol tira da conta da sua
+        <span class="rotator" aria-live="off"><span class="rotator__word" data-words="casa|loja|fazenda">casa</span></span>
+      </h2>
+      <p class="calc__lead">Arraste até o valor da sua conta. A conta é feita com a tarifa média do Piauí e o sol de Picos, um dos mais fortes do país.</p>
+
+      <form class="sim" id="simulador" aria-label="Simulador de economia" onsubmit="return false">
+        <fieldset class="seg" aria-label="Tipo de imóvel">
+          <label><input type="radio" name="tipo" value="casa" checked /><span>Casa</span></label>
+          <label><input type="radio" name="tipo" value="loja" /><span>Loja</span></label>
+          <label><input type="radio" name="tipo" value="fazenda" /><span>Fazenda</span></label>
+        </fieldset>
+
+        <div class="sim__bill">
+          <label for="conta">Quanto você paga de luz por mês?</label>
+          <output id="conta-out" for="conta">R$ 450</output>
+        </div>
+        <input type="range" id="conta" min="150" max="3000" step="10" value="450" aria-describedby="sim-note" />
+        <div class="sim__scale" aria-hidden="true"><span>R$ 150</span><span>R$ 3.000</span></div>
+
+        <div class="sim__result">
+          <div class="sim__main">
+            <span>A conta de luz cai, por mês</span>
+            <strong class="meter" id="eco-mes" aria-live="polite">R$ 395</strong>
+          </div>
+          <dl class="sim__facts">
+            <div><dt>Em 25 anos</dt><dd id="eco-25">R$ 118.500</dd></div>
+            <div><dt>Sistema</dt><dd id="sistema">6 placas · 3,5 kWp</dd></div>
+            <div><dt>Parcela em 72x</dt><dd id="parcela">R$ 336</dd></div>
+          </dl>
+        </div>
+
+        <button class="btn btn--orange btn--block js-wa js-wa-sim magnet" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-wa"><use href="#i-wa"/></svg>
+          <span>Receber proposta<span class="hide-sm"> com esse valor</span></span>
+        </button>
+        <p class="sim__note" id="sim-note">Estimativa com tarifa média do Piauí. A proposta final sai depois da visita técnica, que é gratuita.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<!-- POR QUE -->
+<section class="why section" aria-labelledby="why-title">
+  <div class="wrap">
+    <div class="why__head">
+      <h2 id="why-title" class="reveal">A conta de luz sobe todo ano. A parcela tem fim.</h2>
+      <p class="reveal">Arraste pelos próximos 25 anos e compare, mês a mês, os dois caminhos para a sua conta de <b class="js-bill">R$ 450</b>. Mudou o valor no simulador? O gráfico acompanha.</p>
+    </div>
+
+    <div class="years reveal" id="anos">
+      <div class="years__read" aria-live="polite">
+        <p class="years__year"><span id="yr-label">Ano 1</span><b id="yr-num">2027</b></p>
+        <dl class="years__pay">
+          <div class="years__row years__row--sem"><dt><i aria-hidden="true"></i>Sem energia solar</dt><dd id="yr-sem">R$ 450<small>/mês</small></dd></div>
+          <div class="years__row years__row--com"><dt><i aria-hidden="true"></i>Com a Raia</dt><dd id="yr-com">R$ 391<small>/mês</small></dd></div>
+        </dl>
+        <div class="years__total">
+          <span>Economia acumulada até aqui</span>
+          <strong id="yr-total">R$ 708</strong>
+        </div>
+        <div class="years__story">
+          <h3 id="yr-title">Troca, não gasto</h3>
+          <p id="yr-text">A parcela já cabe no lugar da conta. Você não tira dinheiro do bolso: só muda para onde ele vai.</p>
+        </div>
+      </div>
+
+      <div class="years__chart">
+        <div class="years__plot" id="yr-plot">
+          <svg id="yr-svg" viewBox="0 0 1000 400" preserveAspectRatio="none" role="img" aria-label="Gráfico de barras: valor mensal com e sem energia solar em cada um dos próximos 25 anos"></svg>
+          <span class="years__tag years__tag--end" id="yr-tag-end">Última parcela</span>
+        </div>
+        <label class="sr-only" for="yr-range">Ano do gráfico</label>
+        <input type="range" id="yr-range" class="years__range" min="1" max="25" value="1" step="1" />
+        <div class="years__axis" aria-hidden="true"><span>2027</span><span>2033</span><span>2039</span><span>2045</span><span>2051</span></div>
+        <div class="years__marks">
+          <button type="button" class="years__mark is-active" data-year="1"><b>Ano 1</b>A troca</button>
+          <button type="button" class="years__mark" data-year="7"><b>Ano 7</b>A parcela acaba</button>
+          <button type="button" class="years__mark" data-year="15"><b>Ano 15</b>Imóvel valorizado</button>
+          <button type="button" class="years__mark" data-year="25"><b>Ano 25</b>Ainda gerando</button>
+        </div>
+      </div>
+    </div>
+    <p class="years__note">Projeção com reajuste de 7% ao ano na tarifa e parcela em 72x. É uma simulação, não uma promessa de valores.</p>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="steps section section--ink" id="como-funciona" aria-labelledby="steps-title">
+  <div class="wrap">
+    <div class="steps__head">
+      <h2 id="steps-title" class="reveal">Do primeiro “oi” à energia ligada em cerca de 30 dias</h2>
+      <p class="reveal">Você conversa com uma pessoa só do começo ao fim. A gente resolve projeto, banco e distribuidora.</p>
+    </div>
+
+    <div class="steps__body">
+      <div class="steps__list" role="tablist" aria-label="Etapas">
+        <button class="step is-active" role="tab" id="tab-1" aria-selected="true" aria-controls="painel-etapa" data-step="0">
+          <span class="step__n">01</span><span class="step__t">Visita técnica gratuita</span><span class="step__d">Dia 1</span>
+        </button>
+        <button class="step" role="tab" id="tab-2" aria-selected="false" aria-controls="painel-etapa" data-step="1" tabindex="-1">
+          <span class="step__n">02</span><span class="step__t">Projeto e financiamento</span><span class="step__d">Até dia 5</span>
+        </button>
+        <button class="step" role="tab" id="tab-3" aria-selected="false" aria-controls="painel-etapa" data-step="2" tabindex="-1">
+          <span class="step__n">03</span><span class="step__t">Instalação</span><span class="step__d">1 a 2 dias</span>
+        </button>
+        <button class="step" role="tab" id="tab-4" aria-selected="false" aria-controls="painel-etapa" data-step="3" tabindex="-1">
+          <span class="step__n">04</span><span class="step__t">Homologação e energia ligada</span><span class="step__d">Até dia 30</span>
+        </button>
+      </div>
+
+      <div class="steps__panel" id="painel-etapa" role="tabpanel" aria-labelledby="tab-1" tabindex="0">
+        <div class="steps__media">
+          <img id="step-img" src="https://images.unsplash.com/photo-1660330589257-813305a4a383?auto=format&amp;fit=crop&amp;w=900&amp;h=640&amp;q=70" width="900" height="640" alt="Técnico avaliando o telhado" loading="lazy" />
+        </div>
+        <div class="steps__copy">
+          <h3 id="step-title">Visita técnica gratuita</h3>
+          <p id="step-text">Um técnico vai até você, mede o telhado, confere a estrutura e o padrão de energia, e entende quanto você consome em cada mês do ano.</p>
+          <ul id="step-list" class="checks">
+            <li>Análise das últimas 12 contas</li>
+            <li>Verificação do telhado e da sombra</li>
+            <li>Sem compromisso</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NÚMEROS -->
+<section class="numbers" aria-label="Números da Raia">
+  <img class="numbers__bg" src="https://images.unsplash.com/photo-1694327671697-730cc4c5b9e8?auto=format&amp;fit=crop&amp;w=1800&amp;h=900&amp;q=65" width="1800" height="900" alt="" loading="lazy" />
+  <div class="wrap numbers__row">
+    <div class="num" style="--lift:0">
+      <strong><span class="count" data-to="1240">1.240</span></strong>
+      <span>sistemas instalados no Piauí</span>
+    </div>
+    <div class="num" style="--lift:1">
+      <strong><span class="count" data-to="6.8" data-dec="1">6,8</span><small>MW</small></strong>
+      <span>de potência ligada à rede</span>
+    </div>
+    <div class="num" style="--lift:2">
+      <strong><small>R$</small><span class="count" data-to="11">11</span><small>mi</small></strong>
+      <span>economizados por ano pelos clientes</span>
+    </div>
+    <div class="num" style="--lift:.6">
+      <strong><span class="count" data-to="4.9" data-dec="1">4,9</span><small>/5</small></strong>
+      <span>nota média em 380 avaliações</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETOS -->
+<section class="projects section" id="projetos" aria-labelledby="projects-title">
+  <div class="wrap">
+    <div class="projects__head">
+      <h2 id="projects-title" class="reveal">Contas de luz de verdade, antes e depois</h2>
+      <p class="reveal">Três instalações da Raia nos últimos meses. Os valores são da primeira conta depois da homologação.</p>
+    </div>
+
+    <div class="projects__grid">
+      <article class="proj glare reveal">
+        <div class="proj__img"><img src="https://images.unsplash.com/photo-1655300256335-beef51a914fe?auto=format&amp;fit=crop&amp;w=720&amp;h=520&amp;q=70" width="720" height="520" alt="Residência com placas solares no telhado" loading="lazy" /></div>
+        <div class="proj__body">
+          <h3>Residência no Junco</h3>
+          <p class="proj__meta">Picos · 10 placas · 5,9 kWp</p>
+          <div class="bill"><span class="bill__old">R$ 680</span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg><span class="bill__new">R$ 58</span></div>
+        </div>
+      </article>
+      <article class="proj glare reveal">
+        <div class="proj__img"><img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?auto=format&amp;fit=crop&amp;w=720&amp;h=520&amp;q=70" width="720" height="520" alt="Telhado comercial coberto de placas solares ao entardecer" loading="lazy" /></div>
+        <div class="proj__body">
+          <h3>Supermercado no Centro</h3>
+          <p class="proj__meta">Picos · 64 placas · 37,4 kWp</p>
+          <div class="bill"><span class="bill__old">R$ 5.920</span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg><span class="bill__new">R$ 410</span></div>
+        </div>
+      </article>
+      <article class="proj glare reveal">
+        <div class="proj__img"><img src="https://images.unsplash.com/photo-1726221062299-88f27b653c59?auto=format&amp;fit=crop&amp;w=720&amp;h=520&amp;q=70" width="720" height="520" alt="Técnico com colete de segurança em uma usina solar no campo" loading="lazy" /></div>
+        <div class="proj__body">
+          <h3>Fazenda com irrigação</h3>
+          <p class="proj__meta">Dom Expedito Lopes · 120 placas · 70,2 kWp</p>
+          <div class="bill"><span class="bill__old">R$ 9.300</span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg><span class="bill__new">R$ 690</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTES -->
+<section class="voices section section--soft" id="clientes" aria-labelledby="voices-title">
+  <div class="wrap">
+    <h2 id="voices-title" class="voices__title reveal">Quem já gera a própria energia</h2>
+    <div class="voices__grid">
+      <figure class="voice voice--big reveal">
+        <img class="voice__photo" src="https://images.unsplash.com/photo-1694185752018-2ff397cb99b4?auto=format&amp;fit=crop&amp;crop=faces&amp;w=720&amp;h=560&amp;q=70" width="720" height="560" alt="Família sorrindo no quintal de casa" loading="lazy" />
+        <blockquote>“Com três ar-condicionados ligados no verão, a conta passava de seiscentos reais. Hoje a gente paga a taxa mínima e a parcela ainda é menor do que era a conta.”</blockquote>
+        <figcaption><b>Família Moura</b><span>Residência · Picos</span></figcaption>
+      </figure>
+      <figure class="voice reveal">
+        <img class="voice__avatar" src="https://images.unsplash.com/photo-1535643302794-19c3804b874b?auto=format&amp;fit=crop&amp;crop=faces&amp;w=160&amp;h=160&amp;q=70" width="80" height="80" alt="" loading="lazy" />
+        <blockquote>“A bomba da irrigação era o maior gasto da fazenda. O técnico explicou tudo no papel, sem enrolação.”</blockquote>
+        <figcaption><b>Seu Raimundo Alencar</b><span>Produtor rural · Dom Expedito Lopes</span></figcaption>
+      </figure>
+      <figure class="voice reveal">
+        <img class="voice__avatar" src="https://images.unsplash.com/photo-1753354868616-544973e405c9?auto=format&amp;fit=crop&amp;crop=faces&amp;w=160&amp;h=160&amp;q=70" width="80" height="80" alt="" loading="lazy" />
+        <blockquote>“Os freezers não param. Em oito meses a economia já pagou um quarto do sistema.”</blockquote>
+        <figcaption><b>Márcio e Lívia Sousa</b><span>Mercadinho · Picos</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- DÚVIDAS -->
+<section class="faq section" id="duvidas" aria-labelledby="faq-title">
+  <div class="wrap faq__grid">
+    <div class="faq__intro">
+      <h2 id="faq-title" class="reveal">Perguntas que a gente mais ouve</h2>
+      <p class="reveal">Não achou a sua? Pergunte no WhatsApp. Quem responde é um técnico, não um robô.</p>
+      <button class="btn btn--ink js-wa reveal" type="button" data-msg="Olá! Tenho uma dúvida sobre energia solar.">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-wa"><use href="#i-wa"/></svg>Fazer uma pergunta
+      </button>
+    </div>
+    <div class="faq__list">
+      <details class="qa" open>
+        <summary>A conta de luz zera?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <p>Não zera. Todo imóvel ligado à rede paga a taxa mínima da distribuidora e a iluminação pública. Na prática, a conta cai entre 80% e 95%.</p>
+      </details>
+      <details class="qa">
+        <summary>E à noite ou em dia nublado?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <p>O que sobra durante o dia vai para a rede e vira crédito. À noite você usa esses créditos. Eles valem por 5 anos.</p>
+      </details>
+      <details class="qa">
+        <summary>Preciso trocar o telhado?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <p>Quase nunca. Instalamos em telha cerâmica, fibrocimento, metálica e laje. Se a estrutura precisar de reforço, isso aparece na visita e entra no orçamento.</p>
+      </details>
+      <details class="qa">
+        <summary>Como funciona o financiamento?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <p>Trabalhamos com bancos e cooperativas da região, em até 72 parcelas e com até 120 dias de carência. A gente monta a simulação com você.</p>
+      </details>
+      <details class="qa">
+        <summary>E se chover granizo ou der defeito?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <p>As placas têm 25 anos de garantia de eficiência e o inversor, 10 anos. A instalação tem 2 anos de garantia da Raia e oferecemos seguro contra danos.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FECHAMENTO -->
+<section class="close" aria-labelledby="close-title">
+  <div class="wrap close__box">
+    <div class="close__copy">
+      <h2 id="close-title">Mande uma foto da sua conta de luz. A proposta volta em até 24 horas.</h2>
+      <p>Sem compromisso e sem ligação de vendedor. Você decide no seu tempo.</p>
+      <button class="btn btn--ink btn--lg js-wa magnet" type="button" data-msg="Olá! Quero enviar minha conta de luz para receber uma proposta de energia solar.">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-wa"><use href="#i-wa"/></svg>Enviar minha conta
+      </button>
+    </div>
+    <img class="close__img" src="https://images.unsplash.com/photo-1719559519300-e9d2c2bf6de1?auto=format&amp;fit=crop&amp;w=760&amp;h=760&amp;q=70" width="760" height="760" alt="Instalador carregando uma placa solar ao lado de uma casa" loading="lazy" />
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <a class="logo logo--light" href="#topo" aria-label="Raia Energia Solar, voltar ao topo">
+        <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#F74A28"/><path d="M8 27a12 12 0 0 1 24 0" fill="none" stroke="#14151F" stroke-width="3.4" stroke-linecap="round"/><path d="M20 8v5M9.5 12.5l3.2 3.2M30.5 12.5l-3.2 3.2" stroke="#14151F" stroke-width="3.4" stroke-linecap="round"/><path d="M7 31.5h26" stroke="#D6FA52" stroke-width="3.4" stroke-linecap="round"/></svg>
+        <span>Raia<small>Energia Solar</small></span>
+      </a>
+      <p>Energia solar para casas, comércios e propriedades rurais no centro-sul do Piauí.</p>
+    </div>
+    <div>
+      <h3>Atendimento</h3>
+      <ul>
+        <li>Rua Cel. Francisco Santos, 410 · Picos — PI</li>
+        <li>Seg a sex, 8h às 18h · Sáb, 8h às 12h</li>
+        <li>contato@raiasolar.exemplo</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Nesta página</h3>
+      <ul>
+        <li><a href="#simulador">Simulador</a></li>
+        <li><a href="#como-funciona">Como funciona</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#duvidas">Dúvidas</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer__legal">
+    <span>Raia Energia Solar é uma empresa fictícia. Nomes, números e depoimentos são exemplos.</span>
+    <span>Fotos: <a href="https://unsplash.com/?utm_source=portfolio-walison&amp;utm_medium=referral" target="_blank" rel="noopener">Unsplash</a> · Página por <a href="/#contato">Walison Weudes</a></span>
+  </div>
+</footer>
+
+<button class="wa-float js-wa magnet" type="button" aria-label="Falar no WhatsApp" data-msg="Olá! Vim pelo site e quero um orçamento de energia solar.">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
+</button>
+
+<!-- Prévia do WhatsApp (empresa fictícia: mostra a mensagem em vez de abrir um número) -->
+<dialog class="wa-sheet" id="wa-sheet" aria-labelledby="wa-title">
+  <div class="wa-sheet__head">
+    <span class="wa-sheet__avatar" aria-hidden="true"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="20" fill="#F74A28"/><path d="M10 26a10 10 0 0 1 20 0" fill="none" stroke="#14151F" stroke-width="3" stroke-linecap="round"/><path d="M9 30h22" stroke="#D6FA52" stroke-width="3" stroke-linecap="round"/></svg></span>
+    <div><b id="wa-title">Raia Energia Solar</b><span>Responde em poucos minutos</span></div>
+    <button class="wa-sheet__x" type="button" aria-label="Fechar" data-close><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="wa-sheet__chat">
+    <p class="wa-bubble" id="wa-msg"></p>
+  </div>
+  <div class="wa-sheet__foot">
+    <p>Esta é uma página de exemplo. No site de uma empresa real, o botão abre o WhatsApp dela com essa mensagem já escrita.</p>
+    <div class="wa-sheet__actions">
+      <a class="btn btn--lime" href="/#contato">Quero uma página assim</a>
+      <button class="btn btn--ghost" type="button" data-close>Voltar</button>
+    </div>
+  </div>
+</dialog>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3a.5.5 0 0 0 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s8-4 8-10V5l-8-3-8 3v6c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></g></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 13h6M9 17h4"/></g></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h3"/></g></symbol>
+    <symbol id="i-award" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="M9 14l-1.5 7L12 19l4.5 2L15 14"/></g></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h14l-3-3M20 16H6l3 3"/></g></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></g></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9 15l2-3 2 2 2-4"/></g></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<script src="script.js" defer></script>
+</body>
+</html>
