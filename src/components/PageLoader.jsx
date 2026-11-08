@@ -37,6 +37,18 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 // Em desenvolvimento, ?noloader pula a tela de carregamento.
 const skipLoader = import.meta.env.DEV && new URLSearchParams(location.search).has('noloader')
 
+// A animação de entrada aparece só na primeira visita. Depois disso o navegador
+// guarda uma marcação e, ao recarregar ou voltar, o site abre direto.
+const SEEN_KEY = 'ww-loader-seen'
+const alreadySeen = (() => {
+  try {
+    return localStorage.getItem(SEEN_KEY) === '1'
+  } catch {
+    return false // armazenamento bloqueado: mostra a animação normalmente
+  }
+})()
+const skipIntro = skipLoader || alreadySeen
+
 const formatClock = () =>
   new Intl.DateTimeFormat('pt-BR', {
     hour: '2-digit',
@@ -48,7 +60,7 @@ export default function PageLoader({ onLoaded }) {
   const { t } = useI18n()
   const [{ grid, cells }] = useState(buildCells)
 
-  const [visible, setVisible] = useState(true)
+  const [visible, setVisible] = useState(!skipIntro)
   const [phase, setPhase] = useState('loading') // loading → done → leaving
   const [shown, setShown] = useState(0)
   const [stageIndex, setStageIndex] = useState(0)
@@ -65,13 +77,21 @@ export default function PageLoader({ onLoaded }) {
   const readyFired = useRef(false)
 
   useEffect(() => {
-    let seen = false
-    try {
-      seen = sessionStorage.getItem('ww-loader-seen') === '1'
-    } catch {
-      /* sessionStorage indisponível */
+    // Visita repetida: sem tela vermelha. O topo do site entra direto, e o sinal de
+    // "pronto" sai um instante depois, quando os efeitos do resto do site já estão ouvindo.
+    if (skipIntro) {
+      const timer = setTimeout(() => {
+        document.documentElement.classList.add('is-ready')
+        if (!readyFired.current) {
+          readyFired.current = true
+          window.dispatchEvent(new CustomEvent('site:ready'))
+        }
+        onLoadedRef.current?.()
+      }, 60)
+      return () => clearTimeout(timer)
     }
-    const MIN_DURATION = reduceMotion ? 700 : seen ? 1500 : 3000
+
+    const MIN_DURATION = reduceMotion ? 700 : 3000
 
     let frame
     let leaveTimer
@@ -139,7 +159,7 @@ export default function PageLoader({ onLoaded }) {
           setPhase('done')
         } else if (now - finishedAt > (reduceMotion ? 150 : 550)) {
           try {
-            sessionStorage.setItem('ww-loader-seen', '1')
+            localStorage.setItem(SEEN_KEY, '1')
           } catch {
             /* ignore */
           }
@@ -151,9 +171,7 @@ export default function PageLoader({ onLoaded }) {
       frame = requestAnimationFrame(tick)
     }
 
-    if (skipLoader) {
-      leave()
-    } else {
+    {
       setClock(formatClock())
       previousOverflow = document.documentElement.style.overflow
       document.documentElement.style.overflow = 'hidden'
