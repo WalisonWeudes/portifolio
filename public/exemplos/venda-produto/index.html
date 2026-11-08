@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cerejal Cafés Especiais — Café torrado na semana do envio</title>
+<meta name="description" content="Cafés especiais em grãos ou moídos na hora para o seu jeito de passar, e acessórios para coar em casa." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#104F02" />
+<link rel="icon" type="image/png" href="/imagens/favicon-64.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Instrument+Serif:ital@0;1&amp;family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&amp;display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://images.unsplash.com" />
+<link rel="stylesheet" href="style.css" />
+<link rel="preload" as="image" href="img/pacote.png" />
+<script>
+  // liga a abertura animada antes da primeira pintura (menos para quem pediu menos movimento)
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js', 'is-intro', 'is-play')
+</script>
+</head>
+<body>
+
+<div class="demo-bar">
+  <div class="wrap">
+    <a href="/#produtos"><svg class="flip" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>Voltar ao portfólio</a>
+    <span><span class="hide-sm">Página de venda de exemplo · </span>Loja fictícia</span>
+  </div>
+</div>
+
+
+<header class="header">
+  <div class="wrap header__row">
+    <a class="logo" href="#topo" aria-label="Cerejal Cafés Especiais, início">
+      <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#104F02"/><ellipse cx="20" cy="21" rx="8.5" ry="11" fill="#FF7B3D"/><path d="M20 10.5c-3 4-3 17 0 21" fill="none" stroke="#104F02" stroke-width="2.4" stroke-linecap="round"/><path d="M21 9c2-3 5-4 8-3.5-1 3-4 4.5-7 4.2" fill="#9BD07A"/></svg>
+      <span>Cerejal<small>Cafés Especiais</small></span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Menu principal">
+      <a href="#loja">Cafés</a>
+      <a href="#moagem">Moagem</a>
+      <a href="#clube">Clube</a>
+      <a href="#origem">Origem</a>
+    </nav>
+    <p class="header__info"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-truck"/></svg>Frete grátis acima de R$ 150</p>
+    <button class="cart-btn" type="button" aria-label="Abrir carrinho, 0 itens" aria-controls="carrinho" data-open-cart>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bag"/></svg>
+      <span class="cart-btn__label">Carrinho</span>
+      <span class="cart-btn__count" id="cart-count">0</span>
+    </button>
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="topo">
+
+<!-- PRODUTO EM DESTAQUE: abertura animada -->
+<section class="hero" aria-labelledby="hero-title" data-roast="media">
+  <div class="hero__words" aria-hidden="true">
+    <span class="hw hw--1"><span class="hw__t">CARAMELO CARAMELO CARAMELO</span></span>
+    <span class="hw hw--2"><span class="hw__t">CARAMELO CARAMELO CARAMELO</span></span>
+    <span class="hw hw--3"><span class="hw__t">CARAMELO CARAMELO CARAMELO</span></span>
+  </div>
+
+  <div class="hero__beans" aria-hidden="true">
+    <img class="bean" src="img/graos/grao-1.png" alt="" style="--x:-260;--y:-170;--r:20deg;--s:1.15;--d:1.4" />
+    <img class="bean" src="img/graos/grao-2.png" alt="" style="--x:-330;--y:40;--r:-35deg;--s:.8;--d:.6" />
+    <img class="bean" src="img/graos/grao-3.png" alt="" style="--x:-220;--y:210;--r:65deg;--s:1;--d:1.1" />
+    <img class="bean" src="img/graos/grao-4.png" alt="" style="--x:-120;--y:-260;--r:-10deg;--s:.6;--d:.4" />
+    <img class="bean" src="img/graos/grao-5.png" alt="" style="--x:250;--y:-190;--r:-50deg;--s:.9;--d:.9" />
+    <img class="bean" src="img/graos/grao-6.png" alt="" style="--x:330;--y:-20;--r:15deg;--s:1.25;--d:1.5" />
+    <img class="bean" src="img/graos/grao-7.png" alt="" style="--x:240;--y:200;--r:-75deg;--s:.75;--d:.7" />
+    <img class="bean" src="img/graos/grao-8.png" alt="" style="--x:130;--y:280;--r:40deg;--s:.55;--d:.35" />
+    <img class="bean" src="img/graos/grao-9.png" alt="" style="--x:-60;--y:300;--r:-25deg;--s:.9;--d:1" />
+    <img class="bean" src="img/graos/grao-1.png" alt="" style="--x:140;--y:-300;--r:80deg;--s:.7;--d:.5" />
+  </div>
+
+  <div class="hero__product">
+    <div class="drop">
+      <div class="float">
+        <img class="pack" src="img/pacote.png" width="453" height="760" alt="Pacote kraft do café Cerejal Mantiqueira, 250 g" fetchpriority="high" />
+        <div class="label" aria-hidden="true">
+          <svg class="label__mark" viewBox="0 0 40 40"><ellipse cx="20" cy="21" rx="8.5" ry="11" fill="currentColor"/><path d="M20 10.5c-3 4-3 17 0 21" fill="none" stroke="#FFF4F0" stroke-width="2.4" stroke-linecap="round"/></svg>
+          <b class="label__brand">Cerejal</b>
+          <span class="label__name">Mantiqueira</span>
+          <span class="label__band" id="label-band">Torra média</span>
+          <span class="label__notes" id="label-notes">caramelo · laranja · chocolate ao leite</span>
+          <span class="label__weight">250 g · 86 pts SCA</span>
+        </div>
+      </div>
+    </div>
+    <span class="hero__shadow" aria-hidden="true"></span>
+
+    <!-- etiquetas apontando para o pacote (posições em % da caixa do produto) -->
+    <ul class="callouts" aria-label="Destaques do café">
+      <li class="co ui" style="--bx:-58;--by:6;--tx:24;--ty:24">
+        <span class="co__line" aria-hidden="true"></span>
+        <span class="co__dot" aria-hidden="true"></span>
+        <span class="co__badge"><b>86<small> pts</small></b><span>nota na prova de xícara</span></span>
+      </li>
+      <li class="co ui" style="--bx:150;--by:4;--tx:78;--ty:20">
+        <span class="co__line" aria-hidden="true"></span>
+        <span class="co__dot" aria-hidden="true"></span>
+        <span class="co__badge"><b>4,9<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg></b><span>em 2.318 avaliações</span></span>
+      </li>
+      <li class="co ui" style="--bx:160;--by:34;--tx:84;--ty:50">
+        <span class="co__line" aria-hidden="true"></span>
+        <span class="co__dot" aria-hidden="true"></span>
+        <span class="co__badge"><b>3 dias</b><span>da torra até o envio</span></span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wrap hero__ui">
+    <p class="hero__tag ui">Feito para quem sente a diferença no primeiro gole</p>
+    <p class="hero__origin ui">Fazenda Boa Esperança · Carmo de Minas, MG</p>
+
+    <div class="hero__copy ui">
+      <h1 id="hero-title">Café especial, torrado na semana em que sai daqui.</h1>
+      <p class="hero__lead">Escolha a torra e diga como você passa o café em casa. A gente envia em grãos ou moído no ponto certo.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--green" href="#comprar">Comprar o Mantiqueira</a>
+        <a class="hero__link" href="#loja">Ver todos os cafés</a>
+      </div>
+    </div>
+
+    <dl class="hero__stats ui">
+      <div><dd>86<small> pts</small></dd><dt>nota na prova de xícara</dt></div>
+      <div><dd>4,9<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg></dd><dt>em 2.318 avaliações</dt></div>
+      <div><dd>3 dias</dd><dt>da torra até o envio</dt></div>
+    </dl>
+
+    <fieldset class="roast ui" aria-label="Escolha a torra">
+      <legend class="sr-only">Torra</legend>
+      <label><input type="radio" name="torra" value="clara" /><span><i class="roast__dot roast__dot--clara"></i>Clara</span></label>
+      <label><input type="radio" name="torra" value="media" checked /><span><i class="roast__dot roast__dot--media"></i>Média</span></label>
+      <label><input type="radio" name="torra" value="escura" /><span><i class="roast__dot roast__dot--escura"></i>Escura</span></label>
+    </fieldset>
+
+    <div class="buy ui" id="comprar">
+      <div class="buy__head">
+        <div>
+          <b>Cerejal Mantiqueira</b>
+          <span id="buy-notes">Caramelo, laranja e chocolate ao leite</span>
+        </div>
+        <strong class="buy__price">R$ 54,90</strong>
+      </div>
+      <label class="buy__field" for="buy-grind">
+        <span>Como você quer receber</span>
+        <select id="buy-grind">
+          <option value="graos">Em grãos · para moer em casa</option>
+          <option value="grossa">Moagem grossa · prensa francesa</option>
+          <option value="mediagrossa">Moagem média-grossa · Chemex</option>
+          <option value="media" selected>Moagem média · coado</option>
+          <option value="fina">Moagem fina · espresso e moka</option>
+        </select>
+      </label>
+      <button class="btn btn--green btn--block" type="button" id="buy-add">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bag"/></svg>Adicionar ao carrinho
+      </button>
+    </div>
+  </div>
+
+  <a class="hero__cue ui" href="#loja-intro" aria-label="Rolar para ver a loja"><span>Role para ver a loja</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</section>
+
+<!-- VANTAGENS -->
+<section class="perks" id="loja-intro" aria-label="Vantagens da loja">
+  <div class="wrap">
+    <ul class="perks__row">
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flame"/></svg><div><b>Torra sob demanda</b><span>Data da torra impressa no pacote</span></div></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-truck"/></svg><div><b>Frete grátis</b><span>Em compras acima de R$ 150</span></div></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pix"/></svg><div><b>5% off no Pix</b><span>Desconto aplicado no fim da compra</span></div></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg><div><b>Não gostou, troca</b><span>Em até 7 dias depois de receber</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- FAIXA TIPOGRÁFICA: anda conforme a página rola -->
+<section class="band" aria-label="Como a Cerejal trabalha">
+  <p class="band__row band__row--a"><span>Torrado às segundas</span><img src="img/graos/grao-3.png" alt="" /><em>moído na hora</em><img src="img/graos/grao-5.png" alt="" /><span>Direto do sítio</span><img src="img/graos/grao-2.png" alt="" /><em>do pé à xícara</em><img src="img/graos/grao-7.png" alt="" /><span>Torrado às segundas</span><img src="img/graos/grao-3.png" alt="" /><em>moído na hora</em></p>
+  <p class="band__row band__row--b" aria-hidden="true"><em>86 pontos</em><img src="img/graos/grao-1.png" alt="" /><span>Mantiqueira de Minas</span><img src="img/graos/grao-4.png" alt="" /><em>lotes de 15 kg</em><img src="img/graos/grao-6.png" alt="" /><span>Enviado em 3 dias</span><img src="img/graos/grao-1.png" alt="" /><em>86 pontos</em><img src="img/graos/grao-4.png" alt="" /><span>Mantiqueira de Minas</span></p>
+</section>
+
+<!-- CATEGORIAS -->
+<section class="cats section" aria-labelledby="cats-title">
+  <div class="wrap">
+    <div class="sec-head sec-head--split">
+      <h2 id="cats-title" class="reveal">Encontre o seu <em>ritual</em></h2>
+      <div class="sec-head__side reveal">
+        <p>Do coado de todo dia ao espresso do fim de semana. Comece pelo seu jeito de passar e a gente indica o café.</p>
+        <a class="sec-head__link" href="#loja">Ver todos os produtos<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+    <div class="cats__grid">
+      <a class="cat cat--orange reveal" href="#loja" data-filter="graos">
+        <span class="cat__count">(4 cafés)</span>
+        <img class="cat__pack" src="img/pacote.png" width="453" height="760" alt="" loading="lazy" />
+        <img class="cat__bean cat__bean--1" src="img/graos/grao-2.png" alt="" loading="lazy" />
+        <img class="cat__bean cat__bean--2" src="img/graos/grao-5.png" alt="" loading="lazy" />
+        <span class="cat__name">Cafés em grãos<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a>
+      <a class="cat cat--photo reveal" href="#loja" data-filter="moido">
+        <img class="cat__img" src="https://images.unsplash.com/photo-1619615174792-a5edcfeafdfe?auto=format&amp;fit=crop&amp;w=600&amp;h=760&amp;q=70" width="600" height="760" alt="" loading="lazy" />
+        <span class="cat__count">(4 moagens)</span>
+        <span class="cat__name">Cafés moídos<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a>
+      <a class="cat cat--photo reveal" href="#loja" data-filter="acessorios">
+        <img class="cat__img" src="https://images.unsplash.com/photo-1541469406036-71229832e06e?auto=format&amp;fit=crop&amp;w=600&amp;h=760&amp;q=70" width="600" height="760" alt="" loading="lazy" />
+        <span class="cat__count">(3 acessórios)</span>
+        <span class="cat__name">Para passar em casa<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a>
+      <a class="cat cat--photo reveal" href="#loja" data-filter="kits">
+        <img class="cat__img" src="https://images.unsplash.com/photo-1625206950954-b402705f836e?auto=format&amp;fit=crop&amp;w=600&amp;h=760&amp;q=70" width="600" height="760" alt="" loading="lazy" />
+        <span class="cat__count">(1 kit)</span>
+        <span class="cat__name">Para dar de presente<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- GUIA DE MOAGEM -->
+<section class="grind section section--green" id="moagem" aria-labelledby="grind-title">
+  <span class="grind__bgword" aria-hidden="true">MOAGEM</span>
+  <div class="wrap grind__grid">
+    <div class="grind__copy">
+      <h2 id="grind-title" class="reveal">Moído no <em>ponto certo</em> para o seu jeito de passar</h2>
+      <p class="reveal">Moagem errada é o motivo mais comum de café amargo ou aguado. Gire o moedor ou escolha o seu preparo e veja o tamanho do grão em escala real.</p>
+
+      <input type="hidden" id="grind-range" value="2" />
+      <fieldset class="methods reveal">
+        <legend class="sr-only">Como você passa o café</legend>
+        <label class="method">
+          <input type="radio" name="metodo" value="0" />
+          <span class="method__card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v13H7zM12 3v9M9 3h6M7 12h10M17 10h2.5v6H17" /></svg>
+            <b>Prensa</b><small>Grossa</small>
+          </span>
+        </label>
+        <label class="method">
+          <input type="radio" name="metodo" value="1" />
+          <span class="method__card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 3h9l-3.5 8.5L16.5 21h-9l3.5-9.5zM10.2 11.5h3.6" /></svg>
+            <b>Chemex</b><small>Média-grossa</small>
+          </span>
+        </label>
+        <label class="method">
+          <input type="radio" name="metodo" value="2" checked />
+          <span class="method__card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5h15l-5.5 7.5h-4zM12 12.5V16M7 16h10l-1 4H8z" /></svg>
+            <b>Coado</b><small>Média</small>
+          </span>
+        </label>
+        <label class="method">
+          <input type="radio" name="metodo" value="3" />
+          <span class="method__card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 3h7l-1 6.5h-5zM7 9.5h10L15 21H9zM17 12h2.5l-1 4.5H16" /></svg>
+            <b>Espresso</b><small>Fina</small>
+          </span>
+        </label>
+      </fieldset>
+
+      <div class="grind__method" id="grind-method" aria-live="polite">
+        <div class="grind__method-head">
+          <h3 id="grind-title-method">Coado no filtro de papel</h3>
+          <span class="grind__badge">Moagem <b id="grind-name">Média</b></span>
+        </div>
+        <p id="grind-text">V60, Melitta ou coador de pano. Parece areia de praia. Água a 92 °C e uns 3 minutos de preparo.</p>
+        <dl class="grind__facts">
+          <div><dt>Tamanho do grão</dt><dd id="grind-size">~0,6 mm</dd></div>
+          <div><dt>Tempo de preparo</dt><dd id="grind-time">3 min</dd></div>
+          <div><dt>Café : água</dt><dd id="grind-ratio">1 : 16</dd></div>
+        </dl>
+        <button class="btn btn--orange" type="button" id="grind-add">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bag"/></svg><span id="grind-add-text">Quero o Mantiqueira em moagem média</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="grind__visual">
+      <!-- anel de regulagem do moedor: gire para trocar a moagem -->
+      <div class="dial" id="dial" role="slider" tabindex="0" aria-label="Regulagem do moedor" aria-valuemin="0" aria-valuemax="3" aria-valuenow="2" aria-valuetext="Moagem média">
+        <svg class="dial__ring" id="dial-ring" viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="dial__track" cx="100" cy="100" r="95" />
+          <g id="dial-ticks"></g>
+          <g id="dial-labels"></g>
+        </svg>
+        <span class="dial__pointer" aria-hidden="true"></span>
+        <div class="grind__lens">
+          <canvas id="grind-canvas" width="560" height="560" aria-hidden="true"></canvas>
+          <span class="grind__scale" aria-hidden="true"><i></i>1 cm</span>
+        </div>
+        <span class="dial__hint" aria-hidden="true">Arraste para girar</span>
+      </div>
+      <img class="grind__photo" id="grind-photo" src="https://images.unsplash.com/photo-1759259639356-7c6e74eed1ec?auto=format&amp;fit=crop&amp;w=600&amp;h=600&amp;q=70" width="600" height="600" alt="Café sendo coado em um coador V60" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<!-- LOJA -->
+<section class="shop section" id="loja" aria-labelledby="shop-title">
+  <div class="wrap">
+    <div class="shop__head">
+      <p class="tilt" aria-hidden="true"><span>Torra nova</span><span>Mais vendidos</span><span>Microlote</span><span>Presente</span></p>
+      <h2 id="shop-title" class="reveal">Os cafés da <em>semana</em></h2>
+      <div class="chips" role="group" aria-label="Filtrar produtos">
+        <button type="button" class="chip is-on" data-filter="todos" aria-pressed="true">Todos</button>
+        <button type="button" class="chip" data-filter="graos" aria-pressed="false">Grãos</button>
+        <button type="button" class="chip" data-filter="moido" aria-pressed="false">Moídos</button>
+        <button type="button" class="chip" data-filter="acessorios" aria-pressed="false">Acessórios</button>
+        <button type="button" class="chip" data-filter="kits" aria-pressed="false">Kits</button>
+      </div>
+    </div>
+    <div class="shop__grid" id="shop-grid" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- CLUBE -->
+<section class="club" id="clube" aria-labelledby="club-title">
+  <svg class="club__wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 80V40C240 0 480 0 720 30s480 50 720 10v40z" /></svg>
+  <div class="wrap club__grid">
+    <div class="club__collage" aria-hidden="true">
+      <img class="club__photo club__photo--a" src="https://images.unsplash.com/photo-1782931171832-6227ac510e72?auto=format&amp;fit=crop&amp;w=500&amp;h=500&amp;q=70" width="500" height="500" alt="" loading="lazy" />
+      <img class="club__photo club__photo--b" src="https://images.unsplash.com/photo-1538587888044-79f13ddd7e49?auto=format&amp;fit=crop&amp;w=400&amp;h=400&amp;q=70" width="400" height="400" alt="" loading="lazy" />
+      <img class="club__pack" src="img/pacote.png" width="453" height="760" alt="" loading="lazy" />
+      <img class="club__bean club__bean--1" src="img/graos/grao-1.png" alt="" loading="lazy" />
+      <img class="club__bean club__bean--2" src="img/graos/grao-6.png" alt="" loading="lazy" />
+      <img class="club__bean club__bean--3" src="img/graos/grao-3.png" alt="" loading="lazy" />
+    </div>
+    <div class="club__copy">
+      <h2 id="club-title" class="reveal">Café fresco todo mês, <em>sem lembrar de pedir.</em></h2>
+      <p class="reveal">Clube Cerejal: dois pacotes de 250 g por mês, escolhidos pela nossa torrefação, no ponto de moagem que você preferir. Pausa ou cancela quando quiser.</p>
+      <ul class="club__list reveal">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>15% mais barato que na loja</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>Frete grátis em todos os envios</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>Cafés de microlote que não vão para a loja</li>
+      </ul>
+      <div class="club__buy reveal">
+        <p class="club__price"><s>R$ 109,80</s><b>R$ 93,30</b><span>por mês</span></p>
+        <button class="btn btn--orange btn--lg" type="button" data-add="clube">Assinar o clube</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORIGEM -->
+<section class="origin section" id="origem" aria-labelledby="origin-title">
+  <div class="wrap">
+    <div class="origin__panel">
+      <div class="origin__intro">
+        <h2 id="origin-title" class="reveal">Do pé à sua xícara em <em>quatro paradas</em></h2>
+        <p class="reveal">Compramos direto de três sítios da Mantiqueira de Minas e pagamos acima do preço de mercado por café acima de 84 pontos.</p>
+      </div>
+      <ol class="trail">
+        <li class="trail__stop reveal">
+          <span class="trail__plate"><img src="https://images.unsplash.com/photo-1654815439629-5e93cb7f74a1?auto=format&amp;fit=crop&amp;w=400&amp;h=400&amp;q=70" width="400" height="400" alt="Galho de cafeeiro com cerejas maduras" loading="lazy" /></span>
+          <h3>Colheita seletiva</h3><p>Só as cerejas maduras, colhidas à mão.</p><span class="trail__when">Maio a agosto</span>
+        </li>
+        <li class="trail__stop reveal">
+          <span class="trail__plate"><img src="https://images.unsplash.com/photo-1633437805600-2c58bf56663c?auto=format&amp;fit=crop&amp;w=400&amp;h=400&amp;q=70" width="400" height="400" alt="Lavoura de café em morros verdes de Minas Gerais" loading="lazy" /></span>
+          <h3>Secagem no terreiro</h3><p>Ao sol, virado várias vezes ao dia.</p><span class="trail__when">Até 30 dias</span>
+        </li>
+        <li class="trail__stop reveal">
+          <span class="trail__plate"><img src="https://images.unsplash.com/photo-1537130508299-46ab547b4be3?auto=format&amp;fit=crop&amp;w=400&amp;h=400&amp;q=70" width="400" height="400" alt="Grãos de café saindo do torrador" loading="lazy" /></span>
+          <h3>Torra em pequenos lotes</h3><p>Lotes de 15 kg, curva anotada.</p><span class="trail__when">Segunda e quinta</span>
+        </li>
+        <li class="trail__stop reveal">
+          <span class="trail__plate"><img src="https://images.unsplash.com/photo-1538587888044-79f13ddd7e49?auto=format&amp;fit=crop&amp;w=400&amp;h=400&amp;q=70" width="400" height="400" alt="Xícara azul com café com leite e desenho de folha" loading="lazy" /></span>
+          <h3>Na sua casa</h3><p>Embalagem com válvula, aroma preso.</p><span class="trail__when">Em até 3 dias</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- AVALIAÇÕES -->
+<section class="reviews section" aria-labelledby="reviews-title">
+  <div class="wrap">
+    <h2 id="reviews-title" class="reviews__title reveal">Quem já toma <em>Cerejal</em></h2>
+    <div class="reviews__grid">
+      <div class="score reveal">
+        <span class="score__faces" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="40" height="40" alt="" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="40" height="40" alt="" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1758691737646-79dbce8e25fb?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="40" height="40" alt="" loading="lazy" />
+        </span>
+        <strong>2.318</strong>
+        <p>pessoas avaliaram a Cerejal. Nota média 4,9 de 5.</p>
+        <span class="stars" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><svg viewBox="0 0 24 24"><use href="#i-star"/></svg></span>
+      </div>
+      <figure class="review reveal">
+        <blockquote>“Pedi moído para V60 e veio no ponto. Pela primeira vez o café de casa ficou igual ao da cafeteria.”</blockquote>
+        <figcaption><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="44" height="44" alt="" loading="lazy" /><span><b>Juliana R.</b>Comprou o Mantiqueira · Teresina, PI</span></figcaption>
+      </figure>
+      <figure class="review reveal">
+        <blockquote>“A data da torra no pacote faz diferença. Chegou com quatro dias de torra e um cheiro que encheu a cozinha.”</blockquote>
+        <figcaption><img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="44" height="44" alt="" loading="lazy" /><span><b>Carlos M.</b>Assinante do clube · Picos, PI</span></figcaption>
+      </figure>
+      <figure class="review reveal">
+        <blockquote>“Dei o kit de presente para o meu pai. Agora ele quer saber de onde vem cada café.”</blockquote>
+        <figcaption><img src="https://images.unsplash.com/photo-1758691737646-79dbce8e25fb?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="44" height="44" alt="" loading="lazy" /><span><b>Marina S.</b>Comprou o Kit Presente · Fortaleza, CE</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- DÚVIDAS -->
+<section class="faq section" id="duvidas" aria-labelledby="faq-title">
+  <div class="wrap faq__grid">
+    <h2 id="faq-title" class="reveal">Antes de comprar</h2>
+    <div class="faq__list">
+      <details class="qa" open>
+        <summary>Grão ou moído: qual comprar?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <p>Se você tem moedor, compre em grãos: o aroma dura muito mais. Se não tem, a gente mói na hora do envio, no ponto do seu método.</p>
+      </details>
+      <details class="qa">
+        <summary>Quanto tempo o café dura depois de aberto?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <p>O melhor sabor vai até umas 4 semanas depois da torra. Feche bem o pacote e guarde longe do sol e da geladeira.</p>
+      </details>
+      <details class="qa">
+        <summary>Qual o prazo de entrega?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <p>Torramos às segundas e quintas e enviamos em até 3 dias. Para o Nordeste, a entrega leva de 4 a 8 dias úteis.</p>
+      </details>
+      <details class="qa">
+        <summary>O que quer dizer “86 pontos”?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <p>É a nota da prova de xícara usada no café especial. Acima de 80 pontos o café já é considerado especial.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <a class="logo logo--light" href="#topo" aria-label="Cerejal Cafés Especiais, voltar ao topo">
+        <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#FFF4F0"/><ellipse cx="20" cy="21" rx="8.5" ry="11" fill="#FF7B3D"/><path d="M20 10.5c-3 4-3 17 0 21" fill="none" stroke="#FFF4F0" stroke-width="2.4" stroke-linecap="round"/><path d="M21 9c2-3 5-4 8-3.5-1 3-4 4.5-7 4.2" fill="#104F02"/></svg>
+        <span>Cerejal<small>Cafés Especiais</small></span>
+      </a>
+      <p>Torrefação de cafés especiais da Mantiqueira de Minas, com envio para todo o Brasil.</p>
+    </div>
+    <form class="news" onsubmit="return false" aria-labelledby="news-title">
+      <h3 id="news-title">Receba o aviso da próxima torra</h3>
+      <p>Um e-mail por semana com os cafés que acabaram de sair do torrador.</p>
+      <div class="news__row">
+        <label class="sr-only" for="news-mail">Seu e-mail</label>
+        <input type="email" id="news-mail" placeholder="seu@email.com" autocomplete="email" />
+        <button class="btn btn--orange" type="submit" id="news-btn">Quero receber</button>
+      </div>
+      <p class="news__msg" id="news-msg" role="status"></p>
+    </form>
+  </div>
+  <div class="wrap footer__legal">
+    <span>Cerejal Cafés Especiais é uma loja fictícia. Produtos, preços e avaliações são exemplos.</span>
+    <span>Fotos: <a href="https://unsplash.com/?utm_source=portfolio-walison&amp;utm_medium=referral" target="_blank" rel="noopener">Unsplash</a> · Página por <a href="/#contato">Walison Weudes</a></span>
+  </div>
+</footer>
+
+<!-- CARRINHO -->
+<div class="drawer" id="carrinho" role="dialog" aria-modal="true" aria-labelledby="cart-title" hidden>
+  <div class="drawer__scrim" data-close-cart></div>
+  <aside class="drawer__panel">
+    <div class="drawer__head">
+      <h2 id="cart-title">Seu carrinho</h2>
+      <button class="icon-btn" type="button" aria-label="Fechar carrinho" data-close-cart><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="ship" id="ship">
+      <p id="ship-text">Faltam <b>R$ 150,00</b> para o frete grátis</p>
+      <div class="ship__bar"><i id="ship-bar"></i></div>
+    </div>
+    <ul class="drawer__items" id="cart-items"></ul>
+    <div class="drawer__empty" id="cart-empty">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bag"/></svg>
+      <p>Seu carrinho está vazio.</p>
+      <a class="btn btn--green" href="#loja" data-close-cart>Escolher um café</a>
+    </div>
+    <div class="drawer__foot" id="cart-foot">
+      <dl>
+        <div><dt>Subtotal</dt><dd id="cart-sub">R$ 0,00</dd></div>
+        <div><dt>Frete</dt><dd id="cart-ship">R$ 19,90</dd></div>
+        <div class="drawer__total"><dt>Total</dt><dd id="cart-total">R$ 0,00</dd></div>
+        <div class="drawer__pix"><dt>No Pix (5% off)</dt><dd id="cart-pix">R$ 0,00</dd></div>
+      </dl>
+      <button class="btn btn--green btn--block btn--lg" type="button" id="checkout">Finalizar compra</button>
+    </div>
+  </aside>
+</div>
+
+<dialog class="demo" id="demo-dialog" aria-labelledby="demo-title">
+  <h2 id="demo-title">Esta é uma loja de exemplo</h2>
+  <p>Nenhuma compra é feita aqui. Numa loja real, este botão leva ao pagamento com Pix, cartão ou boleto.</p>
+  <div class="demo__actions">
+    <a class="btn btn--green" href="/#contato">Quero uma loja assim</a>
+    <button class="btn btn--ghost" type="button" data-close-demo>Continuar olhando</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></g></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6.2 0-3.4 2.7-5.3 3.6-8.8 2.8 1.6 3.4 4 3.3 5.6 1-.6 1.7-1.8 1.8-3 2.3 1.8 4.3 4.1 4.3 6.6 0 3.4-2.7 5.8-6.5 5.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></g></symbol>
+    <symbol id="i-pix" viewBox="0 0 24 24"><path d="M12 3l9 9-9 9-9-9z M8.5 12h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s8-4 8-10V5l-8-3-8 3v6c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></g></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></g></symbol>
+  </defs>
+</svg>
+
+<script src="script.js" defer></script>
+</body>
+</html>

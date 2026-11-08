@@ -166,6 +166,11 @@
 }
 /* botão "Ver exemplo" (cards que já têm site de exemplo) */
 .product-card__foot .product-card__view {
+  border: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
   padding: 0.6rem 0.9rem;
   background: var(--red);
   color: var(--text);

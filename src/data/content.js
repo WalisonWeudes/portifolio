@@ -45,7 +45,7 @@ export const products = [
       'Conversion page to launch or sell a physical or digital product.',
     ),
     items: [L('Oferta e preço', 'Offer and pricing'), L('Depoimentos', 'Testimonials'), L('Perguntas frequentes', 'FAQ')],
-    status: 'soon',
+    href: '/exemplos/venda-produto/index.html',
   },
   {
     tag: L('Pessoal', 'Personal'),
