@@ -48,6 +48,16 @@ export const products = [
     href: '/exemplos/venda-produto/index.html',
   },
   {
+    tag: L('Profissional', 'Professional'),
+    title: L('Arquiteto e estúdio', 'Architect and studio'),
+    description: L(
+      'Portfólio de obras, planta interativa e simulador de orçamento para arquitetos e escritórios.',
+      'Project portfolio, interactive floor plan and quote calculator for architects and studios.',
+    ),
+    items: [L('Obras com filtro', 'Filterable projects'), L('Planta interativa', 'Interactive floor plan'), L('Simulador de orçamento', 'Quote calculator')],
+    href: '/exemplos/arquiteto/index.html',
+  },
+  {
     tag: L('Pessoal', 'Personal'),
     title: L('Portfólio', 'Portfolio'),
     description: L(

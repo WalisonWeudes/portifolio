@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vértice Arquitetura — Casas e espaços feitos para durar</title>
+<meta name="description" content="Estúdio de arquitetura residencial, comercial e de interiores. Do estudo de terreno ao acompanhamento da obra." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0E0E0E" />
+<link rel="icon" type="image/png" href="/imagens/favicon-64.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,300..500&amp;family=Instrument+Serif:ital@1&amp;display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://images.unsplash.com" />
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1790213680570-79cb3f02d4d2?w=2000&amp;q=72&amp;auto=format" />
+<link rel="stylesheet" href="style.css" />
+<script>
+  document.documentElement.classList.add('js')
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('calm')
+  else if (!location.search.includes('mvshot')) document.documentElement.classList.add('intro-play')
+</script>
+</head>
+<body>
+
+<!-- ABERTURA: o logo é desenhado como num traço de prancha e a laje de concreto racha ao meio -->
+<div class="opening" id="opening" aria-hidden="true">
+  <div class="opening__half opening__half--top"></div>
+  <div class="opening__half opening__half--bottom"></div>
+  <span class="opening__seam"></span>
+  <div class="opening__lockup">
+    <span class="opening__mark">
+      <i class="g g--t"></i><i class="g g--b"></i><i class="g g--l"></i><i class="g g--r"></i>
+      <svg viewBox="0 0 32 32">
+        <rect class="i-sq" x="1" y="1" width="30" height="30" pathLength="1" />
+        <path class="i-v" d="M8 9l8 15 8-15" pathLength="1" />
+        <rect class="i-dot" x="23" y="1" width="8" height="8" />
+      </svg>
+    </span>
+    <span class="opening__text">
+      <span class="opening__name"><b>V</b><b>É</b><b>R</b><b>T</b><b>I</b><b>C</b><b>E</b></span>
+      <span class="opening__sub">Arquitetura · desde 2012</span>
+    </span>
+  </div>
+</div>
+<script>
+  // dura ~2,3 s; clique, tecla ou rolagem pulam direto para a página
+  (function () {
+    var html = document.documentElement
+    if (!html.classList.contains('intro-play')) return
+    var done = false
+    var end = function () {
+      if (done) return
+      done = true
+      html.classList.remove('intro-play')
+      html.classList.add('intro-done')
+      var el = document.getElementById('opening')
+      el && el.remove()
+      ;['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (t) { removeEventListener(t, skip) })
+    }
+    var skip = function () { html.classList.add('intro-skip'); end() }
+    if (!location.search.includes('introhold')) setTimeout(end, 2350) // introhold: só para capturar quadros
+    ;['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (t) { addEventListener(t, skip, { passive: true }) })
+  })()
+</script>
+
+<div class="demo-bar">
+  <div class="wrap">
+    <a href="/#produtos"><svg class="flip" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>Voltar ao portfólio</a>
+    <span><span class="hide-sm">Site de arquiteto de exemplo · </span>Estúdio fictício</span>
+  </div>
+</div>
+
+<header class="header" id="header">
+  <div class="wrap header__row">
+    <a class="logo" href="#topo" aria-label="Vértice Arquitetura, início">
+      <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 9l8 15 8-15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="miter"/><rect x="23" y="1" width="8" height="8" fill="var(--orange)"/></svg>
+      <span>Vértice<small> Arquitetura</small></span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Menu principal">
+      <a href="#servicos">Serviços</a>
+      <a href="#casa3d">Casa 3D</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#planta">Planta</a>
+      <a href="#processo">Processo</a>
+      <a href="#orcamento" class="nav__cta">Orçamento<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu"><span></span><span></span><span class="sr">Abrir menu</span></button>
+  </div>
+</header>
+
+<main id="topo">
+
+  <!-- HERO: a mesma foto em duas camadas; o nome fica entre elas e a camada da frente é recortada na silhueta da casa -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <h1 class="sr" id="heroTitle">Vértice Arquitetura: casas e espaços feitos para durar</h1>
+
+    <div class="hero__art">
+      <svg class="hero__svg" viewBox="0 0 1000 667" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Casa Jatobá: casa térrea de concreto e madeira ao entardecer, com o nome Vértice passando por trás do telhado">
+        <defs>
+          <clipPath id="houseCut">
+            <polygon points="0,586 131,586 131,364 193,378 287,378 287,392 504,392 504,331 727,331 727,391 868,361 868,586 1000,586 1000,667 0,667" />
+          </clipPath>
+          <linearGradient id="heroFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0e0e0e" stop-opacity=".55" />
+            <stop offset=".3" stop-color="#0e0e0e" stop-opacity="0" />
+            <stop offset=".72" stop-color="#0e0e0e" stop-opacity="0" />
+            <stop offset="1" stop-color="#0e0e0e" stop-opacity=".9" />
+          </linearGradient>
+        </defs>
+        <image class="hero__photo" href="https://images.unsplash.com/photo-1790213680570-79cb3f02d4d2?w=2000&amp;q=72&amp;auto=format" width="1000" height="667" preserveAspectRatio="xMidYMid slice" />
+        <text class="hero__word" x="500" y="366" textLength="890" lengthAdjust="spacingAndGlyphs" aria-hidden="true">VÉRTICE</text>
+        <image class="hero__photo" href="https://images.unsplash.com/photo-1790213680570-79cb3f02d4d2?w=2000&amp;q=72&amp;auto=format" width="1000" height="667" preserveAspectRatio="xMidYMid slice" clip-path="url(#houseCut)" />
+        <rect width="1000" height="667" fill="url(#heroFade)" pointer-events="none" />
+      </svg>
+    </div>
+
+    <div class="wrap hero__ui">
+      <div class="hero__top">
+        <p class="hero__studio">Vértice Arquitetura<br /><span>Teresina · desde 2012</span></p>
+        <p class="hero__claim">Casas e espaços<br />feitos para durar</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO + NÚMEROS -->
+  <section class="intro section">
+    <div class="wrap intro__grid">
+      <p class="label reveal">[ 00 ] O estúdio</p>
+      <h2 class="intro__text reveal">Projetamos com <em>luz, matéria e silêncio</em>. Cada linha tem um motivo, cada material envelhece bem, e a obra sai como foi desenhada.</h2>
+      <dl class="stats">
+        <div class="stat reveal"><dt>Anos de estúdio</dt><dd data-count="14">0</dd></div>
+        <div class="stat reveal"><dt>Projetos entregues</dt><dd data-count="126" data-suffix="+">0</dd></div>
+        <div class="stat reveal"><dt>m² projetados</dt><dd data-count="38400" data-format="1">0</dd></div>
+        <div class="stat reveal"><dt>Obras no prazo</dt><dd data-count="97" data-suffix="%">0</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section class="services section section--dark" id="servicos">
+    <div class="wrap">
+      <div class="head">
+        <p class="label reveal">[ 01 ] Serviços</p>
+        <h2 class="title reveal">O que a gente<br />desenha</h2>
+      </div>
+      <ol class="services__list">
+        <li class="service reveal">
+          <div class="service__img"><img src="https://images.unsplash.com/photo-1756706718604-ef4af3970e33?w=800&amp;q=65&amp;auto=format&amp;fit=crop" alt="Casa de concreto e madeira entre árvores" loading="lazy" /></div>
+          <span class="service__num">01</span>
+          <h3>Residencial</h3>
+          <p>Casas sob medida para o terreno, o clima e a rotina de quem vai morar.</p>
+        </li>
+        <li class="service reveal">
+          <div class="service__img"><img src="https://images.unsplash.com/photo-1724582586529-62622e50c0b3?w=800&amp;q=65&amp;auto=format&amp;fit=crop" alt="Sala de estar minimalista com grande janela" loading="lazy" /></div>
+          <span class="service__num">02</span>
+          <h3>Interiores</h3>
+          <p>Marcenaria, iluminação e materiais pensados junto com a arquitetura.</p>
+        </li>
+        <li class="service reveal">
+          <div class="service__img"><img src="https://images.unsplash.com/photo-1761792430733-00e53d2a79b7?w=800&amp;q=65&amp;auto=format&amp;fit=crop" alt="Edifício de concreto aparente contra o céu" loading="lazy" /></div>
+          <span class="service__num">03</span>
+          <h3>Comercial</h3>
+          <p>Lojas, escritórios e clínicas que reforçam a marca e funcionam no dia a dia.</p>
+        </li>
+        <li class="service reveal">
+          <div class="service__img"><img src="https://images.unsplash.com/photo-1603901622056-0a5bee231395?w=800&amp;q=65&amp;auto=format&amp;fit=crop" alt="Plantas arquitetônicas com lápis e régua sobre a mesa" loading="lazy" /></div>
+          <span class="service__num">04</span>
+          <h3>Projeto executivo</h3>
+          <p>Detalhamento completo, compatibilização e acompanhamento da obra.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- CASA EM 3D (no espírito do Model Viewer do React Bits) -->
+  <section class="model section section--dark" id="casa3d">
+    <div class="wrap">
+      <div class="head head--row">
+        <div>
+          <p class="label reveal">[ 02 ] Casa em 3D</p>
+          <h2 class="title reveal">Gire a casa,<br />entenda o porquê</h2>
+        </div>
+        <p class="head__note reveal">Cada escolha do projeto tem um motivo. Conforme a casa gira, as linhas apontam o que cada lado resolve. Troque entre dia e noite para ver a iluminação.</p>
+      </div>
+
+      <div class="mv reveal" id="mv" tabindex="0" role="group" aria-roledescription="visualizador 3D" aria-label="Modelo 3D da Casa Jatobá sobre uma ilha flutuante. Arraste ou use as setas para girar.">
+        <canvas aria-hidden="true"></canvas>
+        <svg class="mv__lines" aria-hidden="true"></svg>
+        <div class="mv__time" role="group" aria-label="Iluminação">
+          <button type="button" data-time="day" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M5.3 18.7 7 17M17 7l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Dia</button>
+          <button type="button" data-time="night" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Noite</button>
+        </div>
+
+        <div class="mv__label" data-feature="vidro" data-anchor="2.1,1.9,2.5" data-normal="0,0,1">
+          <b>01</b><strong>Vidro do piso ao teto</strong><p>Luz natural o dia todo e a sala aberta para a piscina, sem acender lâmpada até o fim da tarde.</p>
+        </div>
+        <div class="mv__label" data-feature="balanco" data-anchor="-2.6,3.65,5.5" data-normal="-0.35,0,1">
+          <b>02</b><strong>Balanço de 3,5 m</strong><p>O quarto avança sobre o deck sem pilares e faz sombra para a varanda do térreo.</p>
+        </div>
+        <div class="mv__label" data-feature="piscina" data-anchor="3.9,0.4,5.4" data-normal="0.7,0,0.7">
+          <b>03</b><strong>Piscina voltada ao nascente</strong><p>Pega o sol da manhã e fica na sombra da casa nas tardes mais quentes.</p>
+        </div>
+        <div class="mv__label" data-feature="jateado" data-anchor="4.5,1.9,-0.6" data-normal="1,0,0">
+          <b>04</b><strong>Vidro jateado</strong><p>Deixa a luz entrar e preserva a privacidade no lado que dá para o vizinho.</p>
+        </div>
+        <div class="mv__label" data-feature="jardim" data-anchor="3.4,3.95,-2.4" data-normal="0.45,0,-1">
+          <b>05</b><strong>Laje jardim</strong><p>A terra isola o calor da laje e segura a água da chuva antes de ir para a calha.</p>
+        </div>
+        <div class="mv__label" data-feature="solar" data-anchor="-1.5,6.8,-2.9" data-normal="-0.3,0,-1">
+          <b>06</b><strong>Placas solares</strong><p>Geram a energia da casa e aquecem a água da piscina; a platibanda esconde tudo da rua.</p>
+        </div>
+        <div class="mv__label" data-feature="brise" data-anchor="-3.7,5.1,2.4" data-normal="-1,0,0">
+          <b>07</b><strong>Brise de madeira</strong><p>Ripas de cumaru filtram o sol da tarde e baixam o calor do quarto sem fechar a vista.</p>
+        </div>
+
+        <p class="mv__hint" aria-hidden="true"><span class="hide-touch">Arraste para girar · Ctrl + rolagem para zoom · duplo clique volta ao início</span><span class="only-touch">Arraste para girar · pinça para zoom</span></p>
+        <p class="mv__fallback">O modelo 3D precisa de WebGL. Veja os destaques nos botões abaixo.</p>
+      </div>
+
+      <div class="mv__bar">
+        <div class="mv__chips" role="group" aria-label="Ir até um destaque">
+          <button class="chip" type="button" data-goto="vidro">01 Vidro</button>
+          <button class="chip" type="button" data-goto="balanco">02 Balanço</button>
+          <button class="chip" type="button" data-goto="piscina">03 Piscina</button>
+          <button class="chip" type="button" data-goto="jateado">04 Vidro jateado</button>
+          <button class="chip" type="button" data-goto="jardim">05 Laje jardim</button>
+          <button class="chip" type="button" data-goto="solar">06 Placas solares</button>
+          <button class="chip" type="button" data-goto="brise">07 Brise</button>
+        </div>
+        <p class="mv__detail" id="mvDetail" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJETOS -->
+  <section class="works section" id="projetos">
+    <div class="wrap">
+      <div class="head head--row">
+        <div>
+          <p class="label reveal">[ 03 ] Projetos</p>
+          <h2 class="title reveal">Obras<br />selecionadas</h2>
+        </div>
+        <div class="filters reveal" role="group" aria-label="Filtrar projetos">
+          <button class="chip is-on" data-filter="all" aria-pressed="true">Todos</button>
+          <button class="chip" data-filter="residencial" aria-pressed="false">Residencial</button>
+          <button class="chip" data-filter="interiores" aria-pressed="false">Interiores</button>
+          <button class="chip" data-filter="comercial" aria-pressed="false">Comercial</button>
+        </div>
+      </div>
+
+      <ul class="works__grid" id="works"></ul>
+      <p class="works__empty" id="worksCount" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- PLANTA INTERATIVA -->
+  <section class="plan section section--dark" id="planta">
+    <div class="wrap plan__grid">
+      <div class="plan__info">
+        <p class="label reveal">[ 04 ] Planta</p>
+        <h2 class="title reveal">Casa Jatobá</h2>
+        <p class="plan__area reveal">Área interna <b>92 m²</b> · térreo</p>
+        <p class="plan__hint reveal">Passe o mouse ou toque num cômodo para ver na planta.</p>
+        <table class="plan__table reveal">
+          <caption class="sr">Cômodos e áreas da Casa Jatobá</caption>
+          <tbody id="planRows"></tbody>
+        </table>
+      </div>
+      <figure class="plan__figure reveal">
+        <svg class="plan__svg" id="planSvg" viewBox="-30 -40 660 505" role="img" aria-labelledby="planTitle">
+          <title id="planTitle">Planta baixa da Casa Jatobá, 12 por 8,5 metros</title>
+          <defs>
+            <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0v8" stroke="currentColor" stroke-width="1" opacity=".35"/></pattern>
+          </defs>
+          <!-- cotas -->
+          <g class="dim" aria-hidden="true">
+            <path d="M0 -22h600M0 -28v12M600 -28v12"/>
+            <text x="300" y="-28">12,00 m</text>
+            <path d="M622 0v425M616 0h12M616 425h12"/>
+            <text x="636" y="212" transform="rotate(90 636 212)">8,50 m</text>
+          </g>
+          <g id="planRooms"></g>
+          <rect class="plan__outline" x="0" y="0" width="600" height="425" />
+          <rect class="plan__closet" x="235" y="210" width="15" height="215" fill="url(#hatch)" />
+          <!-- portas -->
+          <g class="doors" aria-hidden="true">
+            <path d="M0 80h36a36 36 0 0 1-36 36"/>
+            <path d="M140 210v-34a34 34 0 0 1 34 34"/>
+            <path d="M400 200h-32a32 32 0 0 0 32 32"/>
+            <path d="M290 280v32a32 32 0 0 0 32-32"/>
+          </g>
+          <text class="north" x="560" y="-12" aria-hidden="true">N ↑</text>
+        </svg>
+        <figcaption id="planCaption" aria-live="polite">Escolha um cômodo</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- DO TRAÇO À OBRA -->
+  <section class="compare section" id="traco">
+    <div class="wrap">
+      <div class="head head--row">
+        <div>
+          <p class="label reveal">[ 05 ] Do traço à obra</p>
+          <h2 class="title reveal">O desenho<br />vira casa</h2>
+        </div>
+        <p class="head__note reveal">Arraste a linha laranja: à esquerda, o estudo de volumetria; à direita, a Residência Aurora pronta.</p>
+      </div>
+      <div class="cmp reveal" id="cmp" style="--pos:50%">
+        <img class="cmp__img" src="https://images.unsplash.com/photo-1748063578185-3d68121b11ff?w=1600&amp;q=70&amp;auto=format&amp;fit=crop" alt="Residência Aurora construída" loading="lazy" />
+        <div class="cmp__sketch" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1748063578185-3d68121b11ff?w=1600&amp;q=70&amp;auto=format&amp;fit=crop" alt="" loading="lazy" />
+        </div>
+        <span class="cmp__tag cmp__tag--l">Estudo</span>
+        <span class="cmp__tag cmp__tag--r">Obra</span>
+        <div class="cmp__line" aria-hidden="true"><span><svg class="flip" viewBox="0 0 24 24"><use href="#i-arrow"/></svg><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></span></div>
+        <input class="cmp__range" id="cmpRange" type="range" min="0" max="100" value="50" aria-label="Comparar estudo e obra" />
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESSO -->
+  <section class="process section section--dark" id="processo">
+    <div class="wrap">
+      <div class="head">
+        <p class="label reveal">[ 06 ] Processo</p>
+        <h2 class="title reveal">Cinco etapas,<br />nenhuma surpresa</h2>
+        <p class="head__note reveal">Passe o mouse ou toque em cada etapa.</p>
+      </div>
+      <!-- Accordion Gallery (React Bits), recriado em JS puro com GSAP -->
+      <ol class="accordion-gallery reveal" id="steps" aria-label="Etapas do projeto">
+        <li class="ag-panel" tabindex="0">
+          <span class="ag-panel__frame">
+            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1598368195835-91e67f80c9d7?w=1100&amp;q=68&amp;auto=format&amp;fit=crop" alt="Anotações à mão sobre papel" loading="lazy" draggable="false" /></span>
+            <span class="ag-panel__overlay" aria-hidden="true"></span>
+          </span>
+          <span class="ag-panel__num" aria-hidden="true">01</span>
+          <span class="ag-panel__tag" aria-hidden="true">Briefing</span>
+          <span class="ag-panel__label">
+            <span class="ag-panel__bar" aria-hidden="true"></span>
+            <span class="ag-panel__text"><h3>Briefing e terreno</h3><p>Visita ao lote, levantamento e uma conversa longa sobre a rotina, o orçamento e o que não pode faltar.</p><span class="ag-panel__time">1 a 2 semanas</span></span>
+          </span>
+        </li>
+        <li class="ag-panel" tabindex="0">
+          <span class="ag-panel__frame">
+            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1542621334-a254cf47733d?w=1100&amp;q=68&amp;auto=format&amp;fit=crop" alt="Lápis sobre desenho técnico impresso" loading="lazy" draggable="false" /></span>
+            <span class="ag-panel__overlay" aria-hidden="true"></span>
+          </span>
+          <span class="ag-panel__num" aria-hidden="true">02</span>
+          <span class="ag-panel__tag" aria-hidden="true">Estudo</span>
+          <span class="ag-panel__label">
+            <span class="ag-panel__bar" aria-hidden="true"></span>
+            <span class="ag-panel__text"><h3>Estudo preliminar</h3><p>Implantação, volumetria e primeiras plantas. Você vê a casa em 3D antes de qualquer detalhe.</p><span class="ag-panel__time">3 a 4 semanas</span></span>
+          </span>
+        </li>
+        <li class="ag-panel" tabindex="0">
+          <span class="ag-panel__frame">
+            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1721244654392-9c912a6eb236?w=1100&amp;q=68&amp;auto=format&amp;fit=crop" alt="Planta de fachada de um edifício" loading="lazy" draggable="false" /></span>
+            <span class="ag-panel__overlay" aria-hidden="true"></span>
+          </span>
+          <span class="ag-panel__num" aria-hidden="true">03</span>
+          <span class="ag-panel__tag" aria-hidden="true">Anteprojeto</span>
+          <span class="ag-panel__label">
+            <span class="ag-panel__bar" aria-hidden="true"></span>
+            <span class="ag-panel__text"><h3>Anteprojeto e aprovação</h3><p>Ajustes finos, definição de materiais e o projeto legal para aprovar na prefeitura.</p><span class="ag-panel__time">4 a 6 semanas</span></span>
+          </span>
+        </li>
+        <li class="ag-panel" tabindex="0">
+          <span class="ag-panel__frame">
+            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1503387837-b154d5074bd2?w=1100&amp;q=68&amp;auto=format&amp;fit=crop" alt="Pessoa detalhando um projeto na prancheta" loading="lazy" draggable="false" /></span>
+            <span class="ag-panel__overlay" aria-hidden="true"></span>
+          </span>
+          <span class="ag-panel__num" aria-hidden="true">04</span>
+          <span class="ag-panel__tag" aria-hidden="true">Executivo</span>
+          <span class="ag-panel__label">
+            <span class="ag-panel__bar" aria-hidden="true"></span>
+            <span class="ag-panel__text"><h3>Projeto executivo</h3><p>Detalhes de execução, compatibilização com estrutura e instalações, e a lista de materiais.</p><span class="ag-panel__time">6 a 8 semanas</span></span>
+          </span>
+        </li>
+        <li class="ag-panel" tabindex="0">
+          <span class="ag-panel__frame">
+            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1787672357923-ab85681ab58c?w=1100&amp;q=68&amp;auto=format&amp;fit=crop" alt="Casa de concreto em construção" loading="lazy" draggable="false" /></span>
+            <span class="ag-panel__overlay" aria-hidden="true"></span>
+          </span>
+          <span class="ag-panel__num" aria-hidden="true">05</span>
+          <span class="ag-panel__tag" aria-hidden="true">Obra</span>
+          <span class="ag-panel__label">
+            <span class="ag-panel__bar" aria-hidden="true"></span>
+            <span class="ag-panel__text"><h3>Acompanhamento da obra</h3><p>Visitas periódicas, relatório com fotos e decisões tomadas no canteiro, não por telefone.</p><span class="ag-panel__time">Durante toda a obra</span></span>
+          </span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ESTÚDIO -->
+  <section class="studio section">
+    <div class="wrap studio__grid">
+      <div class="studio__img reveal">
+        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1000&amp;q=65&amp;auto=format&amp;fit=crop" alt="Arquiteto desenhando à mão com lápis e régua" loading="lazy" />
+        <span class="studio__badge">Desenho à mão<br />antes do software</span>
+      </div>
+      <div class="studio__text">
+        <p class="label reveal">[ 07 ] Quem desenha</p>
+        <h2 class="title reveal">Helena<br />Vasconcelos</h2>
+        <p class="studio__role reveal">Arquiteta e urbanista · CAU A123456-7</p>
+        <p class="reveal">Formada pela UFC, com mestrado em conforto ambiental. Antes de abrir a Vértice, passou seis anos projetando casas no semiárido, onde aprendeu que sombra, ventilação e boa orientação valem mais que qualquer ar-condicionado.</p>
+        <blockquote class="quote reveal">“Uma casa boa é a que continua certa depois de vinte anos.”</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORÇAMENTO -->
+  <section class="quote-sec section section--dark" id="orcamento">
+    <div class="wrap quote-sec__grid">
+      <div>
+        <p class="label reveal">[ 08 ] Orçamento</p>
+        <h2 class="title reveal">Simule o<br />seu projeto</h2>
+        <p class="head__note reveal">Uma estimativa rápida para você planejar. O valor final sai depois da visita ao terreno.</p>
+      </div>
+
+      <form class="sim reveal" id="sim" novalidate>
+        <fieldset class="sim__group">
+          <legend>Tipo de projeto</legend>
+          <div class="seg">
+            <label><input type="radio" name="tipo" value="residencial" checked /><span>Residencial</span></label>
+            <label><input type="radio" name="tipo" value="interiores" /><span>Interiores</span></label>
+            <label><input type="radio" name="tipo" value="comercial" /><span>Comercial</span></label>
+          </div>
+        </fieldset>
+
+        <div class="sim__group">
+          <label class="sim__label" for="area">Área aproximada <output id="areaOut" for="area">180 m²</output></label>
+          <input class="range" type="range" id="area" name="area" min="40" max="600" step="10" value="180" />
+          <div class="range__scale" aria-hidden="true"><span>40 m²</span><span>600 m²</span></div>
+        </div>
+
+        <fieldset class="sim__group">
+          <legend>Incluir</legend>
+          <label class="check"><input type="checkbox" name="extra" value="obra" checked /><span>Acompanhamento de obra</span></label>
+          <label class="check"><input type="checkbox" name="extra" value="interiores" /><span>Projeto de interiores e marcenaria</span></label>
+          <label class="check"><input type="checkbox" name="extra" value="paisagismo" /><span>Paisagismo</span></label>
+        </fieldset>
+
+        <div class="sim__result" aria-live="polite">
+          <p>Investimento estimado no projeto</p>
+          <strong id="simPrice">R$ 0</strong>
+          <span id="simTime">Prazo de projeto: —</span>
+        </div>
+
+        <div class="sim__contact">
+          <label class="field"><span>Seu nome</span><input type="text" name="nome" autocomplete="name" required /></label>
+          <label class="field"><span>WhatsApp</span><input type="tel" name="tel" autocomplete="tel" inputmode="tel" placeholder="(86) 9 0000-0000" required /></label>
+        </div>
+        <button class="btn btn--orange btn--block" type="submit">Pedir visita técnica<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <p class="sim__msg" id="simMsg" role="status"></p>
+        <p class="sim__note">Valores de exemplo. Site fictício: nenhum dado é enviado.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div>
+        <p class="label">Estúdio</p>
+        <p>Av. Frei Serafim, 2280, sala 904<br />Teresina, PI</p>
+      </div>
+      <div>
+        <p class="label">Contato</p>
+        <p><a href="#orcamento">contato@vertice.arq.br</a><br /><a href="#orcamento">(86) 3000-0000</a></p>
+      </div>
+      <div>
+        <p class="label">Atendimento</p>
+        <p>Seg. a sex., 9h às 18h<br />Visitas com hora marcada</p>
+      </div>
+      <a class="footer__up" href="#topo" aria-label="Voltar ao topo"><svg viewBox="0 0 24 24" style="transform:rotate(-90deg)"><use href="#i-arrow"/></svg></a>
+    </div>
+    <p class="footer__word" aria-hidden="true">VÉRTICE</p>
+    <div class="footer__bottom">
+      <span>© 2026 Vértice Arquitetura · estúdio fictício</span>
+      <span>Fotos: <a href="https://unsplash.com" target="_blank" rel="noreferrer">Unsplash</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- detalhe do projeto -->
+<dialog class="modal" id="modal" aria-labelledby="modalTitle">
+  <div class="modal__inner">
+    <div class="modal__img" id="modalImg"></div>
+    <div class="modal__body">
+      <p class="label" id="modalType"></p>
+      <h3 id="modalTitle"></h3>
+      <p id="modalText"></p>
+      <dl class="modal__specs" id="modalSpecs"></dl>
+      <div class="modal__nav">
+        <button class="icon-btn icon-btn--dark" id="modalPrev" aria-label="Projeto anterior"><svg class="flip" viewBox="0 0 24 24"><use href="#i-arrow"/></svg></button>
+        <span id="modalPos"></span>
+        <button class="icon-btn icon-btn--dark" id="modalNext" aria-label="Próximo projeto"><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></button>
+      </div>
+    </div>
+    <button class="modal__close" id="modalClose" aria-label="Fechar"><svg viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
+  </div>
+</dialog>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></symbol>
+</svg>
+
+<script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.min.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+  } }
+</script>
+<script type="module">
+  // o 3D (three.js + texturas) só baixa quando a seção está chegando perto da tela
+  const mv = document.getElementById('mv')
+  if (mv) {
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return
+      io.disconnect()
+      import('./casa3d.js')
+    }, { rootMargin: '800px 0px' })
+    io.observe(mv)
+  }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="script.js" defer></script>
+</body>
+</html>
