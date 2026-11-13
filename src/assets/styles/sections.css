@@ -105,7 +105,7 @@
   /* também limitado pela altura, para o título caber na primeira tela em monitores baixos */
   font-size: clamp(4.35rem, min(9.7vw, 18vh), 11.5rem);
   font-weight: 400;
-  line-height: 0.72;
+  line-height: 0.92;
   letter-spacing: -0.045em;
   text-transform: uppercase;
 }
@@ -258,7 +258,7 @@
 .section-heading > div > span {
   font-family: var(--display);
   font-size: clamp(3rem, 6vw, 7rem);
-  line-height: 0.8;
+  line-height: 0.92;
   color: var(--red);
 }
 .section-heading > div p,
@@ -277,7 +277,7 @@
   font-family: var(--display);
   font-size: clamp(3.4rem, 7vw, 8rem);
   font-weight: 400;
-  line-height: 0.78;
+  line-height: 1.05;
   letter-spacing: -0.035em;
 }
 .section-heading h2 em,
@@ -408,7 +408,7 @@
 .ui-copy strong {
   font-family: var(--display);
   font-size: clamp(2rem, 4vw, 5rem);
-  line-height: 0.82;
+  line-height: 0.95;
 }
 .ui-copy i {
   display: block;
@@ -533,7 +533,7 @@
   font-family: var(--display);
   font-size: clamp(2.8rem, 5vw, 6rem);
   font-weight: 400;
-  line-height: 0.82;
+  line-height: 0.92;
   text-transform: uppercase;
 }
 .case__info > p {
@@ -625,7 +625,7 @@
   font-family: var(--display);
   font-size: clamp(2rem, 3.5vw, 4rem);
   font-weight: 400;
-  line-height: 0.8;
+  line-height: 0.95;
   text-transform: uppercase;
 }
 .figma-row p {
@@ -1011,7 +1011,7 @@
   font-family: var(--display);
   font-size: clamp(4rem, 10.5vw, 13rem);
   font-weight: 400;
-  line-height: 0.72;
+  line-height: 0.92;
   letter-spacing: -0.045em;
 }
 .contact h2 em {

@@ -102,7 +102,7 @@ html.is-gaming .cursor-ring {
   font-family: Chetta, Impact, 'Arial Narrow', sans-serif;
   font-size: clamp(4rem, 15vw, 11rem);
   font-weight: 400;
-  line-height: 0.82;
+  line-height: 0.92;
   letter-spacing: -0.02em;
   text-shadow: 6px 6px 0 var(--red), -4px 2px 0 var(--blue);
 }

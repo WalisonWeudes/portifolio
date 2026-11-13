@@ -2707,6 +2707,23 @@ h2 em {
   padding: clamp(4rem, 3rem + 4vw, 7rem) 0;
   background: var(--green);
   color: var(--cream);
+  isolation: isolate;
+  --wave-h: clamp(30px, 5vw, 80px);
+}
+
+/* textura em relevo: grãos prensados tom sobre tom no verde.
+   Sobe até a onda e é recortada no formato dela. */
+.club::before {
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 80V40C240 0 480 0 720 30s480 50 720 10v40z'/%3E%3C/svg%3E");
+  content: "";
+  position: absolute;
+  inset: calc(1px - var(--wave-h)) 0 0;
+  z-index: -1;
+  background: url("img/textura-graos.png") center top / 700px;
+  opacity: 0.8;
+  -webkit-mask: var(--wave) top / 100% var(--wave-h) no-repeat, linear-gradient(#000, #000) 0 calc(var(--wave-h) - 1px) / 100% 100% no-repeat;
+  mask: var(--wave) top / 100% var(--wave-h) no-repeat, linear-gradient(#000, #000) 0 calc(var(--wave-h) - 1px) / 100% 100% no-repeat;
+  pointer-events: none;
 }
 
 .club__wave {
@@ -2714,8 +2731,9 @@ h2 em {
   left: 0;
   right: 0;
   bottom: calc(100% - 1px);
+  z-index: -2;
   width: 100%;
-  height: clamp(30px, 5vw, 80px);
+  height: var(--wave-h);
   fill: var(--green);
 }
 

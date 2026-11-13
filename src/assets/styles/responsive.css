@@ -93,7 +93,7 @@
   }
   .hero h1 {
     font-size: clamp(4.05rem, 20vw, 7rem);
-    line-height: 0.76;
+    line-height: 0.92;
   }
   .hero h1 span:nth-child(2) {
     margin-left: 5vw;
@@ -475,7 +475,7 @@
 @media (max-width: 430px) {
   .hero h1 {
     font-size: 12.8vw;
-    line-height: 0.8;
+    line-height: 0.92;
     letter-spacing: -0.035em;
   }
   .hero__intro {
@@ -502,7 +502,7 @@
   .contact h2 {
     max-width: 100%;
     font-size: 10.5vw;
-    line-height: 0.88;
+    line-height: 1.05;
     overflow-wrap: normal;
     word-break: normal;
   }
