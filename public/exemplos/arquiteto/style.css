@@ -233,6 +233,9 @@ svg { flex: none; }
   position: absolute; left: 2%; bottom: 0; width: 98%; height: auto;
   transform: translateZ(40px);
   filter: drop-shadow(0 22px 22px rgba(14, 14, 14, .28)); /* sombra que segue o contorno dela */
+  /* a parte de baixo se dissolve no bloco: o corte reto da foto nunca aparece */
+  -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 97%);
+  mask-image: linear-gradient(to bottom, #000 68%, transparent 97%);
 }
 .pop figcaption {
   position: absolute; left: 0; bottom: -6rem;
