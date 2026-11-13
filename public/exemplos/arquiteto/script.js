@@ -3,7 +3,7 @@
   const $ = (s, el = document) => el.querySelector(s)
   const $$ = (s, el = document) => [...el.querySelectorAll(s)]
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches
-  const img = (id, w) => `https://images.unsplash.com/photo-${id}?w=${w}&q=68&auto=format&fit=crop`
+  const img = (id, w) => `https://images.unsplash.com/photo-${id}?w=${w}&q=62&auto=format&fit=crop`
   const nf = new Intl.NumberFormat('pt-BR')
 
   /* ---------- header e menu ---------- */
@@ -41,7 +41,7 @@
     if (calm) { el.textContent = fmt(end); return }
     const t0 = performance.now()
     const tick = (t) => {
-      const p = Math.min(1, (t - t0) / 1600)
+      const p = Math.max(0, Math.min(1, (t - t0) / 1600))
       el.textContent = fmt(Math.round(end * (1 - Math.pow(1 - p, 4))))
       if (p < 1) requestAnimationFrame(tick)
     }
@@ -61,6 +61,27 @@
     el.style.transitionDelay = (el.parentElement.matches('.stats, .services__list') ? (i % 4) * 90 : 0) + 'ms'
     io.observe(el)
   })
+
+  /* ---------- retrato com profundidade (paralaxe em camadas) ---------- */
+  const pop = $('#pop')
+  if (pop && !calm && matchMedia('(hover: hover)').matches) {
+    const area = pop.closest('section')
+    let raf = 0
+    let mx = 0
+    let my = 0
+    const apply = () => {
+      raf = 0
+      pop.style.setProperty('--mx', mx.toFixed(3))
+      pop.style.setProperty('--my', my.toFixed(3))
+    }
+    area.addEventListener('pointermove', (e) => {
+      const r = pop.getBoundingClientRect()
+      mx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width * 1.5)))
+      my = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height * 1.5)))
+      if (!raf) raf = requestAnimationFrame(apply)
+    })
+    area.addEventListener('pointerleave', () => { mx = my = 0; if (!raf) raf = requestAnimationFrame(apply) })
+  }
 
   /* ---------- projetos ---------- */
   const works = [
@@ -88,7 +109,7 @@
     <li class="work" data-cat="${w.cat}">
       <button class="work__btn" type="button" data-i="${i}" aria-haspopup="dialog">
         <span class="work__img">
-          <img src="${img(w.id, 900)}" alt="${w.name}, ${label[w.cat].toLowerCase()} em ${w.place}" loading="lazy" decoding="async" />
+          <img src="${img(w.id, 720)}" alt="${w.name}, ${label[w.cat].toLowerCase()} em ${w.place}" loading="lazy" decoding="async" />
           <span class="work__more" aria-hidden="true">Ver projeto<svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></span>
         </span>
         <span class="work__row">
@@ -119,7 +140,7 @@
   const fill = (i) => {
     open = i
     const w = works[i]
-    $('#modalImg').innerHTML = `<img src="${img(w.id, 1400)}" alt="${w.name}" />`
+    $('#modalImg').innerHTML = `<img src="${img(w.id, 1200)}" alt="${w.name}" />`
     $('#modalType').textContent = `${label[w.cat]} · ${w.year}`
     $('#modalTitle').textContent = w.name
     $('#modalText').textContent = w.text
@@ -341,7 +362,7 @@
     })
     if (!ok) { msg.textContent = 'Confira seu nome e um WhatsApp com DDD.'; return }
     const first = form.nome.value.trim().split(' ')[0]
-    msg.textContent = `Obrigado, ${first}! Num site real, a Helena chamaria você no WhatsApp para marcar a visita ao terreno.`
+    msg.textContent = `Obrigado, ${first}! Num site real, a Clara chamaria você no WhatsApp para marcar a visita ao terreno.`
     form.nome.value = ''; form.tel.value = ''
   })
 })()

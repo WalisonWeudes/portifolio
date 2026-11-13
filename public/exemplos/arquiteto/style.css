@@ -201,7 +201,48 @@ svg { flex: none; }
 
 
 /* ---------- intro ---------- */
-.intro__grid { display: grid; grid-template-columns: 1fr 3fr; gap: 2rem 4rem; }
+.intro__grid { display: grid; grid-template-columns: minmax(260px, 1.15fr) 2fr; gap: 2rem clamp(2rem, 5vw, 5rem); align-items: start; }
+.intro__side { grid-row: span 2; display: grid; gap: 1.6rem; }
+
+/* retrato em camadas com profundidade (inclina em 3D seguindo o mouse) */
+.pop {
+  --mx: 0; --my: 0;
+  position: relative;
+  width: min(100%, 380px);
+  aspect-ratio: 1 / 1.02;
+  margin-top: 2rem;
+  perspective: 1100px;
+}
+.pop__card {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--my) * -9deg)) rotateY(calc(var(--mx) * 11deg));
+  transition: transform .6s var(--ease);
+}
+.pop__block {
+  position: absolute; inset: 36% 0 -6% -4%;
+  background: var(--orange);
+  transform: translateZ(-50px);
+}
+.pop__frame {
+  position: absolute; inset: 44% -8% -12% 8%;
+  border: 1px solid var(--ink);
+  transform: translateZ(-100px);
+}
+.pop__img {
+  position: absolute; left: 2%; bottom: 0; width: 98%; height: auto;
+  transform: translateZ(40px);
+  filter: drop-shadow(0 22px 22px rgba(14, 14, 14, .28)); /* sombra que segue o contorno dela */
+}
+.pop figcaption {
+  position: absolute; left: 0; bottom: -6rem;
+  display: grid; gap: .1rem; font-size: .9rem;
+}
+.pop figcaption b { font-variation-settings: var(--wide); font-weight: 700; text-transform: uppercase; font-size: .86rem; letter-spacing: .02em; }
+.pop figcaption span { color: var(--mute); font-size: .82rem; }
+.pop.reveal .pop__img { transition: opacity .9s var(--ease) .15s, translate .9s var(--ease) .15s; }
+.js .pop.reveal:not(.is-in) .pop__img { opacity: 0; translate: 0 30px; }
+
 .intro__text {
   font-weight: 400;
   font-size: clamp(1.5rem, 3.3vw, 2.75rem);
@@ -213,12 +254,12 @@ svg { flex: none; }
   grid-column: 2; display: grid; grid-template-columns: repeat(4, 1fr);
   margin-top: clamp(40px, 6vw, 80px); border-top: 1px solid var(--ink);
 }
-.stat { padding: 1.2rem 1.2rem 0 0; border-right: 1px solid var(--line); }
+.stat { display: flex; flex-direction: column; padding: 1.2rem 1.2rem 0 0; border-right: 1px solid var(--line); }
 .stat + .stat { padding-left: 1.2rem; }
 .stat:last-child { border-right: 0; }
 .stat dt { font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); }
 .stat dd {
-  margin-top: .5rem;
+  margin-top: auto; padding-top: .6rem; /* número sempre na mesma linha, mesmo se o rótulo quebrar */
   font-variation-settings: var(--wide); font-weight: 800;
   font-size: clamp(1.9rem, 3.6vw, 3.2rem); line-height: 1;
   font-feature-settings: 'tnum';
@@ -313,14 +354,18 @@ svg { flex: none; }
 }
 .cmp__img, .cmp__sketch img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .cmp__sketch { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos)) 0 0); background: var(--paper); }
-.cmp__sketch img { filter: grayscale(1) invert(1) contrast(2.4) brightness(1.35); mix-blend-mode: multiply; opacity: .9; }
-.cmp__sketch::after {
-  content: ''; position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(14,14,14,.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(14,14,14,.08) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
+.cmp__sketch { background: #f4f0e7; }
+/* anotações de prancha sobre o croqui */
+.cmp__notes { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.cmp__notes .n path { fill: none; stroke: #2a2826; stroke-width: 2.4; }
+.cmp__notes .n circle { fill: var(--orange); }
+.cmp__notes .dim path { stroke: var(--orange); stroke-width: 3; }
+.cmp__notes text { fill: #2a2826; font: 700 26px var(--font); letter-spacing: .08em; paint-order: stroke; stroke: #f4f0e7; stroke-width: 8px; }
+.cmp__notes text.v { fill: var(--orange-deep); font-size: 34px; letter-spacing: 0; }
+.cmp__notes text.s { font-weight: 500; font-size: 22px; letter-spacing: .01em; }
+.cmp__notes .stamp rect { fill: #f4f0e7; stroke: #2a2826; stroke-width: 2.4; }
+.cmp__notes .stamp path { stroke: #2a2826; stroke-width: 1.6; }
+.cmp__notes .stamp text { stroke: none; }
 .cmp__line { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: var(--orange); pointer-events: none; }
 .cmp__line span {
   position: absolute; top: 50%; left: 50%; translate: -50% -50%;
@@ -691,13 +736,13 @@ html.intro-play { overflow: hidden; }
 .opening__half {
   position: absolute; left: 0; right: 0; height: 50.2%;
   background:
-    linear-gradient(rgba(14, 14, 14, .88), rgba(14, 14, 14, .88)),
-    url("https://images.unsplash.com/photo-1536566482680-fca31930a0bd?w=900&q=45&auto=format&fit=crop") center / 100vw 100vh no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") 0 0 / 240px,
+    radial-gradient(ellipse at 50% 50%, #1d1c1a, var(--ink) 75%) center / 100vw 100vh no-repeat,
     var(--ink);
   will-change: transform;
 }
-.opening__half--top { top: 0; background-position: 0 0, center top; animation: slabUp .78s 1.55s cubic-bezier(.76, 0, .2, 1) forwards; }
-.opening__half--bottom { bottom: 0; background-position: 0 0, center bottom; animation: slabDown .78s 1.55s cubic-bezier(.76, 0, .2, 1) forwards; }
+.opening__half--top { top: 0; background-position: 0 0, center top; animation: slabUp .6s 1.62s cubic-bezier(.76, 0, .2, 1) forwards; }
+.opening__half--bottom { bottom: 0; background-position: 0 0, center bottom; animation: slabDown .6s 1.62s cubic-bezier(.76, 0, .2, 1) forwards; }
 @keyframes slabUp { to { transform: translateY(-101%); } }
 @keyframes slabDown { to { transform: translateY(101%); } }
 
@@ -706,31 +751,32 @@ html.intro-play { overflow: hidden; }
   position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px;
   background: var(--orange);
   transform: scaleX(0); transform-origin: left;
-  animation: seam .32s 1.28s cubic-bezier(.65, 0, .35, 1) forwards, fadeOut .3s 1.7s forwards;
+  animation: seam .24s 1.42s cubic-bezier(.65, 0, .35, 1) forwards, fadeOut .22s 1.74s forwards;
 }
 @keyframes seam { to { transform: scaleX(1); } }
 
 /* logo desenhado */
 .opening__lockup {
-  position: absolute; left: 50%; top: 50%;
+  position: absolute; left: 0; right: 0; top: 50%;
+  justify-content: center; padding: 0 16px;
   display: flex; align-items: center; gap: clamp(14px, 2vw, 24px);
-  translate: -50% -50%;
-  animation: lockupOut .3s 1.42s ease-in forwards;
+  translate: 0 -50%;
+  animation: lockupOut .22s 1.5s ease-in forwards;
 }
 @keyframes lockupOut { to { opacity: 0; transform: translateY(-14px) scale(.97); } }
-.opening__mark { position: relative; flex: none; width: clamp(56px, 7vw, 84px); aspect-ratio: 1; }
+.opening__mark { position: relative; flex: none; width: clamp(46px, 7vw, 84px); aspect-ratio: 1; }
 .opening__mark svg { position: relative; width: 100%; height: 100%; overflow: visible; }
 .i-sq, .i-v { fill: none; stroke: var(--white); stroke-dasharray: 1; stroke-dashoffset: 1; }
-.i-sq { stroke-width: 2; animation: draw .6s .2s cubic-bezier(.65, 0, .35, 1) forwards; }
-.i-v { stroke-width: 2.6; stroke-linejoin: miter; animation: draw .45s .6s cubic-bezier(.65, 0, .35, 1) forwards; }
+.i-sq { stroke-width: 2; animation: draw .45s .12s cubic-bezier(.65, 0, .35, 1) forwards; }
+.i-v { stroke-width: 2.6; stroke-linejoin: miter; animation: draw .34s .38s cubic-bezier(.65, 0, .35, 1) forwards; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
-.i-dot { fill: var(--orange); transform-box: fill-box; transform-origin: center; transform: scale(0); animation: stamp .34s 1s cubic-bezier(.3, 1.6, .5, 1) forwards; }
+.i-dot { fill: var(--orange); transform-box: fill-box; transform-origin: center; transform: scale(0); animation: stamp .26s .64s cubic-bezier(.3, 1.6, .5, 1) forwards; }
 @keyframes stamp { to { transform: scale(1); } }
 
 /* linhas de construção que saem das arestas do quadrado e cruzam a tela */
 .opening__mark .g { position: absolute; background: rgba(255, 255, 255, .2); }
-.opening__mark .g--t, .opening__mark .g--b { left: -100vw; width: 200vw; height: 1px; transform: scaleX(0); animation: guide .7s cubic-bezier(.65, 0, .35, 1) forwards; }
-.opening__mark .g--l, .opening__mark .g--r { top: -100vh; height: 200vh; width: 1px; transform: scaleY(0); animation: guide .7s .08s cubic-bezier(.65, 0, .35, 1) forwards; }
+.opening__mark .g--t, .opening__mark .g--b { left: -100vw; width: 200vw; height: 1px; transform: scaleX(0); animation: guide 0.525s cubic-bezier(.65, 0, .35, 1) forwards; }
+.opening__mark .g--l, .opening__mark .g--r { top: -100vh; height: 200vh; width: 1px; transform: scaleY(0); animation: guide 0.525s 0.06s cubic-bezier(.65, 0, .35, 1) forwards; }
 .opening__mark .g--t { top: 3.1%; }
 .opening__mark .g--b { bottom: 3.1%; }
 .opening__mark .g--l { left: 3.1%; }
@@ -738,38 +784,38 @@ html.intro-play { overflow: hidden; }
 @keyframes guide { to { transform: none; } }
 
 .opening__text { display: grid; gap: .35rem; }
-.opening__name { display: flex; overflow: hidden; line-height: .9; padding-top: .08em; }
+.opening__name { display: flex; overflow: hidden; line-height: .9; padding-top: .3em; margin-top: -.22em; white-space: nowrap; }
 .opening__name b {
   display: block;
   font-variation-settings: 'wdth' 125; font-weight: 900;
-  font-size: clamp(2.6rem, 7vw, 5.4rem); letter-spacing: -.02em;
+  font-size: clamp(2.1rem, 9.5vw, 5.4rem); letter-spacing: -.02em;
   transform: translateY(105%);
-  animation: rise .55s cubic-bezier(.2, .8, .2, 1) forwards;
+  animation: rise .45s cubic-bezier(.2, .8, .2, 1) forwards;
 }
-.opening__name b:nth-child(1) { animation-delay: .62s; }
-.opening__name b:nth-child(2) { animation-delay: .66s; }
-.opening__name b:nth-child(3) { animation-delay: .70s; }
-.opening__name b:nth-child(4) { animation-delay: .74s; }
-.opening__name b:nth-child(5) { animation-delay: .78s; }
-.opening__name b:nth-child(6) { animation-delay: .82s; }
-.opening__name b:nth-child(7) { animation-delay: .86s; }
+.opening__name b:nth-child(1) { animation-delay: 0.30s; }
+.opening__name b:nth-child(2) { animation-delay: 0.34s; }
+.opening__name b:nth-child(3) { animation-delay: 0.38s; }
+.opening__name b:nth-child(4) { animation-delay: 0.42s; }
+.opening__name b:nth-child(5) { animation-delay: 0.46s; }
+.opening__name b:nth-child(6) { animation-delay: 0.50s; }
+.opening__name b:nth-child(7) { animation-delay: 0.54s; }
 @keyframes rise { to { transform: none; } }
 .opening__sub {
   font-size: .78rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase;
   color: rgba(255, 255, 255, .62);
-  opacity: 0; animation: fadeIn .4s 1.02s forwards;
+  opacity: 0; animation: fadeIn .3s .7s forwards;
 }
 @keyframes fadeIn { to { opacity: 1; } }
 @keyframes fadeOut { to { opacity: 0; } }
 
 /* depois da laje abrir: o nome gigante sobe de trás do telhado e o resto do topo aparece */
 .intro-play .hero__word,
-.intro-done .hero__word { animation: wordRise 1s 1.82s cubic-bezier(.2, .8, .2, 1) both; }
+.intro-done .hero__word { animation: wordRise .8s 1.85s cubic-bezier(.2, .8, .2, 1) both; }
 @keyframes wordRise { from { transform: translateY(150px); opacity: 0; } 35% { opacity: 1; } to { transform: none; opacity: 1; } }
-.intro-play .hero__photo { animation: heroSettle 1.6s 1.55s cubic-bezier(.2, .8, .2, 1) both; transform-origin: 500px 400px; }
+.intro-play .hero__photo { animation: heroSettle 1.2s 1.62s cubic-bezier(.2, .8, .2, 1) both; transform-origin: 500px 400px; }
 @keyframes heroSettle { from { transform: scale(1.06); } to { transform: none; } }
 .intro-play .header, .intro-play .hero__top,
-.intro-done .header, .intro-done .hero__top { animation: fadeIn .6s 2.25s both; }
+.intro-done .header, .intro-done .hero__top { animation: fadeIn .45s 2.1s both; }
 .intro-skip .hero__word, .intro-skip .header, .intro-skip .hero__top, .intro-skip .hero__photo { animation: none !important; }
 
 @media (max-width: 640px) {
@@ -791,6 +837,8 @@ html.intro-play { overflow: hidden; }
   .plan__figure, .quote-sec__grid > div { position: static; }
   .work, .work:nth-child(5n + 1), .work:nth-child(5n + 2) { grid-column: span 6; }
   .intro__grid { grid-template-columns: 1fr; }
+  .intro__side { grid-row: auto; }
+  .pop { width: min(78%, 320px); margin: 1.4rem 0 6.6rem; }
   .stats { grid-column: 1; }
 }
 

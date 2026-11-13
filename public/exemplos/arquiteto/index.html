@@ -10,14 +10,18 @@
 <link rel="icon" type="image/png" href="/imagens/favicon-64.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,300..500&amp;family=Instrument+Serif:ital@1&amp;display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..900&amp;display=swap" rel="stylesheet" />
 <link rel="preconnect" href="https://images.unsplash.com" />
-<link rel="preload" as="image" href="https://images.unsplash.com/photo-1790213680570-79cb3f02d4d2?w=2000&amp;q=72&amp;auto=format" />
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1790213680570-79cb3f02d4d2?w=1600&amp;q=62&amp;auto=format" media="(min-width: 761px)" fetchpriority="high" />
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1790213680570-79cb3f02d4d2?w=900&amp;q=60&amp;auto=format" media="(max-width: 760px)" fetchpriority="high" />
 <link rel="stylesheet" href="style.css" />
 <script>
   document.documentElement.classList.add('js')
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('calm')
-  else if (!location.search.includes('mvshot')) document.documentElement.classList.add('intro-play')
+  else if (!location.search.includes('mvshot')) {
+    // abertura só na primeira visita da sessão
+    try { if (!sessionStorage.getItem('vertice-intro')) document.documentElement.classList.add('intro-play') } catch (e) {}
+  }
 </script>
 </head>
 <body>
@@ -53,12 +57,13 @@
       done = true
       html.classList.remove('intro-play')
       html.classList.add('intro-done')
+      try { sessionStorage.setItem('vertice-intro', '1') } catch (e) {}
       var el = document.getElementById('opening')
       el && el.remove()
       ;['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (t) { removeEventListener(t, skip) })
     }
     var skip = function () { html.classList.add('intro-skip'); end() }
-    if (!location.search.includes('introhold')) setTimeout(end, 2350) // introhold: só para capturar quadros
+    if (!location.search.includes('introhold')) setTimeout(end, 2300) // introhold: só para capturar quadros
     ;['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (t) { addEventListener(t, skip, { passive: true }) })
   })()
 </script>
@@ -107,11 +112,17 @@
             <stop offset="1" stop-color="#0e0e0e" stop-opacity=".9" />
           </linearGradient>
         </defs>
-        <image class="hero__photo" href="https://images.unsplash.com/photo-1790213680570-79cb3f02d4d2?w=2000&amp;q=72&amp;auto=format" width="1000" height="667" preserveAspectRatio="xMidYMid slice" />
+        <image class="hero__photo" width="1000" height="667" preserveAspectRatio="xMidYMid slice" />
         <text class="hero__word" x="500" y="366" textLength="890" lengthAdjust="spacingAndGlyphs" aria-hidden="true">VÉRTICE</text>
-        <image class="hero__photo" href="https://images.unsplash.com/photo-1790213680570-79cb3f02d4d2?w=2000&amp;q=72&amp;auto=format" width="1000" height="667" preserveAspectRatio="xMidYMid slice" clip-path="url(#houseCut)" />
+        <image class="hero__photo" width="1000" height="667" preserveAspectRatio="xMidYMid slice" clip-path="url(#houseCut)" />
         <rect width="1000" height="667" fill="url(#heroFade)" pointer-events="none" />
       </svg>
+      <script>
+        // escolhe o tamanho da foto antes de baixar (o SVG não aceita srcset)
+        document.querySelectorAll('.hero__photo').forEach(function (i) {
+          i.setAttribute('href', innerWidth > 760 ? 'https://images.unsplash.com/photo-1790213680570-79cb3f02d4d2?w=1600&q=62&auto=format' : 'https://images.unsplash.com/photo-1790213680570-79cb3f02d4d2?w=900&q=60&auto=format')
+        })
+      </script>
     </div>
 
     <div class="wrap hero__ui">
@@ -125,7 +136,18 @@
   <!-- MANIFESTO + NÚMEROS -->
   <section class="intro section">
     <div class="wrap intro__grid">
-      <p class="label reveal">[ 00 ] O estúdio</p>
+      <div class="intro__side">
+        <p class="label reveal">[ 00 ] O estúdio</p>
+        <!-- retrato recortado saindo do bloco laranja: camadas em profundidades diferentes, inclinando com o mouse -->
+        <figure class="pop reveal" id="pop">
+          <div class="pop__card">
+            <span class="pop__frame" aria-hidden="true"></span>
+            <span class="pop__block" aria-hidden="true"></span>
+            <img class="pop__img" src="img/clara.webp" alt="Clara Emilly, arquiteta fundadora da Vértice, de cabelo azul" width="760" height="760" loading="lazy" decoding="async" />
+          </div>
+          <figcaption><b>Clara Emilly</b><span>Arquiteta fundadora</span></figcaption>
+        </figure>
+      </div>
       <h2 class="intro__text reveal">Projetamos com <em>luz, matéria e silêncio</em>. Cada linha tem um motivo, cada material envelhece bem, e a obra sai como foi desenhada.</h2>
       <dl class="stats">
         <div class="stat reveal"><dt>Anos de estúdio</dt><dd data-count="14">0</dd></div>
@@ -145,25 +167,25 @@
       </div>
       <ol class="services__list">
         <li class="service reveal">
-          <div class="service__img"><img src="https://images.unsplash.com/photo-1756706718604-ef4af3970e33?w=800&amp;q=65&amp;auto=format&amp;fit=crop" alt="Casa de concreto e madeira entre árvores" loading="lazy" /></div>
+          <div class="service__img"><img src="https://images.unsplash.com/photo-1756706718604-ef4af3970e33?w=600&amp;q=62&amp;auto=format&amp;fit=crop" alt="Casa de concreto e madeira entre árvores" loading="lazy" decoding="async" /></div>
           <span class="service__num">01</span>
           <h3>Residencial</h3>
           <p>Casas sob medida para o terreno, o clima e a rotina de quem vai morar.</p>
         </li>
         <li class="service reveal">
-          <div class="service__img"><img src="https://images.unsplash.com/photo-1724582586529-62622e50c0b3?w=800&amp;q=65&amp;auto=format&amp;fit=crop" alt="Sala de estar minimalista com grande janela" loading="lazy" /></div>
+          <div class="service__img"><img src="https://images.unsplash.com/photo-1724582586529-62622e50c0b3?w=600&amp;q=62&amp;auto=format&amp;fit=crop" alt="Sala de estar minimalista com grande janela" loading="lazy" decoding="async" /></div>
           <span class="service__num">02</span>
           <h3>Interiores</h3>
           <p>Marcenaria, iluminação e materiais pensados junto com a arquitetura.</p>
         </li>
         <li class="service reveal">
-          <div class="service__img"><img src="https://images.unsplash.com/photo-1761792430733-00e53d2a79b7?w=800&amp;q=65&amp;auto=format&amp;fit=crop" alt="Edifício de concreto aparente contra o céu" loading="lazy" /></div>
+          <div class="service__img"><img src="https://images.unsplash.com/photo-1761792430733-00e53d2a79b7?w=600&amp;q=62&amp;auto=format&amp;fit=crop" alt="Edifício de concreto aparente contra o céu" loading="lazy" decoding="async" /></div>
           <span class="service__num">03</span>
           <h3>Comercial</h3>
           <p>Lojas, escritórios e clínicas que reforçam a marca e funcionam no dia a dia.</p>
         </li>
         <li class="service reveal">
-          <div class="service__img"><img src="https://images.unsplash.com/photo-1603901622056-0a5bee231395?w=800&amp;q=65&amp;auto=format&amp;fit=crop" alt="Plantas arquitetônicas com lápis e régua sobre a mesa" loading="lazy" /></div>
+          <div class="service__img"><img src="https://images.unsplash.com/photo-1603901622056-0a5bee231395?w=600&amp;q=62&amp;auto=format&amp;fit=crop" alt="Plantas arquitetônicas com lápis e régua sobre a mesa" loading="lazy" decoding="async" /></div>
           <span class="service__num">04</span>
           <h3>Projeto executivo</h3>
           <p>Detalhamento completo, compatibilização e acompanhamento da obra.</p>
@@ -304,12 +326,42 @@
           <p class="label reveal">[ 05 ] Do traço à obra</p>
           <h2 class="title reveal">O desenho<br />vira casa</h2>
         </div>
-        <p class="head__note reveal">Arraste a linha laranja: à esquerda, o estudo de volumetria; à direita, a Residência Aurora pronta.</p>
+        <p class="head__note reveal">Arraste a linha laranja: à esquerda, o croqui do estudo; à direita, a Residência Aurora construída, no mesmo ângulo.</p>
       </div>
       <div class="cmp reveal" id="cmp" style="--pos:50%">
-        <img class="cmp__img" src="https://images.unsplash.com/photo-1748063578185-3d68121b11ff?w=1600&amp;q=70&amp;auto=format&amp;fit=crop" alt="Residência Aurora construída" loading="lazy" />
+        <img class="cmp__img" src="https://images.unsplash.com/photo-1748063578185-3d68121b11ff?w=1280&amp;q=62&amp;auto=format&amp;fit=crop" alt="Residência Aurora construída" loading="lazy" decoding="async" />
         <div class="cmp__sketch" aria-hidden="true">
-          <img src="https://images.unsplash.com/photo-1748063578185-3d68121b11ff?w=1600&amp;q=70&amp;auto=format&amp;fit=crop" alt="" loading="lazy" />
+          <img src="img/aurora-croqui.webp" alt="" width="1600" height="1244" loading="lazy" decoding="async" />
+          <!-- anotações de prancha, no mesmo sistema de coordenadas da foto (1600 x 1244) -->
+          <svg class="cmp__notes" viewBox="0 0 1600 1244" preserveAspectRatio="xMidYMid slice">
+            <g class="n">
+              <path d="M1476 444 L1528 318 L1560 318" />
+              <circle cx="1476" cy="444" r="7" />
+              <text x="1560" y="292" text-anchor="end">LAJE EM BALANÇO</text>
+              <text class="v" x="1560" y="352" text-anchor="end">3,20 m</text>
+            </g>
+            <g class="n">
+              <path d="M520 560 L380 352 L120 352" />
+              <circle cx="520" cy="560" r="7" />
+              <text x="120" y="336">PANO DE VIDRO PISO-TETO</text>
+              <text class="s" x="120" y="382">caixilho preto, sem montante central</text>
+            </g>
+            <g class="n dim">
+              <path d="M380 735 V905 M362 735 H398 M362 905 H398" />
+              <text class="v" x="352" y="830" text-anchor="end">3,00</text>
+            </g>
+            <g class="n">
+              <path d="M700 935 L760 1004 L1060 1004" />
+              <circle cx="700" cy="935" r="7" />
+              <text x="772" y="990">DEGRAUS EM CONCRETO</text>
+            </g>
+            <g class="stamp">
+              <rect x="1250" y="930" width="320" height="96" />
+              <path d="M1250 966 H1570" />
+              <text x="1266" y="958">RESIDÊNCIA AURORA</text>
+              <text class="s" x="1266" y="1004">estudo de volumetria · prancha 02</text>
+            </g>
+          </svg>
         </div>
         <span class="cmp__tag cmp__tag--l">Estudo</span>
         <span class="cmp__tag cmp__tag--r">Obra</span>
@@ -331,7 +383,7 @@
       <ol class="accordion-gallery reveal" id="steps" aria-label="Etapas do projeto">
         <li class="ag-panel" tabindex="0">
           <span class="ag-panel__frame">
-            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1598368195835-91e67f80c9d7?w=1100&amp;q=68&amp;auto=format&amp;fit=crop" alt="Anotações à mão sobre papel" loading="lazy" draggable="false" /></span>
+            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1598368195835-91e67f80c9d7?w=800&amp;q=62&amp;auto=format&amp;fit=crop" alt="Anotações à mão sobre papel" loading="lazy" decoding="async" draggable="false" /></span>
             <span class="ag-panel__overlay" aria-hidden="true"></span>
           </span>
           <span class="ag-panel__num" aria-hidden="true">01</span>
@@ -343,7 +395,7 @@
         </li>
         <li class="ag-panel" tabindex="0">
           <span class="ag-panel__frame">
-            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1542621334-a254cf47733d?w=1100&amp;q=68&amp;auto=format&amp;fit=crop" alt="Lápis sobre desenho técnico impresso" loading="lazy" draggable="false" /></span>
+            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1542621334-a254cf47733d?w=800&amp;q=62&amp;auto=format&amp;fit=crop" alt="Lápis sobre desenho técnico impresso" loading="lazy" decoding="async" draggable="false" /></span>
             <span class="ag-panel__overlay" aria-hidden="true"></span>
           </span>
           <span class="ag-panel__num" aria-hidden="true">02</span>
@@ -355,7 +407,7 @@
         </li>
         <li class="ag-panel" tabindex="0">
           <span class="ag-panel__frame">
-            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1721244654392-9c912a6eb236?w=1100&amp;q=68&amp;auto=format&amp;fit=crop" alt="Planta de fachada de um edifício" loading="lazy" draggable="false" /></span>
+            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1721244654392-9c912a6eb236?w=800&amp;q=62&amp;auto=format&amp;fit=crop" alt="Planta de fachada de um edifício" loading="lazy" decoding="async" draggable="false" /></span>
             <span class="ag-panel__overlay" aria-hidden="true"></span>
           </span>
           <span class="ag-panel__num" aria-hidden="true">03</span>
@@ -367,7 +419,7 @@
         </li>
         <li class="ag-panel" tabindex="0">
           <span class="ag-panel__frame">
-            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1503387837-b154d5074bd2?w=1100&amp;q=68&amp;auto=format&amp;fit=crop" alt="Pessoa detalhando um projeto na prancheta" loading="lazy" draggable="false" /></span>
+            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1503387837-b154d5074bd2?w=800&amp;q=62&amp;auto=format&amp;fit=crop" alt="Pessoa detalhando um projeto na prancheta" loading="lazy" decoding="async" draggable="false" /></span>
             <span class="ag-panel__overlay" aria-hidden="true"></span>
           </span>
           <span class="ag-panel__num" aria-hidden="true">04</span>
@@ -379,7 +431,7 @@
         </li>
         <li class="ag-panel" tabindex="0">
           <span class="ag-panel__frame">
-            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1787672357923-ab85681ab58c?w=1100&amp;q=68&amp;auto=format&amp;fit=crop" alt="Casa de concreto em construção" loading="lazy" draggable="false" /></span>
+            <span class="ag-panel__media"><img src="https://images.unsplash.com/photo-1787672357923-ab85681ab58c?w=800&amp;q=62&amp;auto=format&amp;fit=crop" alt="Casa de concreto em construção" loading="lazy" decoding="async" draggable="false" /></span>
             <span class="ag-panel__overlay" aria-hidden="true"></span>
           </span>
           <span class="ag-panel__num" aria-hidden="true">05</span>
@@ -397,12 +449,12 @@
   <section class="studio section">
     <div class="wrap studio__grid">
       <div class="studio__img reveal">
-        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1000&amp;q=65&amp;auto=format&amp;fit=crop" alt="Arquiteto desenhando à mão com lápis e régua" loading="lazy" />
+        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=760&amp;q=62&amp;auto=format&amp;fit=crop" alt="Arquiteto desenhando à mão com lápis e régua" loading="lazy" decoding="async" />
         <span class="studio__badge">Desenho à mão<br />antes do software</span>
       </div>
       <div class="studio__text">
         <p class="label reveal">[ 07 ] Quem desenha</p>
-        <h2 class="title reveal">Helena<br />Vasconcelos</h2>
+        <h2 class="title reveal">Clara<br />Emilly</h2>
         <p class="studio__role reveal">Arquiteta e urbanista · CAU A123456-7</p>
         <p class="reveal">Formada pela UFC, com mestrado em conforto ambiental. Antes de abrir a Vértice, passou seis anos projetando casas no semiárido, onde aprendeu que sombra, ventilação e boa orientação valem mais que qualquer ar-condicionado.</p>
         <blockquote class="quote reveal">“Uma casa boa é a que continua certa depois de vinte anos.”</blockquote>

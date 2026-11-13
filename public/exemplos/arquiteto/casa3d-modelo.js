@@ -1,8 +1,9 @@
 // Modelo da Casa Jatobá para o visualizador 3D.
 // Texturas: fotos do Unsplash carregadas direto de images.unsplash.com (repetidas em metros reais).
 import * as THREE from 'three'
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
 
-const UNSPLASH = (id, w = 1024) => `https://images.unsplash.com/photo-${id}?w=${w}&q=72&fm=jpg&fit=crop`
+const UNSPLASH = (id, w = 512) => `https://images.unsplash.com/photo-${id}?w=${w}&q=62&auto=format&fit=crop`
 const IDS = {
   concrete: '1536566482680-fca31930a0bd', // concreto cinza
   concreteLight: '1787602525716-3c36be37d5fb', // concreto claro (lajes)
@@ -23,7 +24,7 @@ export function buildHouse(model, renderer, { lite = false } = {}) {
   const cache = {}
   const tex = (key) => {
     if (cache[key]) return cache[key]
-    const t = loader.load(UNSPLASH(IDS[key], lite ? 640 : 1024))
+    const t = loader.load(UNSPLASH(IDS[key], lite ? 384 : 512))
     t.wrapS = t.wrapT = THREE.RepeatWrapping
     t.colorSpace = THREE.SRGBColorSpace
     t.anisotropy = aniso
@@ -107,8 +108,8 @@ export function buildHouse(model, renderer, { lite = false } = {}) {
     water: new THREE.MeshStandardMaterial({ map: tex('water'), color: 0x9fe3f2, roughness: 0.05, metalness: 0.15, transparent: true, opacity: 0.72, emissive: 0x0b6a8a, emissiveIntensity: 0.55, envMapIntensity: 1.6 }),
     black: new THREE.MeshStandardMaterial({ color: 0x141414, roughness: 0.45, metalness: 0.6 }),
     white: new THREE.MeshStandardMaterial({ color: 0xf1eee8, roughness: 0.6 }),
-    glass: new THREE.MeshPhysicalMaterial({ color: 0xa9c6d2, roughness: 0.03, metalness: 0, transparent: true, opacity: 0.28, reflectivity: 0.9, envMapIntensity: 2.2, clearcoat: 1 }),
-    frosted: new THREE.MeshPhysicalMaterial({ color: 0xf4f6f6, roughness: 0.55, transparent: true, opacity: 0.86, envMapIntensity: 0.8 }),
+    glass: new THREE.MeshStandardMaterial({ color: 0xa9c6d2, roughness: 0.04, metalness: 0.1, transparent: true, opacity: 0.3, envMapIntensity: 2.2 }),
+    frosted: new THREE.MeshStandardMaterial({ color: 0xf4f6f6, roughness: 0.55, transparent: true, opacity: 0.86, envMapIntensity: 0.8 }),
     warmWall: new THREE.MeshStandardMaterial({ color: 0xf2e6d6, emissive: 0xffb36b, emissiveIntensity: 0.28, roughness: 0.9 }),
     fabric: new THREE.MeshStandardMaterial({ color: 0xd9d0c3, roughness: 1 }),
     fabricDark: new THREE.MeshStandardMaterial({ color: 0x4b4540, roughness: 1 }),
@@ -387,6 +388,7 @@ export function buildHouse(model, renderer, { lite = false } = {}) {
   }
   const curtains = [1, -1].map((dir) => {
     const c = new THREE.Mesh(pleated(1.72, 2.12, dir), curtainMat)
+    c.userData.dynamic = true
     c.position.set(dir > 0 ? -3.2 : 0.2, 5.03, 5.36)
     c.castShadow = true
     model.add(c)
@@ -463,16 +465,13 @@ export function buildHouse(model, renderer, { lite = false } = {}) {
   /* ---------- luzes que pertencem à casa (acendem à noite) ---------- */
   const lamps = [] // [luz, intensidade à noite]
   const addLamp = (light, night) => { light.intensity = 0; lamps.push([light, night]); model.add(light); return light }
-  addLamp(new THREE.PointLight(0xffb36b, 0, 9, 2), 10).position.set(0, 2.7, 0)
-  addLamp(new THREE.PointLight(0xffc887, 0, 5, 2), 5).position.set(-2.5, 2.2, -0.3)
+  // poucas luzes: cada uma pesa em todo pixel da cena. À noite só; de dia ficam desligadas
+  addLamp(new THREE.PointLight(0xffb877, 0, 10, 2), 13).position.set(-0.8, 2.6, 0) // sala e cozinha
   addLamp(new THREE.PointLight(0xffc28a, 0, 6, 2), 6).position.set(-1.5, 5.9, 4.6) // quarto
-  for (const x of [-2.6, -0.4]) {
-    const s = addLamp(new THREE.SpotLight(0xffc78f, 0, 6, 0.75, 0.8, 2), 26)
-    s.position.set(x, 3.6, 4.4)
-    s.target.position.set(x, 0, 4.4)
-    model.add(s.target)
-  }
-  for (const z of [0.8, -0.9]) addLamp(new THREE.PointLight(0xffd29a, 0, 2.2, 2), 1.6).position.set(-5.85, 0.55, z)
+  const spot = addLamp(new THREE.SpotLight(0xffc78f, 0, 7, 0.95, 0.85, 2), 34) // spots do balanço
+  spot.position.set(-1.5, 3.6, 4.4)
+  spot.target.position.set(-1.5, 0, 4.6)
+  model.add(spot.target)
   const pool = addLamp(new THREE.PointLight(0x6fe2ff, 0, 3.5, 2), 6)
   pool.position.set(2.75, 0.2, 4.4)
 
@@ -608,6 +607,7 @@ export function buildHouse(model, renderer, { lite = false } = {}) {
 
     const g = new THREE.Group()
     g.add(sit, lie)
+    g.userData.dynamic = true
     g.position.set(0.5, 0.02, 6.25) // na grama, em frente à casa, entre o deck e a piscina
     g.rotation.y = 0.15
     g.scale.setScalar(1.55)
@@ -636,6 +636,8 @@ export function buildHouse(model, renderer, { lite = false } = {}) {
     }
   })()
 
+  mergeStatic(model)
+
   return {
     // night: 0 = dia, 1 = noite
     // front: quanto a fachada do quarto está de frente para a câmera (-1 a 1)
@@ -647,10 +649,51 @@ export function buildHouse(model, renderer, { lite = false } = {}) {
       const m = M.water.map
       m.offset.x = Math.sin(t * 0.18) * 0.06
       m.offset.y += dt * 0.012
-      lamps.forEach(([l, n]) => { l.intensity = n * night * (l === pool ? 1 + Math.sin(t * 2.3) * 0.08 : 1) })
+      lamps.forEach(([l, n]) => {
+        l.visible = night > 0.02
+        l.intensity = n * night * (l === pool ? 1 + Math.sin(t * 2.3) * 0.08 : 1)
+      })
       glowMats.forEach(([mat, d, n]) => { mat.emissiveIntensity = d + (n - d) * night })
       tintMats.forEach(([mat, d, n]) => mat.color.lerpColors(d, n, night))
       dog.update(t, night)
     },
+  }
+}
+
+// Junta as malhas paradas que usam o mesmo material numa só (centenas de desenhos viram poucas dezenas).
+function mergeStatic(model) {
+  model.updateMatrixWorld(true)
+  const inv = new THREE.Matrix4().copy(model.matrixWorld).invert()
+  const buckets = new Map()
+  const walk = (o) => {
+    for (const c of o.children) {
+      if (c.userData.dynamic || c.isLight || c.isSprite || c.userData.bob !== undefined) continue
+      if (c.isMesh) {
+        const key = [c.material.uuid, c.geometry.index ? 'i' : 'n', c.castShadow, c.receiveShadow, c.renderOrder].join('|')
+        if (!buckets.has(key)) buckets.set(key, [])
+        buckets.get(key).push(c)
+      }
+      if (c.children.length) walk(c)
+    }
+  }
+  walk(model)
+  const m4 = new THREE.Matrix4()
+  for (const meshes of buckets.values()) {
+    if (meshes.length < 2) continue
+    const geos = meshes.map((m) => {
+      const g = m.geometry.clone()
+      for (const name of Object.keys(g.attributes)) if (!['position', 'normal', 'uv'].includes(name)) g.deleteAttribute(name)
+      g.clearGroups()
+      return g.applyMatrix4(m4.multiplyMatrices(inv, m.matrixWorld))
+    })
+    const merged = mergeGeometries(geos)
+    if (!merged) continue
+    const first = meshes[0]
+    const mesh = new THREE.Mesh(merged, first.material)
+    mesh.castShadow = first.castShadow
+    mesh.receiveShadow = first.receiveShadow
+    mesh.renderOrder = first.renderOrder
+    meshes.forEach((m) => m.removeFromParent())
+    model.add(mesh)
   }
 }

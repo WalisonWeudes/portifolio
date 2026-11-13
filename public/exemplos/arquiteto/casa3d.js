@@ -32,7 +32,8 @@ function start(root) {
     root.classList.add('no-webgl')
     return
   }
-  renderer.setPixelRatio(Math.min(devicePixelRatio, lite ? 1.5 : 2))
+  let dpr = Math.min(devicePixelRatio, lite ? 1.25 : 1.5)
+  renderer.setPixelRatio(dpr)
   renderer.outputColorSpace = THREE.SRGBColorSpace
   renderer.toneMapping = THREE.ACESFilmicToneMapping
   renderer.toneMappingExposure = 1
@@ -52,7 +53,7 @@ function start(root) {
   const sun = new THREE.DirectionalLight(0xffc28c, 3.1) // sol de dia, lua à noite
   sun.position.set(-13, 9.5, 10)
   sun.castShadow = true
-  sun.shadow.mapSize.set(lite ? 2048 : 4096, lite ? 2048 : 4096)
+  sun.shadow.mapSize.set(lite ? 1024 : 2048, lite ? 1024 : 2048)
   Object.assign(sun.shadow.camera, { left: -10, right: 10, top: 10, bottom: -10, near: 1, far: 50 })
   sun.shadow.bias = -0.0004
   sun.shadow.normalBias = 0.02
@@ -289,6 +290,8 @@ function start(root) {
 
   /* ---------- laço de animação ---------- */
   const clock = new THREE.Clock()
+  let slow = 0
+  let lastDrop = 0
   let introT = location.search.includes('mvshot') ? 1 : 0
   let visible = true
   const v3 = new THREE.Vector3()
@@ -348,6 +351,16 @@ function start(root) {
     toCam.copy(camera.position).sub(roomP).normalize()
     house.update(dt, t, night, roomN.dot(toCam))
     renderer.render(scene, camera)
+
+    // qualidade adaptativa: se o aparelho não segura ~45 fps, baixa a resolução
+    slow = slow * 0.95 + (dt > 1 / 45 ? 1 : 0) * 0.05
+    if (slow > 0.6 && dpr > 0.85 && now - lastDrop > 2000) {
+      dpr = Math.max(0.85, dpr - 0.25)
+      renderer.setPixelRatio(dpr)
+      renderer.setSize(W, H, false)
+      lastDrop = now
+      slow = 0
+    }
 
     // linhas e etiquetas
     model.getWorldQuaternion(q)
@@ -431,6 +444,7 @@ function start(root) {
     if (visible && !was) { clock.getDelta(); requestAnimationFrame(frame) }
   }, { rootMargin: '120px' })
   io.observe(root)
+  if (location.search.includes('mvshot')) window.__mv = { renderer } // só para medir
   root.classList.add('is-ready')
   requestAnimationFrame(frame)
 }
