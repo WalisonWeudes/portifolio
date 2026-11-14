@@ -451,7 +451,7 @@ sheet.addEventListener('click', (ev) => {
 
 // botão flutuante aparece depois do primeiro bloco
 const float = $('.wa-float')
-const heroObs = new IntersectionObserver(([e]) => float.classList.toggle('is-on', !e.isIntersecting), {
+const heroObs = new IntersectionObserver((es) => float.classList.toggle('is-on', !es[es.length - 1].isIntersecting), {
   threshold: 0.1,
 })
 heroObs.observe($('.intro__ctas'))

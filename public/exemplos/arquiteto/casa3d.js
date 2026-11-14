@@ -438,9 +438,11 @@ function start(root) {
   }
 
   // só anima quando a seção está na tela
-  const io = new IntersectionObserver(([en]) => {
+  // o navegador pode entregar várias entradas de uma vez (ex.: sai e volta no mesmo instante);
+  // vale a última — usar só a primeira deixava o laço parado com a casa na tela
+  const io = new IntersectionObserver((entries) => {
     const was = visible
-    visible = en.isIntersecting
+    visible = entries[entries.length - 1].isIntersecting
     if (visible && !was) { clock.getDelta(); requestAnimationFrame(frame) }
   }, { rootMargin: '120px' })
   io.observe(root)
