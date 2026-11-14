@@ -112,9 +112,10 @@ export const products = [
 export const dockItems = [
   { number: '00', key: 'nav.home', href: '#inicio' },
   { number: '01', key: 'nav.work', href: '#projetos' },
-  { number: '02', key: 'nav.about', href: '#sobre' },
-  { number: '03', key: 'nav.experienceShort', href: '#experiencia' },
-  { number: '04', key: 'nav.contact', href: '#contato' },
+  { number: '02', key: 'nav.products', href: '#produtos' },
+  { number: '03', key: 'nav.about', href: '#sobre' },
+  { number: '04', key: 'nav.experienceShort', href: '#experiencia' },
+  { number: '05', key: 'nav.contact', href: '#contato' },
 ]
 
 export const socials = [

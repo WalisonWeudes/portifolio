@@ -26,7 +26,7 @@
     left: max(0.75rem, env(safe-area-inset-left));
     z-index: 55;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     padding: 0.35rem;
     border: 1px solid var(--line-strong);
     border-radius: 999px;
@@ -83,7 +83,9 @@
 
 @media (max-width: 430px) {
   .dock a {
-    font-size: 0.5rem;
+    padding-inline: 0.1rem;
+    font-size: 0.46rem;
+    letter-spacing: 0.04em;
   }
   .scroll-progress {
     height: 3px;
