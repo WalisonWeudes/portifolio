@@ -66,9 +66,9 @@ const dict = {
     'hero.scroll': 'Scroll',
     'hero.portraitAlt': 'Ilustração autoral de Walison',
 
-    'projects.label': 'Trabalhos selecionados',
+    'projects.label': 'Trabalhos desenvolvidos',
     'projects.title1': 'PROJETOS',
-    'projects.title2': 'SELECIONADOS',
+    'projects.title2': 'DESENVOLVIDOS',
     'projects.desc':
       'Sistemas reais e projetos acadêmicos em que design, arquitetura e desenvolvimento trabalham juntos.',
     'projects.open': 'Abrir projeto',
@@ -178,8 +178,8 @@ const dict = {
     'hero.scroll': 'Scroll',
     'hero.portraitAlt': "Walison's self-made illustration",
 
-    'projects.label': 'Selected work',
-    'projects.title1': 'SELECTED',
+    'projects.label': 'Developed work',
+    'projects.title1': 'DEVELOPED',
     'projects.title2': 'PROJECTS',
     'projects.desc':
       'Real systems and academic projects where design, architecture and development work together.',

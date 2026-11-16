@@ -7,32 +7,18 @@ import { useScrollFrame } from '../../hooks/useScrollProgress'
 import './ProjectsSection.css'
 
 // Cada prévia tem uma versão de 800 px (celular) ao lado da de 1440 px.
-const PREVIEW_SIZES = '(max-width: 900px) 100vw, 90vw'
+const PREVIEW_SIZES = '(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 33vw'
 const previewSrcSet = (src) => `${src.replace(/\.webp$/, '-800.webp')} 800w, ${src} 1440w`
 
 export default function ProjectsSection() {
   const { t, tr } = useI18n()
-  const stack = useRef(null)
+  const grid = useRef(null)
 
-  // Quando o próximo cartão sobe, o atual recua (escala + escurece).
-  useScrollFrame(() => {
-    const el = stack.current
-    if (!el || window.innerWidth <= 900) return
-    const shots = el.querySelectorAll('.shot')
-    const vh = window.innerHeight
-    shots.forEach((shot, i) => {
-      const next = shots[i + 1]
-      let cover = 0
-      if (next) cover = Math.min(1, Math.max(0, 1 - next.getBoundingClientRect().top / vh))
-      shot.style.setProperty('--cover', cover.toFixed(4))
-    })
-  })
-
-  // Revelação da imagem (corte em triângulo) ao entrar na tela.
+  // Cada cartão aparece (imagem + texto) quando entra na tela.
   useEffect(() => {
-    const shots = stack.current.querySelectorAll('.shot')
+    const cards = grid.current.querySelectorAll('.pcard')
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
-      shots.forEach((s) => s.classList.add('is-in'))
+      cards.forEach((c) => c.classList.add('is-in'))
       return
     }
     const observer = new IntersectionObserver(
@@ -43,48 +29,10 @@ export default function ProjectsSection() {
           observer.unobserve(entry.target)
         }
       },
-      { threshold: 0.25 },
+      { threshold: 0.15 },
     )
-    shots.forEach((s) => observer.observe(s))
+    cards.forEach((c) => observer.observe(c))
     return () => observer.disconnect()
-  }, [])
-
-  // Baixa todas as prévias antes de a seção chegar na tela (ou quando o navegador
-  // fica ocioso), para a revelação nunca mostrar um espaço vazio.
-  useEffect(() => {
-    let done = false
-    const preload = () => {
-      if (done) return
-      done = true
-      projects.forEach(({ preview }) => {
-        const img = new Image()
-        img.decoding = 'async'
-        img.sizes = PREVIEW_SIZES
-        img.srcset = previewSrcSet(preview)
-        img.src = preview
-      })
-    }
-
-    const observer =
-      'IntersectionObserver' in window
-        ? new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && preload(), {
-            rootMargin: '150% 0px',
-          })
-        : null
-    observer?.observe(stack.current)
-
-    const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 2000))
-    const cancelIdle = window.cancelIdleCallback || clearTimeout
-    let idleId
-    const onLoad = () => (idleId = idle(preload, { timeout: 4000 }))
-    if (document.readyState === 'complete') onLoad()
-    else window.addEventListener('load', onLoad, { once: true })
-
-    return () => {
-      observer?.disconnect()
-      window.removeEventListener('load', onLoad)
-      if (idleId) cancelIdle(idleId)
-    }
   }, [])
 
   return (
@@ -104,74 +52,68 @@ export default function ProjectsSection() {
         <p>{t('projects.desc')}</p>
       </header>
 
-      {/* Cartões empilhados: cada projeto fica preso no topo e o próximo desliza por cima. */}
-      <div ref={stack} className="shots">
+      {/* Grade de 3 colunas: prévia inteira (16:10, proporção de monitor) + resumo de cada projeto. */}
+      <div ref={grid} className="pgrid">
         {projects.map((project, index) => (
-          <article key={project.url} className="shot" style={{ '--k': index }}>
-            <div className="shot__inner">
-              <div className="shot__head">
-                <span className="shot__count">
-                  {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
-                </span>
-                <span className="shot__line" aria-hidden="true"></span>
-                <span>{tr(project.category)}</span>
-              </div>
+          <article key={project.url} className="pcard" style={{ '--k': index % 3 }}>
+            <div className="pcard__head">
+              <span className="pcard__count">
+                {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+              </span>
+              <span className="pcard__line" aria-hidden="true"></span>
+              <span>{tr(project.category)}</span>
+            </div>
 
-              <div className={`case__visual shot__media case__visual--${index + 1}`}>
-                <a
-                  className="case__preview"
-                  href={project.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`${t('projects.openAria')} ${tr(project.title)}`}
+            <div className="pcard__media">
+              <a
+                className="case__preview"
+                href={project.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${t('projects.openAria')} ${tr(project.title)}`}
+              >
+                <GlareHover
+                  className="case__glare"
+                  width="100%"
+                  height="100%"
+                  borderRadius="0"
+                  glareColor="#ffffff"
+                  glareOpacity={0.28}
+                  glareSize={60}
+                  transitionDuration={900}
                 >
-                  {/* Reflexo que atravessa a imagem no hover (React Bits) */}
-                  <GlareHover
-                    className="case__glare"
-                    width="100%"
-                    height="100%"
-                    borderRadius="0"
-                    glareColor="#ffffff"
-                    glareOpacity={0.28}
-                    glareSize={60}
-                    transitionDuration={900}
-                  >
-                    <img
-                      src={project.preview}
-                      srcSet={previewSrcSet(project.preview)}
-                      sizes={PREVIEW_SIZES}
-                      width="1440"
-                      height="900"
-                      alt={`${t('projects.previewAlt')} ${tr(project.title)}`}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </GlareHover>
-                  <span className="case__open">
-                    {t('projects.open')} <i>↗</i>
-                  </span>
-                </a>
-              </div>
-
-              <div className="case__info shot__info">
-                <span className="shot__index" aria-hidden="true">
-                  0{index + 1}
+                  <img
+                    src={project.preview}
+                    srcSet={previewSrcSet(project.preview)}
+                    sizes={PREVIEW_SIZES}
+                    width="1440"
+                    height="900"
+                    alt={`${t('projects.previewAlt')} ${tr(project.title)}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </GlareHover>
+                <span className="case__open">
+                  {t('projects.open')} <i>↗</i>
                 </span>
-                <div className="case__meta">
-                  <span>{tr(project.status)}</span>
-                  <span>{project.year}</span>
-                </div>
-                <h3>{tr(project.title)}</h3>
-                <p>{tr(project.description)}</p>
-                <ul>
-                  {project.tags.map((tag, i) => (
-                    <li key={i}>{tr(tag)}</li>
-                  ))}
-                </ul>
-                <a className="text-link" href={project.url} target="_blank" rel="noreferrer">
-                  {t('projects.open')} <span>↗</span>
-                </a>
+              </a>
+            </div>
+
+            <div className="pcard__info">
+              <div className="pcard__meta">
+                <span>{tr(project.status)}</span>
+                <span>{project.year}</span>
               </div>
+              <h3>{tr(project.title)}</h3>
+              <p>{tr(project.description)}</p>
+              <ul>
+                {project.tags.map((tag, i) => (
+                  <li key={i}>{tr(tag)}</li>
+                ))}
+              </ul>
+              <a className="text-link" href={project.url} target="_blank" rel="noreferrer">
+                {t('projects.open')} <span>↗</span>
+              </a>
             </div>
           </article>
         ))}
