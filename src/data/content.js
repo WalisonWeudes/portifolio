@@ -219,6 +219,19 @@ export const projects = [
     url: 'https://tbkoch.com/#/',
     preview: '/imagens/projetos/tbkoch.webp',
   },
+  {
+    status: L('Projeto UFPI — beta fechado', 'UFPI project — closed beta'),
+    title: L('EcoMadeira'),
+    category: L('UX / UI'),
+    year: '2026',
+    description: L(
+      'Plataforma de dimensionamento de estruturas de madeira conforme a NBR 7190:2022, para engenheiros, arquitetos e estudantes. Participei do protótipo e do design da plataforma.',
+      'Platform for sizing timber structures under Brazilian standard NBR 7190:2022, for engineers, architects and students. I worked on the prototype and the design of the platform.',
+    ),
+    tags: [L('Protótipo', 'Prototype'), L('UX'), L('UI'), L('Plataforma web', 'Web platform')],
+    url: 'https://ecomadeiraweb.com/',
+    preview: '/imagens/projetos/ecomadeira.webp',
+  },
 ]
 
 export const figmaProjects = [
