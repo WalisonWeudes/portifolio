@@ -1027,8 +1027,12 @@
 .contact__bottom {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(3rem, 8vw, 9rem);
-  align-items: end;
+  gap: clamp(3rem, 7vw, 8rem);
+  align-items: start;
+}
+.contact__side {
+  display: grid;
+  gap: clamp(2.5rem, 4vw, 3.5rem);
 }
 
 /* botão de copiar o e-mail */
@@ -1134,6 +1138,199 @@
 .contact__channels a:hover i,
 .contact__channels a:focus-visible i {
   transform: translate(4px, -4px);
+}
+/* formulário de mensagem: cartão escuro que salta do fundo claro */
+.contact__form {
+  position: relative;
+  padding: clamp(1.75rem, 3vw, 2.75rem);
+  background: var(--bg);
+  color: var(--text);
+  box-shadow:
+    14px 14px 0 var(--red),
+    0 40px 80px -30px rgba(8, 9, 13, 0.55);
+  transition:
+    transform 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+.contact__form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4.5rem;
+  height: 4px;
+  background: var(--red);
+}
+.contact__form:focus-within {
+  transform: translate(-4px, -4px);
+  box-shadow:
+    18px 18px 0 var(--red),
+    0 50px 90px -30px rgba(8, 9, 13, 0.6);
+}
+.contact__form-head {
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+}
+.contact__form-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.9rem;
+  color: rgba(245, 245, 242, 0.6);
+  font-family: var(--mono, monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.contact__form-title::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 4px rgba(230, 36, 41, 0.25);
+}
+.contact__form-head h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 3.6vw, 3.6rem);
+  font-weight: 400;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.contact__fields {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem clamp(1.25rem, 3vw, 2.5rem);
+}
+.contact__fields label {
+  display: grid;
+  gap: 0.35rem;
+}
+.contact__fields label > span {
+  color: rgba(245, 245, 242, 0.55);
+  font-family: var(--mono, monospace);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+.contact__fields label:focus-within > span {
+  color: var(--red);
+}
+.contact__field--wide {
+  grid-column: 1 / -1;
+}
+.contact__fields input,
+.contact__fields textarea {
+  width: 100%;
+  padding: 0.7rem 0;
+  border: 0;
+  border-bottom: 1px solid rgba(245, 245, 242, 0.22);
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  resize: vertical;
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+.contact__fields input::placeholder,
+.contact__fields textarea::placeholder {
+  color: rgba(245, 245, 242, 0.3);
+}
+.contact__fields input:focus,
+.contact__fields textarea:focus {
+  border-color: var(--red);
+  background: linear-gradient(transparent 70%, rgba(230, 36, 41, 0.08));
+}
+.contact__fields .contact__honey {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.contact__form-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 2.25rem;
+}
+.contact__send {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.1rem 1.6rem;
+  border: 0;
+  background: var(--red);
+  color: #fff;
+  font-family: var(--mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  clip-path: var(--chamfer, none);
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s var(--ease);
+}
+.contact__send i {
+  font-style: normal;
+  transition: transform 0.35s var(--ease);
+}
+.contact__send:hover:not(:disabled),
+.contact__send:focus-visible {
+  background: var(--blue);
+  transform: translateY(-2px);
+}
+.contact__send:hover:not(:disabled) i,
+.contact__send:focus-visible i {
+  transform: translate(3px, -3px);
+}
+.contact__send:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 4px;
+}
+.contact__send:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.contact__status {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.contact__status--sent {
+  color: #8ea4ff;
+}
+.contact__status--error {
+  color: #ff6b6f;
+}
+@media (max-width: 640px) {
+  .contact__fields {
+    grid-template-columns: 1fr;
+  }
+  .contact__form {
+    box-shadow:
+      8px 8px 0 var(--red),
+      0 30px 60px -30px rgba(8, 9, 13, 0.55);
+  }
+  .contact__form:focus-within {
+    transform: none;
+    box-shadow:
+      8px 8px 0 var(--red),
+      0 30px 60px -30px rgba(8, 9, 13, 0.55);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact__form {
+    transition: none;
+  }
 }
 .contact footer {
   display: flex;
