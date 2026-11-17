@@ -199,6 +199,7 @@ export default function ContactSection() {
               {status === 'error' && t('contact.error')}
             </p>
           </div>
+          <p className="contact__privacy">{t('contact.privacy')}</p>
         </form>
       </div>
       <footer>

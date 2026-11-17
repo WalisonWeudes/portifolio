@@ -42,7 +42,7 @@ export const setLocale = (value) => {
 
 const dict = {
   pt: {
-    'meta.title': 'Walison Weudes — Designer + Developer',
+    'meta.title': 'Walison Weudes — Desenvolvedor Web e Designer em Picos e Teresina, PI',
     'lang.switch': 'Mudar idioma',
     'nav.main': 'Navegação principal',
     'nav.quick': 'Navegação rápida',
@@ -63,7 +63,7 @@ const dict = {
     'hero.cta': 'Ver projetos',
     'resume.download': 'Baixar currículo',
     'resume.short': 'Currículo',
-    'hero.location': 'Picos, PI — Brasil',
+    'hero.location': 'Picos e Teresina, PI — Brasil',
     'hero.available': 'Disponível para projetos',
     'hero.scroll': 'Scroll',
     'hero.portraitAlt': 'Ilustração autoral de Walison',
@@ -156,6 +156,7 @@ const dict = {
     'contact.sending': 'Enviando...',
     'contact.sent': 'Mensagem enviada! Respondo assim que puder.',
     'contact.error': 'Não deu para enviar agora. Tente de novo ou copie o meu e-mail.',
+    'contact.privacy': 'Seus dados são usados só para eu responder sua mensagem. Nada de lista de e-mails ou spam.',
     'footer.top': 'VOLTAR AO TOPO ↑',
 
     'spider.hint': 'SACUDA O MOUSE RÁPIDO PARA SE SOLTAR',
@@ -168,7 +169,7 @@ const dict = {
     'loader.enter': 'ENTRANDO NO MULTIVERSO',
   },
   en: {
-    'meta.title': 'Walison Weudes — Designer + Developer',
+    'meta.title': 'Walison Weudes — Web Developer & Designer in Picos and Teresina, Brazil',
     'lang.switch': 'Change language',
     'nav.main': 'Main navigation',
     'nav.quick': 'Quick navigation',
@@ -189,7 +190,7 @@ const dict = {
     'hero.cta': 'View projects',
     'resume.download': 'Download resume (PT)',
     'resume.short': 'Resume (PT)',
-    'hero.location': 'Picos, PI — Brazil',
+    'hero.location': 'Picos & Teresina, PI — Brazil',
     'hero.available': 'Available for projects',
     'hero.scroll': 'Scroll',
     'hero.portraitAlt': "Walison's self-made illustration",
@@ -282,6 +283,7 @@ const dict = {
     'contact.sending': 'Sending...',
     'contact.sent': 'Message sent! I will reply as soon as I can.',
     'contact.error': "Couldn't send it right now. Try again or copy my email.",
+    'contact.privacy': 'Your details are only used so I can reply to your message. No mailing lists, no spam.',
     'footer.top': 'BACK TO TOP ↑',
 
     'spider.hint': 'SHAKE THE MOUSE FAST TO BREAK FREE',
