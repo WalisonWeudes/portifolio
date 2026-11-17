@@ -112,7 +112,8 @@ img {
   left: 0;
   z-index: 50;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  /* logo | relógio (perto do logo) | menu: nada se sobrepõe nem espreme o logo */
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   width: 100%;
   padding: 1.15rem var(--gutter);
@@ -130,6 +131,7 @@ img {
   backdrop-filter: blur(10px);
 }
 .brand {
+  white-space: nowrap;
   font-family: var(--display);
   font-size: 1.75rem;
   line-height: 1;
@@ -140,7 +142,8 @@ img {
   margin-left: -0.15em;
 }
 .topbar__role {
-  margin: 0;
+  justify-self: start;
+  margin: 0 0 0 clamp(1.5rem, 3vw, 3.5rem);
   color: var(--muted);
   font-size: 0.67rem;
   letter-spacing: 0.16em;

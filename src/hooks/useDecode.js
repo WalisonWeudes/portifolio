@@ -71,7 +71,6 @@ const SECTION_SELECTOR = [
   '.stats__label',
   '.field__heading h3',
   '.field__heading > span',
-  '.manifesto__label span:first-child',
 ].join(', ')
 
 /** Decodifica o hero na entrada do site e os títulos quando entram na tela. */

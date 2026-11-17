@@ -1247,6 +1247,16 @@
   border-color: var(--red);
   background: linear-gradient(transparent 70%, rgba(230, 36, 41, 0.08));
 }
+/* preenchimento automático do navegador: mantém o fundo escuro e o texto claro */
+.contact__fields input:-webkit-autofill,
+.contact__fields input:-webkit-autofill:hover,
+.contact__fields input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--bg) inset;
+  box-shadow: 0 0 0 1000px var(--bg) inset;
+  transition: background-color 9999s ease-out;
+}
 .contact__fields .contact__honey {
   position: absolute;
   left: -9999px;

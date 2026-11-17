@@ -53,6 +53,8 @@ const dict = {
     'nav.experience': 'Experiência',
     'nav.experienceShort': 'Exp.',
     'nav.stack': 'Stack',
+    'nav.figma': 'Figma',
+    'nav.illustrations': 'Ilustrações',
     'nav.contact': 'Contato',
     'brand.aria': 'Walison — início',
 
@@ -82,8 +84,6 @@ const dict = {
     'figma.wire': 'ESQUEMA',
     'figma.preview': 'PRÉVIA',
     'nav.top': 'Voltar ao topo',
-    'manifesto.label': '00.5 / Manifesto',
-    'manifesto.text': 'Todo projeto é um *universo* diferente. Meu trabalho é fazer _design_ e *código* falarem a mesma língua, do primeiro rascunho no Figma ao último commit em produção.',
 
     'products.label': 'Produtos — Sites sob medida',
     'products.title1': 'O QUE EU',
@@ -179,6 +179,8 @@ const dict = {
     'nav.experience': 'Experience',
     'nav.experienceShort': 'Exp.',
     'nav.stack': 'Stack',
+    'nav.figma': 'Figma',
+    'nav.illustrations': 'Illustrations',
     'nav.contact': 'Contact',
     'brand.aria': 'Walison — home',
 
@@ -208,8 +210,6 @@ const dict = {
     'figma.wire': 'WIREFRAME',
     'figma.preview': 'PREVIEW',
     'nav.top': 'Back to top',
-    'manifesto.label': '00.5 / Manifesto',
-    'manifesto.text': 'Every project is a different *universe.* My job is to make _design_ and *code* speak the same language, from the first Figma sketch to the last commit in production.',
 
     'products.label': 'Products — Custom websites',
     'products.title1': 'WHAT I',

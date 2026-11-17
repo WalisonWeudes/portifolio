@@ -1,6 +1,5 @@
 import GlitchHeroTitle from '../GlitchHeroTitle'
 import HeroPortrait from '../HeroPortrait'
-import ManifestoSection from './ManifestoSection'
 import ShinyText from '../reactbits/ShinyText/ShinyText'
 import { RESUME_URL } from '../../data/content'
 import { useI18n } from '../../i18n'
@@ -61,8 +60,6 @@ export default function HeroSection() {
           {t('hero.scroll')} <span>↓</span>
         </a>
       </section>
-
-      <ManifestoSection />
     </>
   )
 }

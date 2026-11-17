@@ -8,9 +8,12 @@ const L = (pt, en = pt) => ({ pt, en })
 
 export const topbarLinks = [
   { key: 'nav.work', href: '#projetos' },
+  { key: 'nav.figma', href: '#figma' },
   { key: 'nav.products', href: '#produtos' },
   { key: 'nav.about', href: '#sobre' },
   { key: 'nav.experience', href: '#experiencia' },
+  { key: 'nav.stack', href: '#habilidades' },
+  { key: 'nav.illustrations', href: '#ilustracoes' },
   { key: 'nav.contact', href: '#contato' },
 ]
 
@@ -398,6 +401,21 @@ export const fieldwork = [
     alt: L(
       'Walison apresentando o slide "O que é design web?" em uma sala de aula',
       'Walison presenting the slide "What is web design?" in a classroom',
+    ),
+  },
+  {
+    card: '/imagens/em-campo/apresentacao-site-si-card.webp',
+    image: '/imagens/em-campo/apresentacao-site-si.webp',
+    event: L('Sistemas de Informação — UFPI', 'Information Systems — UFPI'),
+    title: L('Site do curso de Sistemas de Informação', 'Information Systems program website'),
+    role: L('Apresentador', 'Speaker'),
+    description: L(
+      'Apresentei, junto com a equipe, como foi o projeto do site do curso de Sistemas de Informação da UFPI: do processo às decisões de design.',
+      'Together with the team, I presented how the website for UFPI’s Information Systems program came together: from the process to the design decisions.',
+    ),
+    alt: L(
+      'Walison no palco, de camisa azul e microfone na mão, apresentando o slide "Sobre a UFPI"',
+      'Walison on stage, in a blue shirt holding a microphone, presenting the slide "About UFPI"',
     ),
   },
 ]

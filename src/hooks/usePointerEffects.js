@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 const HOVER_SELECTOR = 'a, button, .case__preview, .illustration-item, input, textarea'
-const MAGNETIC_SELECTOR = '.text-link, .brand'
+const MAGNETIC_SELECTOR = '.text-link'
 const TILT_SELECTOR = '.case__visual'
 
 /**
