@@ -3,6 +3,8 @@
 
 export const EMAIL = 'weudesw0@gmail.com'
 export const RESUME_URL = '/curriculo-walison-weudes.pdf'
+// contato empresarial (WhatsApp)
+export const PHONE = { href: 'https://wa.me/558994241060' }
 
 const L = (pt, en = pt) => ({ pt, en })
 

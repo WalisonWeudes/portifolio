@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import KineticText from '../KineticText'
-import { EMAIL, RESUME_URL, socials } from '../../data/content'
+import { EMAIL, PHONE, RESUME_URL, socials } from '../../data/content'
 import { useI18n } from '../../i18n'
 
 const currentYear = new Date().getFullYear()
@@ -113,6 +113,12 @@ export default function ContactSection() {
                 </a>
               </li>
             ))}
+            <li>
+              <a href={PHONE.href} target="_blank" rel="noreferrer">
+                <span>WhatsApp</span>
+                <i aria-hidden="true">↗</i>
+              </a>
+            </li>
           </ul>
           {/* e-mail em destaque: clicar copia */}
           <button
