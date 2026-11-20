@@ -915,3 +915,5 @@ body { background: var(--sand) }
   .steps__story h3 { font-size: 2rem }
 }
 .steps .h2 { max-width: none; margin: 0 }
+.hero__word { top: 37% }
+@media (max-width: 860px) { .hero__word { top: auto } }
