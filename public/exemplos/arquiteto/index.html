@@ -19,8 +19,8 @@
   document.documentElement.classList.add('js')
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('calm')
   else if (!location.search.includes('mvshot')) {
-    // abertura só na primeira visita da sessão
-    try { if (!sessionStorage.getItem('vertice-intro')) document.documentElement.classList.add('intro-play') } catch (e) {}
+    // abertura a cada carregamento da página
+    document.documentElement.classList.add('intro-play')
   }
 </script>
 </head>
@@ -57,7 +57,6 @@
       done = true
       html.classList.remove('intro-play')
       html.classList.add('intro-done')
-      try { sessionStorage.setItem('vertice-intro', '1') } catch (e) {}
       var el = document.getElementById('opening')
       el && el.remove()
       ;['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (t) { removeEventListener(t, skip) })

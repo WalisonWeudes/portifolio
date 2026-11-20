@@ -1,4 +1,5 @@
-import PageLoader from './components/PageLoader'
+// tela de entrada desligada: para voltar, descomente esta linha e o <PageLoader /> abaixo
+// import PageLoader from './components/PageLoader'
 // import SpiderWalker from './components/SpiderWalker'
 import SiteHeader from './components/SiteHeader'
 import HeroSection from './components/sections/HeroSection'
@@ -16,6 +17,7 @@ import { useTitleGlitch } from './hooks/useTitleGlitch'
 import { usePointerEffects } from './hooks/usePointerEffects'
 import { useDecode } from './hooks/useDecode'
 import { useScrollVelocity } from './hooks/useScrollVelocity'
+import { useSiteReady } from './hooks/useSiteReady'
 
 export default function App() {
   useReveal()
@@ -23,10 +25,11 @@ export default function App() {
   usePointerEffects()
   useDecode()
   useScrollVelocity()
+  useSiteReady()
 
   return (
     <>
-      <PageLoader />
+      {/* <PageLoader /> */}
       <main className="site-shell">
         {/* aranha desligada por enquanto: para voltar, descomente a linha abaixo */}
         {/* <SpiderWalker /> */}
