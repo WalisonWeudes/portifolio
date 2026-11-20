@@ -88,7 +88,7 @@ export const products = [
       'For doctors, lawyers, therapists and consultants to build trust and take bookings.',
     ),
     items: [L('Especialidades', 'Specialties'), L('Agendamento', 'Booking'), L('Localização', 'Location')],
-    status: 'soon',
+    href: '/exemplos/medica-estetica/index.html',
   },
   {
     tag: L('Evento', 'Event'),
