@@ -93,6 +93,16 @@ export const products = [
     href: '/exemplos/medica-estetica/index.html',
   },
   {
+    tag: L('Saúde', 'Health'),
+    title: L('Clínica infantil', "Children's clinic"),
+    description: L(
+      'Site lúdico para pediatria: passa confiança aos pais e deixa a consulta com cara de brincadeira.',
+      'A playful pediatrics site that reassures parents and makes the visit feel like play.',
+    ),
+    items: [L('Régua do crescimento interativa', 'Interactive growth chart'), L('Equipe e especialidades', 'Team and specialties'), L('Pedido de consulta', 'Appointment request')],
+    href: '/exemplos/clinica-pediatrica/index.html',
+  },
+  {
     tag: L('Evento', 'Event'),
     title: L('Evento e curso', 'Event and course'),
     description: L(
