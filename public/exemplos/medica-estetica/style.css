@@ -917,3 +917,259 @@ body { background: var(--sand) }
 .steps .h2 { max-width: none; margin: 0 }
 .hero__word { top: 37% }
 @media (max-width: 860px) { .hero__word { top: auto } }
+
+/* =================== foto em arco que se abre com a rolagem =================== */
+.unveil { background: var(--sand) }
+.unveil__pin { height: 230vh }
+.unveil__sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; place-items: center }
+.unveil__img {
+  position: absolute; inset: 0; margin: 0;
+  clip-path: inset(calc((1 - var(--q, 0)) * 14%) calc((1 - var(--q, 0)) * 34%) calc((1 - var(--q, 0)) * 10%) calc((1 - var(--q, 0)) * 34%) round calc((1 - var(--q, 0)) * 50vw) calc((1 - var(--q, 0)) * 50vw) 0 0);
+}
+.unveil__img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transform: scale(calc(1.25 - var(--q, 0) * .25)) }
+.unveil__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(27, 40, 53, 0) 30%, rgba(27, 40, 53, .55) 100%); opacity: var(--q, 0) }
+.unveil__text {
+  position: relative; z-index: 1; align-self: end; margin-bottom: 12vh; text-align: center; color: var(--sand);
+  font: 400 clamp(2.6rem, 6.5vw, 6rem)/1 var(--display); text-transform: uppercase; letter-spacing: .015em;
+  opacity: calc((var(--q, 0) - .55) * 3); translate: 0 calc((1 - var(--q, 0)) * 60px);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .25)
+}
+.unveil__text em { font: italic 500 1.05em/1 var(--serif); text-transform: none; letter-spacing: -.01em }
+.calm .unveil__pin { height: auto }
+.calm .unveil__sticky { position: relative; height: 80vh }
+
+/* especialidades: foto do item escolhido, grande e desfocada, atrás da galeria */
+.specs { overflow: hidden }
+.specs .specs__bgs { position: absolute; inset: 0; z-index: 0; pointer-events: none }
+.specs__bgs img { position: absolute; inset: -6%; width: 112%; height: 112%; object-fit: cover; filter: blur(34px) saturate(.9); opacity: 0; transition: opacity 1.2s var(--ease) }
+.specs__bgs img.is-active { opacity: .42 }
+.specs > header, .specs > .specs__gallery { position: relative; z-index: 1 }
+
+/* sobre: corredor da clínica atrás, coberto pelo marinho */
+.about { overflow: hidden }
+.about .about__bg { position: absolute; inset: 0; z-index: 0 }
+.about__bg img { width: 100%; height: 100%; object-fit: cover; opacity: .16; filter: grayscale(.3); transform: translateY(var(--py, 0px)) scale(1.18) }
+
+/* depoimentos: a foto de fundo anda num ritmo diferente do cartão */
+.quotes__bg { transform: translateY(calc(var(--py, 0px) * 2.4)) scale(1.18) }
+.about { overflow: visible }
+.about .about__bg { overflow: hidden }
+.specs__bgs img.is-active { opacity: .3 }
+@media (max-width: 860px) { .unveil__pin { height: 180vh } .unveil__text { margin-bottom: 14vh; padding-inline: 16px; font-size: 2.3rem } }
+
+/* =================== processo em tela cheia: cada etapa sobe como uma cortina =================== */
+.steps { padding: 0; background: var(--navy) }
+.steps__pin { max-width: none; height: 420vh }
+.steps__sticky { overflow: hidden; padding: 40px max(var(--gutter), calc((100% - var(--max)) / 2)) 38px; isolation: isolate }
+.steps__frame { position: absolute; inset: 0; width: 100%; max-height: none; aspect-ratio: auto; border-radius: 0; z-index: -1; margin: 0 }
+.steps__frame .arch__line { display: none }
+.steps__frame img { opacity: 1; border-radius: 0; clip-path: inset(100% 0 0 0); transform: scale(1.18); transition: clip-path 1.1s cubic-bezier(.7, 0, .2, 1), transform 2.4s var(--ease) }
+.steps__frame img.is-on, .steps__frame img.is-past { clip-path: inset(0 0 0 0) }
+.steps__frame img.is-on { transform: scale(1.04) }
+.steps__frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20, 30, 40, .78) 0%, rgba(20, 30, 40, .45) 45%, rgba(20, 30, 40, .05) 75%), linear-gradient(0deg, rgba(20, 30, 40, .6) 0%, transparent 30%); pointer-events: none }
+.steps .h2, .steps .h2 em { color: var(--sand) }
+.steps__body { grid-template-columns: minmax(0, .45fr) minmax(0, 1fr) minmax(0, .7fr) }
+.steps__count { color: var(--sand) }
+.steps__of { color: var(--on-navy-soft) }
+.steps__story h3 { color: var(--sand) }
+.steps__story p { color: var(--on-navy-soft) }
+.steps__story .meta { color: var(--sand); border-top-color: var(--gold) }
+.steps__progress { background: rgba(245, 235, 208, .3) }
+.steps__dot { color: var(--on-navy-soft) }
+.steps__dot:hover, .steps__dot.is-on { color: var(--sand) }
+.steps__dot i { background: transparent }
+@media (max-width: 860px) {
+  .steps { padding: clamp(60px, 12vw, 90px) var(--gutter) }
+  .steps__pin { height: auto }
+  .steps__sticky { padding: 0; overflow: visible }
+  .steps__story li { border-top-color: rgba(245, 235, 208, .25) }
+}
+
+/* processo: a etapa seguinte entra pela lateral */
+.steps__frame img { clip-path: inset(0 0 0 100%); transform: translateX(6%) scale(1.12); transition: clip-path 1.2s cubic-bezier(.7, 0, .2, 1), transform 2s var(--ease) }
+.steps__frame img.is-past { clip-path: inset(0 0 0 0); transform: translateX(-4%) scale(1.06) }
+.steps__frame img.is-on { clip-path: inset(0 0 0 0); transform: translateX(0) scale(1.04) }
+
+/* depoimentos: a foto se abre pelo lado, saindo do marinho do processo; o cartão desliza com a rolagem */
+.quotes { background: var(--navy) }
+.quotes__bg {
+  clip-path: inset(0 calc((1 - var(--qp, 1)) * 100%) 0 0);
+  transform: translate(calc((1 - var(--qp, 1)) * -6%), calc(var(--py, 0px) * 2.4)) scale(1.18);
+}
+.quotes__card {
+  opacity: clamp(0, calc(var(--qp, 1) * 1.8 - .8), 1);
+  translate: calc((1 - var(--qp, 1)) * 180px) 0;
+  filter: blur(calc((1 - var(--qp, 1)) * 10px));
+}
+
+/* =================== depoimentos: galeria horizontal comandada pela rolagem =================== */
+.quotes2 { background: var(--sand); position: relative }
+.quotes2__pin { height: 420vh }
+.quotes2__sticky { position: sticky; top: 72px; height: calc(100vh - 72px); overflow: hidden }
+.quotes2__track { display: flex; height: 100%; width: max-content; transform: translateX(calc(var(--hq, 0) * -1 * (100% - 100vw))); will-change: transform }
+.q-slide { flex: none; width: 100vw; height: 100%; margin: 0; display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: center; gap: 6vw; padding: 0 max(var(--gutter), calc((100vw - var(--max)) / 2)) }
+.q-slide--intro { grid-template-columns: minmax(0, 1fr); align-content: center; gap: 22px }
+.q-slide--intro .h2 { font-size: clamp(3rem, 7vw, 6rem); max-width: 12ch }
+.q-lead { max-width: 40ch; font-size: 1.15rem; color: var(--muted) }
+.q-hint { display: inline-flex; align-items: center; gap: 14px; font: 500 .78rem/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--blue) }
+.q-hint i { width: 64px; height: 1px; background: var(--gold); position: relative; animation: hint 1.8s var(--ease) infinite }
+@keyframes hint { 50% { translate: 10px 0 } }
+.quotes2 .quotes__note { margin-top: 24px; font-size: .84rem; color: var(--muted) }
+.q-photo { position: relative; justify-self: end; height: min(68vh, 620px); aspect-ratio: 3 / 4; filter: drop-shadow(0 26px 34px rgba(30, 42, 54, .22)) }
+.q-photo img { transform: translateX(calc((var(--hq, 0) - .5) * -40px)) scale(1.12) }
+.q-photo .arch__line { border-color: var(--gold) }
+.q-text { position: relative; max-width: 30ch }
+.q-n { display: block; font: 400 clamp(4rem, 8vw, 7rem)/1 var(--display); color: var(--gold); opacity: .55 }
+.q-n small { font: 500 .9rem/1 var(--mono); letter-spacing: .2em; color: var(--muted); opacity: 1 }
+.q-text blockquote { position: relative; margin-top: 18px; font: italic 500 clamp(1.9rem, 3.1vw, 3rem)/1.18 var(--serif); color: var(--ink); text-wrap: balance }
+.q-text blockquote::before { content: '“'; position: absolute; left: -.45em; top: -.18em; font-size: 2.2em; line-height: 1; color: var(--gold) }
+.q-text figcaption { margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--gold-soft); font: 500 .84rem/1 var(--mono); letter-spacing: .08em; color: var(--muted) }
+.q-text figcaption b { color: var(--ink); font-weight: 600 }
+.quotes2__bar { position: absolute; left: max(var(--gutter), calc((100% - var(--max)) / 2)); right: max(var(--gutter), calc((100% - var(--max)) / 2)); bottom: 30px; height: 1px; background: var(--line-strong) }
+.quotes2__bar i { position: absolute; inset: 0; background: var(--gold); transform-origin: left; transform: scaleX(var(--hq, 0)) }
+@media (max-width: 860px) {
+  .quotes2 { padding: clamp(60px, 12vw, 90px) 0 }
+  .quotes2__pin { height: auto }
+  .quotes2__sticky { position: static; height: auto; overflow: visible }
+  .quotes2__track { flex-direction: column; width: auto; transform: none; gap: 56px }
+  .q-slide { width: auto; height: auto; grid-template-columns: 1fr; gap: 26px }
+  .q-hint, .quotes2__bar { display: none }
+  .q-photo { justify-self: center; height: auto; width: min(78%, 340px) }
+  .q-text { max-width: none; padding-left: 18px }
+}
+.q-text { max-width: 620px }
+.q-text blockquote { font-size: clamp(2.1rem, 3.6vw, 3.5rem) }
+.quotes2__pin { height: 460vh }
+.hero { overflow-x: clip }
+.q-n { opacity: 1; color: var(--gold) }
+.q-n small { color: var(--muted) }
+.q-n { color: #7A5C2E }
+.q-text figcaption { letter-spacing: .02em }
+
+/* processo: troca limpa, sem sobreposição de texto nem engasgo */
+.steps__story li, .steps__big { filter: none; transition: opacity .25s ease, translate .25s ease; transition-delay: 0s }
+.steps__story li.is-on, .steps__big.is-on { transition: opacity .6s var(--ease) .28s, translate .8s var(--ease) .28s }
+.steps__story li:not(.is-on) { translate: 0 -14px }
+.steps__story li.is-on { translate: 0 0 }
+.steps__frame img { will-change: clip-path, transform; backface-visibility: hidden; transition: clip-path .9s cubic-bezier(.65, 0, .25, 1), transform 1.4s var(--ease) }
+.steps__frame img.is-on { z-index: 2 }
+.steps__frame img.is-past { z-index: 1 }
+
+/* depoimentos: sem tela de abertura; título pequeno fixo no topo */
+.quotes2__pin { height: 360vh }
+.quotes2__head { position: absolute; z-index: 2; top: 26px; left: max(var(--gutter), calc((100% - var(--max)) / 2)); right: max(var(--gutter), calc((100% - var(--max)) / 2)); display: flex; justify-content: space-between; align-items: baseline; gap: 20px; pointer-events: none }
+.quotes2__title { font: 400 clamp(1.3rem, 2vw, 1.7rem)/1 var(--display); text-transform: uppercase; letter-spacing: .03em; color: var(--ink) }
+.quotes2__title em { font: italic 500 1.12em/1 var(--serif); text-transform: none; letter-spacing: -.01em; color: var(--blue) }
+.quotes2__note { font-size: .82rem; color: var(--muted) }
+@media (max-width: 860px) {
+  .quotes2__head { position: static; display: grid; gap: 8px; padding: 0 var(--gutter) 36px }
+  .quotes2__title { font-size: 1.9rem }
+}
+/* consultório no celular: grade de duas colunas, fotos retas e inteiras */
+@media (max-width: 860px) {
+  .fan { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; overflow: visible; padding: 0; margin-block: 36px 48px; scroll-snap-type: none }
+  .js .fan figure, .js:not(.calm) .fan:not(.is-in) figure, .fan figure { flex: none; width: auto; rotate: 0deg; translate: none; scale: 1; transition: none; box-shadow: 0 14px 26px -18px rgba(30, 42, 54, .45) }
+  .fan figure:nth-child(5) { display: none }
+}
+/* processo: a sombra de leitura volta a ficar por cima das fotos */
+.steps__frame::after { z-index: 3; background: linear-gradient(90deg, rgba(20, 30, 40, .86) 0%, rgba(20, 30, 40, .62) 42%, rgba(20, 30, 40, .18) 72%, rgba(20, 30, 40, .05) 100%), linear-gradient(0deg, rgba(20, 30, 40, .7) 0%, transparent 32%) }
+.steps__story p, .steps__story .meta, .steps__of { text-shadow: 0 1px 12px rgba(0, 0, 0, .35) }
+@media (max-width: 1100px) { .steps__frame::after { background: linear-gradient(90deg, rgba(20, 30, 40, .88) 0%, rgba(20, 30, 40, .7) 60%, rgba(20, 30, 40, .35) 100%) } }
+
+/* =================== fluidez =================== */
+html.lenis, html.lenis body { height: auto }
+html.lenis { scroll-behavior: auto !important }
+.lenis.lenis-stopped { overflow: hidden }
+/* efeitos ligados à rolagem não levam transição: a rolagem suave já cuida do movimento */
+.js .fan figure, .js:not(.calm) .fan:not(.is-in) figure { transition: none }
+.specs__bgs img { filter: blur(22px) saturate(.9) }
+.grain { will-change: transform }
+.hero__cloud, .hero__figure, .footer__sun { will-change: transform }
+
+/* galeria: altura fixa para a lista não pular ao trocar de item */
+.specs__gallery { align-items: start }
+.specs__desc { min-height: 4.1em; display: flex; align-items: flex-start; justify-content: center }
+
+/* sem a barra de rolagem do navegador (a rolagem continua com mouse, teclado e toque) */
+html { scrollbar-width: none }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; height: 0 }
+body { scrollbar-width: none }
+
+/* processo: fotos deslizam comandadas pela rolagem (só transform, sem recorte nem transição) */
+.steps__frame { overflow: hidden }
+.steps__frame img, .steps__frame img.is-on, .steps__frame img.is-past { clip-path: none; transition: none; will-change: transform; opacity: 1 }
+.steps__frame img:nth-child(1) { z-index: 1 } .steps__frame img:nth-child(2) { z-index: 2 } .steps__frame img:nth-child(3) { z-index: 3 } .steps__frame img:nth-child(4) { z-index: 4 }
+.steps__frame img:not(:first-child) { transform: translate3d(100%, 0, 0) }
+.steps__frame::after { z-index: 6 }
+.steps__frame img { box-shadow: -30px 0 60px rgba(0, 0, 0, .35) }
+
+/* =================== efeitos inspirados no React Bits =================== */
+/* Masked Heading */
+.js:not(.calm) .h2.is-split[data-reveal] { opacity: 1; filter: none; translate: none }
+.h2.is-split .mw { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .06em .14em 0; margin: 0 -.06em -.14em 0 }
+.h2.is-split .mw__in { display: inline-block; transform: translateY(108%); transition: transform 1.1s var(--ease); transition-delay: calc(var(--wi) * 55ms) }
+.h2.is-split.is-in .mw__in { transform: none }
+
+/* Magnet */
+.btn, .nav__cta { transition: background .35s var(--ease), color .35s var(--ease), gap .35s var(--ease), transform .5s var(--ease) }
+
+/* Star Border: brilho dourado percorrendo a borda dos botões principais */
+@property --ang { syntax: '<angle>'; inherits: false; initial-value: 0deg }
+.hero__cta, .nav__cta, .footer .btn { isolation: isolate }
+.nav__cta { position: relative }
+.footer .btn { position: relative }
+.hero__cta::before, .nav__cta::before, .footer .btn::before {
+  content: ''; position: absolute; inset: -2px; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: conic-gradient(from var(--ang), transparent 0 62%, #EAD29B 80%, transparent 96%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: star-ang 3.4s linear infinite;
+}
+@keyframes star-ang { to { --ang: 360deg } }
+
+/* Shiny Text */
+.shiny { background: linear-gradient(110deg, var(--ink) 38%, #fff 50%, var(--ink) 62%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shine 4.5s linear infinite }
+@keyframes shine { from { background-position: 130% 0 } to { background-position: -130% 0 } }
+
+/* Click Spark */
+.spark-fx { position: fixed; z-index: 300; pointer-events: none; fill: var(--gold) }
+
+/* Target Cursor */
+.cursor-ring, .cursor-dot { position: fixed; left: 0; top: 0; z-index: 300; pointer-events: none; border-radius: 50% }
+.cursor-ring { width: 34px; height: 34px; margin: -17px 0 0 -17px; border: 1px solid var(--gold); transition: width .35s var(--ease), height .35s var(--ease), margin .35s var(--ease), background .35s var(--ease), opacity .3s }
+.cursor-ring.is-hover { width: 62px; height: 62px; margin: -31px 0 0 -31px; background: rgba(166, 131, 79, .12) }
+.cursor-dot { width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; background: var(--gold); transition: opacity .3s }
+.cursor-ring.is-gone, .cursor-dot.is-gone, .intro-play .cursor-ring, .intro-play .cursor-dot { opacity: 0 }
+
+/* Image Trail no consultório */
+.place .trail { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden }
+.trail img { position: absolute; width: clamp(130px, 13vw, 190px); aspect-ratio: 4 / 5; object-fit: cover; border-radius: 999px 999px 10px 10px; box-shadow: 0 18px 30px -16px rgba(30, 42, 54, .45); opacity: 0 }
+.calm .shiny, .calm .hero__cta::before, .calm .nav__cta::before, .calm .footer .btn::before { animation: none }
+
+/* mapa do rosto maior */
+.map__grid { grid-template-columns: minmax(0, 1.3fr) minmax(400px, .7fr); gap: clamp(28px, 4vw, 64px) }
+.stage { aspect-ratio: 1 / 1.08 }
+.stage__face { left: 25%; width: 50% }
+.zone { width: 19%; min-width: 128px }
+.zone b { font-size: .8rem }
+.zone span { font-size: .88rem }
+@media (max-width: 1080px) { .map__grid { grid-template-columns: minmax(0, 1.1fr) minmax(360px, .9fr) } }
+@media (max-width: 860px) { .map__grid { grid-template-columns: 1fr } .stage { aspect-ratio: auto } .stage__face { width: min(100%, 420px) } }
+
+/* moldura dos procedimentos com proporção próxima da original (sem esticar) */
+.map__grid { grid-template-columns: minmax(0, 1.12fr) minmax(500px, .88fr) }
+.procs li { padding-block: 12px }
+@media (max-width: 1180px) { .map__grid { grid-template-columns: minmax(0, 1fr) minmax(440px, 1fr) } }
+@media (max-width: 860px) { .map__grid { grid-template-columns: 1fr } }
+
+/* quadro dos procedimentos mais quadrado: mais largo e mais baixo */
+.map__grid { grid-template-columns: minmax(0, 1fr) minmax(600px, 1fr) }
+.panel { padding: 18px 22px 22px }
+.panel__title { font-size: clamp(2.2rem, 3.4vw, 2.9rem) }
+.panel__lead { margin-top: 10px; font-size: .98rem; max-width: none }
+.procs { margin-top: 16px }
+.procs li { padding-block: 10px; grid-template-columns: 1fr auto; column-gap: 18px; align-items: baseline }
+.procs b { grid-column: 1 } .procs .meta { grid-column: 2; grid-row: 1; text-align: right }
+.procs p { grid-column: 1 / -1; font-size: .93rem }
+.panel__note { margin: 12px 0 16px }
+@media (max-width: 1280px) { .map__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) } }
+@media (max-width: 860px) { .map__grid { grid-template-columns: 1fr } .procs li { grid-template-columns: 1fr } .procs .meta { grid-column: 1; grid-row: auto; text-align: left } }

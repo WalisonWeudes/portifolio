@@ -241,7 +241,7 @@
   var heroWord = document.querySelector('.hero__word')
   var heroFig = document.querySelector('.hero__figure')
   var clouds = document.querySelectorAll('.hero__cloud')
-  var frames = document.querySelectorAll('.pill, .oval, .steps__art, .faq__art, .about__photo, .footer__art')
+  var frames = document.querySelectorAll('.pill, .oval, .steps__art, .faq__art, .about__photo, .footer__art, .about__bg, .quotes')
   var stepsList = document.getElementById('stepsList')
   var rail = document.querySelector('.steps__rail')
   var steps = stepsList ? stepsList.querySelectorAll('li') : []
@@ -278,7 +278,7 @@
 
   // ---------- especialidades: o nome escolhido troca a imagem ----------
   var specBtns = document.querySelectorAll('.spec')
-  var specImgs = document.querySelectorAll('.specs__frame img')
+  var specImgs = document.querySelectorAll('.specs__frame img, .specs__bgs img')
   var specDesc = document.getElementById('specsDesc')
   var specData = []
   try { specData = JSON.parse(document.getElementById('specsData').textContent) } catch (e) {}
@@ -500,13 +500,14 @@
   var wide = matchMedia('(min-width: 861px)')
   var groups = ['.steps__big', '.steps__story li', '.steps__frame img', '.steps__dot'].map(function (s) { return pin.querySelectorAll(s) })
   var progress = pin.querySelector('.steps__progress')
+  var imgs = Array.prototype.slice.call(pin.querySelectorAll('.steps__frame img'))
   var HEADER = 72
   var current = -1
   var total = function () { return pin.offsetHeight - (innerHeight - HEADER) }
   var setActive = function (i) {
     if (i === current) return
     current = i
-    groups.forEach(function (list) { list.forEach(function (el) { el.classList.toggle('is-on', +el.dataset.i === i) }) })
+    groups.forEach(function (list) { list.forEach(function (el) { el.classList.toggle('is-on', +el.dataset.i === i); el.classList.toggle('is-past', +el.dataset.i < i) }) })
   }
   var update = function () {
     if (!wide.matches) return
@@ -514,6 +515,13 @@
     var p = Math.min(1, Math.max(0, (HEADER - r.top) / total()))
     progress.style.setProperty('--p', p.toFixed(3))
     setActive(Math.min(3, Math.floor(p * 4)))
+    // fotos: a seguinte desliza da direita no ritmo da rolagem; a anterior recua um pouco
+    var x = p * 4, W = .45
+    imgs.forEach(function (img, i) {
+      var tIn = i === 0 ? 1 : Math.min(1, Math.max(0, (x - (i - W / 2)) / W))
+      var tOut = i === imgs.length - 1 ? 0 : Math.min(1, Math.max(0, (x - (i + 1 - W / 2)) / W))
+      img.style.transform = 'translate3d(' + ((1 - tIn) * 100 - tOut * 22).toFixed(2) + '%,0,0) scale(1.04)'
+    })
   }
   addEventListener('scroll', update, { passive: true })
   addEventListener('resize', update)
@@ -522,7 +530,202 @@
     b.addEventListener('click', function () {
       var i = +b.dataset.i
       var top = pin.getBoundingClientRect().top + scrollY - HEADER
-      scrollTo({ top: top + total() * (i + .5) / 4, behavior: document.documentElement.classList.contains('calm') ? 'auto' : 'smooth' })
+      var y = top + total() * (i + .5) / 4
+      if (window.__lenis) window.__lenis.scrollTo(y, { duration: 1.2 })
+      else scrollTo({ top: y, behavior: document.documentElement.classList.contains('calm') ? 'auto' : 'smooth' })
     })
   })
+})()
+
+// =================== foto em arco que se abre com a rolagem ===================
+;(function () {
+  var pin = document.getElementById('unveil')
+  if (!pin) return
+  var calm = document.documentElement.classList.contains('calm')
+  var update = function () {
+    var r = pin.getBoundingClientRect()
+    var total = pin.offsetHeight - innerHeight
+    var q = calm ? 1 : Math.min(1, Math.max(0, -r.top / (total || 1)))
+    pin.style.setProperty('--q', q.toFixed(3))
+  }
+  addEventListener('scroll', update, { passive: true })
+  addEventListener('resize', update)
+  update()
+})()
+
+// =================== depoimentos: foto e cartão entram com a rolagem ===================
+;(function () {
+  var sec = document.getElementById('depoimentos')
+  if (!sec) return
+  var calm = document.documentElement.classList.contains('calm')
+  var update = function () {
+    if (calm) { sec.style.setProperty('--qp', 1); return }
+    var r = sec.getBoundingClientRect()
+    var vh = innerHeight
+    var qp = Math.min(1, Math.max(0, (vh - r.top) / (vh * .8)))
+    sec.style.setProperty('--qp', qp.toFixed(3))
+  }
+  addEventListener('scroll', update, { passive: true })
+  addEventListener('resize', update)
+  update()
+})()
+
+// =================== depoimentos: a rolagem move a galeria para o lado ===================
+;(function () {
+  var pin = document.getElementById('quotesPin')
+  if (!pin) return
+  var wide = matchMedia('(min-width: 861px)')
+  var HEADER = 72
+  var update = function () {
+    if (!wide.matches) { pin.style.setProperty('--hq', 0); return }
+    var r = pin.getBoundingClientRect()
+    var total = pin.offsetHeight - (innerHeight - HEADER)
+    var p = Math.min(1, Math.max(0, (HEADER - r.top) / (total || 1)))
+    // pausa curta no começo e no fim para ler o título e o último depoimento parados
+    var hq = Math.min(1, Math.max(0, (p - .1) / .8))
+    pin.style.setProperty('--hq', hq.toFixed(4))
+  }
+  addEventListener('scroll', update, { passive: true })
+  addEventListener('resize', update)
+  update()
+})()
+
+// =================== rolagem suave com inércia (Lenis), só com mouse ===================
+;(function () {
+  var html = document.documentElement
+  if (html.classList.contains('calm') || !window.Lenis || !matchMedia('(hover: hover) and (pointer: fine)').matches) return
+  var lenis = new Lenis({ lerp: 0.085, smoothWheel: true, wheelMultiplier: 0.95 })
+  window.__lenis = lenis
+  var raf = function (t) { lenis.raf(t); requestAnimationFrame(raf) }
+  requestAnimationFrame(raf)
+
+  // parada enquanto a entrada está na tela
+  if (html.classList.contains('intro-play')) {
+    lenis.stop()
+    var mo = new MutationObserver(function () {
+      if (!html.classList.contains('intro-play')) { lenis.start(); mo.disconnect() }
+    })
+    mo.observe(html, { attributes: true, attributeFilter: ['class'] })
+  }
+
+  // links do menu e botões internos usam a mesma rolagem suave
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#"]')
+    if (!a) return
+    var id = a.getAttribute('href')
+    if (id.length < 2) return
+    var target = document.querySelector(id)
+    if (!target) return
+    e.preventDefault()
+    lenis.scrollTo(target, { offset: -72, duration: 1.4 })
+  })
+})()
+
+// =================== efeitos inspirados no React Bits (reactbits.dev), versões próprias ===================
+;(function () {
+  var html = document.documentElement
+  var calm = html.classList.contains('calm')
+  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches
+  var SPARK = 'M12 0c.6 6.6 4.4 10.9 12 12-7.6 1.1-11.4 5.4-12 12-.6-6.6-4.4-10.9-12-12 7.6-1.1 11.4-5.4 12-12z'
+
+  // ---------- Masked Heading: palavras sobem de trás de uma máscara ----------
+  if (!calm) {
+    document.querySelectorAll('.h2[data-reveal]:not([data-words])').forEach(function (h) {
+      var k = 0
+      var walk = function (node) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+          if (n.nodeType === 3) {
+            var frag = document.createDocumentFragment()
+            n.textContent.split(/(\s+)/).forEach(function (part) {
+              if (!part) return
+              if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return }
+              var o = document.createElement('span'); o.className = 'mw'
+              var i = document.createElement('span'); i.className = 'mw__in'; i.style.setProperty('--wi', k++)
+              i.textContent = part; o.appendChild(i); frag.appendChild(o)
+            })
+            n.parentNode.replaceChild(frag, n)
+          } else if (n.nodeType === 1 && n.tagName !== 'BR') walk(n)
+        })
+      }
+      walk(h)
+      h.classList.add('is-split')
+    })
+  }
+
+  if (calm || !fine) return
+
+  // ---------- Magnet: botões puxados na direção do mouse ----------
+  document.querySelectorAll('.btn, .nav__cta').forEach(function (el) {
+    var PAD = 40, S = .28
+    var move = function (e) {
+      var r = el.getBoundingClientRect()
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2
+      var dx = e.clientX - cx, dy = e.clientY - cy
+      if (Math.abs(dx) > r.width / 2 + PAD || Math.abs(dy) > r.height / 2 + PAD) { el.style.transform = ''; return }
+      el.style.transform = 'translate3d(' + (dx * S).toFixed(1) + 'px,' + (dy * S).toFixed(1) + 'px,0)'
+    }
+    el.parentElement.addEventListener('pointermove', move)
+    el.parentElement.addEventListener('pointerleave', function () { el.style.transform = '' })
+  })
+
+  // ---------- Click Spark: faíscas douradas no clique ----------
+  addEventListener('click', function (e) {
+    for (var i = 0; i < 8; i++) {
+      var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+      s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('class', 'spark-fx')
+      s.innerHTML = '<path d="' + SPARK + '"/>'
+      var size = 7 + Math.random() * 7
+      s.style.cssText = 'left:' + e.clientX + 'px;top:' + e.clientY + 'px;width:' + size + 'px;height:' + size + 'px'
+      document.body.appendChild(s)
+      var a = (Math.PI * 2 * i) / 8 + Math.random() * .4, d = 26 + Math.random() * 22
+      s.animate([
+        { transform: 'translate(-50%,-50%) scale(1) rotate(0deg)', opacity: 1 },
+        { transform: 'translate(calc(-50% + ' + Math.cos(a) * d + 'px), calc(-50% + ' + Math.sin(a) * d + 'px)) scale(.2) rotate(90deg)', opacity: 0 }
+      ], { duration: 620, easing: 'cubic-bezier(.16,1,.3,1)' }).onfinish = (function (el) { return function () { el.remove() } })(s)
+    }
+  })
+
+  // ---------- Target Cursor: anel dourado que acompanha e cresce sobre o que é clicável ----------
+  var ring = document.createElement('div'); ring.className = 'cursor-ring'; ring.setAttribute('aria-hidden', 'true')
+  var dot = document.createElement('div'); dot.className = 'cursor-dot'; dot.setAttribute('aria-hidden', 'true')
+  document.body.appendChild(ring); document.body.appendChild(dot)
+  var mx = -100, my = -100, rx = -100, ry = -100
+  addEventListener('pointermove', function (e) {
+    mx = e.clientX; my = e.clientY
+    dot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)'
+    var t = e.target.closest && e.target.closest('a, button, .spec, .zone, .pin, .tilt, label, summary, .loop, input')
+    ring.classList.toggle('is-hover', !!t)
+  }, { passive: true })
+  document.addEventListener('pointerleave', function () { ring.classList.add('is-gone'); dot.classList.add('is-gone') })
+  document.addEventListener('pointerenter', function () { ring.classList.remove('is-gone'); dot.classList.remove('is-gone') })
+  ;(function follow () {
+    rx += (mx - rx) * .18; ry += (my - ry) * .18
+    ring.style.transform = 'translate3d(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px,0)'
+    requestAnimationFrame(follow)
+  })()
+
+  // ---------- Image Trail: rastro de fotos no consultório ----------
+  var place = document.getElementById('consultorio')
+  if (place) {
+    var srcs = Array.prototype.map.call(place.querySelectorAll('.fan img'), function (i) { return i.currentSrc || i.src })
+    var layer = document.createElement('div'); layer.className = 'trail'; layer.setAttribute('aria-hidden', 'true')
+    place.insertBefore(layer, place.firstChild)
+    var lx = 0, ly = 0, n = 0
+    place.addEventListener('pointermove', function (e) {
+      if (e.target.closest('.place__grid')) return   // não atrapalha endereço e mapa
+      var r = place.getBoundingClientRect()
+      var x = e.clientX - r.left, y = e.clientY - r.top
+      if (Math.hypot(x - lx, y - ly) < 90) return
+      lx = x; ly = y
+      var im = document.createElement('img')
+      im.src = srcs[n++ % srcs.length]; im.alt = ''
+      im.style.left = x + 'px'; im.style.top = y + 'px'
+      layer.appendChild(im)
+      im.animate([
+        { transform: 'translate(-50%,-50%) scale(.6) rotate(-6deg)', opacity: 0 },
+        { transform: 'translate(-50%,-50%) scale(1) rotate(0deg)', opacity: 1, offset: .18 },
+        { transform: 'translate(-50%,-50%) scale(.9) rotate(3deg)', opacity: 0 }
+      ], { duration: 1100, easing: 'cubic-bezier(.16,1,.3,1)' }).onfinish = function () { im.remove() }
+    })
+  }
 })()

@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://images.unsplash.com" />
 <link rel="preload" as="image" href="https://images.unsplash.com/photo-1611451444023-7fe9d86fe1d0?auto=format&amp;w=800&amp;q=72" fetchpriority="high" />
 <link rel="preload" as="font" type="font/ttf" href="fonts/Rokurou.ttf" crossorigin />
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="style.css?v=20261120l" />
 <script>
   document.documentElement.classList.add('js')
   if (matchMedia('(prefers-reduced-motion: reduce)').matches || location.search.includes('mvshot')) document.documentElement.classList.add('calm')
@@ -84,7 +84,7 @@
   <section class="hero" aria-labelledby="heroTitle">
     <div class="hero__stage">
       <p class="tick tick--tl"><i aria-hidden="true"></i>Medicina estética · desde 2016</p>
-      <p class="tick tick--tr">Agenda de dezembro aberta<i aria-hidden="true"></i></p>
+      <p class="tick tick--tr"><span class="shiny">Agenda de dezembro aberta</span><i aria-hidden="true"></i></p>
 
       <h1 class="hero__word" id="heroTitle"><span class="sr">Dra. Helena Duarte, medicina estética em Teresina</span><span class="hero__letters" aria-hidden="true"><i style="--i:0">H</i><i style="--i:1">E</i><i style="--i:2">L</i><i style="--i:3">E</i><i style="--i:4">N</i><i style="--i:5">A</i></span></h1>
 
@@ -141,6 +141,21 @@
     <p class="loop__hint" aria-hidden="true"><i></i>Arraste para girar<i></i></p>
   </section>
 
+  <!-- FOTO EM ARCO QUE SE ABRE COM A ROLAGEM -->
+  <section class="unveil" aria-label="Cuidado que respeita o seu tempo">
+    <div class="unveil__pin" id="unveil">
+      <div class="unveil__sticky">
+        <figure class="unveil__img">
+          <img loading="lazy" alt="Mulher de cabelo escuro com a mão no rosto, fundo azul-acinzentado"
+            src="https://images.unsplash.com/photo-1637851496670-2bdc6c548d27?auto=format&amp;fit=crop&amp;w=1800&amp;h=1200&amp;crop=faces&amp;q=72"
+            srcset="https://images.unsplash.com/photo-1637851496670-2bdc6c548d27?auto=format&amp;fit=crop&amp;w=900&amp;h=1200&amp;crop=faces&amp;q=70 900w, https://images.unsplash.com/photo-1637851496670-2bdc6c548d27?auto=format&amp;fit=crop&amp;w=1800&amp;h=1200&amp;crop=faces&amp;q=72 1800w"
+            sizes="100vw" width="1800" height="1200" />
+        </figure>
+        <p class="unveil__text" aria-hidden="true"><span>Cuidado</span> <em>que respeita</em> <span>o seu tempo</span></p>
+      </div>
+    </div>
+  </section>
+
   <!-- ABORDAGEM -->
   <section class="sheet approach" aria-labelledby="approachTitle">
     <div class="approach__grid">
@@ -177,7 +192,7 @@
     <div class="map__grid">
       <div class="stage">
         <svg class="stage__orbit" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <ellipse cx="50" cy="60" rx="40" ry="20" />
+          <ellipse cx="50" cy="64" rx="42" ry="20" />
         </svg>
 
         <figure class="lens stage__face" id="mapLens" style="--x:26%;--y:40%;--w:47%;--h:10%">
@@ -196,16 +211,16 @@
         </figure>
 
         <div class="stage__zones" role="tablist" aria-label="Áreas do rosto">
-          <button class="zone" role="tab" id="tab-olhar" aria-controls="zonePanel" aria-selected="true" data-zone="olhar" style="--zx:12.4%;--zy:66.8%">
+          <button class="zone" role="tab" id="tab-olhar" aria-controls="zonePanel" aria-selected="true" data-zone="olhar" style="--zx:10.5%;--zy:70.8%">
             <i aria-hidden="true"></i><b>Olhar</b><span>Linhas, olheiras e cansaço</span>
           </button>
-          <button class="zone" role="tab" id="tab-labios" aria-controls="zonePanel" aria-selected="false" tabindex="-1" data-zone="labios" style="--zx:33.1%;--zy:78.1%">
+          <button class="zone" role="tab" id="tab-labios" aria-controls="zonePanel" aria-selected="false" tabindex="-1" data-zone="labios" style="--zx:32.2%;--zy:82.1%">
             <i aria-hidden="true"></i><b>Lábios</b><span>Contorno e hidratação</span>
           </button>
-          <button class="zone" role="tab" id="tab-pele" aria-controls="zonePanel" aria-selected="false" tabindex="-1" data-zone="pele" style="--zx:66.9%;--zy:78.1%">
+          <button class="zone" role="tab" id="tab-pele" aria-controls="zonePanel" aria-selected="false" tabindex="-1" data-zone="pele" style="--zx:67.8%;--zy:82.1%">
             <i aria-hidden="true"></i><b>Pele</b><span>Firmeza, manchas, textura</span>
           </button>
-          <button class="zone" role="tab" id="tab-contorno" aria-controls="zonePanel" aria-selected="false" tabindex="-1" data-zone="contorno" style="--zx:87.6%;--zy:66.8%">
+          <button class="zone" role="tab" id="tab-contorno" aria-controls="zonePanel" aria-selected="false" tabindex="-1" data-zone="contorno" style="--zx:89.5%;--zy:70.8%">
             <i aria-hidden="true"></i><b>Contorno</b><span>Mandíbula e queixo</span>
           </button>
         </div>
@@ -229,6 +244,14 @@
 
   <!-- ESPECIALIDADES: galeria — o nome escolhido troca a imagem no arco -->
   <section class="sheet sheet--sky specs" id="especialidades" aria-labelledby="specsTitle">
+    <div class="specs__bgs" aria-hidden="true">
+      <img class="is-active" data-i="0" alt="" loading="lazy" src="https://images.unsplash.com/photo-1713207524097-596f3c17afc3?auto=format&amp;fit=crop&amp;w=220&amp;h=290&amp;q=72" width="640" height="840" />
+      <img class="" data-i="1" alt="" loading="lazy" src="https://images.unsplash.com/photo-1581182800629-7d90925ad072?auto=format&amp;fit=crop&amp;w=220&amp;h=290&amp;q=72" width="640" height="840" />
+      <img class="" data-i="2" alt="" loading="lazy" src="https://images.unsplash.com/photo-1643630661247-2474f10e4f70?auto=format&amp;fit=crop&amp;w=220&amp;h=290&amp;q=72" width="640" height="840" />
+      <img class="" data-i="3" alt="" loading="lazy" src="https://images.unsplash.com/photo-1670201203116-26644750a726?auto=format&amp;fit=crop&amp;w=220&amp;h=290&amp;q=72" width="640" height="840" />
+      <img class="" data-i="4" alt="" loading="lazy" src="https://images.unsplash.com/photo-1655026392641-bf283a5f12d4?auto=format&amp;fit=crop&amp;w=220&amp;h=290&amp;q=72" width="640" height="840" />
+      <img class="" data-i="5" alt="" loading="lazy" src="https://images.unsplash.com/photo-1605769574581-b2511b6afa08?auto=format&amp;fit=crop&amp;w=220&amp;h=290&amp;q=72" width="640" height="840" />
+    </div>
     <header class="specs__head">
       <h2 class="h2" id="specsTitle" data-reveal>Especialidades <em>que respeitam o seu rosto.</em></h2>
       <p>Procedimentos minimamente invasivos, feitos no consultório, com produtos registrados na Anvisa e material de uso único.</p>
@@ -260,6 +283,7 @@
 
   <!-- SOBRE -->
   <section class="sheet sheet--navy about dome" id="sobre" aria-labelledby="aboutTitle">
+    <div class="about__bg" aria-hidden="true"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1759262151080-e05ba1c6294f?auto=format&amp;fit=crop&amp;w=1600&amp;h=1000&amp;q=65" width="1600" height="1000" /></div>
     <div class="about__grid">
       <figure class="about__photo tilt" data-reveal>
         <img loading="lazy" alt="Dra. Helena Duarte, de jaleco branco, sorrindo, segurando um tablet em frente a uma parede escura"
@@ -303,10 +327,10 @@
             <li class="" data-i="3"><h3>Retorno</h3><p>Em 15 dias revisamos juntas o resultado e fazemos os ajustes finos, que já estão inclusos.</p><span class="meta">incluso, em 15 dias</span></li>
           </ol>
           <figure class="steps__frame arch" aria-hidden="true">
-            <img class="is-on" data-i="0" loading="lazy" alt="" src="https://images.unsplash.com/photo-1762341118770-243c5ffd6d1b?auto=format&amp;fit=crop&amp;w=640&amp;h=820&amp;q=74" width="640" height="820" />
-            <img class="" data-i="1" loading="lazy" alt="" src="https://images.unsplash.com/photo-1759262151080-e05ba1c6294f?auto=format&amp;fit=crop&amp;w=640&amp;h=820&amp;q=74" width="640" height="820" />
-            <img class="" data-i="2" loading="lazy" alt="" src="https://images.unsplash.com/photo-1655026392641-bf283a5f12d4?auto=format&amp;fit=crop&amp;w=640&amp;h=820&amp;q=74" width="640" height="820" />
-            <img class="" data-i="3" loading="lazy" alt="" src="https://images.unsplash.com/photo-1581182800629-7d90925ad072?auto=format&amp;fit=crop&amp;w=640&amp;h=820&amp;q=74" width="640" height="820" />
+            <img class="is-on" data-i="0" loading="lazy" alt="" src="https://images.unsplash.com/photo-1762341118770-243c5ffd6d1b?auto=format&amp;fit=crop&amp;w=1800&amp;h=1100&amp;q=74" width="1800" height="1100" />
+            <img class="" data-i="1" loading="lazy" alt="" src="https://images.unsplash.com/photo-1759262151080-e05ba1c6294f?auto=format&amp;fit=crop&amp;w=1800&amp;h=1100&amp;q=74" width="1800" height="1100" />
+            <img class="" data-i="2" loading="lazy" alt="" src="https://images.unsplash.com/photo-1655026392641-bf283a5f12d4?auto=format&amp;fit=crop&amp;w=1800&amp;h=1100&amp;q=74" width="1800" height="1100" />
+            <img class="" data-i="3" loading="lazy" alt="" src="https://images.unsplash.com/photo-1581182800629-7d90925ad072?auto=format&amp;fit=crop&amp;w=1800&amp;h=1100&amp;q=74" width="1800" height="1100" />
             <span class="arch__line"></span>
           </figure>
         </div>
@@ -318,21 +342,6 @@
           <button type="button" class="steps__dot" data-i="3"><i aria-hidden="true"></i>Retorno</button>
         </nav>
       </div>
-    </div>
-  </section>
-
-  <!-- DEPOIMENTOS: foto grande com cartão por cima -->
-  <section class="sheet quotes" id="depoimentos" aria-labelledby="quotesTitle">
-    <img class="quotes__bg" alt="" aria-hidden="true" loading="lazy"
-      src="https://images.unsplash.com/photo-1634149136549-47350a401065?auto=format&amp;fit=crop&amp;w=1600&amp;h=1000&amp;q=65"
-      srcset="https://images.unsplash.com/photo-1634149136549-47350a401065?auto=format&amp;fit=crop&amp;w=900&amp;h=1100&amp;q=62 900w, https://images.unsplash.com/photo-1634149136549-47350a401065?auto=format&amp;fit=crop&amp;w=1600&amp;h=1000&amp;q=65 1600w"
-      sizes="100vw" width="1600" height="1000" />
-    <div class="quotes__card">
-      <h2 class="quotes__title" id="quotesTitle">O que dizem <em>as pacientes</em></h2>
-      <figure><blockquote>“Fui achando que sairia com a boca enorme. Saí com o meu lábio, só que mais bonito.”</blockquote><figcaption>Mariana S., 34 anos</figcaption></figure>
-      <figure><blockquote>“Ela me desaconselhou um procedimento que eu queria muito. Foi aí que confiei.”</blockquote><figcaption>Cláudia R., 51 anos</figcaption></figure>
-      <figure><blockquote>“Minhas colegas de trabalho só perguntaram se eu tinha tirado férias.”</blockquote><figcaption>Patrícia L., 42 anos</figcaption></figure>
-      <p class="quotes__note">Depoimentos fictícios, apenas para este exemplo.</p>
     </div>
   </section>
 
@@ -504,6 +513,7 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="script.js?v=20261120i"></script>
 </body>
 </html>
