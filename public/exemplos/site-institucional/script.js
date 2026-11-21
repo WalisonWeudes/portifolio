@@ -382,3 +382,102 @@ if (sim) {
   sim.addEventListener('submit', (event) => event.preventDefault())
   update()
 }
+
+// ===== Rodada 6: abas acessíveis (setores e reforma), progresso de leitura, parallax e revelação de fotos =====
+
+// Abas com setas do teclado (padrão WAI-ARIA). onChange recebe o índice ativo.
+function tabs(root, onChange) {
+  const list = [...root.querySelectorAll('[role="tab"]')]
+  const panels = list.map((t) => document.getElementById(t.getAttribute('aria-controls')))
+  const select = (i, focus) => {
+    list.forEach((t, k) => {
+      const on = k === i
+      t.setAttribute('aria-selected', on)
+      t.tabIndex = on ? 0 : -1
+      panels[k].hidden = !on
+    })
+    if (focus) list[i].focus()
+    if (onChange) onChange(i)
+  }
+  list.forEach((t, i) => {
+    t.addEventListener('click', () => select(i))
+    t.addEventListener('keydown', (e) => {
+      const keys = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }
+      if (e.key in keys) {
+        e.preventDefault()
+        select((i + keys[e.key] + list.length) % list.length, true)
+      } else if (e.key === 'Home' || e.key === 'End') {
+        e.preventDefault()
+        select(e.key === 'Home' ? 0 : list.length - 1, true)
+      }
+    })
+  })
+  return select
+}
+
+const sectorsRoot = document.querySelector('[data-sectors]')
+if (sectorsRoot) tabs(sectorsRoot)
+
+// Reforma: a etapa do ano atual abre sozinha e ganha o selo "Estamos aqui"; a barra mostra o avanço.
+const reformRoot = document.querySelector('[data-reform]')
+if (reformRoot) {
+  const bar = reformRoot.querySelector('[data-reform-bar]')
+  const btns = [...reformRoot.querySelectorAll('[role="tab"]')]
+  const year = new Date().getFullYear()
+  let current = 0
+  btns.forEach((b, i) => {
+    if (+b.dataset.from <= year) current = i
+  })
+  const steps = reformRoot.querySelectorAll('.reform__step')
+  const now = steps[current] && steps[current].querySelector('.reform__now')
+  if (now && +btns[0].dataset.from <= year) now.hidden = false
+  btns[current].classList.add('is-now')
+  const select = tabs(reformRoot, (i) => {
+    if (bar) bar.style.transform = `scaleX(${(i + 1) / btns.length})`
+    btns.forEach((b, k) => b.classList.toggle('is-past', k < i))
+  })
+  select(current)
+}
+
+// Barra fina de progresso de leitura sob o cabeçalho
+const progress = document.querySelector('[data-progress]')
+const parallax = reduceMotion ? [] : [...document.querySelectorAll('[data-parallax]')]
+if (progress || parallax.length) {
+  let ticking = false
+  const update = () => {
+    ticking = false
+    const max = document.documentElement.scrollHeight - innerHeight
+    if (progress) progress.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`
+    parallax.forEach((el) => {
+      const r = el.parentElement.getBoundingClientRect()
+      if (r.bottom < 0 || r.top > innerHeight) return
+      const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight // -1 … 1
+      el.style.transform = `translate3d(0, ${(p * -8).toFixed(2)}%, 0) scale(1.18)`
+    })
+  }
+  addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true
+      requestAnimationFrame(update)
+    }
+  }, { passive: true })
+  addEventListener('resize', update)
+  update()
+}
+
+// Fotos que se revelam de baixo para cima ao entrar na tela (só com movimento permitido)
+const reveals = document.querySelectorAll('[data-reveal], .sector__img, .guide__img, .office__list li')
+if (!reduceMotion && 'IntersectionObserver' in window && reveals.length) {
+  document.documentElement.classList.add('reveal-on')
+  const ro = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return
+        e.target.classList.add('is-in')
+        ro.unobserve(e.target)
+      })
+    },
+    { rootMargin: '0px 0px -12% 0px' },
+  )
+  reveals.forEach((el) => ro.observe(el))
+}

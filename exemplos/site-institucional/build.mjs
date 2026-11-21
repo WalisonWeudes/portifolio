@@ -27,6 +27,20 @@ const photo = {
   juliana: 'photo-1762341104634-998bbee0ccba',
   pedro: 'photo-1758876204244-930299843f07',
   larissa: 'photo-1699473567091-6ae0ec323a9c',
+  // rodada 6: setores, reforma tributária, escritório e guias
+  sComercio: 'photo-1441984904996-e0b6ba687e04',
+  sSaude: 'photo-1777331903190-341a3dd0441b',
+  sServicos: 'photo-1522071820081-009f0129c71c',
+  sAlimentacao: 'photo-1645342867031-267d2ad63733',
+  sAgro: 'photo-1650397306390-86caaefce1a3',
+  reforma: 'photo-1758691737182-d42aefd6dee8',
+  office: 'photo-1431540015161-0bf868a2d407',
+  gMei: 'photo-1554224155-6726b3ff858f',
+  gFator: 'photo-1753955900478-323e4da1eff7',
+  gLucro: 'photo-1758519288905-38b7b00c1023',
+  heroTeam: 'photo-1758518727077-ffb66ffccced',
+  whoMeeting: 'photo-1780733064275-d1ade9b83a3d',
+  whoDesk: 'photo-1713947503588-8ff8196dc4a3',
 }
 const src = (id, w, h) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}${h ? `&h=${h}` : ''}&q=75`
 const img = (id, w, h, alt, extra = '') =>
@@ -89,6 +103,7 @@ const header = (current) => `
       </span>
     </nav>
   </div>
+  <span class="progress" aria-hidden="true"><i data-progress></i></span>
 </header>`
 
 const footer = `
@@ -215,6 +230,37 @@ const faq = [
   ['Posso cancelar quando quiser?', 'Sim. O contrato é mensal, com aviso de 30 dias, e entregamos toda a documentação para o próximo contador.'],
 ]
 
+// Setores atendidos (números fictícios do exemplo)
+const sectors = [
+  { id: 'comercio', name: 'Comércio e varejo', count: 96, photo: photo.sComercio, alt: 'Interior de uma loja de roupas com araras e balcão', regime: 'Simples Nacional · Anexo I', pain: 'ICMS por substituição tributária, estoque e notas de entrada e saída.', items: ['Conferimos a substituição tributária para não pagar ICMS duas vezes', 'Controle de estoque e inventário anual', 'Preço de venda com a margem real de cada produto'] },
+  { id: 'saude', name: 'Clínicas e saúde', count: 54, photo: photo.sSaude, alt: 'Dentista conversando com uma paciente no consultório', regime: 'Simples (Anexo III com Fator R) ou Lucro Presumido', pain: 'Alíquota alta no Anexo V, pró-labore dos sócios e convênios.', items: ['Fator R planejado para sair do Anexo V para o III', 'Equiparação hospitalar quando a clínica tem direito', 'Repasse e pró-labore dos sócios sem risco fiscal'] },
+  { id: 'servicos', name: 'Agências e serviços', count: 71, photo: photo.sServicos, alt: 'Equipe trabalhando com notebooks numa mesa compartilhada', regime: 'Simples Nacional · Anexo III ou V', pain: 'ISS do município, notas de serviço e contratos com clientes de fora.', items: ['Nota fiscal de serviço no padrão nacional (NFS-e)', 'Fator R conferido todo mês', 'Distribuição de lucros documentada'] },
+  { id: 'alimentacao', name: 'Padarias e restaurantes', count: 48, photo: photo.sAlimentacao, alt: 'Atendente de padaria atrás do balcão de pães', regime: 'Simples Nacional · Anexo I', pain: 'Bebidas com tributação monofásica, escalas de funcionários e custo da mercadoria.', items: ['Recuperação de PIS e Cofins de bebidas monofásicas', 'Folha com escalas, adicional noturno e horas extras', 'Ficha técnica e custo de cada prato'] },
+  { id: 'agro', name: 'Agro e produtor rural', count: 31, photo: photo.sAgro, alt: 'Vaqueiros conduzindo gado num pasto', regime: 'Produtor pessoa física ou empresa rural', pain: 'Livro caixa do produtor, Funrural e documentação da terra.', items: ['Livro Caixa Digital do Produtor Rural (LCDPR)', 'Funrural: comparação entre folha e receita bruta', 'ITR e CAR em dia'] },
+]
+
+// Reforma tributária (LC 214/2025): marcos principais
+const reform = [
+  { year: '2026', title: 'Ano de teste', text: 'A nota fiscal passa a destacar CBS de 0,9% e IBS de 0,1%, compensáveis com o PIS e a Cofins. Empresas do Simples Nacional ficam dispensadas desse recolhimento.', tags: ['Novos campos na nota', 'Sem aumento de carga'] },
+  { year: '2027', title: 'CBS no lugar de PIS e Cofins', text: 'PIS e Cofins deixam de existir e a CBS passa a ser cobrada por inteiro. Começa o Imposto Seletivo. Empresas do Simples podem optar por recolher IBS e CBS por fora, para gerar crédito aos clientes.', tags: ['Fim do PIS e da Cofins', 'Opção no Simples'] },
+  { year: '2029–2032', title: 'Transição do ICMS e do ISS', text: 'ICMS e ISS diminuem 10% ao ano a partir de 2029, e o IBS sobe na mesma proporção. Benefícios fiscais estaduais vão sendo reduzidos.', tags: ['ICMS e ISS em queda', 'IBS em alta'] },
+  { year: '2033', title: 'Sistema novo completo', text: 'ICMS e ISS são extintos. IBS e CBS substituem cinco tributos, com crédito amplo sobre o que a empresa compra.', tags: ['Dois tributos no lugar de cinco'] },
+]
+
+const guides = [
+  { photo: photo.gMei, alt: 'Mão segurando papéis ao lado de calculadora e caneta', tag: 'MEI', time: '3 min', title: 'Passei do limite do MEI. E agora?', points: ['O limite é de R$ 81 mil por ano (proporcional no ano de abertura).', 'Até 20% acima (R$ 97.200), a empresa vira ME no ano seguinte e paga a diferença numa guia complementar.', 'Acima de 20%, o desenquadramento volta a janeiro, com imposto de ME sobre o ano todo.', 'Planejar a migração antes evita multa e escolhe o regime certo.'] },
+  { photo: photo.gFator, alt: 'Pessoa fazendo contas com calculadora e notebook', tag: 'Simples Nacional', time: '4 min', title: 'Fator R: o ajuste que derruba o imposto de clínicas e agências', points: ['Se a folha, com pró-labore, for 28% ou mais da receita dos últimos 12 meses, a empresa sai do Anexo V e vai para o III.', 'A alíquota inicial cai de 15,5% para 6%.', 'Muitas vezes basta ajustar o pró-labore dos sócios.', 'O cálculo é mensal: conferimos antes de cada guia.'] },
+  { photo: photo.gLucro, alt: 'Dois empresários apertando as mãos numa mesa de reunião', tag: 'Sócios', time: '3 min', title: 'Pró-labore ou distribuição de lucros?', points: ['Pró-labore é o salário do sócio: tem INSS de 11% e Imposto de Renda na tabela.', 'Lucro distribuído com contabilidade em dia é isento para o sócio na maior parte dos casos.', 'Desde 2026, lucros acima de R$ 50 mil por mês para a mesma pessoa têm retenção de 10% de IR.', 'O melhor equilíbrio entre os dois muda conforme o regime e o Fator R.'] },
+]
+
+// Título do hero quebrado em palavras para a animação de entrada (cada palavra sobe de dentro de uma máscara)
+let wordIndex = 0
+const words = (text) =>
+  text
+    .split(' ')
+    .map((w) => `<span class="w"><span style="--i:${wordIndex++}">${w}</span></span>`)
+    .join(' ')
+
 const leadForm = (id) => `
       <form class="lead" id="${id}" novalidate>
         <h2 class="lead__title">Fale com um contador</h2>
@@ -253,46 +299,65 @@ const home = page({
   description: 'Contabilidade, impostos, folha e abertura de empresa para pequenas e médias empresas do Piauí.',
   body: `
 <section class="hero" aria-labelledby="titulo">
-  ${img(photo.laptop, 1600, 900, '', ' class="hero__bg" aria-hidden="true"').replace(' loading="lazy"', '')}
+  <div class="hero__photo" aria-hidden="true">${img(photo.heroTeam, 1100, 900, '', ' class="hero__bg"').replace(' loading="lazy"', ' fetchpriority="high"')}</div>
   <div class="hero__shade" aria-hidden="true"></div>
   <div class="wrap hero__grid">
     <div class="hero__text">
-      <h1 id="titulo">Pague <mark>só o imposto que é devido.</mark></h1>
-      <p>Contabilidade e planejamento tributário para pequenas empresas do Piauí. Simule agora quanto a sua empresa pode economizar dentro da lei.</p>
+      <p class="hero__rating"><b class="num">4,9</b><span class="stars" aria-hidden="true">${icon.star.repeat(5)}</span><span>120 avaliações de clientes</span></p>
+      <h1 id="titulo" aria-label="Pague só o imposto que é devido.">${words('Pague')} <mark>${words('só o imposto que é devido.')}</mark></h1>
+      <p>Contabilidade e planejamento tributário para pequenas e médias empresas do Piauí, com um contador que conhece o seu negócio pelo nome.</p>
       <div class="hero__actions">
         <a class="btn btn--lime btn--lg" href="contato.html">Falar com um contador ${icon.arrow}</a>
-        <a class="btn btn--play btn--lg" href="#como-funciona"><span class="btn__dot">${icon.play}</span>Ver como funciona</a>
+        <a class="hero__call" href="tel:+558900000000"><span class="hero__call-dot">${icon.phone}</span><span><small>Ligue agora</small><b class="num">(89) 0000-0000</b></span></a>
       </div>
-      <p class="hero__proof"><span class="stars" aria-hidden="true">${icon.star.repeat(5)}</span><b>4,9</b> em 120 avaliações · 17 anos em Picos · 320+ empresas</p>
     </div>
-    <form class="sim" data-sim aria-labelledby="sim-title">
-      <div class="sim__head">
-        <h2 id="sim-title">Simulador de imposto</h2>
-        <span>Simples Nacional · estimativa</span>
-      </div>
-      <div class="sim__acts" role="group" aria-label="Atividade da empresa">
-        <button type="button" data-act="servicos" aria-pressed="true">Serviços</button>
-        <button type="button" data-act="comercio" aria-pressed="false">Comércio</button>
-      </div>
-      <label class="sim__rev" for="sim-rev">
-        <span>Faturamento mensal</span>
-        <output data-sim-rev for="sim-rev" class="num">R$ 40.000</output>
-      </label>
-      <input id="sim-rev" type="range" min="5000" max="300000" step="1000" value="40000" data-sim-range />
-      <div class="sim__scale num" aria-hidden="true"><span>R$ 5 mil</span><span>R$ 300 mil</span></div>
-      <div class="sim__bars" aria-live="polite">
-        <div class="sim__bar sim__bar--before"><span data-sim-label-a>Sem planejamento</span><div><i data-sim-bar-a></i></div><b class="num" data-sim-a>–</b></div>
-        <div class="sim__bar sim__bar--after"><span data-sim-label-b>Com planejamento</span><div><i data-sim-bar-b></i></div><b class="num" data-sim-b>–</b></div>
-      </div>
-      <div class="sim__save">
-        <span>Economia estimada</span>
-        <b class="num" data-sim-save>–</b>
-        <small class="num" data-sim-year>–</small>
-      </div>
-      <p class="sim__how" data-sim-how></p>
-      <a class="btn btn--lime btn--block" href="contato.html">Quero o cálculo da minha empresa ${icon.arrow}</a>
-      <p class="sim__fine">Estimativa ilustrativa com as alíquotas do Simples Nacional (LC 123/2006). Não substitui a análise de um contador.</p>
-    </form>
+    <ul class="hero__floats" aria-label="Destaques">
+      <li>${img(photo.owner, 96, 96, '')}<span><b>Abertura de empresa</b>CNPJ em 7 a 15 dias úteis</span></li>
+      <li>${img(photo.calc, 96, 96, '')}<span><b>99% no prazo</b>Obrigações entregues em dia</span></li>
+      <li>${img(photo.carlos, 96, 96, '')}<span><b>Contador dedicado</b>Atendimento pelo WhatsApp</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="simblock" aria-labelledby="h-sim">
+  <div class="wrap simblock__grid">
+    <div class="simblock__text">
+      <h2 id="h-sim">Quanto a sua empresa pode economizar dentro da lei?</h2>
+      <p class="lead-text">Mova o faturamento e escolha a atividade. O simulador compara o imposto do Simples Nacional sem e com planejamento.</p>
+      <ul class="ticks">
+        <li>${icon.check}Cálculo com as faixas da LC 123/2006</li>
+        <li>${icon.check}Mostra o ajuste que gera a economia</li>
+        <li>${icon.check}Um contador confere o caso real da sua empresa</li>
+      </ul>
+    </div>
+      <form class="sim" data-sim aria-labelledby="sim-title">
+        <div class="sim__head">
+          <h2 id="sim-title">Simulador de imposto</h2>
+          <span>Simples Nacional · estimativa</span>
+        </div>
+        <div class="sim__acts" role="group" aria-label="Atividade da empresa">
+          <button type="button" data-act="servicos" aria-pressed="true">Serviços</button>
+          <button type="button" data-act="comercio" aria-pressed="false">Comércio</button>
+        </div>
+        <label class="sim__rev" for="sim-rev">
+          <span>Faturamento mensal</span>
+          <output data-sim-rev for="sim-rev" class="num">R$ 40.000</output>
+        </label>
+        <input id="sim-rev" type="range" min="5000" max="300000" step="1000" value="40000" data-sim-range />
+        <div class="sim__scale num" aria-hidden="true"><span>R$ 5 mil</span><span>R$ 300 mil</span></div>
+        <div class="sim__bars" aria-live="polite">
+          <div class="sim__bar sim__bar--before"><span data-sim-label-a>Sem planejamento</span><div><i data-sim-bar-a></i></div><b class="num" data-sim-a>–</b></div>
+          <div class="sim__bar sim__bar--after"><span data-sim-label-b>Com planejamento</span><div><i data-sim-bar-b></i></div><b class="num" data-sim-b>–</b></div>
+        </div>
+        <div class="sim__save">
+          <span>Economia estimada</span>
+          <b class="num" data-sim-save>–</b>
+          <small class="num" data-sim-year>–</small>
+        </div>
+        <p class="sim__how" data-sim-how></p>
+        <a class="btn btn--lime btn--block" href="contato.html">Quero o cálculo da minha empresa ${icon.arrow}</a>
+        <p class="sim__fine">Estimativa ilustrativa com as alíquotas do Simples Nacional (LC 123/2006). Não substitui a análise de um contador.</p>
+      </form>
   </div>
 </section>
 
@@ -310,6 +375,67 @@ const home = page({
     <div class="extras">
       <b>Também fazemos:</b>
       <ul class="chips chips--line"><li>Imposto de Renda (IRPF)</li><li>Certidões negativas</li><li>Alvarás</li><li>Baixa de empresa</li></ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="quem-somos" aria-labelledby="h-quem">
+  <div class="wrap who">
+    <div class="who__collage">
+      <figure class="who__big" data-reveal>${img(photo.whoMeeting, 720, 440, 'Contador da Ventura revisando um contrato com um cliente')}</figure>
+      <div class="who__tile">${icon.check}<b class="num"><span data-count="320">320</span>+</b><span>empresas atendidas no Piauí</span></div>
+      <figure class="who__small" data-reveal>${img(photo.whoDesk, 440, 300, 'Analista da Ventura trabalhando no notebook')}</figure>
+    </div>
+    <div class="who__text">
+      <h2 id="h-quem">Uma contabilidade que explica, e não só entrega guias.</h2>
+      <p class="lead-text">Desde 2009 a Ventura cuida da rotina contábil de comércios, clínicas, agências e produtores rurais. Cada cliente tem um contador responsável e um relatório mensal em linguagem simples.</p>
+      <div class="who__row">
+        <a class="btn btn--brand" href="sobre.html">Conheça a Ventura ${icon.arrow}</a>
+        <p class="who__founder">${img(photo.carlos, 52, 52, '')}<span><b>Carlos Ventura</b>Sócio-fundador</span></p>
+      </div>
+      <div class="who__cards">
+        <div class="who__card"><span class="stars" aria-hidden="true">${icon.star.repeat(5)}</span><p><b class="num">4,9</b>/5</p><span>Média de 120 avaliações</span></div>
+        <div class="who__card"><b>Especialidades</b><ul class="chips chips--line"><li>Simples Nacional</li><li>Lucro Presumido</li><li>Folha e eSocial</li><li>IRPF</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--soft" id="setores" aria-labelledby="h-setores">
+  <div class="wrap">
+    <div class="sec-head sec-head--split">
+      <div>
+        <h2 id="h-setores">Cada setor tem os seus impostos. Nós conhecemos o seu.</h2>
+        <p>Escolha a área da sua empresa e veja o regime mais comum, onde costuma estar o erro e o que fazemos por você.</p>
+      </div>
+    </div>
+    <div class="sectors" data-sectors>
+      <div class="sectors__tabs" role="tablist" aria-label="Setores atendidos">${sectors
+        .map(
+          (s, i) => `
+        <button type="button" role="tab" id="tab-${s.id}" aria-controls="painel-${s.id}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>
+          <span>${s.name}</span><small class="num">${s.count} clientes</small>
+        </button>`,
+        )
+        .join('')}
+      </div>
+      <div class="sectors__stage">${sectors
+        .map(
+          (s, i) => `
+        <article class="sector" role="tabpanel" id="painel-${s.id}" aria-labelledby="tab-${s.id}"${i ? ' hidden' : ''}>
+          <figure class="sector__img">${img(s.photo, 760, 520, s.alt)}</figure>
+          <div class="sector__body">
+            <dl class="sector__facts">
+              <div><dt>Regime mais comum</dt><dd>${s.regime}</dd></div>
+              <div><dt>Onde costuma estar o erro</dt><dd>${s.pain}</dd></div>
+            </dl>
+            <ul class="ticks">${s.items.map((t) => `<li>${icon.check}${t}</li>`).join('')}</ul>
+            <a class="textlink" href="contato.html">Falar com o especialista do setor ${icon.arrow}</a>
+          </div>
+        </article>`,
+        )
+        .join('')}
+      </div>
     </div>
   </div>
 </section>
@@ -396,6 +522,58 @@ const home = page({
   </div>
 </section>
 
+<section class="sec" id="reforma" aria-labelledby="h-reforma">
+  <div class="wrap reform">
+    <div class="reform__intro">
+      <h2 id="h-reforma">Reforma tributária: o que muda para a sua empresa, ano a ano</h2>
+      <p class="lead-text">IBS e CBS vão substituir cinco tributos até 2033. Toque em cada etapa para ver o que acontece e quando agir.</p>
+      <figure class="reform__img" data-reveal>${img(photo.reforma, 640, 420, 'Reunião de planejamento numa sala de escritório')}</figure>
+      <ul class="reform__todo">
+        <li>${icon.check}Revisão do cadastro de produtos e serviços</li>
+        <li>${icon.check}Simulação: ficar no Simples ou recolher IBS e CBS por fora</li>
+        <li>${icon.check}Ajuste de preços e contratos longos</li>
+      </ul>
+    </div>
+    <div class="reform__panel" data-reform>
+      <ol class="reform__line" role="tablist" aria-label="Etapas da reforma tributária">${reform
+        .map(
+          (r, i) => `
+        <li role="presentation"><button type="button" role="tab" id="rf-${i}" aria-controls="rf-p-${i}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''} data-from="${r.year.slice(0, 4)}"><b class="num">${r.year}</b><span>${r.title}</span></button></li>`,
+        )
+        .join('')}
+      </ol>
+      <div class="reform__track" aria-hidden="true"><i data-reform-bar></i></div>${reform
+        .map(
+          (r, i) => `
+      <div class="reform__step" role="tabpanel" id="rf-p-${i}" aria-labelledby="rf-${i}"${i ? ' hidden' : ''}>
+        <p class="reform__year num">${r.year}<span class="reform__now" hidden>Estamos aqui</span></p>
+        <h3>${r.title}</h3>
+        <p>${r.text}</p>
+        <ul class="chips">${r.tags.map((t) => `<li>${t}</li>`).join('')}</ul>
+      </div>`,
+        )
+        .join('')}
+      <p class="fine">Resumo informativo da Lei Complementar 214/2025. Datas e alíquotas podem mudar com a regulamentação.</p>
+    </div>
+  </div>
+</section>
+
+<section class="office" aria-labelledby="h-office">
+  <div class="office__media" aria-hidden="true">${img(photo.office, 1600, 900, '', ' data-parallax')}</div>
+  <div class="wrap office__grid">
+    <div class="office__text">
+      <h2 id="h-office">Estrutura de escritório grande. Atenção de escritório pequeno.</h2>
+      <p>Sala de reunião no centro de Picos para quem prefere conversar pessoalmente, e atendimento digital para todo o Piauí.</p>
+    </div>
+    <ul class="office__list">
+      <li>${icon.award}<b>Contadores registrados no CRC-PI</b><span>Responsável técnico em cada empresa atendida.</span></li>
+      <li>${icon.shield}<b>Dados protegidos</b><span>Certificados digitais guardados com segurança e acesso por pessoa, conforme a LGPD.</span></li>
+      <li>${icon.doc}<b>Tudo por escrito</b><span>Contrato com prazos, valores e responsabilidades combinados.</span></li>
+      <li>${icon.chat}<b>Um contador com nome</b><span>Você fala com quem cuida da sua empresa, não com uma central.</span></li>
+    </ul>
+  </div>
+</section>
+
 <section class="sec" id="depoimentos" aria-labelledby="h-depo">
   <div class="wrap">
     <div class="sec-head sec-head--split">
@@ -461,6 +639,33 @@ const home = page({
       )
       .join('')}
     </div>
+  </div>
+</section>
+
+<section class="sec sec--soft" id="guias" aria-labelledby="h-guias">
+  <div class="wrap">
+    <div class="sec-head sec-head--split">
+      <div>
+        <h2 id="h-guias">Guias rápidos para quem toca a empresa</h2>
+        <p>Respostas curtas para as dúvidas que mais chegam no nosso WhatsApp.</p>
+      </div>
+    </div>
+    <div class="guides">${guides
+      .map(
+        (g) => `
+      <details class="guide">
+        <summary>
+          <figure class="guide__img">${img(g.photo, 520, 320, g.alt)}</figure>
+          <span class="guide__meta"><span class="guide__tag">${g.tag}</span><span>Leitura de ${g.time}</span></span>
+          <b class="guide__title">${g.title}</b>
+          <span class="guide__open"><span class="guide__more">Ler o resumo</span><span class="guide__less">Fechar</span><i aria-hidden="true"></i></span>
+        </summary>
+        <ul class="guide__points">${g.points.map((p) => `<li>${p}</li>`).join('')}</ul>
+      </details>`,
+      )
+      .join('')}
+    </div>
+    <p class="fine guides__fine">Conteúdo informativo do site de exemplo. Para o caso da sua empresa, fale com um contador.</p>
   </div>
 </section>
 ${cta}`,
