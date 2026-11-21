@@ -387,7 +387,7 @@ if (reduce) {
   } else {
     // os controles aparecem quando o rótulo termina de "carimbar" o pacote
     $('.label', hero).addEventListener('animationend', liberar, { once: true })
-    setTimeout(pular, FIM_ABERTURA + 2500) // garantia, caso a animação não termine
+    setTimeout(pular, FIM_ABERTURA + 5200) // garantia, caso a animação não termine
   }
 }
 

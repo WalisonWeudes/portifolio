@@ -6,20 +6,39 @@
 <title>Cerejal Cafés Especiais — Café torrado na semana do envio</title>
 <meta name="description" content="Cafés especiais em grãos ou moídos na hora para o seu jeito de passar, e acessórios para coar em casa." />
 <meta name="robots" content="noindex" />
-<meta name="theme-color" content="#104F02" />
+<meta name="theme-color" content="#2F3D2B" />
 <link rel="icon" type="image/png" href="/imagens/favicon-64.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Instrument+Serif:ital@0;1&amp;family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&amp;display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Gloock&amp;family=Instrument+Serif:ital@0;1&amp;family=Jost:wght@400;500;600&amp;family=Homemade+Apple&amp;display=swap" rel="stylesheet" />
 <link rel="preconnect" href="https://images.unsplash.com" />
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="style.css?v=20261120b" />
+<link rel="stylesheet" href="heritage.css?v=20261120c" />
 <link rel="preload" as="image" href="img/pacote.png" />
+<link rel="preload" as="image" href="img/ramo-cafe.webp" />
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1762686852371-763b689910b2?auto=format&amp;fit=crop&amp;w=1800&amp;h=1200&amp;q=70" />
 <script>
   // liga a abertura animada antes da primeira pintura (menos para quem pediu menos movimento)
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js', 'is-intro', 'is-play')
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js', 'is-intro', 'is-play', 'is-farm')
 </script>
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ABERTURA DA FAZENDA: cortina verde com a lavoura, folhas de café e o pacote; depois sobe e o pacote cai na loja -->
+<div class="intro-farm" aria-hidden="true">
+  <img class="if__bg" src="https://images.unsplash.com/photo-1762686852371-763b689910b2?auto=format&amp;fit=crop&amp;w=1800&amp;h=1200&amp;q=70" alt="" />
+  <img class="if__branch if__branch--1" src="img/ramo-cafe.webp" alt="" style="--d:.05s" />
+  <img class="if__branch if__branch--2" src="img/ramo-cafe.webp" alt="" style="--d:.15s" />
+  <img class="if__branch if__branch--3" src="img/ramo-cafe.webp" alt="" style="--d:.3s" />
+  <img class="if__branch if__branch--4" src="img/ramo-cafe.webp" alt="" style="--d:.4s" />
+  <div class="if__center">
+    <svg class="if__sprig" viewBox="0 0 120 80"><use href="#i-sprig"/></svg>
+    <img class="if__pack" src="img/pacote.png" width="453" height="760" alt="" />
+    <p class="if__name"><span>Cerejal</span></p>
+    <p class="if__sub">Fazenda Boa Esperança · desde 1962</p>
+  </div>
+</div>
 
 <div class="demo-bar">
   <div class="wrap">
@@ -32,14 +51,15 @@
 <header class="header">
   <div class="wrap header__row">
     <a class="logo" href="#topo" aria-label="Cerejal Cafés Especiais, início">
-      <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#104F02"/><ellipse cx="20" cy="21" rx="8.5" ry="11" fill="#FF7B3D"/><path d="M20 10.5c-3 4-3 17 0 21" fill="none" stroke="#104F02" stroke-width="2.4" stroke-linecap="round"/><path d="M21 9c2-3 5-4 8-3.5-1 3-4 4.5-7 4.2" fill="#9BD07A"/></svg>
+      <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#2F3D2B"/><ellipse cx="20" cy="21" rx="8.5" ry="11" fill="#A8884A"/><path d="M20 10.5c-3 4-3 17 0 21" fill="none" stroke="#2F3D2B" stroke-width="2.4" stroke-linecap="round"/><path d="M21 9c2-3 5-4 8-3.5-1 3-4 4.5-7 4.2" fill="#8FA77A"/></svg>
       <span>Cerejal<small>Cafés Especiais</small></span>
     </a>
     <nav class="nav" id="menu" aria-label="Menu principal">
       <a href="#loja">Cafés</a>
       <a href="#moagem">Moagem</a>
+      <a href="#origem">Fazenda</a>
+      <a href="#xicara">Xícara</a>
       <a href="#clube">Clube</a>
-      <a href="#origem">Origem</a>
     </nav>
     <p class="header__info"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-truck"/></svg>Frete grátis acima de R$ 150</p>
     <button class="cart-btn" type="button" aria-label="Abrir carrinho, 0 itens" aria-controls="carrinho" data-open-cart>
@@ -79,7 +99,7 @@
       <div class="float">
         <img class="pack" src="img/pacote.png" width="453" height="760" alt="Pacote kraft do café Cerejal Mantiqueira, 250 g" fetchpriority="high" />
         <div class="label" aria-hidden="true">
-          <svg class="label__mark" viewBox="0 0 40 40"><ellipse cx="20" cy="21" rx="8.5" ry="11" fill="currentColor"/><path d="M20 10.5c-3 4-3 17 0 21" fill="none" stroke="#FFF4F0" stroke-width="2.4" stroke-linecap="round"/></svg>
+          <svg class="label__mark" viewBox="0 0 40 40"><ellipse cx="20" cy="21" rx="8.5" ry="11" fill="currentColor"/><path d="M20 10.5c-3 4-3 17 0 21" fill="none" stroke="#EEE6D3" stroke-width="2.4" stroke-linecap="round"/></svg>
           <b class="label__brand">Cerejal</b>
           <span class="label__name">Mantiqueira</span>
           <span class="label__band" id="label-band">Torra média</span>
@@ -179,6 +199,22 @@
 <section class="band" aria-label="Como a Cerejal trabalha">
   <p class="band__row band__row--a"><span>Torrado às segundas</span><img src="img/graos/grao-3.png" alt="" /><em>moído na hora</em><img src="img/graos/grao-5.png" alt="" /><span>Direto do sítio</span><img src="img/graos/grao-2.png" alt="" /><em>do pé à xícara</em><img src="img/graos/grao-7.png" alt="" /><span>Torrado às segundas</span><img src="img/graos/grao-3.png" alt="" /><em>moído na hora</em></p>
   <p class="band__row band__row--b" aria-hidden="true"><em>86 pontos</em><img src="img/graos/grao-1.png" alt="" /><span>Mantiqueira de Minas</span><img src="img/graos/grao-4.png" alt="" /><em>lotes de 15 kg</em><img src="img/graos/grao-6.png" alt="" /><span>Enviado em 3 dias</span><img src="img/graos/grao-1.png" alt="" /><em>86 pontos</em><img src="img/graos/grao-4.png" alt="" /><span>Mantiqueira de Minas</span></p>
+</section>
+
+<!-- FAZENDA: foto grande, rótulo de herança e rastro de fotos ao passar o mouse -->
+<section class="farm tear-t tear-b" id="fazenda" aria-labelledby="farm-title" data-trail="https://images.unsplash.com/photo-1775434657007-549ae5d21bd4?auto=format&amp;fit=crop&amp;w=360&amp;h=440&amp;q=72 https://images.unsplash.com/photo-1586095516671-d085ff58cdd4?auto=format&amp;fit=crop&amp;w=360&amp;h=440&amp;q=72 https://images.unsplash.com/photo-1761318543563-f5c211a99195?auto=format&amp;fit=crop&amp;w=360&amp;h=440&amp;q=72 https://images.unsplash.com/photo-1773118360501-00f979fd9322?auto=format&amp;fit=crop&amp;w=360&amp;h=440&amp;q=72 https://images.unsplash.com/photo-1565273975921-c884f2b703df?auto=format&amp;fit=crop&amp;w=360&amp;h=440&amp;q=72 https://images.unsplash.com/photo-1694558334826-a371e09fae1d?auto=format&amp;fit=crop&amp;w=360&amp;h=440&amp;q=72 https://images.unsplash.com/photo-1558996111-47c0eab5f737?auto=format&amp;fit=crop&amp;w=360&amp;h=440&amp;q=72 https://images.unsplash.com/photo-1762004456291-016c26cc59c9?auto=format&amp;fit=crop&amp;w=360&amp;h=440&amp;q=72">
+  <div class="farm__bg" aria-hidden="true"><img src="https://images.unsplash.com/photo-1762686852371-763b689910b2?auto=format&amp;fit=crop&amp;w=2200&amp;h=1400&amp;q=75" width="2200" height="1400" alt="" loading="lazy" /></div>
+  <div class="farm__card">
+    <svg class="farm__sprig" viewBox="0 0 120 80" aria-hidden="true"><use href="#i-sprig"/></svg>
+    <p class="farm__estd"><span>Desde</span><span>1962</span></p>
+    <h2 id="farm-title">Fazenda Boa Esperança</h2>
+    <p class="farm__sub">Carmo de Minas · Serra da Mantiqueira</p>
+    <span class="farm__rule" aria-hidden="true"></span>
+    <p class="script farm__script">onde cada xícara começa</p>
+    <p class="farm__small">1.150 m de altitude · três famílias · 42 hectares de café</p>
+  </div>
+  <svg class="stamp farm__stamp" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="st-a" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0"/></defs><circle cx="100" cy="100" r="96" /><circle cx="100" cy="100" r="54" /><text><textPath href="#st-a">CAFÉ DE ALTITUDE · COLHIDO À MÃO · MINAS ·</textPath></text><use href="#i-sprig" x="64" y="74" width="72" height="52"/></svg>
+  <p class="farm__hint" aria-hidden="true">Passe o mouse pela fazenda</p>
 </section>
 
 <!-- CATEGORIAS -->
@@ -342,63 +378,95 @@
   </div>
 </section>
 
-<!-- ORIGEM -->
-<section class="origin section" id="origem" aria-labelledby="origin-title">
-  <div class="wrap">
-    <div class="origin__panel">
-      <div class="origin__intro">
-        <h2 id="origin-title" class="reveal">Do pé à sua xícara em <em>quatro paradas</em></h2>
-        <p class="reveal">Compramos direto de três sítios da Mantiqueira de Minas e pagamos acima do preço de mercado por café acima de 84 pontos.</p>
-      </div>
-      <ol class="trail">
-        <li class="trail__stop reveal">
-          <span class="trail__plate"><img src="https://images.unsplash.com/photo-1654815439629-5e93cb7f74a1?auto=format&amp;fit=crop&amp;w=400&amp;h=400&amp;q=70" width="400" height="400" alt="Galho de cafeeiro com cerejas maduras" loading="lazy" /></span>
-          <h3>Colheita seletiva</h3><p>Só as cerejas maduras, colhidas à mão.</p><span class="trail__when">Maio a agosto</span>
-        </li>
-        <li class="trail__stop reveal">
-          <span class="trail__plate"><img src="https://images.unsplash.com/photo-1633437805600-2c58bf56663c?auto=format&amp;fit=crop&amp;w=400&amp;h=400&amp;q=70" width="400" height="400" alt="Lavoura de café em morros verdes de Minas Gerais" loading="lazy" /></span>
-          <h3>Secagem no terreiro</h3><p>Ao sol, virado várias vezes ao dia.</p><span class="trail__when">Até 30 dias</span>
-        </li>
-        <li class="trail__stop reveal">
-          <span class="trail__plate"><img src="https://images.unsplash.com/photo-1537130508299-46ab547b4be3?auto=format&amp;fit=crop&amp;w=400&amp;h=400&amp;q=70" width="400" height="400" alt="Grãos de café saindo do torrador" loading="lazy" /></span>
-          <h3>Torra em pequenos lotes</h3><p>Lotes de 15 kg, curva anotada.</p><span class="trail__when">Segunda e quinta</span>
-        </li>
-        <li class="trail__stop reveal">
-          <span class="trail__plate"><img src="https://images.unsplash.com/photo-1538587888044-79f13ddd7e49?auto=format&amp;fit=crop&amp;w=400&amp;h=400&amp;q=70" width="400" height="400" alt="Xícara azul com café com leite e desenho de folha" loading="lazy" /></span>
-          <h3>Na sua casa</h3><p>Embalagem com válvula, aroma preso.</p><span class="trail__when">Em até 3 dias</span>
-        </li>
-      </ol>
+<!-- O PROCESSO NA FAZENDA: a página fica parada e os capítulos passam para o lado -->
+<section class="proc tear-t" id="origem" aria-labelledby="proc-title">
+  <div class="proc__pin">
+    <header class="proc__head">
+      <p class="script">do pé à sua xícara</p>
+      <h2 id="proc-title">O caminho do café, <em>na fazenda</em></h2>
+      <ol class="proc__steps" aria-hidden="true"><li>Florada</li><li>Colheita</li><li>Secagem</li><li>Torra</li><li>Prova</li></ol>
+      <span class="proc__bar" aria-hidden="true"><i></i></span>
+    </header>
+    <div class="proc__track">
+      <article class="chap">
+        <figure class="chap__photo"><img src="https://images.unsplash.com/photo-1762004456291-016c26cc59c9?auto=format&amp;fit=crop&amp;w=1400&amp;h=1000&amp;q=72" width="1400" height="1000" alt="Cafezal florido na encosta da serra" loading="lazy" /></figure>
+        <figure class="chap__polaroid"><img src="https://images.unsplash.com/photo-1694558334826-a371e09fae1d?auto=format&amp;fit=crop&amp;w=500&amp;h=560&amp;q=72" width="500" height="560" alt="Ramo de café com cerejas vermelhas" loading="lazy" /><figcaption class="script">cheiro de jasmim</figcaption></figure>
+        <div class="chap__text">
+          <span class="chap__num">01</span>
+          <h3>Florada</h3>
+          <p>Depois das primeiras chuvas o cafezal fica branco por três dias. Cada flor vira uma cereja.</p>
+          <p class="chap__when"><span>Quando</span>Setembro a outubro</p>
+        </div>
+      </article>
+      <article class="chap">
+        <figure class="chap__photo"><img src="https://images.unsplash.com/photo-1775434657007-549ae5d21bd4?auto=format&amp;fit=crop&amp;w=1400&amp;h=1000&amp;q=72" width="1400" height="1000" alt="Mãos colhendo cerejas de café no pé" loading="lazy" /></figure>
+        <figure class="chap__polaroid"><img src="https://images.unsplash.com/photo-1670758611084-e216510c5433?auto=format&amp;fit=crop&amp;w=500&amp;h=560&amp;q=72" width="500" height="560" alt="Punhado de cerejas maduras na palma da mão" loading="lazy" /><figcaption class="script">só as maduras</figcaption></figure>
+        <div class="chap__text">
+          <span class="chap__num">02</span>
+          <h3>Colheita</h3>
+          <p>Só as cerejas vermelhas, colhidas à mão em várias passadas pelo mesmo pé.</p>
+          <p class="chap__when"><span>Quando</span>Maio a agosto</p>
+        </div>
+      </article>
+      <article class="chap">
+        <figure class="chap__photo"><img src="https://images.unsplash.com/photo-1761318543563-f5c211a99195?auto=format&amp;fit=crop&amp;w=1400&amp;h=1000&amp;q=72" width="1400" height="1000" alt="Homem revirando café no terreiro de secagem" loading="lazy" /></figure>
+        <figure class="chap__polaroid"><img src="https://images.unsplash.com/photo-1672851613221-c56f31efce8c?auto=format&amp;fit=crop&amp;w=500&amp;h=560&amp;q=72" width="500" height="560" alt="Cerejas de café secando ao sol" loading="lazy" /><figcaption class="script">virado de hora em hora</figcaption></figure>
+        <div class="chap__text">
+          <span class="chap__num">03</span>
+          <h3>Secagem</h3>
+          <p>No terreiro, ao sol, o café é revirado com rodo várias vezes ao dia até chegar a 11% de umidade.</p>
+          <p class="chap__when"><span>Quando</span>Até 30 dias</p>
+        </div>
+      </article>
+      <article class="chap">
+        <figure class="chap__photo"><img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&amp;fit=crop&amp;w=1400&amp;h=1000&amp;q=72" width="1400" height="1000" alt="Torrador de tambor despejando café recém-torrado" loading="lazy" /></figure>
+        <figure class="chap__polaroid"><img src="https://images.unsplash.com/photo-1773118360501-00f979fd9322?auto=format&amp;fit=crop&amp;w=500&amp;h=560&amp;q=72" width="500" height="560" alt="Grãos torrados girando no resfriador" loading="lazy" /><figcaption class="script">15 kg por vez</figcaption></figure>
+        <div class="chap__text">
+          <span class="chap__num">04</span>
+          <h3>Torra</h3>
+          <p>Lotes de 15 kg no torrador de tambor. A curva de cada lote fica anotada para repetir o ponto certo.</p>
+          <p class="chap__when"><span>Quando</span>Segunda e quinta</p>
+        </div>
+      </article>
+      <article class="chap">
+        <figure class="chap__photo"><img src="https://images.unsplash.com/photo-1558996111-47c0eab5f737?auto=format&amp;fit=crop&amp;w=1400&amp;h=1000&amp;q=72" width="1400" height="1000" alt="Água quente sendo servida nas xícaras da prova" loading="lazy" /></figure>
+        <figure class="chap__polaroid"><img src="https://images.unsplash.com/photo-1762195880370-9d68ec30bfe9?auto=format&amp;fit=crop&amp;w=500&amp;h=560&amp;q=72" width="500" height="560" alt="Pessoas sentindo o aroma das amostras de café" loading="lazy" /><figcaption class="script">acima de 84 pontos</figcaption></figure>
+        <div class="chap__text">
+          <span class="chap__num">05</span>
+          <h3>Prova de xícara</h3>
+          <p>Antes de ir para o pacote, cada lote passa pela prova. Só entra o que fica acima de 84 pontos.</p>
+          <p class="chap__when"><span>Quando</span>Toda semana</p>
+        </div>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- AVALIAÇÕES -->
-<section class="reviews section" aria-labelledby="reviews-title">
-  <div class="wrap">
-    <h2 id="reviews-title" class="reviews__title reveal">Quem já toma <em>Cerejal</em></h2>
-    <div class="reviews__grid">
-      <div class="score reveal">
-        <span class="score__faces" aria-hidden="true">
-          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="40" height="40" alt="" loading="lazy" />
-          <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="40" height="40" alt="" loading="lazy" />
-          <img src="https://images.unsplash.com/photo-1758691737646-79dbce8e25fb?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="40" height="40" alt="" loading="lazy" />
-        </span>
-        <strong>2.318</strong>
-        <p>pessoas avaliaram a Cerejal. Nota média 4,9 de 5.</p>
-        <span class="stars" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><svg viewBox="0 0 24 24"><use href="#i-star"/></svg></span>
+<!-- A XÍCARA EM 3D: gira com a rolagem e com o mouse -->
+<section class="cup3d" id="xicara" aria-labelledby="cup-title">
+  <div class="cup3d__pin">
+    <div class="cup3d__copy">
+      <p class="script">e então, a xícara</p>
+      <h2 id="cup-title">Sirva do jeito que <em>você gosta</em></h2>
+      <p class="cup3d__lead">Arraste a xícara para girar. Escolha o preparo e veja como o café fica.</p>
+      <div class="drinks" role="group" aria-label="Escolha o preparo">
+        <button type="button" class="drink is-on" data-drink="coado" aria-pressed="true">Coado</button>
+        <button type="button" class="drink" data-drink="espresso" aria-pressed="false">Espresso</button>
+        <button type="button" class="drink" data-drink="cappuccino" aria-pressed="false">Cappuccino</button>
+        <button type="button" class="drink" data-drink="leite" aria-pressed="false">Com leite</button>
       </div>
-      <figure class="review reveal">
-        <blockquote>“Pedi moído para V60 e veio no ponto. Pela primeira vez o café de casa ficou igual ao da cafeteria.”</blockquote>
-        <figcaption><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="44" height="44" alt="" loading="lazy" /><span><b>Juliana R.</b>Comprou o Mantiqueira · Teresina, PI</span></figcaption>
-      </figure>
-      <figure class="review reveal">
-        <blockquote>“A data da torra no pacote faz diferença. Chegou com quatro dias de torra e um cheiro que encheu a cozinha.”</blockquote>
-        <figcaption><img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="44" height="44" alt="" loading="lazy" /><span><b>Carlos M.</b>Assinante do clube · Picos, PI</span></figcaption>
-      </figure>
-      <figure class="review reveal">
-        <blockquote>“Dei o kit de presente para o meu pai. Agora ele quer saber de onde vem cada café.”</blockquote>
-        <figcaption><img src="https://images.unsplash.com/photo-1758691737646-79dbce8e25fb?auto=format&amp;fit=crop&amp;crop=faces&amp;w=96&amp;h=96&amp;q=70" width="44" height="44" alt="" loading="lazy" /><span><b>Marina S.</b>Comprou o Kit Presente · Fortaleza, CE</span></figcaption>
-      </figure>
+      <dl class="cup3d__facts">
+        <div><dt>Xícara</dt><dd data-f="vol">180 ml</dd></div>
+        <div><dt>Moagem</dt><dd data-f="moa">Média</dd></div>
+        <div><dt>Água</dt><dd data-f="agua">92 °C</dd></div>
+      </dl>
+      <p class="cup3d__note" data-f="nota" aria-live="polite">Corpo leve, doçura de caramelo e final de laranja.</p>
+    </div>
+    <div class="cup3d__stage">
+      <canvas id="cup-canvas" role="img" aria-label="Xícara de café em 3D que gira com o mouse"></canvas>
+      <img class="cup3d__fallback" src="https://images.unsplash.com/photo-1550731358-491ded4af838?auto=format&amp;fit=crop&amp;w=900&amp;h=900&amp;q=72" width="900" height="900" alt="Xícara de cappuccino" loading="lazy" />
+      <svg class="stamp cup3d__stamp" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="st-b" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0"/></defs><circle cx="100" cy="100" r="96" /><circle cx="100" cy="100" r="54" /><text><textPath href="#st-b">TORRADO NA SEMANA · CEREJAL · 1962 ·</textPath></text><use href="#i-sprig" x="64" y="74" width="72" height="52"/></svg>
+      <span class="cup3d__hint" aria-hidden="true">arraste para girar</span>
     </div>
   </div>
 </section>
@@ -430,11 +498,11 @@
 
 </main>
 
-<footer class="footer">
+<footer class="footer tear-t">
   <div class="wrap footer__grid">
     <div class="footer__brand">
       <a class="logo logo--light" href="#topo" aria-label="Cerejal Cafés Especiais, voltar ao topo">
-        <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#FFF4F0"/><ellipse cx="20" cy="21" rx="8.5" ry="11" fill="#FF7B3D"/><path d="M20 10.5c-3 4-3 17 0 21" fill="none" stroke="#FFF4F0" stroke-width="2.4" stroke-linecap="round"/><path d="M21 9c2-3 5-4 8-3.5-1 3-4 4.5-7 4.2" fill="#104F02"/></svg>
+        <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#EEE6D3"/><ellipse cx="20" cy="21" rx="8.5" ry="11" fill="#A8884A"/><path d="M20 10.5c-3 4-3 17 0 21" fill="none" stroke="#EEE6D3" stroke-width="2.4" stroke-linecap="round"/><path d="M21 9c2-3 5-4 8-3.5-1 3-4 4.5-7 4.2" fill="#2F3D2B"/></svg>
         <span>Cerejal<small>Cafés Especiais</small></span>
       </a>
       <p>Torrefação de cafés especiais da Mantiqueira de Minas, com envio para todo o Brasil.</p>
@@ -511,9 +579,27 @@
     <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
     <symbol id="i-trash" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></g></symbol>
+    <symbol id="i-sprig" viewBox="0 0 120 80"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 66C28 58 58 44 116 14"/><path d="M26 58c-8-10-6-22 4-28 6 10 4 22-4 28z"/><path d="M50 47c-2-14 6-24 18-26 1 12-6 22-18 26z"/><path d="M60 43c12 6 24 4 30-4-12-6-24-4-30 4z"/><path d="M84 30c-1-12 6-20 16-22 0 10-6 18-16 22z"/><path d="M92 26c10 6 18 6 24 0-8-6-18-6-24 0z"/><path d="M36 54c4 8 14 12 22 10-4-8-12-12-22-10z"/></g><g fill="currentColor"><circle cx="44" cy="60" r="4.4"/><circle cx="52" cy="63" r="3.8"/><circle cx="46" cy="68" r="3.6"/><circle cx="74" cy="44" r="4"/><circle cx="81" cy="48" r="3.4"/></g></symbol>
   </defs>
 </svg>
 
-<script src="script.js" defer></script>
+<script src="script.js?v=20261120b" defer></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="heritage.js?v=20261120b" defer></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module" src="xicara3d.js?v=20261120d"></script>
+<script>
+  // se o 3D não carregar (rede, bloqueio ou placa de vídeo), mostra a foto no lugar
+  (function () {
+    var s = document.getElementById('xicara')
+    if (!s || !('IntersectionObserver' in window)) return
+    var io = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return
+      io.disconnect()
+      setTimeout(function () { if (!window.__cup3d) document.documentElement.classList.add('no-webgl') }, 6000)
+    })
+    io.observe(s)
+  })()
+</script>
 </body>
 </html>
