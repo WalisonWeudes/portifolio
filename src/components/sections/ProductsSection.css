@@ -124,6 +124,14 @@
   object-position: top center;
 }
 
+/* a prévia desce para o pé do card: textos de tamanhos diferentes não desalinham as prévias da mesma linha */
+.product-card .pthumb {
+  margin-top: auto;
+}
+.product-card .pthumb + .product-card__foot {
+  margin-top: 0;
+}
+
 .product-card__foot {
   position: relative;
   display: flex;

@@ -63,26 +63,6 @@ export const products = [
     href: '/exemplos/arquiteto/index.html',
   },
   {
-    tag: L('Pessoal', 'Personal'),
-    title: L('Portfólio', 'Portfolio'),
-    description: L(
-      'Vitrine para designers, fotógrafos, devs e criativos mostrarem o próprio trabalho.',
-      'A showcase for designers, photographers, devs and creatives to show their work.',
-    ),
-    items: [L('Galeria de projetos', 'Project gallery'), L('Sobre e currículo', 'About and résumé'), L('Links e contato', 'Links and contact')],
-    status: 'soon',
-  },
-  {
-    tag: L('Estudante', 'Student'),
-    title: L('Página para estudante', 'Student page'),
-    description: L(
-      'Sua primeira presença online: projetos da faculdade, certificados e currículo em um link.',
-      'Your first online presence: college projects, certificates and résumé in one link.',
-    ),
-    items: [L('Projetos acadêmicos', 'Academic projects'), L('Certificados', 'Certificates'), L('Currículo para baixar', 'Downloadable résumé')],
-    status: 'soon',
-  },
-  {
     tag: L('Profissional', 'Professional'),
     title: L('Profissional liberal', 'Independent professional'),
     description: L(
@@ -101,6 +81,36 @@ export const products = [
     ),
     items: [L('Régua do crescimento interativa', 'Interactive growth chart'), L('Equipe e especialidades', 'Team and specialties'), L('Pedido de consulta', 'Appointment request')],
     href: '/exemplos/clinica-pediatrica/index.html',
+  },
+  {
+    tag: L('Criativo', 'Creative'),
+    title: L('Portfólio de designer', 'Designer portfolio'),
+    description: L(
+      'Portfólio editorial para designers, fotógrafos e estúdios mostrarem o trabalho e receberem briefings.',
+      'An editorial portfolio for designers, photographers and studios to show their work and receive briefs.',
+    ),
+    items: [L('Estudos de caso', 'Case studies'), L('Cores que mudam com um clique', 'One-click color themes'), L('Briefing interativo', 'Interactive brief')],
+    href: '/exemplos/portfolio-designer/index.html',
+  },
+  {
+    tag: L('Pessoal', 'Personal'),
+    title: L('Portfólio', 'Portfolio'),
+    description: L(
+      'Vitrine para designers, fotógrafos, devs e criativos mostrarem o próprio trabalho.',
+      'A showcase for designers, photographers, devs and creatives to show their work.',
+    ),
+    items: [L('Galeria de projetos', 'Project gallery'), L('Sobre e currículo', 'About and résumé'), L('Links e contato', 'Links and contact')],
+    status: 'soon',
+  },
+  {
+    tag: L('Estudante', 'Student'),
+    title: L('Página para estudante', 'Student page'),
+    description: L(
+      'Sua primeira presença online: projetos da faculdade, certificados e currículo em um link.',
+      'Your first online presence: college projects, certificates and résumé in one link.',
+    ),
+    items: [L('Projetos acadêmicos', 'Academic projects'), L('Certificados', 'Certificates'), L('Currículo para baixar', 'Downloadable résumé')],
+    status: 'soon',
   },
   {
     tag: L('Evento', 'Event'),
