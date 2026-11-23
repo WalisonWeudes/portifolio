@@ -9,9 +9,9 @@ export const PHONE = { href: 'https://wa.me/558994241060' }
 const L = (pt, en = pt) => ({ pt, en })
 
 export const topbarLinks = [
+  { key: 'nav.products', href: '#produtos', featured: true },
   { key: 'nav.work', href: '#projetos' },
   { key: 'nav.figma', href: '#figma' },
-  { key: 'nav.products', href: '#produtos' },
   { key: 'nav.about', href: '#sobre' },
   { key: 'nav.experience', href: '#experiencia' },
   { key: 'nav.stack', href: '#habilidades' },
@@ -136,8 +136,8 @@ export const products = [
 
 export const dockItems = [
   { number: '00', key: 'nav.home', href: '#inicio' },
-  { number: '01', key: 'nav.work', href: '#projetos' },
-  { number: '02', key: 'nav.products', href: '#produtos' },
+  { number: '01', key: 'nav.products', href: '#produtos', featured: true },
+  { number: '02', key: 'nav.work', href: '#projetos' },
   { number: '03', key: 'nav.about', href: '#sobre' },
   { number: '04', key: 'nav.experienceShort', href: '#experiencia' },
   { number: '05', key: 'nav.contact', href: '#contato' },

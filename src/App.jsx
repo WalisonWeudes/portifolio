@@ -35,9 +35,9 @@ export default function App() {
         {/* <SpiderWalker /> */}
         <SiteHeader />
         <HeroSection />
+        <ProductsSection />
         <ProjectsSection />
         <FigmaSection />
-        <ProductsSection />
         <AboutSection />
         <ExperienceSection />
         <StackSection />

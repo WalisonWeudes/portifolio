@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { RESUME_URL, dockItems, topbarLinks } from '../data/content'
 import { LOCALES, setLocale, useI18n } from '../i18n'
+import { goToSection } from '../utils/goToSection'
 
 const formatClock = () =>
   new Intl.DateTimeFormat('pt-BR', {
@@ -15,40 +16,8 @@ const toTop = (event) => {
   window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
 }
 
-// Rola até a seção do link. As seções usam content-visibility: auto, então as
-// que ainda não foram desenhadas têm altura estimada; quando aparecem, a
-// altura real empurra o destino. Por isso, ao chegar, a posição é conferida
-// por alguns quadros e corrigida se a seção tiver saído do lugar.
-const goTo = (event) => {
-  const hash = event.currentTarget.getAttribute('href')
-  const target = document.querySelector(hash)
-  if (!target) return
-  event.preventDefault()
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  history.pushState(null, '', hash)
-  target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' })
-
-  const pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0
-  let fallback
-  const settle = () => {
-    window.removeEventListener('scrollend', settle)
-    clearTimeout(fallback)
-    let frames = 30
-    const stop = () => (frames = 0)
-    const opts = { once: true, passive: true }
-    ;['wheel', 'touchstart', 'keydown'].forEach((type) => window.addEventListener(type, stop, opts))
-    const check = () => {
-      if (frames <= 0) return
-      if (Math.abs(target.getBoundingClientRect().top - pad) > 4) target.scrollIntoView({ behavior: 'instant' })
-      if (--frames > 0) requestAnimationFrame(check)
-      else ['wheel', 'touchstart', 'keydown'].forEach((type) => window.removeEventListener(type, stop))
-    }
-    requestAnimationFrame(check)
-  }
-  if (reduce) return settle()
-  window.addEventListener('scrollend', settle)
-  fallback = setTimeout(settle, 2500) // navegadores sem o evento scrollend
-}
+const linkClass = (item, active) =>
+  [item.featured && 'is-featured', active === item.href && 'is-active'].filter(Boolean).join(' ') || undefined
 
 export default function SiteHeader() {
   const { t, locale } = useI18n()
@@ -116,7 +85,7 @@ export default function SiteHeader() {
         <div className="topbar__right">
           <nav className="topbar__links" aria-label={t('nav.main')}>
             {topbarLinks.map((link) => (
-              <a key={link.href} href={link.href} className={active === link.href ? 'is-active' : undefined} onClick={goTo}>
+              <a key={link.href} href={link.href} className={linkClass(link, active)} onClick={goToSection}>
                 {t(link.key)}
               </a>
             ))}
@@ -155,9 +124,9 @@ export default function SiteHeader() {
           <a
             key={item.href}
             href={item.href}
-            className={active === item.href ? 'is-active' : undefined}
+            className={linkClass(item, active)}
             aria-current={active === item.href ? 'true' : undefined}
-            onClick={goTo}
+            onClick={goToSection}
           >
             <b>{item.number}</b>{t(item.key)}
           </a>

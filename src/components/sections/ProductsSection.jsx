@@ -7,6 +7,7 @@ import './ProductsSection.css'
 
 export default function ProductsSection() {
   const { t, tr } = useI18n()
+  const liveCount = products.filter((product) => product.href).length
 
   return (
     <section id="produtos" className="section products" aria-labelledby="products-title">
@@ -18,7 +19,13 @@ export default function ProductsSection() {
           <KineticText text={t('products.title2')} />
         </h2>
       </header>
-      <p className="products__desc reveal">{t('products.desc')}</p>
+      <div className="products__intro reveal">
+        <p className="products__live">
+          <i aria-hidden="true"></i>
+          <b>{liveCount}</b> {t('products.live')}
+        </p>
+        <p className="products__desc">{t('products.desc')}</p>
+      </div>
 
       <div className="products__grid">
         {products.map((product, index) => (
