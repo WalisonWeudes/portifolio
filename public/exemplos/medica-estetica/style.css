@@ -1153,7 +1153,7 @@ body { scrollbar-width: none }
 .zone b { font-size: .8rem }
 .zone span { font-size: .88rem }
 @media (max-width: 1080px) { .map__grid { grid-template-columns: minmax(0, 1.1fr) minmax(360px, .9fr) } }
-@media (max-width: 860px) { .map__grid { grid-template-columns: 1fr } .stage { aspect-ratio: auto } .stage__face { width: min(100%, 420px) } }
+@media (max-width: 860px) { .map__grid { grid-template-columns: 1fr } .stage { aspect-ratio: auto } .stage__face { left: auto; width: min(100%, 420px) } }
 
 /* moldura dos procedimentos com proporção próxima da original (sem esticar) */
 .map__grid { grid-template-columns: minmax(0, 1.12fr) minmax(500px, .88fr) }

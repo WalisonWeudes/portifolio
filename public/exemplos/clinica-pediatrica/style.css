@@ -25,7 +25,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box }
-html { scroll-behavior: smooth; scroll-padding-top: 90px }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; overflow-x: clip }
 /* estampa fofinha bem clarinha por trás de tudo (img/estampa.webp) */
 body { margin: 0; background: var(--cream) url(img/estampa.webp?v=3) 0 0 / 560px auto repeat; color: var(--ink); font: 400 1.05rem/1.6 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden }
 img { max-width: 100%; display: block }
