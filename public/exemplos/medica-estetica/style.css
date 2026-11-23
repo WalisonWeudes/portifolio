@@ -1173,3 +1173,25 @@ body { scrollbar-width: none }
 .panel__note { margin: 12px 0 16px }
 @media (max-width: 1280px) { .map__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) } }
 @media (max-width: 860px) { .map__grid { grid-template-columns: 1fr } .procs li { grid-template-columns: 1fr } .procs .meta { grid-column: 1; grid-row: auto; text-align: left } }
+
+/* =================== ajustes finais de celular ===================
+   Ficam no fim para vencer regras de desktop declaradas depois dos blocos mobile. */
+@media (max-width: 860px) {
+  /* abertura: a foto fica logo abaixo do nome, sem cobrir as letras */
+  .hero__photo { margin-top: 4vw }
+  /* mapa do rosto: os quatro botões ocupam as duas colunas inteiras */
+  .zone { width: auto; min-width: 0 }
+  .zone b { font-size: .74rem }
+  .zone span { font-size: .84rem }
+  /* quadro dourado: menos moldura, mais texto */
+  .panel { padding: 14px 6px 18px }
+  .panel .btn { width: 100%; justify-content: space-between; white-space: nowrap }
+  /* perguntas: o arco decorativo fica centralizado em vez de solto à esquerda */
+  .faq__art { width: 150px; margin: 28px auto 4px }
+}
+@media (max-width: 400px) {
+  .panel { border-width: 24px; border-image-width: 24px; padding: 14px 12px 16px }
+  .panel .btn { white-space: normal }
+  .stage__zones { gap: 6px }
+  .zone { padding: 12px 8px; column-gap: 8px }
+}
