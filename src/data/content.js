@@ -63,6 +63,16 @@ export const products = [
     href: '/exemplos/arquiteto/index.html',
   },
   {
+    tag: L('Jurídico', 'Legal'),
+    title: L('Advogado e escritório', 'Lawyer and law firm'),
+    description: L(
+      'Presença séria e marcante para advocacia, com uma balança interativa que organiza o caso do cliente.',
+      'A serious, striking presence for law practices, with an interactive scale that organizes the client’s case.',
+    ),
+    items: [L('Balança do caso', 'Case scale'), L('Tradutor de juridiquês', 'Legalese translator'), L('Áreas de atuação', 'Practice areas')],
+    href: '/exemplos/advocacia/index.html',
+  },
+  {
     tag: L('Profissional', 'Professional'),
     title: L('Profissional liberal', 'Independent professional'),
     description: L(

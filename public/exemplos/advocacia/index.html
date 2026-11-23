@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Heitor Valmor Advocacia, Teresina</title>
+<meta name="description" content="Site de exemplo de um advogado fictício em Teresina: áreas de atuação, balança interativa para organizar o caso e explicações sem juridiquês." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#061229" />
+<link rel="icon" type="image/png" href="/imagens/favicon-64.png" />
+<link rel="preload" href="fonts/Cinzel-Black.otf" as="font" type="font/otf" crossorigin />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1768839719921-6a554fb3e847?auto=format&amp;fit=crop&amp;w=1400&amp;q=78" fetchpriority="high" crossorigin="anonymous" />
+<link rel="stylesheet" href="style.css?v=20261123b" />
+<script>
+  document.documentElement.classList.add('js')
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || location.search.includes('mvshot')) document.documentElement.classList.add('calm')
+  setTimeout(function () { var h = document.querySelector('.hero'); if (h) h.classList.add('go') }, 7000)
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M3 12h17M14 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M21 12H4M10 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v17M6 14l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5.2 5.2L20 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="M5 9a8 8 0 1 1-1 5M5 4v5h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></symbol>
+  <symbol id="i-gem" viewBox="0 0 24 24"><path d="M12 1l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="currentColor"/></symbol>
+</svg>
+
+<div class="intro" id="intro">
+  <i class="intro__door intro__door--l"></i>
+  <i class="intro__door intro__door--r"></i>
+  <div class="intro__mark">
+    <svg viewBox="0 0 320 230" aria-hidden="true">
+      <path class="draw" pathLength="1" d="M160 30V206M112 212h96M132 206h56"/>
+      <g class="intro__beam">
+        <path class="draw" pathLength="1" d="M30 46C90 40 130 38 160 32C190 38 230 40 290 46"/>
+        <g class="intro__pan intro__pan--l"><path class="draw" pathLength="1" d="M30 46L6 126M30 46L54 126M2 126h56c-3 18-14 26-28 26S5 144 2 126z"/></g>
+        <g class="intro__pan intro__pan--r"><path class="draw" pathLength="1" d="M290 46L266 126M290 46L314 126M262 126h56c-3 18-14 26-28 26s-25-8-28-26z"/></g>
+      </g>
+      <circle class="intro__pivot" cx="160" cy="32" r="7"/>
+    </svg>
+    <p>Heitor Valmor</p>
+    <small>Advocacia</small>
+  </div>
+  <span class="intro__skip">Clique para pular</span>
+</div>
+
+<div class="demo-bar">
+  <div class="wrap">
+    <a href="/#produtos"><svg aria-hidden="true"><use href="#i-back"/></svg>Voltar ao portfólio</a>
+    <span><span class="hide-sm">Site de advocacia de exemplo · </span>Advogado e dados fictícios</span>
+  </div>
+</div>
+
+<header class="header" id="header">
+  <div class="wrap header__row">
+    <a class="logo" href="#topo" aria-label="Heitor Valmor Advocacia, início"><b>H</b><i></i><b>V</b></a>
+    <nav class="nav" id="nav" aria-label="Principal">
+      <a href="#areas">Atuação</a>
+      <a href="#balanca">Seu caso</a>
+      <a href="#juridiques">Sem juridiquês</a>
+      <a href="#caminho">Como funciona</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <a class="btn btn--gold header__cta" href="#balanca">Pesar meu caso<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="topo">
+
+  <div class="hero-wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <figure class="hero__layer hero__photo" id="heroPhoto">
+        <img id="heroImg" crossorigin="anonymous" src="https://images.unsplash.com/photo-1768839719921-6a554fb3e847?auto=format&amp;fit=crop&amp;w=1400&amp;q=78" alt="Estátua da Justiça erguendo uma balança contra um fundo azul" width="1400" height="1750" fetchpriority="high" />
+      </figure>
+      <div class="wrap hero__body">
+        <h1 id="hero-title" aria-label="Heitor Valmor">
+          <span class="hero__first" aria-hidden="true">Heitor</span>
+          <span class="hero__last" id="heroLast" aria-hidden="true">Valmor</span>
+        </h1>
+      </div>
+      <div class="hero__layer hero__front" id="heroFront" aria-hidden="true"><canvas id="heroCut"></canvas></div>
+      <p class="hero__lead wrap"><span>Advocacia em Teresina para quem precisa entender onde está pisando antes de decidir o próximo passo.</span></p>
+      <div class="hero__dock">
+        <div class="wrap">
+          <p id="hero-q">O que está pesando para você?</p>
+          <div class="hero__chips" role="group" aria-labelledby="hero-q">
+            <button type="button" data-start="trabalho">Trabalho</button>
+            <button type="button" data-start="familia">Família</button>
+            <button type="button" data-start="consumidor">Consumo</button>
+            <button type="button" data-start="imobiliario">Imóvel</button>
+            <button type="button" data-start="empresarial">Empresa</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <a class="seal" href="#manifesto" aria-label="Rolar para a próxima seção">
+      <svg class="seal__ring" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><path id="sealPath" d="M60 60m-45 0a45 45 0 1 1 90 0a45 45 0 1 1-90 0"/></defs>
+        <text><textPath href="#sealPath">ROLE PARA BAIXO · ROLE PARA BAIXO · </textPath></text>
+      </svg>
+      <svg class="seal__arrow" aria-hidden="true"><use href="#i-down"/></svg>
+    </a>
+  </div>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__run" id="ticker"></div>
+  </div>
+
+  <section class="manifest" id="manifesto" aria-labelledby="manifest-title">
+    <figure class="manifest__columns duo">
+      <img data-par=".08" src="https://images.unsplash.com/photo-1780445333332-3abb7dde9ad1?auto=format&amp;fit=crop&amp;w=1100&amp;h=1300&amp;q=72" alt="Colunas de pedra de um tribunal vistas de baixo" width="1100" height="1300" loading="lazy" />
+    </figure>
+    <div class="wrap manifest__grid">
+      <figure class="manifest__portrait rv">
+        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&amp;fit=crop&amp;crop=top&amp;w=760&amp;h=960&amp;q=75" alt="Retrato do advogado de terno escuro e gravata vinho, de braços cruzados" width="760" height="960" loading="lazy" />
+        <figcaption>Dr. Heitor Valmor<small>OAB/PI 00.000 (registro fictício)</small></figcaption>
+      </figure>
+      <div class="manifest__copy">
+        <h2 id="manifest-title" class="lit" data-lit>Quem chega aqui não quer um discurso. Quer saber o que fazer.</h2>
+        <p class="lit" data-lit>Atendo pessoas e pequenas empresas em momentos em que uma decisão errada custa caro: uma demissão, um divórcio, uma cobrança indevida, um contrato mal escrito. Você fala com o advogado que vai cuidar do seu caso, recebe os riscos por escrito e sabe em cada fase o que está acontecendo.</p>
+        <ul class="manifest__facts">
+          <li class="rv"><b>Atendimento direto</b>Sem intermediários entre você e o advogado</li>
+          <li class="rv"><b>Riscos por escrito</b>Antes de qualquer decisão sua</li>
+          <li class="rv"><b>Presencial ou online</b>Em Teresina e em todo o Piauí</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="areas" id="areas" aria-labelledby="areas-title">
+    <div class="wrap">
+      <header class="areas__head">
+        <h2 id="areas-title" class="giant">Onde eu <em>atuo</em></h2>
+        <p>Passe pelas fotos. Cada área mostra quando vale procurar um advogado.</p>
+      </header>
+    </div>
+    <div class="panels" id="panels"></div>
+  </section>
+
+  <section class="scale" id="balanca" aria-labelledby="scale-title">
+    <div class="scale__scene" aria-hidden="true">
+      <img id="sceneA" src="https://images.unsplash.com/photo-1568092806323-8ec13dfa9b92?auto=format&amp;fit=crop&amp;w=1800&amp;q=70" alt="" width="1800" height="1200" loading="lazy" />
+      <img id="sceneB" src="https://images.unsplash.com/photo-1568092806323-8ec13dfa9b92?auto=format&amp;fit=crop&amp;w=1800&amp;q=70" alt="" width="1800" height="1200" loading="lazy" />
+    </div>
+    <div class="wrap scale__inner">
+      <header class="scale__head">
+        <h2 id="scale-title">Coloque seu caso na balança</h2>
+        <p>Cada resposta derruba um peso. No fim, você vê se o momento pede pressa ou preparo.</p>
+      </header>
+
+      <div class="scale__stage">
+        <div class="scale__figure" id="scaleFigure">
+          <svg id="scaleSvg" viewBox="-20 0 720 510" role="img" aria-labelledby="scaleDesc">
+            <title id="scaleDesc">Balança com os pratos Urgência e Preparo</title>
+            <defs>
+              <linearGradient id="gold" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#F7E6B2"/><stop offset=".45" stop-color="#D2AC55"/><stop offset="1" stop-color="#7E6020"/>
+              </linearGradient>
+              <radialGradient id="halo"><stop offset="0" stop-color="#EBD08A" stop-opacity=".42"/><stop offset="1" stop-color="#EBD08A" stop-opacity="0"/></radialGradient>
+            </defs>
+            <circle id="scaleHalo" cx="340" cy="92" r="230" fill="url(#halo)"/>
+            <path class="s-post" d="M332 92h16l8 346h-32z"/>
+            <path class="s-post" d="M258 468c6-24 40-36 82-36s76 12 82 36z"/>
+            <rect class="s-post" x="228" y="468" width="224" height="13"/>
+            <g id="panL">
+              <path class="s-chain" d="M60 90 L4 268M60 90 L60 268M60 90 L116 268"/>
+              <g id="weightsL"></g>
+              <path class="s-pan" id="plateL" d="M-4 268h128c-5 36-32 54-64 54s-59-18-64-54z"/>
+              <circle class="s-ring" id="ringL" cx="60" cy="268" r="10"/>
+              <text class="s-label" x="60" y="354">Urgência</text>
+              <text class="s-num" id="numL" x="60" y="390">0</text>
+            </g>
+            <g id="panR">
+              <path class="s-chain" d="M620 90 L564 268M620 90 L620 268M620 90 L676 268"/>
+              <g id="weightsR"></g>
+              <path class="s-pan" id="plateR" d="M556 268h128c-5 36-32 54-64 54s-59-18-64-54z"/>
+              <circle class="s-ring" id="ringR" cx="620" cy="268" r="10"/>
+              <text class="s-label" x="620" y="354">Preparo</text>
+              <text class="s-num" id="numR" x="620" y="390">0</text>
+            </g>
+            <g id="beam">
+              <path class="s-post" d="M56 85 C190 74 270 72 340 62 C410 72 490 74 624 85 L624 95 C490 91 410 94 340 94 C270 94 190 91 56 95z"/>
+              <circle class="s-post" cx="60" cy="90" r="10"/>
+              <circle class="s-post" cx="620" cy="90" r="10"/>
+            </g>
+            <circle class="s-post" cx="340" cy="78" r="24"/>
+            <circle cx="340" cy="78" r="9" fill="#061229"/>
+          </svg>
+          <p class="scale__hint" id="scaleHint">Arraste a balança</p>
+        </div>
+
+        <div class="quiz" id="quiz">
+          <div class="quiz__bar" aria-hidden="true"><i id="quizBar"></i></div>
+          <svg class="gavel" id="gavel" viewBox="0 0 200 200" aria-hidden="true">
+            <g><rect x="92" y="62" width="96" height="11" rx="3" fill="#8A6A24" transform="rotate(0 92 67)"/><rect x="52" y="34" width="50" height="68" rx="5" fill="url(#gold)"/><rect x="46" y="42" width="8" height="52" rx="2" fill="#F7E6B2"/><rect x="100" y="42" width="8" height="52" rx="2" fill="#7E6020"/></g>
+          </svg>
+          <form id="quizForm" novalidate>
+            <p class="quiz__count" id="quizCount" aria-live="polite"></p>
+            <fieldset id="quizField">
+              <legend id="quizLegend"></legend>
+              <div class="quiz__opts" id="quizOpts"></div>
+            </fieldset>
+            <div class="quiz__nav">
+              <button class="link" type="button" id="quizBack"><svg aria-hidden="true"><use href="#i-back"/></svg>Voltar</button>
+            </div>
+          </form>
+
+          <div class="verdict" id="verdict" hidden tabindex="-1">
+            <figure class="verdict__photo"><img id="vPhoto" src="https://images.unsplash.com/photo-1787672357797-f5fa35bb0d18?auto=format&amp;fit=crop&amp;w=760&amp;h=300&amp;q=72" alt="" width="640" height="300" loading="lazy" /><figcaption id="vArea"></figcaption></figure>
+            <h3 id="vTitle"></h3>
+            <p id="vText"></p>
+            <h4>Separe para a conversa</h4>
+            <ul id="vDocs"></ul>
+            <div class="verdict__act">
+              <a class="btn btn--gold" href="#contato" id="vTake">Levar para a consulta<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <button class="link" type="button" id="vRedo"><svg aria-hidden="true"><use href="#i-redo"/></svg>Pesar de novo</button>
+            </div>
+            <small>Esta balança organiza a conversa. Ela não é um parecer jurídico e não antecipa o resultado de nenhum caso.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="jargon" id="juridiques" aria-labelledby="jargon-title">
+    <img class="jargon__bg" data-par=".06" src="https://images.unsplash.com/photo-1589216532372-1c2a367900d9?auto=format&amp;fit=crop&amp;w=1800&amp;q=72" alt="Martelo de juiz em madeira sobre fundo escuro" width="1800" height="1200" loading="lazy" />
+    <div class="wrap jargon__grid">
+      <div class="jargon__side">
+        <h2 id="jargon-title">Recebeu um papel e não entendeu nada?</h2>
+        <p>Toque nos termos em dourado. Ou traduza a intimação inteira.</p>
+        <button class="switch" type="button" id="jargonSwitch" aria-pressed="false"><i></i><span>Traduzir tudo</span></button>
+      </div>
+      <div class="paper rv">
+        <div class="paper__stamp" id="paperStamp" aria-hidden="true">Traduzido</div>
+        <div class="paper__text" id="paperLegal">
+          <p>Fica V. Sa. <button type="button" data-term="citada">citada</button> para, querendo, <button type="button" data-term="contestar">contestar</button> a presente ação no prazo legal, sob pena de <button type="button" data-term="revelia">revelia</button>. Defiro a <button type="button" data-term="tutela">tutela de urgência</button> requerida, cujos efeitos perduram até o <button type="button" data-term="transito">trânsito em julgado</button>.</p>
+        </div>
+        <div class="paper__text" id="paperPlain" hidden>
+          <p>Existe um processo contra você. Se quiser se defender, apresente sua defesa dentro do prazo. Se não fizer isso, o juiz pode considerar verdadeiro o que a outra parte disse. O juiz já tomou uma decisão provisória, e ela vale até o processo terminar de vez.</p>
+        </div>
+        <div class="paper__note" id="paperNote" aria-live="polite">
+          <b>Escolha um termo</b>
+          <span>A explicação aparece aqui, em português claro.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="path" id="caminho" aria-labelledby="path-title">
+    <div class="path__sticky">
+      <div class="path__photos" id="pathPhotos" aria-hidden="true"></div>
+      <div class="wrap path__inner">
+        <h2 id="path-title">Você sempre sabe em que ponto está</h2>
+        <div class="path__stage" aria-live="polite">
+          <span class="path__big" id="pathBig" aria-hidden="true"></span>
+          <h3 id="pathName"></h3>
+          <p id="pathText"></p>
+          <p class="path__you"><b>O que você recebe:</b> <span id="pathGet"></span></p>
+        </div>
+        <div class="path__rail">
+          <i class="path__fill" id="pathFill"></i>
+          <div class="path__marks" id="pathMarks"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contato" aria-labelledby="contact-title">
+    <figure class="contact__photo">
+      <img data-par=".07" src="https://images.unsplash.com/photo-1619771766980-368d32e44b82?auto=format&amp;fit=crop&amp;w=1200&amp;h=1200&amp;q=72" alt="Estante com coleção de livros de direito em azul e dourado" width="1200" height="1200" loading="lazy" />
+    </figure>
+    <div class="wrap contact__grid">
+      <div class="contact__side">
+        <h2 id="contact-title">Fale antes que o prazo decida por você</h2>
+        <dl>
+          <div><dt>Escritório</dt><dd>Centro, Teresina, PI</dd></div>
+          <div><dt>Horário</dt><dd>Segunda a sexta, das 8h às 18h</dd></div>
+          <div><dt>Atendimento</dt><dd>Presencial ou por vídeo</dd></div>
+        </dl>
+      </div>
+      <form class="form rv" id="contactForm" novalidate>
+        <div class="field">
+          <label for="fName">Seu nome</label>
+          <input id="fName" name="nome" autocomplete="name" required />
+          <small class="err" id="fNameErr"></small>
+        </div>
+        <div class="field">
+          <label for="fPhone">WhatsApp com DDD</label>
+          <input id="fPhone" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(86) 90000-0000" required />
+          <small class="err" id="fPhoneErr"></small>
+        </div>
+        <div class="field field--wide">
+          <label for="fArea">Assunto</label>
+          <select id="fArea" name="area">
+            <option value="">Ainda não sei</option>
+            <option value="trabalho">Trabalhista</option>
+            <option value="familia">Família</option>
+            <option value="consumidor">Consumidor</option>
+            <option value="imobiliario">Imobiliário</option>
+            <option value="empresarial">Empresarial</option>
+          </select>
+        </div>
+        <div class="field field--wide">
+          <label for="fMsg">O que aconteceu?</label>
+          <textarea id="fMsg" name="mensagem" rows="4" placeholder="Conte em poucas linhas. Não precisa usar termos jurídicos."></textarea>
+        </div>
+        <button class="btn btn--gold form__send" type="submit">Pedir atendimento<svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <div class="form__ok" id="formOk" role="status" hidden></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__name" aria-hidden="true">Valmor</p>
+    <div class="footer__row">
+      <span>Heitor Valmor Advocacia é um exemplo fictício.</span>
+      <span>Fotos: Unsplash · Fonte: Cinzel</span>
+      <a href="/#produtos">Site criado por Walison Weudes</a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js?v=20261123b"></script>
+</body>
+</html>
