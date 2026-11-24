@@ -34,7 +34,7 @@
   box-sizing: border-box;
 }
 html {
-  scroll-behavior: smooth;
+  /* rolagem suave: Lenis (src/utils/smoothScroll.js) */
   scroll-padding-top: 5rem;
   /* sem barra de rolagem visível (a página continua rolando normalmente;
      o progresso aparece na linha fina no topo) */

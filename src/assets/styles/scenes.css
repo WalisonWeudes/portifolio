@@ -1,0 +1,51 @@
+/* Rolagem em cenas (src/hooks/useScrollScenes.js) */
+
+/* 1. Seções empilhadas: param no fim e a próxima sobe por cima */
+.has-scenes .scene {
+  position: sticky;
+  /* fundo opaco de ponta a ponta, mesmo com a seção limitada a --container */
+  /* --scene-bg = fundo próprio da seção (ou o do site, se transparente) */
+  background-color: var(--scene-bg, var(--bg));
+  box-shadow: 0 0 0 100vmax var(--scene-bg, var(--bg));
+  clip-path: inset(0 -100vmax);
+}
+/* a seção coberta escurece enquanto a próxima sobe */
+.has-scenes .scene:not(.hero)::after {
+  content: "";
+  position: absolute;
+  inset: 0 -100vmax;
+  z-index: 50;
+  background: #000;
+  opacity: calc(var(--cover, 0) * 0.72);
+  pointer-events: none;
+}
+/* a seção que chega traz uma linha na borda de cima */
+.has-scenes .scene ~ .scene {
+  border-top: 1px solid var(--line);
+}
+/* a seção de contato é a última: sem sticky para o rodapé rolar normal */
+.has-scenes #contato.scene {
+  position: relative;
+  top: auto !important;
+}
+/* o .hero já usa ::after para a arte: o escurecimento vai no ::before */
+.has-scenes .hero.scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: #000;
+  opacity: calc(var(--cover, 0) * 0.72);
+  pointer-events: none;
+}
+
+/* 2. Imagens que abrem da faixa central até a largura toda */
+.scrub-open {
+  clip-path: inset(0 calc((1 - var(--open, 1)) * 46%)) !important;
+  transition: none !important;
+}
+
+/* 3. Títulos que se preenchem letra a letra */
+.scrub-fill .kt__char {
+  opacity: clamp(0.12, calc((var(--fill, 1) * (var(--fn, 1) + 6) - var(--fi, 0)) / 6), 1);
+}

@@ -18,6 +18,7 @@ import { usePointerEffects } from './hooks/usePointerEffects'
 import { useDecode } from './hooks/useDecode'
 import { useScrollVelocity } from './hooks/useScrollVelocity'
 import { useSiteReady } from './hooks/useSiteReady'
+import { useScrollScenes } from './hooks/useScrollScenes'
 
 export default function App() {
   useReveal()
@@ -26,6 +27,7 @@ export default function App() {
   useDecode()
   useScrollVelocity()
   useSiteReady()
+  useScrollScenes()
 
   return (
     <>

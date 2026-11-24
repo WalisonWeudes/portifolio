@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { RESUME_URL, dockItems, topbarLinks } from '../data/content'
 import { LOCALES, setLocale, useI18n } from '../i18n'
 import { goToSection } from '../utils/goToSection'
+import { scrollToTarget, startSmoothScroll } from '../utils/smoothScroll'
+import { sceneTop } from '../hooks/useScrollScenes'
 
 const formatClock = () =>
   new Intl.DateTimeFormat('pt-BR', {
@@ -12,8 +14,7 @@ const formatClock = () =>
 
 const toTop = (event) => {
   event.preventDefault()
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
+  scrollToTarget(0)
 }
 
 const linkClass = (item, active) =>
@@ -28,6 +29,10 @@ export default function SiteHeader() {
   const progressRef = useRef(null)
 
   useEffect(() => {
+    startSmoothScroll()
+  }, [])
+
+  useEffect(() => {
     let ticking = false
     let raf = null
 
@@ -38,6 +43,17 @@ export default function SiteHeader() {
       setShowTop(y > window.innerHeight * 1.2)
       const max = document.documentElement.scrollHeight - window.innerHeight
       if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`
+      // com a rolagem em cenas as seções ficam presas (sticky) e o observador
+      // não percebe a volta: decide pela posição natural de cada uma
+      if (document.documentElement.classList.contains('has-scenes')) {
+        const line = y + window.innerHeight * 0.5
+        let current = ''
+        for (const section of sections) {
+          const top = sceneTop(section)
+          if (top !== null && top <= line) current = `#${section.id}`
+        }
+        if (current) setActive(current)
+      }
     }
     const onScroll = () => {
       if (ticking) return
@@ -47,16 +63,19 @@ export default function SiteHeader() {
 
     const updateClock = () => setClock(formatClock())
 
+    // Seção ativa: a que cruza a faixa central da viewport.
+    const ids = ['#inicio', ...dockItems.map((d) => d.href), ...topbarLinks.map((l) => l.href)]
+    const sections = [...new Set(ids)].map((id) => document.querySelector(id)).filter(Boolean)
+    sections.sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1))
+
     update()
     updateClock()
     const clockTimer = setInterval(updateClock, 20000)
     window.addEventListener('scroll', onScroll, { passive: true })
 
-    // Seção ativa: a que cruza a faixa central da viewport.
-    const ids = ['#inicio', ...dockItems.map((d) => d.href), ...topbarLinks.map((l) => l.href)]
-    const sections = [...new Set(ids)].map((id) => document.querySelector(id)).filter(Boolean)
     const observer = new IntersectionObserver(
       (entries) => {
+        if (document.documentElement.classList.contains('has-scenes')) return
         for (const entry of entries) {
           if (entry.isIntersecting) setActive(`#${entry.target.id}`)
         }
