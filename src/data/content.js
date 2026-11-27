@@ -160,6 +160,20 @@ export const socials = [
 
 export const projects = [
   {
+    status: L('Freelance — Studio Octo', 'Freelance — Studio Octo'),
+    title: L('MC Civilizations — Intro animada', 'MC Civilizations — Animated intro'),
+    category: L('Motion / 3D'),
+    year: '2026',
+    description: L(
+      'Abertura da série histórica MC Civilizations: um planeta em blocos no estilo Minecraft, com biomas, vilas e nuvens, e o título 3D entrando em órbita. Modelagem, animação e render no Blender, entregue em 4K a 24 fps com efeitos sonoros.',
+      'Opening for the historical series MC Civilizations: a Minecraft-style block planet with biomes, villages and clouds, and a 3D title coming in from orbit. Modeled, animated and rendered in Blender, delivered in 4K at 24 fps with sound effects.',
+    ),
+    tags: [L('Motion'), L('Blender'), L('3D'), L('4K')],
+    url: '/videos/mc-civilizations-intro.mp4',
+    preview: '/imagens/projetos/mc-civilizations.webp',
+    video: '/videos/mc-civilizations-loop.mp4',
+  },
+  {
     status: L('TCC em desenvolvimento', 'Thesis in progress'),
     title: L('Sistema de Detecção de Dislexia', 'Dyslexia Detection System'),
     category: L('Pesquisa / Desenvolvimento', 'Research / Development'),

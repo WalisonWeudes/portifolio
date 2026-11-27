@@ -82,16 +82,32 @@ export default function ProjectsSection() {
                   glareSize={60}
                   transitionDuration={900}
                 >
-                  <img
-                    src={project.preview}
-                    srcSet={previewSrcSet(project.preview)}
-                    sizes={PREVIEW_SIZES}
-                    width="1440"
-                    height="900"
-                    alt={`${t('projects.previewAlt')} ${tr(project.title)}`}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  {project.video ? (
+                    // Projetos de motion: prévia em vídeo curto, mudo e em loop.
+                    <video
+                      src={project.video}
+                      poster={project.preview}
+                      width="1440"
+                      height="900"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      aria-label={`${t('projects.previewAlt')} ${tr(project.title)}`}
+                    />
+                  ) : (
+                    <img
+                      src={project.preview}
+                      srcSet={previewSrcSet(project.preview)}
+                      sizes={PREVIEW_SIZES}
+                      width="1440"
+                      height="900"
+                      alt={`${t('projects.previewAlt')} ${tr(project.title)}`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
                 </GlareHover>
                 <span className="case__open">
                   {t('projects.open')} <i>↗</i>

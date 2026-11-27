@@ -48,9 +48,14 @@
 .pcard.is-in .pcard__media {
   clip-path: inset(0 0 0 0);
 }
-.pcard__media .case__preview img {
+.pcard__media .case__preview img,
+.pcard__media .case__preview video {
   object-fit: cover;
   object-position: top center;
+}
+.pcard__media .case__preview video {
+  display: block;
+  object-position: center;
 }
 
 .pcard__info {
