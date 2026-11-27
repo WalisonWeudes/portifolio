@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import KineticText from '../KineticText'
 import GlareHover from '../reactbits/GlareHover/GlareHover'
 import { projects } from '../../data/content'
@@ -13,6 +14,27 @@ const previewSrcSet = (src) => `${src.replace(/\.webp$/, '-800.webp')} 800w, ${s
 export default function ProjectsSection() {
   const { t, tr } = useI18n()
   const grid = useRef(null)
+  // Vídeo aberto no player do site (projetos de motion), sem link direto para o arquivo.
+  const [playing, setPlaying] = useState(null)
+
+  useEffect(() => {
+    if (!playing) return
+    const onKey = (e) => e.key === 'Escape' && setPlaying(null)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [playing])
+
+  // Projetos com vídeo abrem o player; os outros abrem o link normalmente.
+  const linkProps = (project) =>
+    project.player
+      ? {
+          href: '#projetos',
+          onClick: (e) => {
+            e.preventDefault()
+            setPlaying(project)
+          },
+        }
+      : { href: project.url, target: '_blank', rel: 'noreferrer' }
 
   // Cada cartão aparece (imagem + texto) quando entra na tela.
   useEffect(() => {
@@ -67,9 +89,7 @@ export default function ProjectsSection() {
             <div className="pcard__media">
               <a
                 className="case__preview"
-                href={project.url}
-                target="_blank"
-                rel="noreferrer"
+                {...linkProps(project)}
                 aria-label={`${t('projects.openAria')} ${tr(project.title)}`}
               >
                 <GlareHover
@@ -94,6 +114,9 @@ export default function ProjectsSection() {
                       loop
                       playsInline
                       preload="metadata"
+                      disablePictureInPicture
+                      controlsList="nodownload"
+                      onContextMenu={(e) => e.preventDefault()}
                       aria-label={`${t('projects.previewAlt')} ${tr(project.title)}`}
                     />
                   ) : (
@@ -127,13 +150,39 @@ export default function ProjectsSection() {
                   <li key={i}>{tr(tag)}</li>
                 ))}
               </ul>
-              <a className="text-link" href={project.url} target="_blank" rel="noreferrer">
+              <a className="text-link" {...linkProps(project)}>
                 {t('projects.open')} <span>↗</span>
               </a>
             </div>
           </article>
         ))}
       </div>
+
+      {playing && createPortal(
+        <div
+          className="vplayer"
+          role="dialog"
+          aria-modal="true"
+          aria-label={tr(playing.title)}
+          onClick={() => setPlaying(null)}
+        >
+          <button className="vplayer__close" type="button" aria-label="Fechar" onClick={() => setPlaying(null)}>
+            ×
+          </button>
+          <video
+            src={playing.player}
+            poster={playing.preview}
+            controls
+            autoPlay
+            playsInline
+            controlsList="nodownload noremoteplayback"
+            disablePictureInPicture
+            onContextMenu={(e) => e.preventDefault()}
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>,
+        document.body,
+      )}
     </section>
   )
 }

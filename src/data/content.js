@@ -169,9 +169,10 @@ export const projects = [
       'Opening for the historical series MC Civilizations: a Minecraft-style block planet with biomes, villages and clouds, and a 3D title coming in from orbit. Modeled, animated and rendered in Blender, delivered in 4K at 24 fps with sound effects.',
     ),
     tags: [L('Motion'), L('Blender'), L('3D'), L('4K')],
-    url: '/videos/mc-civilizations-intro.mp4',
+    url: '#mc-civilizations',
     preview: '/imagens/projetos/mc-civilizations.webp',
     video: '/videos/mc-civilizations-loop.mp4',
+    player: '/videos/mc-civilizations-intro.mp4',
   },
   {
     status: L('TCC em desenvolvimento', 'Thesis in progress'),
